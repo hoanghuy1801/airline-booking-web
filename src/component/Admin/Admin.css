@@ -1,0 +1,20 @@
+.menu-dashboard{
+    height: 100vb;
+
+}
+.ant-btn-text.ant-btn-icon-only{
+    width: 50px !important;
+    height: 50px !important;
+    margin: 10px !important;
+}
+.ant-layout-sider-children{
+    background-image: url('../../assets/BackroudMenu.jpg');
+    padding-top: 17% !important;
+  
+  
+}
+.ant-menu-title-content{
+    color: rgb(0, 0, 0);
+    font-weight: 500;
+   
+}

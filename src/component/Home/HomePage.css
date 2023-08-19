@@ -1,0 +1,113 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+video.myvideo{
+    width: 100%; 
+    height:910px;
+}
+.homePage{
+    position: relative;
+    width: 100%;
+    min-height: auto;
+    .myvideo{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        object-fit: cover;
+        z-index: -1;
+        display: none;
+        @media (min-width: 768px) {
+          display: inline-block;
+        
+        }
+    }
+    .search{
+    
+        padding: 5% 30% 5% 30%;
+        justify-content: flex-end;
+        
+        
+    }
+    .content{
+        padding:0 10% 0 10%;
+        width: 100%;
+    }
+    
+
+}
+@media (max-width:768px){
+    .content{
+        background-image: url(../../assets/Backroud.webp);
+          justify-content: center;
+          width: 100vw;
+          height: 100vh;
+          background-size: cover;
+          align-items: center ;
+    }
+}
+.buyForm{
+    background-color: rgb(255, 255, 255,0.33);
+    box-shadow: 0px 10px 32px #006885;
+    backdrop-filter: blur(3px);
+    padding: 0px 30px 20px 30px;
+    border-radius: 20px;
+
+}
+
+.btn-form{
+    display: flex;
+    justify-content: center;
+    
+}
+.btn-search{
+    font-size: 20px;
+    font-family: 500;
+    color: white;
+    padding: 0px 20px 0px 20px;
+    font-size: 18px;
+    align-items: center;
+    font-weight: 600;
+    background-color: #006885;
+    &:hover{
+        color: black !important;
+    }
+}
+.radio{
+    padding-top: 20px;
+}
+.icon-search{
+margin-right: 5px;
+  padding-top: 2px;
+  height: 20px;
+  padding-bottom: 0;
+  color: #006885;
+}
+.label-children{
+    font-size: 12px !important;
+    color: grey;
+}
+.label-hot{
+    width: 200px;
+    padding-bottom: 2%;
+    
+}
+.label-img{
+    font-size: 20px;
+    font-family: 500;
+    padding: 0px 20px 0px 20px;
+    font-size: 18px;
+    align-items: center;
+    font-weight: 600;
+    color: white;
+    background-color: #006885;
+    &:hover{
+        color: gray !important;
+    }
+}
+
+
+
+
