@@ -5,6 +5,8 @@ import imgVeluxe from '../../assets/wdelux.svg'
 import imgEco from '../../assets/weco.svg'
 import imgskyboss from '../../assets/wskyboss.svg'
 import imgBusinesswhite from '../../assets/businesswhite.svg'
+import imgNoflight from '../../assets/noflight.svg'
+
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -13,6 +15,9 @@ import { useSelector } from 'react-redux';
 const SelectFlight = () => {
     const navigate = useNavigate();
     const data_homepage = useSelector(state => state.homepage.data_booking);
+
+    const numberBooking = data_homepage.adult + data_homepage.children;
+
 
 
     return (
@@ -100,12 +105,12 @@ const SelectFlight = () => {
                             <Col span={4} className='price-airline'>
                                 <Row>
                                     <Col span={24}>
-                                        <span className='price'><i>3,690</i></span>
+                                        <span className='price'><img src={imgNoflight} /></span>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col span={24}>
-                                        <span className='price-vnd'><i>000 VND</i></span>
+                                        <span className='price-vnd'>Hết chỗ</span>
                                     </Col>
                                 </Row>
                             </Col>
@@ -148,8 +153,8 @@ const SelectFlight = () => {
                         </Row>
 
                     </Col>
-                    <Col span={9} className='infor-user-select'>
-                        <Form>
+                    <Col span={9} >
+                        <Form className='infor-user-select'>
                             <div className='title-select'>
                                 <span style={{ color: 'white', fontSize: 20, fontWeight: 600, paddingRight: 10 }}>THÔNG TIN ĐẶT CHỖ </span>
                             </div>
@@ -190,7 +195,15 @@ const SelectFlight = () => {
                                                 paddingLeft: 20,
                                             }}>Giá vé </span>
                                         </Col>
-                                        <Col span={16}><span style={{
+                                        <Col span={6}>
+                                            <span style={{
+                                                color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
+                                                display: 'flex',
+                                                alignItems: 'flex-end',
+                                                paddingRight: 20,
+                                            }}>x{numberBooking} </span>
+                                        </Col>
+                                        <Col span={10}><span style={{
                                             color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
                                             display: 'flex',
                                             alignItems: 'flex-end',
@@ -206,7 +219,13 @@ const SelectFlight = () => {
                                                 paddingLeft: 20,
                                             }}>Giá vé em bé </span>
                                         </Col>
-                                        <Col span={16}><span style={{
+                                        <Col span={6}><span style={{
+                                            color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
+                                            display: 'flex',
+                                            alignItems: 'flex-end',
+                                            paddingRight: 20,
+                                        }}>x{data_homepage.baby} </span></Col>
+                                        <Col span={10}><span style={{
                                             color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
                                             display: 'flex',
                                             alignItems: 'flex-end',
@@ -282,7 +301,15 @@ const SelectFlight = () => {
                                                         paddingLeft: 20,
                                                     }}>Giá vé </span>
                                                 </Col>
-                                                <Col span={16}><span style={{
+                                                <Col span={6}>
+                                                    <span style={{
+                                                        color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
+                                                        display: 'flex',
+                                                        alignItems: 'flex-end',
+                                                        paddingRight: 20,
+                                                    }}>x{numberBooking} </span>
+                                                </Col>
+                                                <Col span={10}><span style={{
                                                     color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
                                                     display: 'flex',
                                                     alignItems: 'flex-end',
@@ -298,7 +325,13 @@ const SelectFlight = () => {
                                                         paddingLeft: 20,
                                                     }}>Giá vé em bé </span>
                                                 </Col>
-                                                <Col span={16}><span style={{
+                                                <Col span={6}><span style={{
+                                                    color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
+                                                    display: 'flex',
+                                                    alignItems: 'flex-end',
+                                                    paddingRight: 20,
+                                                }}>x{data_homepage.baby} </span></Col>
+                                                <Col span={10}><span style={{
                                                     color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
                                                     display: 'flex',
                                                     alignItems: 'flex-end',

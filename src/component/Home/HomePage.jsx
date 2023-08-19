@@ -174,7 +174,7 @@ const HomePage = () => {
                                     className='label-children'>(0-2 tuổi)</label></label>
                             </Col>
                             <Col span={4}>
-                                <InputNumber min={0} defaultValue={0} onChange={(evevaluent) => setBaby(value)} />
+                                <InputNumber min={0} defaultValue={0} onChange={(value) => setBaby(value)} />
                             </Col>
                         </Row>
 

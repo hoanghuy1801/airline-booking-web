@@ -1,16 +1,24 @@
-import { Row, Col, Form, Button } from 'antd';
-import '../Home/SelectFlightInfor.css'
+import { Row, Col, Form, Button, Radio, Collapse, Input, DatePicker, Select } from 'antd';
+import '../Home/Passengers.css'
 import { IconPlane, IconUserCircle, IconCurrencyDollar, IconShoppingCart } from '@tabler/icons-react';
-import imgVeluxe from '../../assets/wdelux.svg'
-import imgEco from '../../assets/weco.svg'
-import imgskyboss from '../../assets/wskyboss.svg'
-import imgBusinesswhite from '../../assets/businesswhite.svg'
+import { CaretRightOutlined } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { useState } from 'react';
 
 const Passengers = () => {
     const navigate = useNavigate();
+    const [value, setValue] = useState(1);
     const data_homepage = useSelector(state => state.homepage.data_booking);
+    const numberBooking = data_homepage.adult + data_homepage.children;
+
+    const onChange = (e) => {
+        setValue(e.target.value);
+    };
+    const numberadult = Array.from({ length: data_homepage.adult });
+    const numberChildren = Array.from({ length: data_homepage.children });
+    const numberbaby = Array.from({ length: data_homepage.baby });
+
 
     return (
         <div className="select-flight">
@@ -50,12 +58,238 @@ const Passengers = () => {
             <div className='mains-container'>
                 <Row>
                     <Col span={15} className='infor-user-select-flight'>
+                        {numberadult.map((_, index) => (
+                            <div key={index}>
+                                <Collapse
+                                    size="large"
+                                    items={[
+                                        {
+                                            key: '1',
+                                            label: <div style={{ fontSize: '18px', fontWeight: 600 }}>Người lớn</div>,
+                                            children:
+                                                <div className='formPassengers'>
+                                                    <Row className='rowInforPassengers'>
+                                                        <Radio.Group onChange={onChange} value={value}>
+                                                            <Radio value='Nam'>Nam</Radio>
+                                                            <Radio value='Nữ'>Nữ</Radio>
+                                                            <Radio value='Khác'>Khác</Radio>
+                                                        </Radio.Group>
+                                                    </Row>
+                                                    <Row className='rowInforPassengers'>
+                                                        <Col span={12}>
+                                                            <span style={{ fontSize: '16px', fontWeight: 500 }}>Họ*</span>
+                                                            <Input placeholder='Họ' style={{ width: 350 }} />
+                                                        </Col>
+                                                        <Col span={12}>
+                                                            <span style={{ fontSize: '16px', fontWeight: 500 }}>Tên đệm & tên*</span>
+                                                            <Input placeholder='Tên đệm & tên theo trình tự CCCD' />
+                                                        </Col>
+                                                    </Row>
+                                                    <Row className='rowInforPassengers'>
+                                                        <Col span={12}>
+                                                            <span style={{ fontSize: '16px', fontWeight: 500 }}>Ngày sinh*</span>
+                                                            <DatePicker style={{ width: 350 }} placeholder='Ngày sinh' />
+                                                        </Col>
+                                                        <Col span={12}>
+                                                            <span style={{ fontSize: '16px', fontWeight: 500 }}>Quốc gia*</span>
+                                                            <Select
+                                                                showSearch
+                                                                style={{ width: 365 }}
+                                                                placeholder="Điểm khởi hành"
+                                                                optionFilterProp="children"
+                                                                filterOption={(input, option) => (option?.label ?? '').includes(input)}
+                                                                filterSort={(optionA, optionB) =>
+                                                                    (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                                                                }
 
+                                                                options={[
+                                                                    {
+                                                                        value: '1',
+                                                                        label: 'SGN',
+                                                                    },
+                                                                    {
+                                                                        value: '2',
+                                                                        label: 'HN',
+                                                                    },
 
+                                                                ]}
+                                                            />
+                                                        </Col>
+                                                    </Row>
+                                                    <Row className='rowInforPassengers'>
+                                                        <Col span={12}>
+                                                            <span style={{ fontSize: '16px', fontWeight: 500 }}>Số điện thoại*</span>
+                                                            <Input placeholder='Số điện thoại' style={{ width: 350 }} />
+                                                        </Col>
+                                                        <Col span={12}>
+                                                            <span style={{ fontSize: '16px', fontWeight: 500 }}>Email*</span>
+                                                            <Input placeholder='Email của bạn' />
+                                                        </Col>
+                                                    </Row>
+                                                    <Row className='rowInforPassengers'>
+                                                        <Col span={24}>
+                                                            <span style={{ fontSize: '16px', fontWeight: 500 }}>Nơi ở</span>
+                                                            <Input placeholder='Nơi ở hiện tại' style={{ width: 730 }} />
+                                                        </Col>
+                                                    </Row>
+                                                </div>
+                                        },
+                                    ]}
+                                    expandIconPosition='end'
+                                    expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
+                                    style={{
+                                        backgroundColor: '#F1F1F1',
+                                        marginTop: '10px'
+                                    }}
+                                /></div>
+                        ))}
+                        {data_homepage.children == 0 ? ''
+                            :
+                            <div>
+                                {numberChildren.map((_, index) => (
+                                    <Collapse
+                                        size="large"
+                                        items={[
+                                            {
+                                                key: '1',
+                                                label: <div style={{ fontSize: '18px', fontWeight: 600 }}>Trẻ em</div>,
+                                                children:
+                                                    <div className='formPassengers'>
+                                                        <Row className='rowInforPassengers'>
+                                                            <Col span={12}>
+                                                                <span style={{ fontSize: '16px', fontWeight: 500 }}>Họ*</span>
+                                                                <Input placeholder='Họ' style={{ width: 350 }} />
+                                                            </Col>
+                                                            <Col span={12}>
+                                                                <span style={{ fontSize: '16px', fontWeight: 500 }}>Tên đệm & tên*</span>
+                                                                <Input placeholder='Tên đệm & tên theo trình tự theo giấy khai sinh' />
+                                                            </Col>
+                                                        </Row>
+                                                        <Row className='rowInforPassengers'>
+                                                            <Col span={12}>
+                                                                <span style={{ fontSize: '16px', fontWeight: 500 }}>Ngày sinh*</span>
+                                                                <DatePicker style={{ width: 350 }} placeholder='Ngày sinh' />
+                                                            </Col>
+                                                            <Col span={12}>
+                                                                <span style={{ fontSize: '16px', fontWeight: 500 }}>Giới tính</span>
+                                                                <Select
+                                                                    showSearch
+                                                                    style={{ width: 365 }}
+                                                                    defaultValue={1}
+                                                                    optionFilterProp="children"
+                                                                    filterOption={(input, option) => (option?.label ?? '').includes(input)}
+                                                                    filterSort={(optionA, optionB) =>
+                                                                        (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                                                                    }
+
+                                                                    options={[
+                                                                        {
+                                                                            value: '1',
+                                                                            label: 'Nam',
+                                                                        },
+                                                                        {
+                                                                            value: '2',
+                                                                            label: 'Nữ',
+                                                                        },
+
+                                                                    ]}
+                                                                />
+                                                            </Col>
+                                                        </Row>
+
+                                                    </div>
+                                            },
+                                        ]}
+                                        expandIconPosition='end'
+                                        expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
+                                        style={{
+                                            backgroundColor: '#F1F1F1',
+                                            marginTop: '10px'
+                                        }}
+                                    />
+                                ))
+                                }
+                            </div>
+                        }
+
+                        {data_homepage.baby == 0 ? ''
+                            :
+                            <div>
+                                {numberbaby.map((_, index) => (
+                                    <Collapse
+                                        size="large"
+                                        items={[
+                                            {
+                                                key: '1',
+                                                label: <div style={{ fontSize: '18px', fontWeight: 600 }}>Em bé</div>,
+                                                children:
+                                                    <div className='formPassengers'>
+                                                        <Row className='rowInforPassengers'>
+                                                            <Col span={24}>
+                                                                <span style={{ fontSize: '16px', fontWeight: 500 }}>Đi cùng</span>
+                                                                <Input placeholder='Tên người em bé đi cùng' style={{ width: 730 }} />
+                                                            </Col>
+                                                        </Row>
+                                                        <Row className='rowInforPassengers'>
+                                                            <Col span={12}>
+                                                                <span style={{ fontSize: '16px', fontWeight: 500 }}>Họ*</span>
+                                                                <Input placeholder='Họ' style={{ width: 350 }} />
+                                                            </Col>
+                                                            <Col span={12}>
+                                                                <span style={{ fontSize: '16px', fontWeight: 500 }}>Tên đệm & tên*</span>
+                                                                <Input placeholder='Tên đệm & tên theo trình tự theo giấy khai sinh' />
+                                                            </Col>
+                                                        </Row>
+                                                        <Row className='rowInforPassengers'>
+                                                            <Col span={12}>
+                                                                <span style={{ fontSize: '16px', fontWeight: 500 }}>Ngày sinh*</span>
+                                                                <DatePicker style={{ width: 350 }} placeholder='Ngày sinh' />
+                                                            </Col>
+                                                            <Col span={12}>
+                                                                <span style={{ fontSize: '16px', fontWeight: 500 }}>Giới tính</span>
+                                                                <Select
+                                                                    showSearch
+                                                                    style={{ width: 365 }}
+                                                                    defaultValue={1}
+                                                                    optionFilterProp="children"
+                                                                    filterOption={(input, option) => (option?.label ?? '').includes(input)}
+                                                                    filterSort={(optionA, optionB) =>
+                                                                        (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                                                                    }
+
+                                                                    options={[
+                                                                        {
+                                                                            value: '1',
+                                                                            label: 'Nam',
+                                                                        },
+                                                                        {
+                                                                            value: '2',
+                                                                            label: 'Nữ',
+                                                                        },
+
+                                                                    ]}
+                                                                />
+                                                            </Col>
+                                                        </Row>
+
+                                                    </div>
+                                            },
+                                        ]}
+                                        expandIconPosition='end'
+                                        expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
+                                        style={{
+                                            backgroundColor: '#F1F1F1',
+                                            marginTop: '10px'
+                                        }}
+                                    />
+                                ))
+                                }
+                            </div>
+                        }
 
                     </Col>
-                    <Col span={9} className='infor-user-select'>
-                        <Form>
+                    <Col span={9} >
+                        <Form className='infor-user-select'>
                             <div className='title-select'>
                                 <span style={{ color: 'white', fontSize: 20, fontWeight: 600, paddingRight: 10 }}>THÔNG TIN ĐẶT CHỖ </span>
                             </div>
@@ -96,7 +330,15 @@ const Passengers = () => {
                                                 paddingLeft: 20,
                                             }}>Giá vé </span>
                                         </Col>
-                                        <Col span={16}><span style={{
+                                        <Col span={6}>
+                                            <span style={{
+                                                color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
+                                                display: 'flex',
+                                                alignItems: 'flex-end',
+                                                paddingRight: 20,
+                                            }}>x{numberBooking} </span>
+                                        </Col>
+                                        <Col span={10}><span style={{
                                             color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
                                             display: 'flex',
                                             alignItems: 'flex-end',
@@ -112,7 +354,13 @@ const Passengers = () => {
                                                 paddingLeft: 20,
                                             }}>Giá vé em bé </span>
                                         </Col>
-                                        <Col span={16}><span style={{
+                                        <Col span={6}><span style={{
+                                            color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
+                                            display: 'flex',
+                                            alignItems: 'flex-end',
+                                            paddingRight: 20,
+                                        }}>x{data_homepage.baby} </span></Col>
+                                        <Col span={10}><span style={{
                                             color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
                                             display: 'flex',
                                             alignItems: 'flex-end',
@@ -121,6 +369,7 @@ const Passengers = () => {
                                     </Row>
                                 </div>
                                     : ''}
+
                                 <div className='title-infor'>
                                     <Row>
                                         <Col span={8}>
@@ -187,7 +436,15 @@ const Passengers = () => {
                                                         paddingLeft: 20,
                                                     }}>Giá vé </span>
                                                 </Col>
-                                                <Col span={16}><span style={{
+                                                <Col span={6}>
+                                                    <span style={{
+                                                        color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
+                                                        display: 'flex',
+                                                        alignItems: 'flex-end',
+                                                        paddingRight: 20,
+                                                    }}>x{numberBooking} </span>
+                                                </Col>
+                                                <Col span={10}><span style={{
                                                     color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
                                                     display: 'flex',
                                                     alignItems: 'flex-end',
@@ -203,7 +460,13 @@ const Passengers = () => {
                                                         paddingLeft: 20,
                                                     }}>Giá vé em bé </span>
                                                 </Col>
-                                                <Col span={16}><span style={{
+                                                <Col span={6}><span style={{
+                                                    color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
+                                                    display: 'flex',
+                                                    alignItems: 'flex-end',
+                                                    paddingRight: 20,
+                                                }}>x{data_homepage.baby} </span></Col>
+                                                <Col span={10}><span style={{
                                                     color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
                                                     display: 'flex',
                                                     alignItems: 'flex-end',
@@ -273,7 +536,7 @@ const Passengers = () => {
                 <Row>
                     <Col span={6}>
                         <Button className='footer-back'
-                            onClick={() => { navigate('/select-fight') }} >Quay lại</Button>
+                            onClick={() => { navigate('/select-fight-infor') }} >Quay lại</Button>
                     </Col>
                     <Col span={12} >
                         <Row>
@@ -284,7 +547,7 @@ const Passengers = () => {
 
                     </Col>
                     <Col span={6}>
-                        <Button className='footer-continue' >Tiếp tục</Button>
+                        <Button className='footer-continue' onClick={() => navigate('/select-service')} >Tiếp tục</Button>
                     </Col>
                 </Row>
             </div>
