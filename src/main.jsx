@@ -13,6 +13,8 @@ import Register from './component/Auth/Register.jsx';
 import SelectFlight from './component/Home/SelectFlight.jsx';
 import SelectFlightInfor from './component/Home/SelectFlightInfor.jsx';
 import Passengers from './component/Home/Passengers.jsx';
+import SelectService from './component/Home/SelectService.jsx';
+
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -25,6 +27,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path='/select-fight' element={<SelectFlight />} />
             <Route path='/select-fight-infor' element={<SelectFlightInfor />} />
             <Route path='/passengers' element={<Passengers />} />
+            <Route path='/select-service' element={<SelectService />} />
           </Route>
           <Route path='/admin' element={<Admin />} />
           <Route path='/login' element={<Login />} />
