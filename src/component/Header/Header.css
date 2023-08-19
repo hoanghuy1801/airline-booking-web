@@ -1,0 +1,68 @@
+
+@media (max-width:1280px){
+    .headerMenu{
+        display: none;
+    }
+}
+@media (min-width:1280px){
+    .menuIcon{
+        display: none;
+    }
+}
+.menuIcon{
+    background-color:#006885;
+    height: 60px;
+}
+
+
+.auth{
+    padding: 10px 10px 10px 10px;
+}
+.service{
+    display: flex;
+    padding: 10px 10px 10px 10px;
+    justify-content: end;
+    align-items: center;
+}
+.auth-child{
+    padding: 0px 5px 0px 5px;
+   font-size: 18px;
+   font-weight: 500;
+   cursor: pointer;
+   color: white;
+   &:hover{
+    color: #383737;
+   }
+}
+.auth-Icon{
+    padding: 0px 5px 0px 5px;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    color: white;
+}
+.service-child{
+    padding: 0px 20px 0px 20px;
+    font-size: 18px;
+    align-items: center;
+    font-weight: 600;
+    color: white;
+    &:hover{
+        background-color: white;
+        color: gray !important;
+    }
+   
+    
+
+}
+.menuPage{
+    background-color:	#006885;
+}
+.logo{
+    display: flex;
+    justify-content: end;
+    align-items: end;
+    padding-top: 2%;
+   
+}
+
