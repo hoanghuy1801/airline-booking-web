@@ -1,23 +1,18 @@
 import { useState } from 'react'
 import videoHomePage from '../../assets/videoHome.mp4'
 import '../Home/HomePage.css'
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
     SearchOutlined,
-    FacebookFilled,
-    RollbackOutlined
 } from '@ant-design/icons';
-
 import { Radio, Form, Select, DatePicker, Space, Row, Col, InputNumber, Button, Image } from 'antd';
 import {
     IconPlaneDeparture, IconPlaneArrival,
     IconCalendar, IconArrowsExchange2, IconMan, IconBabyBottle, IconMoodKid,
-    IconSearch
 } from '@tabler/icons-react';
 import ImgGiaLai from '../../assets/travel/gialai.png'
 import ImgPhuQuoc from '../../assets/travel/phuquoc.png'
 import ImgQuangBinh from '../../assets/travel/quangbinh.png'
-
 import { useDispatch } from "react-redux";
 import { Data_booking } from '../../redux/action/HomePageAction';
 

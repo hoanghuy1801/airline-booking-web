@@ -1,5 +1,5 @@
-import { Row, Col, Form, Button, Drawer, Divider, Card, Radio, InputNumber } from 'antd';
-import '../Home/SelectService.css'
+import { Row, Col, Form, Button, Drawer, Divider, Card, Radio, InputNumber, Select } from 'antd';
+import '../SearchBookingMy/SearchBookingMy.css'
 import { IconPlane, IconUserCircle, IconCurrencyDollar, IconShoppingCart, IconArrowBadgeRightFilled } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -9,17 +9,24 @@ import imgluggage from '../../assets/service/select-service_luggage.svg'
 import imgFavoriteRed from '../../assets/service/favorite-seat_red.svg'
 import imgMiy from '../../assets/service/mi-y.jpg'
 import { useState } from 'react';
+const { Option } = Select;
 const SelectService = () => {
     const [openFavorite, setOpenFavorite] = useState(false);
     const [openLuggage, setOpenLuggage] = useState(false);
     const [openFood, setOpenFood] = useState(false);
     const navigate = useNavigate();
     const data_homepage = useSelector(state => state.homepage.data_booking);
+    const data_passengers = useSelector(state => state.passengers.data_passengers);
     const numberBooking = data_homepage.adult + data_homepage.children;
     const [value, setValue] = useState(1);
     const onChange = (e) => {
         setValue(e.target.value);
     };
+
+    const DataPassengers = [];
+    for (let i = 0; i < data_passengers.inputFirstName.length; i++) {
+        DataPassengers.push(data_passengers.inputFirstName[i] + ' ' + data_passengers.inputLastName[i])
+    }
 
     const showDrawerFavorite = () => {
         setOpenFavorite(true);
@@ -397,7 +404,13 @@ const SelectService = () => {
                             <span style={{ color: 'white' }}>Chuyến đi</span>
                         </Row>
                         <Row className='user-service'>
-                            <span style={{ color: 'white' }}>PHAM HOANG HUY</span>
+                            <Select style={{ width: 200 }} defaultValue={DataPassengers[0]}>
+                                {DataPassengers.map((option) => (
+                                    <Option key={option} value={option}>
+                                        {option}
+                                    </Option>
+                                ))}
+                            </Select>
                         </Row>
                     </div>
                     <div className='info-booking-service'>
