@@ -1,28 +1,21 @@
 import { Row, Col, Form, Button } from 'antd';
-import '../Home/SelectFlight.css'
+import '../SelectFlightInfor/SelectFlightInfor.css'
 import { IconPlane, IconUserCircle, IconCurrencyDollar, IconShoppingCart } from '@tabler/icons-react';
 import imgVeluxe from '../../assets/wdelux.svg'
 import imgEco from '../../assets/weco.svg'
 import imgskyboss from '../../assets/wskyboss.svg'
 import imgBusinesswhite from '../../assets/businesswhite.svg'
-import imgNoflight from '../../assets/noflight.svg'
-
-import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-
-const SelectFlight = () => {
+const SelectFlightInfor = () => {
     const navigate = useNavigate();
     const data_homepage = useSelector(state => state.homepage.data_booking);
 
     const numberBooking = data_homepage.adult + data_homepage.children;
 
-
-
     return (
         <div className="select-flight">
-
             <div className="info-flight">
                 <Row>
                     <Col span={16} className='infor-select'>
@@ -59,98 +52,171 @@ const SelectFlight = () => {
             <div className='mains-container'>
                 <Row>
                     <Col span={15} className='infor-user-select-flight'>
-                        <Row className='icon-class'>
-                            <Col span={7} >
-
+                        <Row style={{
+                            height: 8,
+                            borderTopLeftRadius: '5px',
+                            borderTopRightRadius: '5px',
+                            backgroundColor: '#006885'
+                        }}>
+                        </Row>
+                        <Row style={{
+                            backgroundColor: 'white',
+                            height: '40px',
+                            padding: 10,
+                            borderBottomLeftRadius: '5px',
+                            borderBottomRightRadius: '5px'
+                        }}>
+                            <Col span={12}>
+                                <span style={{ color: '#006885', fontSize: 18, fontWeight: 500, padding: 10 }}>Chuyến đi</span>
                             </Col>
-                            <Col span={4} className='imgBusinesswhite'>
-                                <img src={imgBusinesswhite} style={{ width: 110, height: 70, paddingLeft: 20 }} />
-                            </Col>
-                            <Col span={4} className='imgskyboss'>
-                                <img src={imgskyboss} style={{ width: 110, height: 70, paddingLeft: 20 }} />
-                            </Col>
-                            <Col span={4} className='imgVeluxe'>
-                                <img src={imgVeluxe} style={{ width: 110, height: 70, paddingLeft: 20 }} />
-                            </Col>
-                            <Col span={4} className='imgEco'>
-                                <img src={imgEco} style={{ width: 110, height: 70, paddingLeft: 20 }} />
+                            <Col span={12}>
+                                <span style={{ color: '#006885', fontSize: 18, fontWeight: 500, padding: 10 }}>Tính theo giờ địa phương tại sân bay</span>
                             </Col>
                         </Row>
-                        <Row className='icon-class'>
-                            <Col span={7} className='symbol-airline'>
-                                <Row>
-                                    <Col span={24}>
-                                        <span className='code-airline'>VJ198</span>
+                        <div className='select-fight-infor'>
+                            <Row>
+                                <Col span={24}>
+                                    <span className='date-fight'>Ngày 08/09/2023</span>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col span={6}>
+                                    <Row>
+                                        <Col span={24}>
+                                            <span className='location-start'>SGN</span>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col span={24}>
+                                            <span className='time-start'>07:55</span>
+                                        </Col>
+                                    </Row>
+                                </Col>
+                                <Col span={4}>
+                                    <Row>
+                                        <Col span={24}>
+                                            <span className='flight-time'>2 giờ 10 phút</span>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col span={24}>
+                                            <span className='code-flight'>VJ124</span>
+                                        </Col>
+                                    </Row>
+                                </Col>
+                                <Col span={6}>
+                                    <Row>
+                                        <Col span={24}>
+                                            <span className='location-start'>HAN</span>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col span={24}>
+                                            <span className='time-start'>10:05</span>
+                                        </Col>
+                                    </Row>
+                                </Col>
+                                <Col span={8}>
+                                    <Row>
+                                        <Col span={24}>
+                                            <span className='flight-time'>Airbus A321</span>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col span={24}>
+                                            <span className='code-flight'>Hãng khai thác: Vietjet</span>
+                                        </Col>
+                                    </Row>
+                                </Col>
+                            </Row>
+                        </div>
+                        {!data_homepage.roundTrip ?
+                            ''
+                            :
+                            <div>
+                                <Row style={{
+                                    height: 8,
+                                    borderTopLeftRadius: '5px',
+                                    borderTopRightRadius: '5px',
+                                    backgroundColor: '#006885',
+                                    marginTop: 10
+                                }}>
+                                </Row>
+                                <Row style={{
+                                    backgroundColor: 'white',
+                                    height: '40px',
+                                    padding: 10,
+                                    borderBottomLeftRadius: '5px',
+                                    borderBottomRightRadius: '5px',
+                                    paddingTop: 10
+                                }}>
+                                    <Col span={12}>
+                                        <span style={{ color: '#006885', fontSize: 18, fontWeight: 500, padding: 10 }}>Chuyến về</span>
                                     </Col>
-                                    <Col span={24}>
-                                        <Row>
-                                            <Col span={9}>
-                                                <span className='clock-airline'>05:25</span>
-                                            </Col>
-                                            <Col span={6}>
-                                                <span className='code-airline'>Đến</span>
-                                            </Col>
-                                            <Col span={9}>
-                                                <span className='clock-airline'>07:35</span>
-                                            </Col>
-                                        </Row>
+                                    <Col span={12}>
+                                        <span style={{ color: '#006885', fontSize: 18, fontWeight: 500, padding: 10 }}>Tính theo giờ địa phương tại sân bay</span>
                                     </Col>
-                                    <Col span={24}>
-                                        <span className='code-airline'>Airbus A321</span>
+                                </Row>
+                                <div className='select-fight-infor'>
+                                    <Row>
+                                        <Col span={24}>
+                                            <span className='date-fight'>Ngày 08/09/2023</span>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col span={6}>
+                                            <Row>
+                                                <Col span={24}>
+                                                    <span className='location-start'>SGN</span>
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col span={24}>
+                                                    <span className='time-start'>07:55</span>
+                                                </Col>
+                                            </Row>
+                                        </Col>
+                                        <Col span={4}>
+                                            <Row>
+                                                <Col span={24}>
+                                                    <span className='flight-time'>2 giờ 10 phút</span>
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col span={24}>
+                                                    <span className='code-flight'>VJ124</span>
+                                                </Col>
+                                            </Row>
+                                        </Col>
+                                        <Col span={6}>
+                                            <Row>
+                                                <Col span={24}>
+                                                    <span className='location-start'>HAN</span>
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col span={24}>
+                                                    <span className='time-start'>10:05</span>
+                                                </Col>
+                                            </Row>
+                                        </Col>
+                                        <Col span={8}>
+                                            <Row>
+                                                <Col span={24}>
+                                                    <span className='flight-time'>Airbus A321</span>
+                                                </Col>
+                                            </Row>
+                                            <Row>
+                                                <Col span={24}>
+                                                    <span className='code-flight'>Hãng khai thác: Vietjet</span>
+                                                </Col>
+                                            </Row>
+                                        </Col>
+                                    </Row>
+                                </div>
+                            </div>
+                        }
 
-                                    </Col>
-                                </Row>
-
-                            </Col>
-                            <Col span={4} className='price-airline'>
-                                <Row>
-                                    <Col span={24}>
-                                        <span className='price'><img src={imgNoflight} /></span>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col span={24}>
-                                        <span className='price-vnd'>Hết chỗ</span>
-                                    </Col>
-                                </Row>
-                            </Col>
-                            <Col span={4} className='price-airline'>
-                                <Row>
-                                    <Col span={24}>
-                                        <span className='price'><i>1,250</i></span>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col span={24}>
-                                        <span className='price-vnd'><i>000 VND</i></span>
-                                    </Col>
-                                </Row>
-                            </Col>
-                            <Col span={4} className='price-airline'>
-                                <Row>
-                                    <Col span={24}>
-                                        <span className='price'><i>1,000</i></span>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col span={24}>
-                                        <span className='price-vnd'><i>000 VND</i></span>
-                                    </Col>
-                                </Row>
-                            </Col>
-                            <Col span={4} className='price-airline'>
-                                <Row>
-                                    <Col span={24}>
-                                        <span className='price'><i>900</i></span>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col span={24}>
-                                        <span className='price-vnd'><i>000 VND</i></span>
-                                    </Col>
-                                </Row>
-                            </Col>
-                        </Row>
 
                     </Col>
                     <Col span={9} >
@@ -400,7 +466,8 @@ const SelectFlight = () => {
             <div className="footer">
                 <Row>
                     <Col span={6}>
-
+                        <Button className='footer-back'
+                            onClick={() => { navigate('/select-fight') }} >Quay lại</Button>
                     </Col>
                     <Col span={12} >
                         <Row>
@@ -411,7 +478,8 @@ const SelectFlight = () => {
 
                     </Col>
                     <Col span={6}>
-                        <Button className='footer-continue' onClick={() => { navigate('/select-fight-infor') }} >Tiếp tục</Button>
+                        <Button className='footer-continue'
+                            onClick={() => { navigate('/passengers') }} >Tiếp tục</Button>
                     </Col>
                 </Row>
             </div>
@@ -420,4 +488,4 @@ const SelectFlight = () => {
         </div >
     )
 }
-export default SelectFlight;
+export default SelectFlightInfor;

@@ -10,10 +10,14 @@ import { store, persistor } from './redux/store';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react'
 import Register from './component/Auth/Register.jsx';
-import SelectFlight from './component/Home/SelectFlight.jsx';
-import SelectFlightInfor from './component/Home/SelectFlightInfor.jsx';
-import Passengers from './component/Home/Passengers.jsx';
-import SelectService from './component/Home/SelectService.jsx';
+import SelectFlight from './component/SelectFlight/SelectFlight.jsx';
+import SelectFlightInfor from './component/SelectFlightInfor/SelectFlightInfor.jsx';
+import Passengers from './component/Passengers/Passengers.jsx';
+import SelectService from './component/SelectService/SelectService.jsx';
+import CheckIn from './component/CheckIn/CheckIn.jsx';
+import RemoveDiacritics from './component/Home/RemoveDiacritics.jsx';
+import SearchBookingMy from './component/SearchBookingMy/SearchBookingMy.jsx';
+
 
 
 
@@ -28,7 +32,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path='/select-fight-infor' element={<SelectFlightInfor />} />
             <Route path='/passengers' element={<Passengers />} />
             <Route path='/select-service' element={<SelectService />} />
+            <Route path='/checkin' element={<CheckIn />} />
+            <Route path='/my/searchBooking' element={<SearchBookingMy />} />
           </Route>
+          <Route path='/test' element={<RemoveDiacritics />} />
           <Route path='/admin' element={<Admin />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />

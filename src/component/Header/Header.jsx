@@ -11,22 +11,9 @@ import logo from '../../assets/VivuAirline.png'
 
 const Header = () => {
     const navigate = useNavigate();
-
-
-
-
-
     const dispastch = useDispatch();
     const [openMenu, setOpenMenu] = useState(false);
     // const [isInline, setIsInline] = useState(true);
-
-
-    const handleLogin = () => {
-        navigate('/login');
-    }
-    const handleAdmin = () => {
-        navigate('/admin');
-    }
 
     const AppMenuDrawer = ({ isInline = false }) => {
         return (
@@ -44,7 +31,7 @@ const Header = () => {
                         <Button className='service-child' type='link'>CHUYẾN BAY CỦA TÔI</Button>
                     </Col>
                     <Col >
-                        <Button className='service-child' type='link'>CHECKIN-ONLINE</Button>
+                        <Button className='service-child' type='link' onClick={() => { navigate('/checkin') }}>CHECKIN-ONLINE</Button>
                     </Col>
                     <Col >
                         <Button className='service-child' type='link'>DỊCH VỤ CHUYẾN BAY</Button>
@@ -66,9 +53,9 @@ const Header = () => {
                         </Col>
                         <Col span={12} >
                             <div className='service'>
-                                <Button className='service-child' type='link'>CHUYẾN BAY CỦA TÔI</Button>
-                                <Button className='service-child' type='link'>CHECKIN-ONLINE</Button>
-                                <Button className='service-child' type='link'>DỊCH VỤ CHUYẾN BAY</Button>
+                                <Button className='service-child' type='link' onClick={() => { navigate('/my/searchBooking') }}>CHUYẾN BAY CỦA TÔI</Button>
+                                <Button className='service-child' type='link' onClick={() => { navigate('/checkin') }}>CHECKIN-ONLINE</Button>
+                                <Button className='service-child' type='link' >DỊCH VỤ CHUYẾN BAY</Button>
                             </div>
                         </Col>
                         <Col span={6} >

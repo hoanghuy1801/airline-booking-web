@@ -1,11 +1,10 @@
 import { combineReducers } from 'redux';
-
-import userReducer from './userReducer';
-import HomePage from '../../component/Home/HomePage';
 import HomePageReducer from './HomePageReducer';
+import PassengersReducer from './passengersReducer';
 
 const rootReducer = combineReducers({
-    homepage: HomePageReducer
+    homepage: HomePageReducer,
+    passengers: PassengersReducer
 });
 
 export default rootReducer;
