@@ -53,7 +53,7 @@ const Header = () => {
                         </Col>
                         <Col span={12} >
                             <div className='service'>
-                                <Button className='service-child' type='link' onClick={() => { navigate('/my/searchBooking') }}>CHUYẾN BAY CỦA TÔI</Button>
+                                <Button className='service-child' type='link' onClick={() => { navigate('/my/search-booking') }}>CHUYẾN BAY CỦA TÔI</Button>
                                 <Button className='service-child' type='link' onClick={() => { navigate('/checkin') }}>CHECKIN-ONLINE</Button>
                                 <Button className='service-child' type='link' >DỊCH VỤ CHUYẾN BAY</Button>
                             </div>

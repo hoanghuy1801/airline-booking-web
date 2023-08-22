@@ -57,10 +57,10 @@ const SearchBookingMy = () => {
                                 onChange={handleInputFirstName}
                                 value={inputFirstName} />
                         </Form.Item>
-                        <Button className='btn-search-booking' onClick={() => { navigate('/select-fight-infor') }} >Tiếp tục</Button>
+                        <Button className='btn-search-booking' onClick={() => { navigate('/my/booking-detail') }} >Tiếp tục</Button>
                     </Form>
                 </Col>
-                <Col span={15} className='notification-checkin'>
+                <Col span={15} className='notification-booking'>
 
                 </Col>
             </Row>
