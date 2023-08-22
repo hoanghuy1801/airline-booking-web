@@ -1,0 +1,131 @@
+.booking-detail{
+    background-image: url('../../assets/BackRoud.png');
+    background-size: cover;
+
+    height: auto;
+}
+.info-booking-detail{
+    height: 65px;
+    background-color: white;
+
+}
+.code-booking{
+    display: flex;
+    justify-content: end;
+    align-content: center;
+    padding-right: 3%;
+    padding-top: 1%;
+    font-size: 20px;
+    font-weight: 500;
+}
+.code-booking-status{
+   
+    padding-right: 3%;
+    padding-top: 1%;
+    font-size: 20px;
+    font-weight: 500; 
+}
+ .main-container-detail{
+        width: auto;
+        height: 830px;
+        margin: 0% 25% 0 25%;
+ }
+
+.title-booking{
+    font-size: 25px;
+    font-weight: 600;
+    padding-top: 20px;
+    color: black;
+}
+.roundTrip-booking{
+    padding-top: 5px;
+    padding-left: 15px;
+    font-size: 18px;
+    font-weight: 600;
+}
+.booking-ticket{
+    width: 100%;
+    height: auto;
+    padding-bottom: 50px;
+    background-color: white;
+    border-radius: 15px;
+}
+.info-fly{
+   display: flex;
+    justify-content: center;
+
+}
+.date-fly{
+    padding: 12px;
+    font-size: 17px;
+    font-weight: 500;
+}
+.location{
+    font-size: 35px;
+    font-weight: 600;
+}
+.time-fly{
+    font-size: 18px;
+    color: #6D6E71;
+    font-weight: 500;
+    padding-top: 10px;
+}
+.number-fly{
+    font-size: 18px;
+    font-weight: 500;
+}
+.time{
+    font-size: 32px;
+
+}
+.code-fly{
+    padding: 10px;
+    font-size: 18px;
+    font-weight: 500;
+}
+.from{
+     display: flex;
+    padding-left: 20%;
+    font-size: 18px;
+    font-weight: 500;
+}
+.to{
+    display: flex;
+    padding-left: 20%;
+    font-size: 18px;
+    font-weight: 500;
+}
+.time-flys{
+    font-size: 18px;
+    font-weight: 500;
+}
+.detail-booking-passengers{
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+
+}
+.details{
+    width: 60%;
+    height: auto;
+    padding-bottom: 10px;
+}
+.btn-mail-search{
+   margin-right: 5%;
+    width: auto;
+    height:40px;
+    font-size: 18px;
+    font-weight: 600;
+    background-color: rgb(175, 137, 3);
+    &:hover{
+        color: black !important;
+        background-color: rgb(175, 137, 3);
+        border: none !important;
+    }
+   
+  }
+  .btn{
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+  }
