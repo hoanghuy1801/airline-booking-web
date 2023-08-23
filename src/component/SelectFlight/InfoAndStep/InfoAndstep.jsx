@@ -6,6 +6,7 @@ import React from 'react';
 
 const InfoAndStep = () => {
 
+
     const data_homepage = useSelector(state => state.formsearch.data_booking);
     return (
         <>
