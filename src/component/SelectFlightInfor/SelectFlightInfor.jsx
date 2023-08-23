@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import CheckInfoFly from './CheckInfoFly/CheckInfoFly';
 import SelectInfoFly from '../SelectFlight/SelectInfoFly/SelectInfoFly';
-import InfoAndStep from '../SelectFlight/InfoAndStep/InfoAndstep';
+import InfoAndStep from '../SelectFlight/InfoAndStep/InfoAndStep';
 
 const SelectFlightInfor = () => {
     const navigate = useNavigate();

@@ -10,7 +10,8 @@ import { useDispatch } from "react-redux";
 import { Data_Passengers } from '../../redux/action/PassengersAction';
 import SelectInfoFly from '../SelectFlight/SelectInfoFly/SelectInfoFly';
 import Passenger from './Passenger/Passenger';
-import InfoAndStep from '../SelectFlight/InfoAndStep/InfoAndstep';
+import InfoAndStep from '../SelectFlight/InfoAndStep/InfoAndStep';
+
 
 
 const Passengers = () => {

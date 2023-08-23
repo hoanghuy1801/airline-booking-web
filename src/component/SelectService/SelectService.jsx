@@ -11,7 +11,7 @@ import imgMiy from '../../assets/service/mi-y.jpg'
 import { useState } from 'react';
 import Service from './Service/Service';
 import SelectInfoFly from '../SelectFlight/SelectInfoFly/SelectInfoFly';
-import InfoAndStep from '../SelectFlight/InfoAndStep/InfoAndstep';
+import InfoAndStep from '../SelectFlight/InfoAndStep/InfoAndStep';
 const { Option } = Select;
 const SelectService = () => {
 
