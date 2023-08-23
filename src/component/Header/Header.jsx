@@ -6,7 +6,7 @@ import { MenuOutlined, UserOutlined } from '@ant-design/icons';
 import { Drawer, Menu, Row, Col, Button } from 'antd';
 import { useDispatch } from 'react-redux';
 import '../Header/Header.css'
-import logo from '../../assets/VivuAirline.png'
+import logo from '../../assets/Vivu.png'
 
 
 const Header = () => {

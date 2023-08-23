@@ -10,14 +10,8 @@
 
 
 }
-.infor-select{ 
-    padding-top: 10px;
-    padding-left: 17%; 
-}
-.icon-selcet{
-    padding: 20px;
-    size: 2rem;
-}
+
+
 .mains-container{
     width: auto;
     height: 830px;
@@ -25,31 +19,6 @@
 }
 .infor-user-select-flight{
     padding: 5% 2% 0 2%;
-}
-
-.infor-user-select{
-    margin-top: 5%;
-    background-color:white;
-    box-shadow: 0px 10px 32px #006885;
-    backdrop-filter: blur(3px);
-    border-radius: 10px;
-}
-
-.title-select{
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    background-color: #006885;
-    height: 50px;
-    padding: 10px;
-
-}
-.title-infor{
- margin: 20px 30px 20px 30px;
- background-color: #F1F1F1;
- border-radius: 10px;
- height: 50px;
- padding-top: 7px;
-
 }
 .title-select-end{
     border-bottom-left-radius: 10px;
@@ -59,77 +28,6 @@
     padding: 10px;
 }
 
-.imgBusinesswhite{
-    border: 1px solid rgb(175, 137, 3);
-    background-color: rgb(175, 137, 3);
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    margin-left:5px ;
-}
-.imgskyboss{
-    border: 1px solid rgb(218, 33, 40);
-    background-color: rgb(218, 33, 40);
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    margin-left:5px ;
-
-}
-.imgVeluxe{
-    border: 1px solid rgb(249, 165, 26);
-    background-color: rgb(249, 165, 26);
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    margin-left:5px ;
-}
-.imgEco{
-    border: 1px solid rgb(106, 183, 46);
-    background-color: rgb(106, 183, 46);
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    margin-left:5px ;
-}
-.symbol-airline{
-    height: 100px;
-    background-color: #006885;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-}
-.price-airline{
-    height: 100px;
-    background-color: white;
-    margin-left:5px ;
-}
-.price{
-    font-size: 25px;
-    color: black;
-    font-weight: 600;
-    display: flex;
-    justify-content: center;
-    padding-top: 20px;
-}
-.price-vnd{
-    display: flex;
-    justify-content: center;
-    font-size: 20px;
-    color: grey;
-    font-weight: 600;
-}
-.code-airline{
-    display: flex;
-    justify-content: center;
-    font-size: 16px;
-    padding-top: 10px;
-    color: white;
-
-}
-.clock-airline{
-    font-size: 25px;
-    color: white;
-    font-weight: 600;
-    display: flex;
-    justify-content: center;
-
-}
 .footer{
     height: 90px;
     position: fixed;

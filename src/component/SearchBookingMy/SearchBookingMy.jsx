@@ -3,7 +3,7 @@ import { Row, Col, Form, Input, Button } from 'antd';
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import '../CheckIn/CheckIn.css'
+import './SearchBookingMy.css'
 import diacriticless from 'diacriticless';
 
 const SearchBookingMy = () => {
