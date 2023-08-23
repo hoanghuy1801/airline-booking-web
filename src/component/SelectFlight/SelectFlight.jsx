@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import InfoFly from './InfoFly/InfoFly';
 import SelectInfoFly from './SelectInfoFly/SelectInfoFly';
-import InfoAndStep from './InfoAndStep/InfoAndstep';
+import InfoAndStep from './InfoAndStep/InfoAndStep';
 
 
 const SelectFlight = () => {
