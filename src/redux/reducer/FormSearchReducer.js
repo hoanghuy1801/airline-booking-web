@@ -1,5 +1,5 @@
 
-import { DATA_BOOKING } from '../action/HomePageAction';
+import { DATA_BOOKING } from '../action/FormSearch';
 const INITIAL_STATE = {
     data_booking: {
         roundTrip: '',

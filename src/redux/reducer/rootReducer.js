@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
-import HomePageReducer from './HomePageReducer';
+import FormSearchReducer from './FormSearchReducer';
 import PassengersReducer from './PassengersReducer';
 
 const rootReducer = combineReducers({
-    homepage: HomePageReducer,
+    formsearch: FormSearchReducer,
     passengers: PassengersReducer
 });
 
