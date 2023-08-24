@@ -15,7 +15,6 @@ import SelectFlightInfor from './component/SelectFlightInfor/SelectFlightInfor.j
 import Passengers from './component/Passengers/Passengers.jsx';
 import SelectService from './component/SelectService/SelectService.jsx';
 import CheckIn from './component/CheckIn/CheckIn.jsx';
-import RemoveDiacritics from './component/Home/RemoveDiacritics.jsx';
 import SearchBookingMy from './component/SearchBookingMy/SearchBookingMy.jsx';
 import BookingDetail from './component/BookingDetail/BookingDetail.jsx';
 
@@ -37,7 +36,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path='/my/search-booking' element={<SearchBookingMy />} />
             <Route path='/my/booking-detail' element={<BookingDetail />} />
           </Route>
-          <Route path='/test' element={<RemoveDiacritics />} />
           <Route path='/admin' element={<Admin />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />

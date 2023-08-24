@@ -9,6 +9,7 @@ import imgluggage from '../../../assets/service/select-service_luggage.svg'
 import imgFavoriteRed from '../../../assets/service/favorite-seat_red.svg'
 import imgMiy from '../../../assets/service/mi-y.jpg'
 import { useState } from 'react';
+import SeatSelector from '../SeatSelector/SeatSelector';
 const { Option } = Select;
 
 const Service = () => {
@@ -129,26 +130,21 @@ const Service = () => {
                             <Col span={8} style={{ display: 'flex' }}>
                                 <div style={{ backgroundColor: 'red' }} className='information-seat-color'>
                                 </div>
-                                <span>Ghế cao cấp</span>
+                                <span>Ghế thương gia</span>
                             </Col>
                             <Col span={8} style={{ display: 'flex' }}>
                                 <div style={{ backgroundColor: '#25A006' }} className='information-seat-color'>
                                 </div>
-                                <span>Ghế tiêu chuẩn</span>
+                                <span>Ghế phổ thông đặc biệt</span>
                             </Col>
 
                             <Col span={8} style={{ display: 'flex' }}>
                                 <div style={{ backgroundColor: ' #208AEC' }} className='information-seat-color'>
                                 </div>
-                                <span>Ghế chân rộng</span>
+                                <span>Ghế phổ thông</span>
                             </Col>
                         </Row>
                         <Row style={{ paddingTop: '10px' }}>
-                            <Col span={8} style={{ display: 'flex' }}>
-                                <div style={{ backgroundColor: '#6D09BB' }} className='information-seat-color'>
-                                </div>
-                                <span>Ghế hàng trước</span>
-                            </Col>
                             <Col span={8} style={{ display: 'flex' }}>
                                 <div style={{ backgroundColor: '#FBB612 ' }} className='information-seat-color'>
                                 </div>
@@ -163,59 +159,7 @@ const Service = () => {
                         </Row>
                     </div>
                     <div className='seat-ariline'>
-                        <Row >
-                            <Col span={1}>
-                            </Col>
-                            <Col span={3} className='seat-ariline-booking'>
-                                A
-                            </Col>
-                            <Col span={3} className='seat-ariline-booking'>
-                                B
-                            </Col>
-                            <Col span={3} className='seat-ariline-booking'>
-                                C
-                            </Col>
-                            <Col span={4} className='seat-ariline-booking'>
-                            </Col>
-                            <Col span={3} className='seat-ariline-booking'>
-                                D
-                            </Col>
-                            <Col span={3} className='seat-ariline-booking'>
-                                E
-                            </Col>
-                            <Col span={3} className='seat-ariline-booking'>
-                                F
-                            </Col>
-                            <Col span={1} className='seat-ariline-booking'>
-                            </Col>
-                        </Row>
-                        <Row >
-                            <Col span={1}>
-                            </Col>
-                            <Col span={3} className='seat-ariline-booking'>
-                                <img src={imgFavoriteRed} />
-                            </Col>
-                            <Col span={3} className='seat-ariline-booking'>
-                                <img src={imgFavoriteRed} />
-                            </Col>
-                            <Col span={3} className='seat-ariline-booking'>
-                                <img src={imgFavoriteRed} />
-                            </Col>
-                            <Col span={4} className='seat-ariline-booking'>
-                                1
-                            </Col>
-                            <Col span={3} className='seat-ariline-booking'>
-                                <img src={imgFavoriteRed} />
-                            </Col>
-                            <Col span={3} className='seat-ariline-booking'>
-                                <img src={imgFavoriteRed} />
-                            </Col>
-                            <Col span={3} className='seat-ariline-booking'>
-                                <img src={imgFavoriteRed} />
-                            </Col>
-                            <Col span={1} className='seat-ariline-booking'>
-                            </Col>
-                        </Row>
+                        <SeatSelector />
                     </div>
 
                     <div className="footer-divider">
@@ -232,8 +176,6 @@ const Service = () => {
                                 <Row>
                                     <i className='seat-price'>90,000 VND</i>
                                 </Row>
-
-
                             </Col>
                             <Col span={7} >
                                 <Button className='footer-continue' >Xác nhận</Button>
