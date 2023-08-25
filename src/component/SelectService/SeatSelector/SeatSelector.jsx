@@ -41,7 +41,7 @@ const Seat = ({ seatNumber, selectedSeat, onSelect, disabledSeats }) => {
 
 const SeatSelector = () => {
     const [selectedSeat, setSelectedSeat] = useState(null);
-    const numRows = 5;
+    const numRows = 40;
     const numColumns = 6 / 2;
     const disabledSeats = ["1A", "2B", "3C"];
 

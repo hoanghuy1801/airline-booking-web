@@ -5,6 +5,9 @@
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     margin-left:5px ;
+    height: 60px;
+    padding-top: 10px;
+
 }
 .imgskyboss{
     border: 1px solid rgb(218, 33, 40);
@@ -12,6 +15,9 @@
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     margin-left:5px ;
+    padding-top: 10px;
+    height: 60px;
+
 
 }
 .imgVeluxe{
@@ -20,6 +26,8 @@
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     margin-left:5px ;
+    height: 60px;
+    padding-top: 10px;
 }
 .imgEco{
     border: 1px solid rgb(106, 183, 46);
@@ -27,6 +35,8 @@
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     margin-left:5px ;
+    height: 60px;
+    padding-top: 10px;
 }
 .symbol-airline{
     height: 100px;
@@ -69,4 +79,25 @@
     display: flex;
     justify-content: center;
 
+}
+.text-class{
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+}
+.icon-class{
+    padding-bottom: 12px;
+}
+.select-row{
+    height: 100px;
+    width: 100%;
+}
+.price-airline.selected {
+        background-color: rgb(193, 237, 197);
+        cursor: pointer;
+}
+.price-airline{
+    cursor: pointer;
 }

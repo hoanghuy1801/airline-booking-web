@@ -6,29 +6,32 @@ import imgskyboss from '../../../assets/wskyboss.svg'
 import imgBusinesswhite from '../../../assets/businesswhite.svg'
 import imgNoflight from '../../../assets/noflight.svg'
 import React from 'react';
+import { useState } from 'react';
+import { floatButtonPrefixCls } from 'antd/es/float-button/FloatButton';
 
 const InfoFly = () => {
+    const [isSelectedTG, setIsSelectedTG] = useState(false);
+    const [isSelectedPTDB, setIsSelectedPTDB] = useState(false);
+    const [isSelectedPT, setIsSelectedPT] = useState(false);
+    const handleBoxClickTG = () => {
+        setIsSelectedTG(true);
+        setIsSelectedPTDB(false);
+        setIsSelectedPT(false);
+    };
+    const handleBoxClickPTDB = () => {
+        setIsSelectedTG(false);
+        setIsSelectedPTDB(true);
+        setIsSelectedPT(false);
+    };
+    const handleBoxClickPT = () => {
+        setIsSelectedTG(false);
+        setIsSelectedPTDB(false);
+        setIsSelectedPT(true);
+    };
     return (
         <>
             <Row className='icon-class'>
-                <Col span={7} >
-
-                </Col>
-                <Col span={4} className='imgBusinesswhite'>
-                    <img src={imgBusinesswhite} style={{ width: 110, height: 70, paddingLeft: 20 }} />
-                </Col>
-                <Col span={4} className='imgskyboss'>
-                    <img src={imgskyboss} style={{ width: 110, height: 70, paddingLeft: 20 }} />
-                </Col>
-                <Col span={4} className='imgVeluxe'>
-                    <img src={imgVeluxe} style={{ width: 110, height: 70, paddingLeft: 20 }} />
-                </Col>
-                <Col span={4} className='imgEco'>
-                    <img src={imgEco} style={{ width: 110, height: 70, paddingLeft: 20 }} />
-                </Col>
-            </Row>
-            <Row className='icon-class'>
-                <Col span={7} className='symbol-airline'>
+                <Col span={8} className='symbol-airline'>
                     <Row>
                         <Col span={24}>
                             <span className='code-airline'>VJ198</span>
@@ -53,7 +56,9 @@ const InfoFly = () => {
                     </Row>
 
                 </Col>
-                <Col span={4} className='price-airline'>
+                <Col span={5}
+                    className='price-airline'
+                    onClick={handleBoxClickTG}>
                     <Row>
                         <Col span={24}>
                             <span className='price'><img src={imgNoflight} /></span>
@@ -65,10 +70,13 @@ const InfoFly = () => {
                         </Col>
                     </Row>
                 </Col>
-                <Col span={4} className='price-airline'>
+                <Col span={5}
+                    className={`price-airline ${isSelectedPTDB ? 'selected' : ''}`}
+                    onClick={handleBoxClickPTDB}
+                >
                     <Row>
                         <Col span={24}>
-                            <span className='price'><i>1,250</i></span>
+                            <span className='price'><i>2,000</i></span>
                         </Col>
                     </Row>
                     <Row>
@@ -77,22 +85,13 @@ const InfoFly = () => {
                         </Col>
                     </Row>
                 </Col>
-                <Col span={4} className='price-airline'>
+                <Col span={5}
+                    className={`price-airline ${isSelectedPT ? 'selected' : ''}`}
+                    onClick={handleBoxClickPT}
+                >
                     <Row>
                         <Col span={24}>
                             <span className='price'><i>1,000</i></span>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span={24}>
-                            <span className='price-vnd'><i>000 VND</i></span>
-                        </Col>
-                    </Row>
-                </Col>
-                <Col span={4} className='price-airline'>
-                    <Row>
-                        <Col span={24}>
-                            <span className='price'><i>900</i></span>
                         </Col>
                     </Row>
                     <Row>

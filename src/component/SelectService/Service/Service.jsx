@@ -120,10 +120,6 @@ const Service = () => {
                         <Row className='user-service' >
                             <span style={{ color: 'black' }}>SGN - HAN</span>
                         </Row>
-                        <Row className='user-service' >
-                            <span style={{ color: 'black' }}>4 - C</span>
-                        </Row>
-
                     </div>
                     <div className='information-seat'>
                         <Row>

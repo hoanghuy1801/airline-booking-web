@@ -17,6 +17,9 @@ import SelectService from './component/SelectService/SelectService.jsx';
 import CheckIn from './component/CheckIn/CheckIn.jsx';
 import SearchBookingMy from './component/SearchBookingMy/SearchBookingMy.jsx';
 import BookingDetail from './component/BookingDetail/BookingDetail.jsx';
+import SelectFight from './component/CheckIn/SelectFight/SelectFight.jsx';
+import SelectSeat from './component/CheckIn/SelectSeats/SelectSeat.jsx';
+import RestrictedBaggage from './component/CheckIn/RestrictedBaggage/RestrictedBaggage.jsx';
 
 
 
@@ -34,12 +37,14 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path='/select-service' element={<SelectService />} />
             <Route path='/checkin' element={<CheckIn />} />
             <Route path='/my/search-booking' element={<SearchBookingMy />} />
+            <Route path='/my/select-fight' element={<SelectFight />} />
+            <Route path='/my/select-seat' element={<SelectSeat />} />
+            <Route path='/my/restricted-baggage' element={<RestrictedBaggage />} />
             <Route path='/my/booking-detail' element={<BookingDetail />} />
           </Route>
           <Route path='/admin' element={<Admin />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
-
         </Routes>
       </BrowserRouter>
     </PersistGate>

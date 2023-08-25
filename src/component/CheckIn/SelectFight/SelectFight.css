@@ -1,0 +1,45 @@
+.btn-continue{
+    margin-right: 5%;
+    width: 150px;
+    height:40px;
+    font-size: 18px;
+    font-weight: 600;
+    background-color: rgb(175, 137, 3);
+    &:hover{
+        color: black !important;
+        background-color: rgb(175, 137, 3);
+        border: none !important;
+    }
+}
+.btn-back{
+    margin-right: 5%;
+    width: 150px;
+    height:40px;
+    font-size: 18px;
+    font-weight: 600;
+    background-color: rgb(175, 137, 3);
+    &:hover{
+        color: black !important;
+        background-color: rgb(175, 137, 3);
+        border: none !important;
+    }
+}
+
+.btn{
+     display: flex;
+     justify-content: center;
+     padding-top: 20px;
+   }
+.date-select-fly{
+
+ padding: 10px;
+ color: white;
+ background-color: #006885;
+ border-top-left-radius: 10px;
+ border-top-right-radius: 10px;
+}
+.icon-select{
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+}

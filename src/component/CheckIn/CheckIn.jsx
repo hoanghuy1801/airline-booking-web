@@ -57,7 +57,7 @@ const CheckIn = () => {
                                 onChange={handleInputFirstName}
                                 value={inputFirstName} />
                         </Form.Item>
-                        <Button className='btn-checkin' onClick={() => { navigate('/select-fight-infor') }} >Tiếp tục</Button>
+                        <Button className='btn-checkin' onClick={() => { navigate('/my/select-fight') }} >Tiếp tục</Button>
                     </Form>
                 </Col>
                 <Col span={15} className='notification-checkin'>

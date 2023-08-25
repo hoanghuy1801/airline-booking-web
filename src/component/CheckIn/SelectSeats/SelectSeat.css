@@ -1,0 +1,73 @@
+.main-container-seat{
+    height: auto;
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-top: 3%;
+    padding-bottom: 39px;
+}
+.title-seats{
+    background-color: #006885;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    color: white;
+    font-size: 25px;
+    font-weight: 600;
+    padding-top: 6px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+}
+.seats{
+    margin-top: 3%;
+    margin-left: 18%;
+    margin-right: 18%;
+    max-height: 580px; 
+    max-width: 700px;
+    overflow:auto;
+}
+.view-select-seat{
+    background-color: white;
+    border-radius: 10px;
+    height: 750px;
+    box-shadow: 0px 10px 32px #006885;
+}
+.info-seat{
+    padding-top: 20px;
+    padding-left: 40px;
+}
+.info-user-form{
+    background-color: white;
+    height: auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-right: 10%;
+    border-radius: 5px;
+    box-shadow: 0px 10px 32px #006885;
+
+}
+.info-user{
+    background-color: #006885;
+    margin: 5%;
+    border-radius: 5px;
+
+}
+.text-name{
+    font-size: 20px;
+    font-weight: 600;
+    color: white;
+    padding: 10px 20px 0px 20px;
+   
+}
+.text-seat{
+    font-size: 20px;
+    font-weight: 600;
+    color: white;
+    padding: 0px 20px 10px 20px;
+   
+}
+.text-title{
+    font-size: 23px;
+    font-weight: 500;
+    padding-bottom: 20px;
+
+}

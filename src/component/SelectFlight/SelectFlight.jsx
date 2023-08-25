@@ -5,12 +5,17 @@ import React from 'react';
 import InfoFly from './InfoFly/InfoFly';
 import SelectInfoFly from './SelectInfoFly/SelectInfoFly';
 import InfoAndStep from './InfoAndStep/InfoAndStep';
+import { useState } from 'react';
 
 
 const SelectFlight = () => {
     const navigate = useNavigate();
+    const [selectedShapeIndex, setSelectedShapeIndex] = useState(null);
 
-
+    const handleShapeClick = (index) => {
+        setSelectedShapeIndex(index);
+    };
+    const numberChildren = Array.from({ length: 3 });
     return (
         <div className="select-flight">
             <div className="info-flight">
@@ -19,7 +24,28 @@ const SelectFlight = () => {
             <div className='mains-container'>
                 <Row>
                     <Col span={15} className='infor-user-select-flight'>
-                        <InfoFly />
+                        <Row >
+                            <Col span={8} >
+                            </Col>
+                            <Col span={5} className='imgBusinesswhite'>
+                                <p className='text-class'>Thương Gia</p>
+                            </Col>
+
+                            <Col span={5} className='imgskyboss'>
+                                <p className='text-class'>Phổ Thông  </p>
+                                <p className='text-class'>Đặc Biệt</p>
+                            </Col>
+
+                            <Col span={5} className='imgEco'>
+                                <p className='text-class'>Phổ Thông</p>
+                            </Col>
+                        </Row>
+                        {numberChildren.map((_, index) => (
+                            <div key={index}>
+                                <InfoFly />
+                            </div>
+                        ))}
+
                     </Col>
                     <Col span={9} >
                         <SelectInfoFly />

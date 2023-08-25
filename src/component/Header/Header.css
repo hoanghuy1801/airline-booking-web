@@ -62,7 +62,8 @@
     display: flex;
     justify-content: end;
     align-items: end;
-    padding-top: 2%;
+    padding-top: 1%;
+    padding-bottom: 1%;
    
 }
 
