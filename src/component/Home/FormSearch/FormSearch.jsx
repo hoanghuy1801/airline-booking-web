@@ -7,7 +7,7 @@ import {
 import { Radio, Form, Select, DatePicker, Space, Row, Col, InputNumber, Button, Image } from 'antd';
 import {
     IconPlaneDeparture, IconPlaneArrival,
-    IconCalendar, IconArrowsExchange2, IconMan, IconBabyBottle, IconMoodKid,
+    IconCalendar, IconArrowsExchange2, IconMan, IconBabyBottle, IconMoodKid, IconArmchair
 } from '@tabler/icons-react';
 import { useDispatch } from "react-redux";
 import { Data_booking } from '../../../redux/action/FormSearch';
@@ -55,7 +55,6 @@ const FormSearch = () => {
                     </Row>
                     <Row>
                         <Col span={11}>
-
                             <IconPlaneDeparture className='icon-search' />
                             <Select
                                 showSearch
@@ -107,17 +106,46 @@ const FormSearch = () => {
                     </Row>
                 </Form.Item>
                 <Form.Item>
-                    <IconCalendar className='icon-search' />
-                    <Space direction="vertical">
-                        {roundTrip ?
-                            <RangePicker onChange={onChange} style={{ width: 250 }}
-                                placeholder={["Ngày đi", "Ngày về"]} />
+                    <Row>
+                        <Col span={11}>
+                            <IconCalendar className='icon-search' />
+                            <Space direction="vertical">
+                                {roundTrip ?
+                                    <RangePicker onChange={onChange} style={{ width: 250 }}
+                                        placeholder={["Ngày đi", "Ngày về"]} />
 
-                            :
-                            <DatePicker onChange={onChange} style={{ width: 250 }}
-                                placeholder="Ngày đi" />
-                        }
-                    </Space>
+                                    :
+                                    <DatePicker onChange={onChange} style={{ width: 250 }}
+                                        placeholder="Ngày đi" />
+                                }
+                            </Space>
+                        </Col>
+                        <Col span={2}></Col>
+                        <Col span={11}>
+                            <IconArmchair className='icon-search' />
+                            <Select
+                                showSearch
+                                style={{ width: 250 }}
+                                placeholder="Hạng ghế"
+                                optionFilterProp="children"
+                                filterOption={(input, option) => (option?.label ?? '').includes(input)}
+                                filterSort={(optionA, optionB) =>
+                                    (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                                }
+                                options={[
+                                    {
+                                        value: '1',
+                                        label: 'HN',
+                                    },
+                                    {
+                                        value: '2',
+                                        label: 'SGN',
+                                    },
+
+                                ]}
+                            />
+                        </Col>
+                    </Row>
                 </Form.Item>
                 <Form.Item>
                     <Row>
