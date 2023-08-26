@@ -6,9 +6,21 @@ import ImgGiaLai from '../../assets/travel/gialai.png'
 import ImgPhuQuoc from '../../assets/travel/phuquoc.png'
 import ImgQuangBinh from '../../assets/travel/quangbinh.png'
 import FormSearch from './FormSearch/FormSearch';
+import { useEffect, useState } from "react";
+import { getAirports } from '../../services/apiServices';
+import axios from 'axios';
+import instance from '../../utils/awiosCustomize';
 
 const HomePage = () => {
+    const [listAirports, setListAirports] = useState([])
+    useEffect(() => {
+        fechListAirports();
+    }, []);
 
+    const fechListAirports = async () => {
+        let res = await instance.get('/api/v1/airport/all');
+        console.log('check', res)
+    }
     return (
         <div className='homePage'>
             <div className='video'>

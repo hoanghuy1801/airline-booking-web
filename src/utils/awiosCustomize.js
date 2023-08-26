@@ -10,7 +10,7 @@ import axios from 'axios';
 //})
 
 const instance = axios.create({
-    baseURL: 'http://localhost:8081/',
+    baseURL: 'http://localhost:8008/',
 });
 // instance.interceptors.request.use(function (config) {
 //     // Do something before request is sent

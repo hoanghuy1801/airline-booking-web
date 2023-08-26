@@ -1,106 +1,54 @@
-import { Row, Col, Form, Button } from 'antd';
+import { Row, Col, Collapse, Button, Radio } from 'antd';
+import { IconBrandCitymapper, IconUserCheck, IconChecklist, IconLocationCheck } from '@tabler/icons-react';
+import vietjet from '../../../assets/vietjet.svg'
+import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { CaretRightOutlined } from '@ant-design/icons';
 import './InfoFly.css'
-import imgVeluxe from '../../../assets/wdelux.svg'
-import imgEco from '../../../assets/weco.svg'
-import imgskyboss from '../../../assets/wskyboss.svg'
-import imgBusinesswhite from '../../../assets/businesswhite.svg'
-import imgNoflight from '../../../assets/noflight.svg'
-import React from 'react';
-import { useState } from 'react';
-import { floatButtonPrefixCls } from 'antd/es/float-button/FloatButton';
+
+
 
 const InfoFly = () => {
-    const [isSelectedTG, setIsSelectedTG] = useState(false);
-    const [isSelectedPTDB, setIsSelectedPTDB] = useState(false);
-    const [isSelectedPT, setIsSelectedPT] = useState(false);
-    const handleBoxClickTG = () => {
-        setIsSelectedTG(true);
-        setIsSelectedPTDB(false);
-        setIsSelectedPT(false);
-    };
-    const handleBoxClickPTDB = () => {
-        setIsSelectedTG(false);
-        setIsSelectedPTDB(true);
-        setIsSelectedPT(false);
-    };
-    const handleBoxClickPT = () => {
-        setIsSelectedTG(false);
-        setIsSelectedPTDB(false);
-        setIsSelectedPT(true);
-    };
+    const navigate = useNavigate();
     return (
         <>
-            <Row className='icon-class'>
-                <Col span={8} className='symbol-airline'>
-                    <Row>
-                        <Col span={24}>
-                            <span className='code-airline'>VJ198</span>
-                        </Col>
-                        <Col span={24}>
-                            <Row>
-                                <Col span={9}>
-                                    <span className='clock-airline'>05:25</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span className='code-airline'>Đến</span>
-                                </Col>
-                                <Col span={9}>
-                                    <span className='clock-airline'>07:35</span>
-                                </Col>
-                            </Row>
-                        </Col>
-                        <Col span={24}>
-                            <span className='code-airline'>Airbus A321</span>
+            <p className='title'>Chuyến đi</p>
+            <div className='fly-color'>
+            </div>
+            <div className='select-flight-info'>
+                <Row>
+                    <Col span={7}>
+                        <p className='name-airline'>Bamboo Airways</p>
+                    </Col>
+                    <Col span={10} >
+                        <Row>
+                            <Col span={8}>
+                                <p className='time-start-fly'>07:10</p>
+                                <p className='code-start-fly'>SGN</p>
+                            </Col>
+                            <Col span={8}>
+                                <p className='time-to-fly'>1 giờ 20 phút</p>
+                                <IconBrandCitymapper className='icon-fly' />
+                                <p className='time-to-fly'>Bay thẳng</p>
+                            </Col>
+                            <Col span={8} >
+                                <p className='time-start-fly'>09:10</p>
+                                <p className='code-start-fly'>SGN</p>
+                            </Col>
+                        </Row>
+                    </Col>
+                    <Col span={7} >
+                        <Row>
+                            <p className='price-fly'>900.000 VND/Khách</p>
+                        </Row>
+                        <Row>
+                            <Button className='btn-select'>Chọn</Button>
+                        </Row>
+                    </Col>
+                </Row>
 
-                        </Col>
-                    </Row>
-
-                </Col>
-                <Col span={5}
-                    className='price-airline'
-                    onClick={handleBoxClickTG}>
-                    <Row>
-                        <Col span={24}>
-                            <span className='price'><img src={imgNoflight} /></span>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span={24}>
-                            <span className='price-vnd'>Hết chỗ</span>
-                        </Col>
-                    </Row>
-                </Col>
-                <Col span={5}
-                    className={`price-airline ${isSelectedPTDB ? 'selected' : ''}`}
-                    onClick={handleBoxClickPTDB}
-                >
-                    <Row>
-                        <Col span={24}>
-                            <span className='price'><i>2,000</i></span>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span={24}>
-                            <span className='price-vnd'><i>000 VND</i></span>
-                        </Col>
-                    </Row>
-                </Col>
-                <Col span={5}
-                    className={`price-airline ${isSelectedPT ? 'selected' : ''}`}
-                    onClick={handleBoxClickPT}
-                >
-                    <Row>
-                        <Col span={24}>
-                            <span className='price'><i>1,000</i></span>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span={24}>
-                            <span className='price-vnd'><i>000 VND</i></span>
-                        </Col>
-                    </Row>
-                </Col>
-            </Row>
+            </div>
         </>
     )
 }
