@@ -1,0 +1,71 @@
+.vivutravel{
+    background-color: #006885;
+    height: 60px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    .text{
+    font-size: 25px;
+    color: white;
+    padding: 10px;
+    font-weight: 600;
+    }
+}
+.content-main{
+    border: 3px solid #006885;
+    .title{
+        color: black;
+        font-size: 20px;
+        padding: 10px 0px 0px 10px;
+        border-bottom: 2px dashed gray;
+    }
+    .city{
+        font-size: 18px;
+        padding: 10px 0px 0px 10px;
+    }
+    .code-city{
+        color: grey;
+        font-size: 25px;
+        font-weight: 600;
+        padding: 0px 0px 0px 10px;
+    }
+    .icon{
+        margin-left: 40px;
+        margin-top: 15px;
+    }
+    .name-user{
+        color: black;
+        font-size: 22px;
+        font-weight: 600;
+        padding: 0px 0px 0px 10px;
+    }
+    .row-1{
+        font-size: 15px;
+        padding: 10px 0px 0px 10px;
+    }
+    .row-2{
+        font-size: 16px;
+        font-weight: 500;
+        padding: 10px 0px 0px 10px;
+    }
+    .attention{
+        padding: 10px;
+    }
+    .code-qr{
+    margin:10px 0px 20px 140px;
+
+    }
+    
+    
+}
+.btn-down{
+    background-color: #006885;
+    color: white;
+    font-size: 15px;
+    font-weight: 500;
+    margin-left: 160px;
+    margin-top: 10px;
+    &:hover{
+    background-color: #006885 !important;
+    color: white !important;
+    }
+}

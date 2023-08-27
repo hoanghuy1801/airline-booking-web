@@ -20,6 +20,8 @@ import BookingDetail from './component/BookingDetail/BookingDetail.jsx';
 import SelectFight from './component/CheckIn/SelectFight/SelectFight.jsx';
 import SelectSeat from './component/CheckIn/SelectSeats/SelectSeat.jsx';
 import RestrictedBaggage from './component/CheckIn/RestrictedBaggage/RestrictedBaggage.jsx';
+import Success from './component/CheckIn/Success/Success.jsx';
+import ImageDownloader from './component/CheckIn/Success/BoardingPass.jsx';
 
 
 
@@ -40,6 +42,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path='/my/select-fight' element={<SelectFight />} />
             <Route path='/my/select-seat' element={<SelectSeat />} />
             <Route path='/my/restricted-baggage' element={<RestrictedBaggage />} />
+            <Route path='/my/success' element={<Success />} />
             <Route path='/my/booking-detail' element={<BookingDetail />} />
           </Route>
           <Route path='/admin' element={<Admin />} />

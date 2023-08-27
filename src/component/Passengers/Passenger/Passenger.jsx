@@ -53,6 +53,7 @@ const Passenger = () => {
     };
     return (
         <>
+            <p className='title'>Thông tin hành khách</p>
             {numberadult.map((value, index) => (
                 <div key={index}>
                     <Collapse

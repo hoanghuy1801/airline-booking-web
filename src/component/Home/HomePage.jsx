@@ -12,14 +12,17 @@ import axios from 'axios';
 import instance from '../../utils/awiosCustomize';
 
 const HomePage = () => {
-    const [listAirports, setListAirports] = useState([])
+    const [listAirports, setListAirports] = useState([]);
+    const [listAirportsCode, setListAirportCode] = useState([])
     useEffect(() => {
         fechListAirports();
     }, []);
 
     const fechListAirports = async () => {
-        let res = await instance.get('/api/v1/airport/all');
-        console.log('check', res)
+        let res = await getAirports();
+        if (res.status == 200) {
+            setListAirports(res.data)
+        }
     }
     return (
         <div className='homePage'>
@@ -35,7 +38,10 @@ const HomePage = () => {
                 </Row>
             </div>
             <div className="search">
-                <FormSearch />
+                <FormSearch
+                    listAirports={listAirports}
+                    listAirportsCode={listAirportsCode}
+                />
             </div>
             <div className='content'>
                 <div className='label-hot'>
