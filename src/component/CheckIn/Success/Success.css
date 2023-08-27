@@ -1,0 +1,95 @@
+.main-success{
+    background-image: url('../../assets/BackRoud.png');
+    height: 808px;
+    background-size: cover;
+    padding-bottom: 3%;
+}
+.container{
+    margin: 2% 20% 0% 20%;
+    background-color: white;
+    padding-bottom: 30px;
+    border-radius: 5px;
+}
+.title-success{
+    font-size: 25px;
+    font-weight: 600;
+    color:#25A006 ;
+    padding: 10px 0px 10px 20px;
+}
+.form-info-fly{
+    border-bottom: 2px solid grey;
+    padding-bottom: 20px;
+}
+.title-instruction{
+    font-size: 20px;
+    font-weight: 600;
+    padding: 10px 0px 10px 20px;
+}
+.form-icon-step{
+    background-color: #006885;
+    border-radius: 50px;
+    margin-left: 45px;
+    margin-right: 45px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.form-title-step{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 600;
+    padding-bottom: 10px;
+}
+.icon-step{
+    height: 60px;
+    width: 60px;
+    color: white;
+  
+}
+.form-text-step{
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px 10px 20px;
+    color: black;
+}
+.boardingpass{
+    padding: 10px 20px 0px 10px;
+}
+.btn-continue{
+    margin-right: 5%;
+    width: 150px;
+    height:40px;
+    font-size: 18px;
+    font-weight: 600;
+    background-color: rgb(175, 137, 3);
+    &:hover{
+        color: black !important;
+        background-color: rgb(175, 137, 3);
+        border: none !important;
+    }
+}
+.btn-back{
+    margin-right: 5%;
+    width: 150px;
+    height:40px;
+    font-size: 18px;
+    font-weight: 600;
+    background-color: rgb(175, 137, 3);
+    &:hover{
+        color: black !important;
+        background-color: rgb(175, 137, 3);
+        border: none !important;
+    }
+}
+
+.btn{
+     display: flex;
+     justify-content: center;
+     padding-top: 20px;
+   }

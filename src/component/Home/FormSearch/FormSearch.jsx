@@ -12,9 +12,9 @@ import {
 import { useDispatch } from "react-redux";
 import { Data_booking } from '../../../redux/action/FormSearch';
 const { RangePicker } = DatePicker;
-const FormSearch = () => {
+const FormSearch = (props) => {
+    const { listAirports, listAirportsCode } = props;
     const [value, setValue] = useState(1);
-
     const [roundTrip, setRoundTrip] = useState(false);
     const [adult, setAdult] = useState(1);
     const [children, setChildren] = useState(0);
@@ -60,23 +60,21 @@ const FormSearch = () => {
                                 showSearch
                                 style={{ width: 250 }}
                                 placeholder="Điểm khởi hành"
-                                optionFilterProp="children"
-                                filterOption={(input, option) => (option?.label ?? '').includes(input)}
-                                filterSort={(optionA, optionB) =>
-                                    (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                                filterOption={(input, option) =>
+                                    (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                                 }
-                                options={[
-                                    {
-                                        value: '1',
-                                        label: 'SGN',
-                                    },
-                                    {
-                                        value: '2',
-                                        label: 'HN',
-                                    },
-
-                                ]}
-                            />
+                            >
+                                {listAirports.map((item) => (
+                                    <Option key={item.id} value={item.id} label={item.cityName}>
+                                        <Row>
+                                            {item.cityName}    ({item.airportCode})
+                                        </Row>
+                                        <Row>
+                                            {item.airportName}
+                                        </Row>
+                                    </Option>
+                                ))}
+                            </Select>
                         </Col>
                         <Col span={2}><IconArrowsExchange2 style={{ color: '#006885' }} /></Col>
                         <Col span={11}>
@@ -85,23 +83,27 @@ const FormSearch = () => {
                                 showSearch
                                 style={{ width: 250 }}
                                 placeholder="Điểm đến"
-                                optionFilterProp="children"
-                                filterOption={(input, option) => (option?.label ?? '').includes(input)}
-                                filterSort={(optionA, optionB) =>
-                                    (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                                filterOption={(input, option) =>
+                                    (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                                 }
-                                options={[
-                                    {
-                                        value: '1',
-                                        label: 'HN',
-                                    },
-                                    {
-                                        value: '2',
-                                        label: 'SGN',
-                                    },
+                            >
+                                {listAirports.map((item) => (
+                                    <Option key={item.id} value={item.id} label={item.cityName}>
+                                        <Row>
+                                            <Col span={18}>
+                                                {item.cityName}
+                                            </Col>
+                                            <Col span={6}>
+                                                ({item.airportCode})
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            {item.airportName}
+                                        </Row>
+                                    </Option>
+                                ))}
+                            </Select>
 
-                                ]}
-                            />
                         </Col>
                     </Row>
                 </Form.Item>
@@ -123,6 +125,7 @@ const FormSearch = () => {
                         <Col span={2}></Col>
                         <Col span={11}>
                             <IconArmchair className='icon-search' />
+
                             <Select
                                 showSearch
                                 style={{ width: 250 }}
@@ -132,17 +135,6 @@ const FormSearch = () => {
                                 filterSort={(optionA, optionB) =>
                                     (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                                 }
-                                options={[
-                                    {
-                                        value: '1',
-                                        label: 'HN',
-                                    },
-                                    {
-                                        value: '2',
-                                        label: 'SGN',
-                                    },
-
-                                ]}
                             />
                         </Col>
                     </Row>

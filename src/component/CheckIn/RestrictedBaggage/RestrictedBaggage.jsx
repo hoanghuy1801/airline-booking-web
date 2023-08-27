@@ -75,8 +75,8 @@ const RestrictedBaggage = () => {
                     <p><Radio /> Tôi đã đọc, hiểu và đồng ý các quy định, điều kiện và điều lệ vận chuyển</p>
                 </div>
                 <div className='btn'>
-                    <Button className='btn-back' onClick={() => navigate('/checkin')} >Trở lại</Button>
-                    <Button className='btn-continue' onClick={() => navigate('/my/select-seat')}>Đi tiếp</Button>
+                    <Button className='btn-back' onClick={() => navigate('/my/select-seat')} >Trở lại</Button>
+                    <Button className='btn-continue' onClick={() => navigate('/my/success')}>Đi tiếp</Button>
                 </div>
             </div>
             <div>

@@ -46,6 +46,7 @@ const Service = () => {
     };
     return (
         <>
+            <p className='title'>Đừng quên mua hành lý, suất ăn, chọn chỗ ngồi</p>
             <Row className='selectService' onClick={() => showDrawerFavorite()}>
                 <Col span={4} className='img-service' >
                     <img src={imgFavorite} style={{ width: '70px', height: '70px' }} />
