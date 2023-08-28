@@ -1,4 +1,4 @@
-import { Row, Col, Collapse, Button, Radio } from 'antd';
+import { Row, Col, Collapse, Button, Checkbox } from 'antd';
 import { IconPlane, IconUserCheck, IconChecklist, IconLocationCheck } from '@tabler/icons-react';
 import vietjet from '../../../assets/vietjet.svg'
 import { useNavigate } from 'react-router-dom';
@@ -38,7 +38,7 @@ const SelectFight = () => {
                                 <p style={{ fontSize: '18px', fontWeight: 500 }}> Chọn làm thủ tục</p>
                             </Col>
                             <Col span={2}>
-                                <Radio />
+                                <Checkbox />
                             </Col>
                         </Row>
                     </div>
