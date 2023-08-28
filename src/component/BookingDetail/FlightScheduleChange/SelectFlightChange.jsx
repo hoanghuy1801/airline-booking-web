@@ -1,27 +1,31 @@
-import { Row, Col, Form, Button } from 'antd';
-import './SelectFlightInfor.css'
+import { Row, Col, Collapse, Button } from 'antd';
 import { IconPlane, IconUserCircle, IconCurrencyDollar, IconShoppingCart } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import CheckInfoFly from './CheckInfoFly/CheckInfoFly';
-import SelectInfoFly from '../SelectFlight/SelectInfoFly/SelectInfoFly';
-import InfoAndStep from '../SelectFlight/InfoAndStep/InfoAndStep';
+import { CaretRightOutlined } from '@ant-design/icons';
+import InfoFly from '../../SelectFlight/InfoFly/InfoFly';
+import SelectInfoFlyChange from './SelectInfoFlyChange';
 
-const SelectFlightInfor = () => {
+
+const SelectFlightChange = () => {
     const navigate = useNavigate();
-    const data_homepage = useSelector(state => state.formsearch.data_booking);
     return (
-        <div className="select-flight">
-            <div className="info-flight">
-                <InfoAndStep />
-            </div>
-            <div className='mains-container'>
+        <div className='service-detail'>
+            <div className="nav-service-detail">
                 <Row>
-                    <Col span={15} className='infor-user-select-flight'>
-                        <CheckInfoFly />
+                    <Col span={8} className='code-booking'>
+                        <p>Mã đặt chỗ : <span style={{ color: 'red', fontSize: '20px', fontWeight: 700 }}>RQTDND</span></p>
                     </Col>
-                    <Col span={9} >
-                        <SelectInfoFly />
+                </Row>
+            </div>
+            <div className="main-service-detail">
+                <Row>
+                    <Col span={15}>
+                        <InfoFly />
+                    </Col>
+                    <Col span={9}>
+                        <SelectInfoFlyChange />
                     </Col>
                 </Row>
             </div>
@@ -31,7 +35,7 @@ const SelectFlightInfor = () => {
                     </Col>
                     <Col span={4}>
                         <Button className='footer-back'
-                            onClick={() => { navigate('/select-fight') }} >Quay lại</Button>
+                            onClick={() => { navigate('/my/search-flight-change') }} >Quay lại</Button>
                     </Col>
                     <Col span={12} >
                         <Row>
@@ -42,11 +46,11 @@ const SelectFlightInfor = () => {
                     </Col>
                     <Col span={6}>
                         <Button className='footer-continue'
-                            onClick={() => { navigate('/passengers') }} >Tiếp tục</Button>
+                            onClick={() => { navigate('/') }} >Tiếp tục</Button>
                     </Col>
                 </Row>
             </div>
-        </div >
+        </div>
     )
 }
-export default SelectFlightInfor;
+export default SelectFlightChange;

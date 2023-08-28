@@ -50,19 +50,22 @@ const SelectService = () => {
             </div>
             <div className="footer">
                 <Row>
-                    <Col span={6}>
+                    <Col span={2}>
+                    </Col>
+                    <Col span={4}>
                         <Button className='footer-back'
                             onClick={() => { navigate('/passengers') }} >Quay lại</Button>
                     </Col>
                     <Col span={12} >
                         <Row>
-                            <Col span={16} className='footer-price'>Tổng tiền:
+                            <Col span={18} className='footer-price'>Tổng tiền:
                             </Col>
-                            <Col span={8} className='footer-price'><i>1,000,000 </i><span> VND</span>    </Col>
+                            <Col span={6} className='footer-price'><i>1,000,000 </i><span> VND</span>    </Col>
                         </Row>
                     </Col>
                     <Col span={6}>
-                        <Button className='footer-continue' >Tiếp tục</Button>
+                        <Button className='footer-continue'
+                            onClick={() => handlePassengers()}> Tiếp tục</Button>
                     </Col>
                 </Row>
             </div>

@@ -1,4 +1,4 @@
-import { Row, Col, Collapse, Button } from 'antd';
+import { Row, Col, Drawer, Button, Checkbox, Input } from 'antd';
 import '../BookingDetail/BookingDetail.css'
 import { IconPlane, IconUserCircle, IconCurrencyDollar, IconShoppingCart } from '@tabler/icons-react';
 import vietjet from '../../assets/vietjet.svg'
@@ -9,9 +9,18 @@ import { CaretRightOutlined } from '@ant-design/icons';
 import CollapseAdult from './Collapse/CollapseAdult';
 import CollapseChildren from './Collapse/CollapseChildren';
 import CollapseBaby from './Collapse/CollapseBaby';
-
+import CollapseDetail from './Collapse/CollapseDetail';
+import FormSelectFlyService from '../FormSelectFlyService/FormSelectFlyService';
+const { TextArea } = Input;
 
 const BookingDetail = () => {
+
+    const [openCaneclFight, setOpenCaneclFight] = useState(false);
+    const navigate = useNavigate();
+    const showDrawerCaneclFight = () => {
+        setOpenCaneclFight(true);
+    };
+
     return (
         <div className="booking-detail" style={{ paddingBottom: "1000px" }}>
             <div className="info-booking-detail">
@@ -28,94 +37,149 @@ const BookingDetail = () => {
             <div className='main-container-detail'>
                 <p className='title-booking' >Thông tin chuyến bay</p>
                 <p className='roundTrip-booking'>Chuyến đi</p>
-                <div className='booking-ticket'>
-                    <p className='date-fly'> Ngày 22/08/2023</p>
-                    <Row >
-                        <Col span={5} className='info-fly'>
-                            <p className='location'>SGN</p>
-                        </Col>
-                        <Col span={7} className='info-fly'>
-                            <p className='time-fly'>1 giờ 25 phút</p>
-                        </Col>
-                        <Col span={5} className='info-fly'>
-                            <p className='location' >HAN</p>
-                        </Col>
-                        <Col span={7} className='info-fly'>
-                            <p className='number-fly'>1 hành khách,1 trẻ em, 1 em bé</p>
-                        </Col>
-                    </Row>
-                    <Row >
-                        <Col span={5} className='info-fly'>
-                            <p className='time'>22:30</p>
-                        </Col>
-                        <Col span={7} className='info-fly'>
-                            <p className='time-fly'>Bay thẳng</p>
-                        </Col>
-                        <Col span={5} className='info-fly'>
-                            <p className='time'>22:30</p>
-                        </Col>
-                        <Col span={7} className='info-fly'>
-                            <p className='number-fly' style={{ color: 'green', fontSize: '23px', fontWeight: 700 }}>820,920 VND</p>
-                        </Col>
-                    </Row>
-                    <Row style={{ paddingTop: '20px' }}>
-                        <p className='code-fly'><img src={vietjet} /> Số hiệu chuyến bay: VJ313</p>
-                    </Row>
-                    <Row>
-                        <Col span={4}>
-                            <p className='from'>Khởi hành
-                                :</p>
-                        </Col>
-                        <Col span={20}>
-                            <p className='time-flys'>22:30, 03/08/2023 (Giờ địa phương)</p>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span={4}>
-                        </Col>
-                        <Col span={20}>
-                            <p className='time-flys' style={{ paddingBottom: '20px' }}>Huế - Sân bay Phú Bài</p>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span={4}>
-                            <p className='to'>Đến:</p>
-                        </Col>
-                        <Col span={20}>
-                            <p className='time-flys'>23:55, 03/08/2023 (Giờ địa phương)</p>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span={4}>
-
-                        </Col>
-                        <Col span={20}>
-                            <p className='time-flys'>Tp. Hồ Chí Minh - Sân bay Tân Sơn Nhất</p>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span={4}>
-                        </Col>
-                        <Col span={20}>
-                            <p className='time-flys' style={{ paddingTop: '20px' }}>
-                                Thời gian: <span style={{ color: 'red' }}>1 giờ 25 phút  </span>
-                                Airbus:  <span style={{ color: 'red' }}>A321  </span>
-                                Khai thác bởi: <span style={{ color: 'red' }}>Vietjet  </span>
-                            </p>
-                        </Col>
-                    </Row>
-                </div>
+                <CollapseDetail />
                 <p className='title-booking' >Chi tiết giá vé</p>
                 <div className='detail-booking-passengers'>
                     <CollapseAdult />
                     <CollapseChildren />
                     <CollapseBaby />
                 </div>
-                <div className='btn'>
-                    <Button className='btn-mail-search'  >Gửi mail hành trình</Button>
-                    <Button className='btn-mail-search'  >Tìm chuyến bay khác</Button>
-                </div>
+
             </div>
+            <div className="footer">
+                <Row>
+                    <Col span={4}>
+                    </Col>
+                    <Col span={4}>
+                        <Button className='btn-mail-search' onClick={() => showDrawerCaneclFight()} >Hoàn Tiền/Hủy Chuyến</Button>
+                    </Col>
+                    <Col span={4}>
+                        <Button className='btn-mail-search' onClick={() => navigate('/my/select-fly-change')}>Thay đổi lịch bay</Button>
+                    </Col>
+                    <Col span={4}>
+                        <Button className='btn-mail-search' onClick={() => navigate('/my/select-fly-service')} >Mua thêm dịch vụ</Button>
+                    </Col>
+                    <Col span={4}>
+                        <Button className='btn-mail-search' onClick={() => navigate('/')}>Tìm chuyến bay khách</Button>
+                    </Col>
+                    <Col span={4}>
+                    </Col>
+
+                </Row>
+
+
+
+
+            </div>
+            <Drawer
+                title="Hoàn Tiền/Hủy chuyến"
+                placement='right'
+                open={openCaneclFight}
+                onClose={() => {
+                    setOpenCaneclFight(false);
+                }}
+                width={700}
+            >
+                <div className='form-cancel'>
+                    <div className='form-cancel-trip'>
+                        <div className='date-select-fly'>
+                            <Row>
+                                <Col span={18}><p style={{ fontSize: '18px', fontWeight: 500 }}>Chuyến đi</p></Col>
+                                <Col span={2}>
+                                    <p style={{ fontSize: '18px', fontWeight: 500 }}> Chọn </p>
+                                </Col>
+                                <Col span={4}>
+                                    <Checkbox />
+                                </Col>
+                            </Row>
+                        </div>
+                        <p className='date-fly'>Ngày 22/08/2023</p>
+                        <Row >
+                            <Col span={5} className='info-fly'>
+                                <p className='location'>SGN</p>
+                            </Col>
+                            <Col span={7} className='info-fly'>
+                                <p className='time-fly'>1 giờ 25 phút</p>
+                            </Col>
+                            <Col span={5} className='info-fly'>
+                                <p className='location' >HAN</p>
+                            </Col>
+                        </Row>
+                        <Row >
+                            <Col span={5} className='info-fly'>
+                                <p className='time'>22:30</p>
+                            </Col>
+                            <Col span={7} className='info-fly'>
+                                <p className='time-fly'>Bay thẳng</p>
+                            </Col>
+                            <Col span={5} className='info-fly'>
+                                <p className='time'>22:30</p>
+                            </Col>
+                        </Row>
+                    </div>
+                    <div className='form-cancel-trip'>
+                        <div className='date-select-fly'>
+                            <Row>
+                                <Col span={18}><p style={{ fontSize: '18px', fontWeight: 500 }}>Chuyến về</p></Col>
+                                <Col span={2}>
+                                    <p style={{ fontSize: '18px', fontWeight: 500 }}> Chọn </p>
+                                </Col>
+                                <Col span={4}>
+                                    <Checkbox />
+                                </Col>
+                            </Row>
+                        </div>
+                        <p className='date-fly'>Ngày 22/08/2023</p>
+                        <Row >
+                            <Col span={5} className='info-fly'>
+                                <p className='location'>SGN</p>
+                            </Col>
+                            <Col span={7} className='info-fly'>
+                                <p className='time-fly'>1 giờ 25 phút</p>
+                            </Col>
+                            <Col span={5} className='info-fly'>
+                                <p className='location' >HAN</p>
+                            </Col>
+                        </Row>
+                        <Row >
+                            <Col span={5} className='info-fly'>
+                                <p className='time'>22:30</p>
+                            </Col>
+                            <Col span={7} className='info-fly'>
+                                <p className='time-fly'>Bay thẳng</p>
+                            </Col>
+                            <Col span={5} className='info-fly'>
+                                <p className='time'>22:30</p>
+                            </Col>
+
+                        </Row>
+                    </div>
+                    <div className='form-cancel-trip'>
+                        <Row>
+                            <Col span={24}><p style={{ fontSize: '18px', fontWeight: 500, padding: '10px' }}>Lý do:</p></Col>
+                            <TextArea
+                                // value={value}
+                                // onChange={(e) => setValue(e.target.value)}
+                                placeholder="..."
+                                autoSize={{
+                                    minRows: 3,
+                                    maxRows: 6,
+                                }}
+                                style={{ marginLeft: '10px', marginRight: '10px', marginBottom: '10px' }}
+                            />
+                        </Row>
+                    </div>
+
+                </div>
+                <div className="footer-divider">
+                    <Row >
+                        <Col span={24} >
+                            <Button className='btn-cancel' >Gửi yêu cầu</Button>
+                        </Col>
+                    </Row>
+                </div>
+            </Drawer >
+
         </div >
     )
 }

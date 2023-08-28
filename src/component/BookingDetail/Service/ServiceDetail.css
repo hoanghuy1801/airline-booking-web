@@ -1,0 +1,15 @@
+.service-detail{
+    background-image: url('../../../assets/BackRoud.png');
+    background-size: cover;
+    height: auto;
+}
+.nav-service-detail{
+    height: 65px;
+    background-color: white;
+
+}
+.main-service-detail{
+    width: auto;
+    height: 845px;
+    margin: 0% 17% 0 17%;
+}

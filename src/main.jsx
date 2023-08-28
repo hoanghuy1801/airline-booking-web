@@ -22,6 +22,11 @@ import SelectSeat from './component/CheckIn/SelectSeats/SelectSeat.jsx';
 import RestrictedBaggage from './component/CheckIn/RestrictedBaggage/RestrictedBaggage.jsx';
 import Success from './component/CheckIn/Success/Success.jsx';
 import ImageDownloader from './component/CheckIn/Success/BoardingPass.jsx';
+import ServiceDetail from './component/BookingDetail/Service/ServiceDetail.jsx';
+import SelectFlyService from './component/BookingDetail/Service/SelectFlyService.jsx';
+import SelectFlyChange from './component/BookingDetail/FlightScheduleChange/SelectFlyChange.jsx';
+import SelectFlightChange from './component/BookingDetail/FlightScheduleChange/SelectFlightChange.jsx';
+import SearchFightChange from './component/BookingDetail/FlightScheduleChange/SearchFightChange.jsx';
 
 
 
@@ -44,6 +49,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path='/my/restricted-baggage' element={<RestrictedBaggage />} />
             <Route path='/my/success' element={<Success />} />
             <Route path='/my/booking-detail' element={<BookingDetail />} />
+            <Route path='/my/sevice-detail' element={<ServiceDetail />} />
+            <Route path='/my/select-fly-service' element={<SelectFlyService />} />
+            <Route path='/my/select-fly-change' element={<SelectFlyChange />} />
+            <Route path='/my/select-flight-change' element={<SelectFlightChange />} />
+            <Route path='/my/search-flight-change' element={<SearchFightChange />} />
           </Route>
           <Route path='/admin' element={<Admin />} />
           <Route path='/login' element={<Login />} />
