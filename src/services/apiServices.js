@@ -7,7 +7,10 @@ const postLogin = (email, password) => {
 const getAirports = () => {
     return axios.get('api/v1/airport/all');
 }
+const getTickets = () => {
+    return axios.get('api/v1/ticket/all');
+}
 
 export {
-    postLogin, getAirports
+    postLogin, getAirports, getTickets
 }

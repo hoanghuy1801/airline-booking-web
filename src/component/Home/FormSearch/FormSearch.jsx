@@ -13,15 +13,15 @@ import { useDispatch } from "react-redux";
 import { Data_booking } from '../../../redux/action/FormSearch';
 const { RangePicker } = DatePicker;
 const FormSearch = (props) => {
-    const { listAirports, listAirportsCode } = props;
+    const { listAirports, listTickets } = props;
     const [value, setValue] = useState(1);
     const [roundTrip, setRoundTrip] = useState(false);
     const [adult, setAdult] = useState(1);
     const [children, setChildren] = useState(0);
     const [baby, setBaby] = useState(0);
-
     const dispath = useDispatch();
     const navigate = useNavigate();
+
 
 
     const data_booking = {
@@ -30,6 +30,7 @@ const FormSearch = (props) => {
         children: children,
         baby: baby
     }
+
     const handleSelectBooking = () => {
         dispath(Data_booking(data_booking))
         navigate('/select-fight')
@@ -60,12 +61,9 @@ const FormSearch = (props) => {
                                 showSearch
                                 style={{ width: 250 }}
                                 placeholder="Điểm khởi hành"
-                                filterOption={(input, option) =>
-                                    (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-                                }
                             >
                                 {listAirports.map((item) => (
-                                    <Option key={item.id} value={item.id} label={item.cityName}>
+                                    <Option key={item.id} value={item.cityName} label={item.cityName}>
                                         <Row>
                                             {item.cityName}    ({item.airportCode})
                                         </Row>
@@ -83,19 +81,11 @@ const FormSearch = (props) => {
                                 showSearch
                                 style={{ width: 250 }}
                                 placeholder="Điểm đến"
-                                filterOption={(input, option) =>
-                                    (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-                                }
                             >
                                 {listAirports.map((item) => (
-                                    <Option key={item.id} value={item.id} label={item.cityName}>
+                                    <Option key={item.id} value={item.cityName} label={item.cityName}>
                                         <Row>
-                                            <Col span={18}>
-                                                {item.cityName}
-                                            </Col>
-                                            <Col span={6}>
-                                                ({item.airportCode})
-                                            </Col>
+                                            {item.cityName}    ({item.airportCode})
                                         </Row>
                                         <Row>
                                             {item.airportName}
@@ -125,17 +115,22 @@ const FormSearch = (props) => {
                         <Col span={2}></Col>
                         <Col span={11}>
                             <IconArmchair className='icon-search' />
-
                             <Select
                                 showSearch
                                 style={{ width: 250 }}
                                 placeholder="Hạng ghế"
-                                optionFilterProp="children"
-                                filterOption={(input, option) => (option?.label ?? '').includes(input)}
-                                filterSort={(optionA, optionB) =>
-                                    (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                                filterOption={(input, option) =>
+                                    (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                                 }
-                            />
+                            >
+                                {listTickets.map((item) => (
+                                    <Option key={item.id} value={item.id} label={item.ticketName}>
+                                        <Row>
+                                            {item.ticketName}
+                                        </Row>
+                                    </Option>
+                                ))}
+                            </Select>
                         </Col>
                     </Row>
                 </Form.Item>
@@ -147,7 +142,7 @@ const FormSearch = (props) => {
                                 className='label-children'>(12 tuổi trở lên)</label> </label>
                         </Col>
                         <Col span={4}>
-                            <InputNumber min={1} defaultValue={1} onChange={(value) => setAdult(value)} />
+                            <InputNumber min={1} max={9} defaultValue={1} onChange={(value) => setAdult(value)} />
                         </Col>
                         <IconMoodKid className='icon-search' />
                         <Col span={2}>
@@ -163,7 +158,7 @@ const FormSearch = (props) => {
                                 className='label-children'>(0-2 tuổi)</label></label>
                         </Col>
                         <Col span={4}>
-                            <InputNumber min={0} defaultValue={0} onChange={(value) => setBaby(value)} />
+                            <InputNumber min={0} max={adult} defaultValue={0} onChange={(value) => setBaby(value)} />
                         </Col>
                     </Row>
 
