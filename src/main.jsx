@@ -27,6 +27,8 @@ import SelectFlyService from './component/BookingDetail/Service/SelectFlyService
 import SelectFlyChange from './component/BookingDetail/FlightScheduleChange/SelectFlyChange.jsx';
 import SelectFlightChange from './component/BookingDetail/FlightScheduleChange/SelectFlightChange.jsx';
 import SearchFightChange from './component/BookingDetail/FlightScheduleChange/SearchFightChange.jsx';
+import MyComponent from './component/Home/MyComponent.jsx';
+import ManagerAdmin from './component/Admin/ManagerAdmin/ManagerAdmin.jsx';
 
 
 
@@ -55,7 +57,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path='/my/select-flight-change' element={<SelectFlightChange />} />
             <Route path='/my/search-flight-change' element={<SearchFightChange />} />
           </Route>
-          <Route path='/admin' element={<Admin />} />
+          <Route path='/admins' element={<Admin />} >
+            <Route path='/admins/manager-Admin' element={<ManagerAdmin />} />
+          </Route>
+          <Route path='/test' element={<MyComponent />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
         </Routes>

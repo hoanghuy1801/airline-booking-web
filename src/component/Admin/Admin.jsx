@@ -12,8 +12,8 @@ import {
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme, Row, Avatar, Col } from 'antd';
 import '../Admin/Admin.css'
-
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
+import ManagerAdmin from './ManagerAdmin/ManagerAdmin';
 
 const { Header, Sider, Content } = Layout;
 function getItem(label, key, icon, children, type) {
@@ -26,7 +26,7 @@ function getItem(label, key, icon, children, type) {
     };
 }
 const items = [
-    getItem('Option 1', '1', <PieChartOutlined />),
+    getItem('Admin', 'admin', <PieChartOutlined />),
     getItem('Option 2', '2', <DesktopOutlined />),
     getItem('Option 3', '3', <ContainerOutlined />),
     getItem('Navigation One', 'sub1', <MailOutlined />, [
@@ -50,7 +50,9 @@ const Admin = () => {
     const handleMenu = (info) => {
         if (info.key === 'backgoHomePage') {
             navigate('/');
-            console.log(info)
+        }
+        if (info.key === 'admin') {
+            navigate('/admins/manager-Admin');
         }
     }
     return (
@@ -70,7 +72,6 @@ const Admin = () => {
                 />
 
             </Sider>
-
             <Layout>
                 <Header
                     style={{
@@ -105,7 +106,8 @@ const Admin = () => {
                         background: colorBgContainer,
                     }}
                 >
-                    Content
+                    <Outlet />
+
                 </Content>
             </Layout>
         </Layout>

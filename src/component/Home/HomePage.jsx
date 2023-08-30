@@ -7,21 +7,29 @@ import ImgPhuQuoc from '../../assets/travel/phuquoc.png'
 import ImgQuangBinh from '../../assets/travel/quangbinh.png'
 import FormSearch from './FormSearch/FormSearch';
 import { useEffect, useState } from "react";
-import { getAirports } from '../../services/apiServices';
+import { getAirports, getTickets } from '../../services/apiServices';
 import axios from 'axios';
 import instance from '../../utils/awiosCustomize';
 
 const HomePage = () => {
     const [listAirports, setListAirports] = useState([]);
-    const [listAirportsCode, setListAirportCode] = useState([])
+    const [listTickets, setListTickets] = useState([])
     useEffect(() => {
         fechListAirports();
+        fechListTickets();
+
     }, []);
 
     const fechListAirports = async () => {
         let res = await getAirports();
         if (res.status == 200) {
             setListAirports(res.data)
+        }
+    }
+    const fechListTickets = async () => {
+        let res = await getTickets();
+        if (res.status == 200) {
+            setListTickets(res.data)
         }
     }
     return (
@@ -40,7 +48,7 @@ const HomePage = () => {
             <div className="search">
                 <FormSearch
                     listAirports={listAirports}
-                    listAirportsCode={listAirportsCode}
+                    listTickets={listTickets}
                 />
             </div>
             <div className='content'>
@@ -71,5 +79,4 @@ const HomePage = () => {
         </div >
     )
 }
-
 export default HomePage

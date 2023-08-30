@@ -41,9 +41,9 @@ const Seat = ({ seatNumber, selectedSeat, onSelect, disabledSeats }) => {
 
 const SeatSelector = () => {
     const [selectedSeat, setSelectedSeat] = useState(null);
-    const numRows = 40;
-    const numColumns = 6 / 2;
-    const disabledSeats = ["1A", "2B", "3C"];
+    const numRows = 5;
+    const numColumns = 3;
+    const disabledSeats = ["1A", "2B", "3C", '5C'];
 
     const handleSeatSelect = (seatNumber) => {
         setSelectedSeat(seatNumber);
@@ -60,7 +60,6 @@ const SeatSelector = () => {
                                 <span className="numberSeat">{seatNumber}</span>
                             </>
                         );
-
                     })}
                     <span className="numberseat"></span>
                     {Array.from({ length: numColumns }).map((_, columnIndex) => {
