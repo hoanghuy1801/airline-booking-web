@@ -10,12 +10,15 @@
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     height: 150px;
+    margin-bottom: 20px;
+
+  
     
 }
 .name-airline{
     font-size: 20px;
     font-weight: 600;
-    padding: 10px;
+    padding-left: 10px;
 }
 .time-code-fly{
     display: flex;
@@ -39,7 +42,30 @@
     font-size: 15px;
     font-weight: 500;
     padding-top: 10px;
-    padding-left: 5px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+}
+.name-aircraft-fly{
+    color: grey;
+    font-size: 15px;
+    font-weight: 500;
+    padding-top: 2px;
+    padding-left: 30px;
+}
+.fly-ladder{
+    color: grey;
+    font-size: 15px;
+    font-weight: 500;
+    padding-top: 10px;
+    padding-left: 13px;
+    padding-bottom: 10px;
+}
+.flightName{
+    color: grey;
+    font-size: 15px;
+    font-weight: 500;
+    padding-top: 10px;
+    padding-left: 30px;
     padding-bottom: 10px;
 }
 .icon-fly{
@@ -52,6 +78,12 @@
     font-size: 18px;
     font-weight: 700;
     padding-top: 20px;
+    padding-left: 25px;
+}
+.img-airline{
+   padding: 10px 0px 0px 30px;
+   height: 70px;
+   width: 130px;
 }
 .form-time-location{
     border-left: 2px solid gray;

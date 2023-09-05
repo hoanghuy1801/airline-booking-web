@@ -13,7 +13,7 @@ import instance from '../../utils/awiosCustomize';
 
 const HomePage = () => {
     const [listAirports, setListAirports] = useState([]);
-    const [listTickets, setListTickets] = useState([])
+    const [listSeats, setListSeats] = useState([])
     useEffect(() => {
         fechListAirports();
         fechListTickets();
@@ -29,7 +29,7 @@ const HomePage = () => {
     const fechListTickets = async () => {
         let res = await getTickets();
         if (res.status == 200) {
-            setListTickets(res.data)
+            setListSeats(res.data)
         }
     }
     return (
@@ -48,7 +48,7 @@ const HomePage = () => {
             <div className="search">
                 <FormSearch
                     listAirports={listAirports}
-                    listTickets={listTickets}
+                    listSeats={listSeats}
                 />
             </div>
             <div className='content'>

@@ -9,46 +9,108 @@ import './InfoFly.css'
 
 
 
-const InfoFly = () => {
+const InfoFly = (props) => {
     const navigate = useNavigate();
+    const { listByCondition, setAdultsPrice, setChildrenPrice, setInfantPrice, setAdultsPriceFomat, setChildrenPriceFomat,
+        setInfantPriceFomat, taxesfight, setTaxesfightFomat, setTaxesfight, setTotalFight, setTotalFightFomat } = props;
+    const data = useSelector(state => state.formsearch.data_booking);
+
+    const handleSelect = (id) => {
+        const selectedItem = listByCondition.find((item) => item.id === id);
+        const adultPriceTotal = selectedItem.seatPriceDto.adultsPrice * data.adult;
+        const childrenPriceTotal = selectedItem.seatPriceDto.childrenPrice * data.children;
+        const infantPriceTotal = selectedItem.seatPriceDto.infantPrice * data.baby;
+
+        const totalTaxesfight = 584400 * (data.children + data.adult);
+
+        const total = adultPriceTotal + childrenPriceTotal + infantPriceTotal + totalTaxesfight;
+
+        setTotalFight(total);
+        setTotalFightFomat(total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }))
+
+        setAdultsPrice(adultPriceTotal);
+        setChildrenPrice(childrenPriceTotal);
+        setInfantPrice(infantPriceTotal);
+
+        setAdultsPriceFomat(adultPriceTotal.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }));
+        setChildrenPriceFomat(childrenPriceTotal.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }));
+        setInfantPriceFomat(infantPriceTotal.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }));
+
+        setTaxesfight(totalTaxesfight)
+        setTaxesfightFomat(totalTaxesfight.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }))
+    }
+
+
+
     return (
         <>
             <p className='title'>Chuyến đi</p>
-            <div className='fly-color'>
-            </div>
-            <div className='select-flight-info'>
-                <Row>
-                    <Col span={7}>
-                        <p className='name-airline'>Bamboo Airways</p>
-                    </Col>
-                    <Col span={10} >
-                        <Row>
-                            <Col span={8}>
-                                <p className='time-start-fly'>07:10</p>
-                                <p className='code-start-fly'>SGN</p>
-                            </Col>
-                            <Col span={8}>
-                                <p className='time-to-fly'>1 giờ 20 phút</p>
-                                <IconBrandCitymapper className='icon-fly' />
-                                <p className='time-to-fly'>Bay thẳng</p>
-                            </Col>
-                            <Col span={8} >
-                                <p className='time-start-fly'>09:10</p>
-                                <p className='code-start-fly'>SGN</p>
-                            </Col>
-                        </Row>
-                    </Col>
-                    <Col span={7} >
-                        <Row>
-                            <p className='price-fly'>900.000 VND/Khách</p>
-                        </Row>
-                        <Row>
-                            <Button className='btn-select'>Chọn</Button>
-                        </Row>
-                    </Col>
-                </Row>
 
-            </div>
+            {listByCondition.map((item) => {
+                const dateObjectdepartureTime = new Date(item.departureTime);
+                const hourdepartureTime = dateObjectdepartureTime.getHours();
+                const minutedepartureTime = dateObjectdepartureTime.getMinutes();
+                const dateObjectarrivalTime = new Date(item.arrivalTime);
+                const hourarrivalTime = dateObjectarrivalTime.getHours();
+                const minutearrivalTime = dateObjectarrivalTime.getMinutes();
+                const hourflight = hourarrivalTime - hourdepartureTime;
+                const minuteflight = minutearrivalTime - minutedepartureTime;
+
+                const price = item.seatPriceDto.adultsPrice.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+                return (
+
+
+                    <div>
+                        <div className='fly-color'>
+                        </div>
+                        <div className='select-flight-info'>
+                            <Row>
+                                <Col span={7}>
+
+                                    <Row>
+                                        <p className='name-airline'>{item.airlineName}</p>
+                                    </Row>
+                                    <Row>
+                                        <img src={item.airlineAvatarUrl} className='img-airline' />
+                                    </Row>
+                                    <Row>
+                                        <p className='name-aircraft-fly'>{item.aircraftName}</p>
+                                    </Row>
+                                </Col>
+                                <Col span={10} >
+                                    <Row>
+                                        <Col span={8}>
+                                            <p className='time-start-fly'>{hourdepartureTime}:{minutedepartureTime}</p>
+                                            <p className='code-start-fly'>{item.sourceAirportCode}</p>
+                                        </Col>
+                                        <Col span={8}>
+                                            <p className='flightName'>{item.flightName}</p>
+                                            <IconBrandCitymapper className='icon-fly' />
+                                            <p className='fly-ladder'>Bay thẳng</p>
+                                            <p className='time-to-fly'>{hourflight} giờ {minuteflight} phút</p>
+                                        </Col>
+                                        <Col span={8} >
+                                            <p className='time-start-fly'>{hourarrivalTime}:{minutearrivalTime}</p>
+                                            <p className='code-start-fly'>{item.destinationAirportCode}</p>
+                                        </Col>
+                                    </Row>
+                                </Col>
+                                <Col span={7} >
+                                    <Row>
+                                        <p className='price-fly'>{price}/Khách</p>
+                                    </Row>
+                                    <Row>
+
+                                        <Button className='btn-select' onClick={() => handleSelect(item.id)}>Chọn</Button>
+                                    </Row>
+                                </Col>
+                            </Row>
+
+                        </div>
+                    </div>
+                )
+            })}
+
         </>
     )
 }

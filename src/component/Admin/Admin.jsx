@@ -52,7 +52,7 @@ const Admin = () => {
             navigate('/');
         }
         if (info.key === 'admin') {
-            navigate('/admins/manager-Admin');
+            navigate('/admins/manager-admin');
         }
     }
     return (

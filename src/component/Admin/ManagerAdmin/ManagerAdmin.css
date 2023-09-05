@@ -5,6 +5,7 @@
 .title-admin{
     font-size: 30px;
     font-weight: 600;
+    border-bottom: 1px solid black;
 }
 .btn-create{
     width: 100px;

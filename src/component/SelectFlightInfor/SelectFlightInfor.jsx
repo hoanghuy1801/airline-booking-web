@@ -10,6 +10,9 @@ import InfoAndStep from '../SelectFlight/InfoAndStep/InfoAndStep';
 const SelectFlightInfor = () => {
     const navigate = useNavigate();
     const data_homepage = useSelector(state => state.formsearch.data_booking);
+    const dataSelect = useSelector(state => state.selectfight.data_select);
+
+
     return (
         <div className="select-flight">
             <div className="info-flight">
@@ -18,10 +21,21 @@ const SelectFlightInfor = () => {
             <div className='mains-container'>
                 <Row>
                     <Col span={15} className='infor-user-select-flight'>
-                        <CheckInfoFly />
+                        <CheckInfoFly
+                            dataSelect={dataSelect} />
                     </Col>
                     <Col span={9} >
-                        <SelectInfoFly />
+                        <SelectInfoFly
+                            listByCondition={dataSelect.listByCondition}
+                            conditionSelect={dataSelect.conditionSelect}
+                            adultsPrice={dataSelect.adultsPrice}
+                            childrenPrice={dataSelect.childrenPrice}
+                            infantPrice={dataSelect.infantPrice}
+                            adultsPriceFomat={dataSelect.adultsPriceFomat}
+                            childrenPriceFomat={dataSelect.childrenPriceFomat}
+                            infantPriceFomat={dataSelect.infantPriceFomat}
+                            taxesfightFomat={dataSelect.taxesfightFomat}
+                            totalFightFomat={dataSelect.totalFightFomat} />
                     </Col>
                 </Row>
             </div>
@@ -37,7 +51,7 @@ const SelectFlightInfor = () => {
                         <Row>
                             <Col span={18} className='footer-price'>Tổng tiền:
                             </Col>
-                            <Col span={6} className='footer-price'><i>1,000,000 </i><span> VND</span>    </Col>
+                            <Col span={6} className='footer-price'>{dataSelect.totalFightFomat}</Col>
                         </Row>
                     </Col>
                     <Col span={6}>

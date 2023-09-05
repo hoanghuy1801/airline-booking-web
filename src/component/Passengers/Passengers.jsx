@@ -27,6 +27,8 @@ const Passengers = () => {
 
     const dispath = useDispatch();
 
+    const dataSelect = useSelector(state => state.selectfight.data_select);
+
     const data_homepage = useSelector(state => state.formsearch.data_booking);
 
     const numberBooking = data_homepage.adult + data_homepage.children;
@@ -37,13 +39,7 @@ const Passengers = () => {
 
     const numberbaby = Array.from({ length: data_homepage.baby });
 
-    // const removeDiacritics = (str) => {
-    //     return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    // };
 
-    // const newinputLastName = removeDiacritics(inputLastName);
-
-    // const newinputFirstName = removeDiacritics(inputFirstName);
 
     const data_passengers = {
         inputLastName: inputLastName,
@@ -85,7 +81,16 @@ const Passengers = () => {
                         <Passenger />
                     </Col>
                     <Col span={9} >
-                        <SelectInfoFly />
+                        <SelectInfoFly listByCondition={dataSelect.listByCondition}
+                            conditionSelect={dataSelect.conditionSelect}
+                            adultsPrice={dataSelect.adultsPrice}
+                            childrenPrice={dataSelect.childrenPrice}
+                            infantPrice={dataSelect.infantPrice}
+                            adultsPriceFomat={dataSelect.adultsPriceFomat}
+                            childrenPriceFomat={dataSelect.childrenPriceFomat}
+                            infantPriceFomat={dataSelect.infantPriceFomat}
+                            taxesfightFomat={dataSelect.taxesfightFomat}
+                            totalFightFomat={dataSelect.totalFightFomat} />
                     </Col>
                 </Row>
 

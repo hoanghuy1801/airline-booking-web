@@ -22,6 +22,8 @@ const SelectService = () => {
 
     const data_passengers = useSelector(state => state.passengers.data_passengers);
 
+    const dataSelect = useSelector(state => state.selectfight.data_select);
+
     const [value, setValue] = useState(1);
     const onChange = (e) => {
         setValue(e.target.value);
@@ -43,7 +45,16 @@ const SelectService = () => {
                         <Service />
                     </Col>
                     <Col span={9} >
-                        <SelectInfoFly />
+                        <SelectInfoFly
+                            conditionSelect={dataSelect.conditionSelect}
+                            adultsPrice={dataSelect.adultsPrice}
+                            childrenPrice={dataSelect.childrenPrice}
+                            infantPrice={dataSelect.infantPrice}
+                            adultsPriceFomat={dataSelect.adultsPriceFomat}
+                            childrenPriceFomat={dataSelect.childrenPriceFomat}
+                            infantPriceFomat={dataSelect.infantPriceFomat}
+                            taxesfightFomat={dataSelect.taxesfightFomat}
+                            totalFightFomat={dataSelect.totalFightFomat} />
                     </Col>
                 </Row>
 

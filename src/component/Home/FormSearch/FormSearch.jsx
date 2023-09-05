@@ -12,32 +12,75 @@ import {
 import { useDispatch } from "react-redux";
 import { Data_booking } from '../../../redux/action/FormSearch';
 const { RangePicker } = DatePicker;
+import moment from 'moment';
+import { getListByCondition } from '../../../services/apiServices';
+
+const disabledDate = current => {
+    // Lấy ngày hiện tại
+    const today = moment().startOf('day');
+    // Nếu ngày hiện tại lớn hơn hoặc bằng ngày đang xét thì vô hiệu hóa
+    return current && current < today;
+};
 const FormSearch = (props) => {
-    const { listAirports, listTickets } = props;
+    const { listAirports, listSeats } = props;
     const [value, setValue] = useState(1);
+    const [sourceAirport, setSourceAirport] = useState();
+    const [destinationAirport, setDestinationAirport] = useState();
+    const [departureDate, setDepartureDate] = useState();
+    const [destinationAirportCity, setDestinationAirportCity] = useState();
+    const [sourceAirportCity, setSourceAirportCity] = useState();
+    const [seatClass, setSeatClass] = useState();
     const [roundTrip, setRoundTrip] = useState(false);
     const [adult, setAdult] = useState(1);
     const [children, setChildren] = useState(0);
     const [baby, setBaby] = useState(0);
     const dispath = useDispatch();
     const navigate = useNavigate();
-
-
-
     const data_booking = {
         roundTrip: roundTrip,
+        sourceAirport: sourceAirport,
+        destinationAirport: destinationAirport,
+        departureDate: departureDate,
+        seatClass: seatClass,
         adult: adult,
         children: children,
-        baby: baby
+        baby: baby,
+        destinationAirportCity: destinationAirportCity,
+        sourceAirportCity: sourceAirportCity,
     }
 
     const handleSelectBooking = () => {
+        // let res = await getListByCondition(sourceAirport, destinationAirport, departureDate, seatClass, adult, children, baby);
+        // console.log(res);
         dispath(Data_booking(data_booking))
         navigate('/select-fight')
     }
     const onChange = (e) => {
         setValue(e.target.value);
     };
+    const [selectedDates, setSelectedDates] = useState([]);
+
+    const handleDateChange = dates => {
+        setSelectedDates(dates);
+    };
+
+    const onChangeSourceAirport = (value, label) => {
+        setSourceAirportCity(label.label)
+        setSourceAirport(value)
+    }
+
+    const onDestinationAirport = (value, label) => {
+
+        setDestinationAirport(value)
+        setDestinationAirportCity(label.label)
+    }
+    const onChangeDatePicker = (dates, dateStrings) => {
+        setDepartureDate(dateStrings);
+    };
+    const onSeatClass = (value) => {
+        setSeatClass(value);
+    };
+
     return (
         <>
             <Form className='buyForm'>
@@ -61,9 +104,10 @@ const FormSearch = (props) => {
                                 showSearch
                                 style={{ width: 250 }}
                                 placeholder="Điểm khởi hành"
+                                onChange={onChangeSourceAirport}
                             >
                                 {listAirports.map((item) => (
-                                    <Option key={item.id} value={item.cityName} label={item.cityName}>
+                                    <Option key={item.id} value={item.id} label={item.cityName}>
                                         <Row>
                                             {item.cityName}    ({item.airportCode})
                                         </Row>
@@ -81,9 +125,10 @@ const FormSearch = (props) => {
                                 showSearch
                                 style={{ width: 250 }}
                                 placeholder="Điểm đến"
+                                onChange={onDestinationAirport}
                             >
                                 {listAirports.map((item) => (
-                                    <Option key={item.id} value={item.cityName} label={item.cityName}>
+                                    <Option key={item.id} value={item.id} label={item.cityName}>
                                         <Row>
                                             {item.cityName}    ({item.airportCode})
                                         </Row>
@@ -103,12 +148,15 @@ const FormSearch = (props) => {
                             <IconCalendar className='icon-search' />
                             <Space direction="vertical">
                                 {roundTrip ?
-                                    <RangePicker onChange={onChange} style={{ width: 250 }}
-                                        placeholder={["Ngày đi", "Ngày về"]} />
+                                    <RangePicker style={{ width: 250 }}
+                                        placeholder={["Ngày đi", "Ngày về"]}
+                                        disabledDate={disabledDate}
+                                        value={selectedDates}
+                                        onChange={handleDateChange} />
 
                                     :
-                                    <DatePicker onChange={onChange} style={{ width: 250 }}
-                                        placeholder="Ngày đi" />
+                                    <DatePicker onChange={onChangeDatePicker} style={{ width: 250 }}
+                                        placeholder="Ngày đi" disabledDate={disabledDate} />
                                 }
                             </Space>
                         </Col>
@@ -122,11 +170,12 @@ const FormSearch = (props) => {
                                 filterOption={(input, option) =>
                                     (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                                 }
+                                onChange={onSeatClass}
                             >
-                                {listTickets.map((item) => (
-                                    <Option key={item.id} value={item.id} label={item.ticketName}>
+                                {listSeats.map((item) => (
+                                    <Option key={item.id} value={item.seatCode} label={item.seatName}>
                                         <Row>
-                                            {item.ticketName}
+                                            {item.seatName}
                                         </Row>
                                     </Option>
                                 ))}
