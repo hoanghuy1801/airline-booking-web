@@ -12,10 +12,13 @@ import { useState } from 'react';
 import SeatSelector from '../SeatSelector/SeatSelector';
 const { Option } = Select;
 
-const Service = () => {
+const Service = (props) => {
+    const { baggageOptions, mealOptions, standardBaggageOptions,
+        standardMealOptions } = props;
     const [openFavorite, setOpenFavorite] = useState(false);
     const [openLuggage, setOpenLuggage] = useState(false);
     const [openFood, setOpenFood] = useState(false);
+    const [selectedValue, setSelectedValue] = useState('');
 
     const navigate = useNavigate();
 
@@ -25,9 +28,11 @@ const Service = () => {
 
     const numberBooking = data_homepage.adult + data_homepage.children;
 
-    const [value, setValue] = useState(1);
-    const onChange = (e) => {
-        setValue(e.target.value);
+    const [valueRadio, setValueRadio] = useState('');
+    const [priceBaggageFomat, setPriceBaggageFomat] = useState('');
+    const onChangeRadio = (value) => {
+        setValueRadio(value.target);
+        setPriceBaggageFomat(value.target.label.toLocaleString('it-IT'));
     };
 
     const DataPassengers = [];
@@ -215,30 +220,29 @@ const Service = () => {
                         <span>Chọn thêm hành lý</span>
                     </div>
                     <div>
-                        <Radio.Group onChange={onChange} value={value}>
-                            <Row>
-                                <Card
-                                    className='card-luggage'
-                                >
-                                    <Row>
-                                        <img src={imgluggage} style={{ width: '60px', height: '60px' }} />
-                                    </Row>
-                                    <p style={{ paddingTop: '10px', fontSize: 16, fontWeight: 500 }}>Gói 20kg</p>
-                                    <p style={{ paddingTop: '3px', fontSize: 17, fontWeight: 500, color: 'red' }}>180,000 </p>
-                                    <Radio value={1} style={{ paddingLeft: '20px' }}></Radio>
-                                </Card>
-                                <Card
-                                    className='card-luggage'
-                                >
-                                    <Row>
-                                        <img src={imgluggage} style={{ width: '60px', height: '60px' }} />
-                                    </Row>
-                                    <p style={{ paddingTop: '10px', fontSize: 16, fontWeight: 500 }}>Gói 20kg</p>
-                                    <p style={{ paddingTop: '3px', fontSize: 17, fontWeight: 500, color: 'red' }}>180,000 </p>
-                                    <Radio value={2} style={{ paddingLeft: '20px' }}></Radio>
-                                </Card>
-                            </Row>
-                        </Radio.Group>
+                        <Row>
+                            {baggageOptions.map((item) => {
+                                const priceFomat = item.optionPrice.toLocaleString('it-IT');
+                                return (
+                                    <Card
+                                        className='card-luggage'
+                                    >
+                                        <Row>
+                                            <img src={imgluggage} style={{ width: '60px', height: '60px' }} />
+                                        </Row>
+                                        <p style={{ paddingTop: '10px', fontSize: 16, fontWeight: 500 }}>Gói {item.value}kg</p>
+                                        <p style={{ paddingTop: '3px', fontSize: 17, fontWeight: 500, color: 'red' }}>{priceFomat} </p>
+                                        <Radio key={item.id}
+                                            name="radioGroup"
+                                            value={item.value}
+                                            label={item.optionPrice}
+                                            checked={valueRadio.value === item.value}
+                                            onChange={onChangeRadio}
+                                            style={{ paddingLeft: '20px' }} />
+                                    </Card>
+                                )
+                            })}
+                        </Row>
                     </div>
                     <div className="footer-divider">
                         <Row >
@@ -249,10 +253,10 @@ const Service = () => {
                             </Col>
                             <Col span={12}>
                                 <Row>
-                                    <i className='seat-price'>Gói 20kg</i>
+                                    <i className='seat-price'>Gói {valueRadio.value}kg</i>
                                 </Row>
                                 <Row>
-                                    <i className='seat-price'>180,000 VND</i>
+                                    <i className='seat-price'>{priceBaggageFomat} VND</i>
                                 </Row>
                             </Col>
                             <Col span={7} >
@@ -295,31 +299,37 @@ const Service = () => {
                         <span>Hãy chọn mua thức ăn bạn yêu thích nhé !</span>
                     </div>
                     <div>
-                        <Card
-                            className='food-service-card'
-                        >
-                            <Row>
-                                <Col span={10}>
-                                    <img src={imgMiy} className='img-foods' />
-                                </Col>
-                                <Col span={14}>
+                        {mealOptions.map((item) => {
+                            const priceFomat = item.optionPrice.toLocaleString('it-IT');
+                            return (
+                                <Card
+                                    className='food-service-card'
+                                >
                                     <Row>
-                                        <span style={{ fontSize: '18px', fontWeight: 500, paddingTop: '10px' }}>Combo Mỳ Ý và Nước suối và Hạt điều</span>
+                                        <Col span={10}>
+                                            <img src={imgMiy} className='img-foods' />
+                                        </Col>
+                                        <Col span={14}>
+                                            <Row>
+                                                <span style={{ fontSize: '18px', fontWeight: 500, paddingTop: '10px' }}>{item.optionName}</span>
+                                            </Row>
+                                            <Row>
+                                                <i style={{ fontSize: '18px', fontWeight: 500, paddingTop: '5px', paddingLeft: '5px', color: 'red' }}>{priceFomat} VND</i>
+                                            </Row>
+                                            <Row span={3}>
+                                                <div style={{ marginLeft: '220px', marginTop: '10px' }}>
+                                                    <label >Số lượng:</label>
+                                                    <InputNumber min={0} max={10} defaultValue={0} style={{
+                                                        width: '60px', marginLeft: '10px'
+                                                    }} />
+                                                </div>
+                                            </Row>
+                                        </Col>
                                     </Row>
-                                    <Row>
-                                        <i style={{ fontSize: '18px', fontWeight: 500, paddingTop: '5px', paddingLeft: '5px', color: 'red' }}>100.000 VND</i>
-                                    </Row>
-                                    <Row span={3}>
-                                        <div style={{ marginLeft: '220px', marginTop: '40px' }}>
-                                            <label >Số lượng:</label>
-                                            <InputNumber min={0} max={10} defaultValue={0} style={{
-                                                width: '60px', marginLeft: '10px'
-                                            }} />
-                                        </div>
-                                    </Row>
-                                </Col>
-                            </Row>
-                        </Card>
+                                </Card>
+                            )
+                        })}
+
                     </div>
                     <div className="footer-divider">
                         <Row >
