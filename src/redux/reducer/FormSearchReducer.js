@@ -12,6 +12,7 @@ const INITIAL_STATE = {
         baby: '',
         destinationAirportCity: '',
         sourceAirportCity: '',
+        returnDate: '',
     }
 };
 const HomePageReducer = (state = INITIAL_STATE, action) => {
@@ -29,7 +30,9 @@ const HomePageReducer = (state = INITIAL_STATE, action) => {
                     children: action?.payload?.children,
                     baby: action?.payload?.baby,
                     destinationAirportCity: action?.payload?.destinationAirportCity,
-                    sourceAirportCity: action?.payload?.sourceAirportCity
+                    sourceAirportCity: action?.payload?.sourceAirportCity,
+                    returnDate: action?.payload?.returnDate
+
                 }
 
             };

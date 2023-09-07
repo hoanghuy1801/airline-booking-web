@@ -33,7 +33,7 @@
     position: fixed;
     bottom: 0;
     background: #006885;
-    width: 100%;
+    width: 100%;;
     padding: 30px;
   }
   .footer-price{
@@ -69,5 +69,13 @@
         border: none !important;
     }
 
+}
+.infor-select{ 
+    padding-top: 10px;
+    padding-left: 17%; 
+}
+.icon-selcet{
+    padding: 20px;
+    size: 2rem;
 }
 

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import {
     SearchOutlined,
 } from '@ant-design/icons';
-import { Radio, Form, Select, DatePicker, Space, Row, Col, InputNumber, Button, Image } from 'antd';
+import { Radio, Form, Select, DatePicker, Space, Row, Col, InputNumber, Button, Modal } from 'antd';
 import {
     IconPlaneDeparture, IconPlaneArrival,
     IconCalendar, IconArrowsExchange2, IconMan, IconBabyBottle, IconMoodKid, IconArmchair
@@ -13,7 +13,6 @@ import { useDispatch } from "react-redux";
 import { Data_booking } from '../../../redux/action/FormSearch';
 const { RangePicker } = DatePicker;
 import moment from 'moment';
-import { getListByCondition } from '../../../services/apiServices';
 
 const disabledDate = current => {
     // Lấy ngày hiện tại
@@ -21,12 +20,19 @@ const disabledDate = current => {
     // Nếu ngày hiện tại lớn hơn hoặc bằng ngày đang xét thì vô hiệu hóa
     return current && current < today;
 };
+const warning = () => {
+    Modal.warning({
+        title: 'Bạn ơi!',
+        content: 'Bạn chưa điền đầy đủ thông tin tìm chuyến bay',
+    });
+};
 const FormSearch = (props) => {
     const { listAirports, listSeats } = props;
     const [value, setValue] = useState(1);
     const [sourceAirport, setSourceAirport] = useState();
     const [destinationAirport, setDestinationAirport] = useState();
     const [departureDate, setDepartureDate] = useState();
+    const [returnDate, setReturnDate] = useState();
     const [destinationAirportCity, setDestinationAirportCity] = useState();
     const [sourceAirportCity, setSourceAirportCity] = useState();
     const [seatClass, setSeatClass] = useState();
@@ -47,11 +53,16 @@ const FormSearch = (props) => {
         baby: baby,
         destinationAirportCity: destinationAirportCity,
         sourceAirportCity: sourceAirportCity,
+        returnDate: returnDate,
     }
 
+
+
     const handleSelectBooking = () => {
-        // let res = await getListByCondition(sourceAirport, destinationAirport, departureDate, seatClass, adult, children, baby);
-        // console.log(res);
+        if (sourceAirport == null || destinationAirport == null || departureDate == null || seatClass == null) {
+            warning()
+            return
+        }
         dispath(Data_booking(data_booking))
         navigate('/select-fight')
     }
@@ -60,7 +71,9 @@ const FormSearch = (props) => {
     };
     const [selectedDates, setSelectedDates] = useState([]);
 
-    const handleDateChange = dates => {
+    const handleDateChange = (dates, dateStrings) => {
+        setReturnDate(dateStrings[1]);
+        setDepartureDate(dateStrings[0]);
         setSelectedDates(dates);
     };
 
@@ -70,7 +83,6 @@ const FormSearch = (props) => {
     }
 
     const onDestinationAirport = (value, label) => {
-
         setDestinationAirport(value)
         setDestinationAirportCity(label.label)
     }
@@ -80,6 +92,8 @@ const FormSearch = (props) => {
     const onSeatClass = (value) => {
         setSeatClass(value);
     };
+
+
 
     return (
         <>
@@ -105,6 +119,9 @@ const FormSearch = (props) => {
                                 style={{ width: 250 }}
                                 placeholder="Điểm khởi hành"
                                 onChange={onChangeSourceAirport}
+                                filterOption={(input, option) =>
+                                    (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                                }
                             >
                                 {listAirports.map((item) => (
                                     <Option key={item.id} value={item.id} label={item.cityName}>
@@ -126,6 +143,9 @@ const FormSearch = (props) => {
                                 style={{ width: 250 }}
                                 placeholder="Điểm đến"
                                 onChange={onDestinationAirport}
+                                filterOption={(input, option) =>
+                                    (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                                }
                             >
                                 {listAirports.map((item) => (
                                     <Option key={item.id} value={item.id} label={item.cityName}>
@@ -152,11 +172,11 @@ const FormSearch = (props) => {
                                         placeholder={["Ngày đi", "Ngày về"]}
                                         disabledDate={disabledDate}
                                         value={selectedDates}
-                                        onChange={handleDateChange} />
+                                        onChange={handleDateChange} format="DD/MM/YYYY" />
 
                                     :
                                     <DatePicker onChange={onChangeDatePicker} style={{ width: 250 }}
-                                        placeholder="Ngày đi" disabledDate={disabledDate} />
+                                        placeholder="Ngày đi" disabledDate={disabledDate} format="DD/MM/YYYY" />
                                 }
                             </Space>
                         </Col>

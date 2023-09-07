@@ -1,53 +1,51 @@
-import { Row, Col, Collapse, Button, Radio } from 'antd';
-import { IconBrandCitymapper, IconUserCheck, IconChecklist, IconLocationCheck } from '@tabler/icons-react';
-import vietjet from '../../../assets/vietjet.svg'
+import { Row, Col, Button, Radio } from 'antd';
+import { IconBrandCitymapper } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { CaretRightOutlined } from '@ant-design/icons';
 import './InfoFly.css'
 
 
 
-const InfoFly = (props) => {
+const InfoFlyReturn = (props) => {
     const navigate = useNavigate();
-    const { listByCondition, setAdultsPrice, setChildrenPrice, setInfantPrice, setAdultsPriceFomat, setChildrenPriceFomat,
-        setInfantPriceFomat, setTaxesfightFomat, setTaxesfight, setTotalFight, setTotalFightFomat, setConditionSelect } = props;
+    const { listByConditionReturn, setAdultsPriceReturn, setChildrenPriceReturn, setInfantPriceReturn, setAdultsPriceFomatReturn,
+        setChildrenPriceFomatReturn, setInfantPriceFomatReturn, setTaxesfightFomatReturn, setTaxesfightReturn,
+        totalFight, setTotalFightFomat, setTotalFight, setConditionSelectReturn } = props;
     const data = useSelector(state => state.formsearch.data_booking);
 
     const handleSelect = (id) => {
-        const selectedItem = listByCondition.find((item) => item.id === id);
-        setConditionSelect(selectedItem);
+        const selectedItem = listByConditionReturn.find((item) => item.id === id);
+        setConditionSelectReturn(selectedItem)
         const adultPriceTotal = selectedItem.seatPriceDto.adultsPrice * data.adult;
         const childrenPriceTotal = selectedItem.seatPriceDto.childrenPrice * data.children;
         const infantPriceTotal = selectedItem.seatPriceDto.infantPrice * data.baby;
 
         const totalTaxesfight = 584400 * (data.children + data.adult);
 
-        const total = adultPriceTotal + childrenPriceTotal + infantPriceTotal + totalTaxesfight;
+        const total = adultPriceTotal + childrenPriceTotal + infantPriceTotal + totalTaxesfight + totalFight;
 
         setTotalFight(total);
         setTotalFightFomat(total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }))
 
-        setAdultsPrice(adultPriceTotal);
-        setChildrenPrice(childrenPriceTotal);
-        setInfantPrice(infantPriceTotal);
+        setAdultsPriceReturn(adultPriceTotal);
+        setChildrenPriceReturn(childrenPriceTotal);
+        setInfantPriceReturn(infantPriceTotal);
 
-        setAdultsPriceFomat(adultPriceTotal.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }));
-        setChildrenPriceFomat(childrenPriceTotal.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }));
-        setInfantPriceFomat(infantPriceTotal.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }));
-
-        setTaxesfight(totalTaxesfight)
-        setTaxesfightFomat(totalTaxesfight.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }))
+        setAdultsPriceFomatReturn(adultPriceTotal.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }));
+        setChildrenPriceFomatReturn(childrenPriceTotal.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }));
+        setInfantPriceFomatReturn(infantPriceTotal.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }));
+        setTaxesfightReturn(totalTaxesfight)
+        setTaxesfightFomatReturn(totalTaxesfight.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }))
     }
 
 
 
     return (
         <>
-            <p className='title'>Chuyến đi</p>
+            <p className='title'>Chuyến về</p>
 
-            {listByCondition.map((item) => {
+            {listByConditionReturn.map((item) => {
                 const dateObjectdepartureTime = new Date(item.departureTime);
                 const hourdepartureTime = dateObjectdepartureTime.getHours();
                 const minutedepartureTime = dateObjectdepartureTime.getMinutes();
@@ -115,4 +113,4 @@ const InfoFly = (props) => {
         </>
     )
 }
-export default InfoFly;
+export default InfoFlyReturn;

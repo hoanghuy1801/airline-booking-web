@@ -6,8 +6,9 @@ import { useSelector } from 'react-redux';
 
 
 const SelectInfoFly = (props) => {
-    const { adultsPrice, childrenPrice, infantPrice, adultsPriceFomat, childrenPriceFomat, infantPriceFomat, taxesfightFomat,
-        totalFightFomat, listByCondition } = props;
+    const { adultsPriceFomat, childrenPriceFomat, infantPriceFomat,
+        taxesfightFomat, totalFightFomat, adultsPriceFomatReturn, childrenPriceFomatReturn, infantPriceFomatReturn,
+        taxesfightFomatReturn, totalFightFomatReturn } = props;
     const data = useSelector(state => state.formsearch.data_booking);
 
     const totalPeople = data.children + data.adult;
@@ -118,7 +119,6 @@ const SelectInfoFly = (props) => {
                         </Row>
                     </div>
                         : ''}
-
                     <div className='title-infor'>
                         <Row>
                             <Col span={8}>
@@ -171,18 +171,18 @@ const SelectInfoFly = (props) => {
                             </div>
                             <span style={{
                                 color: 'black', fontSize: 18, fontWeight: 500,
-                                paddingLeft: 20,
+                                paddingLeft: 40,
 
-                            }}>Hà Nội (HAN) </span>
+                            }}> {data.destinationAirportCity}</span>
                             <span style={{
                                 color: 'black', fontSize: 18, fontWeight: 500,
-                                paddingLeft: 20,
+                                paddingLeft: 40,
                             }}>  <IconPlane style={{ width: 25, height: 25, marginRight: 15, paddingTop: 6 }} /> </span>
                             <span style={{
                                 color: 'black', fontSize: 18, fontWeight: 500,
-                                paddingLeft: 20,
+                                paddingLeft: 40,
 
-                            }}>Tp. Hồ Chí Minh (SGN)</span>
+                            }}>{data.sourceAirportCity} </span>
                             <div className='title-infor'>
                                 <Row>
                                     <Col span={8}>
@@ -197,17 +197,41 @@ const SelectInfoFly = (props) => {
                                             display: 'flex',
                                             alignItems: 'flex-end',
                                             paddingRight: 20,
-                                        }}>x{numberBooking} </span>
+                                        }}>x{data.adult} </span>
                                     </Col>
                                     <Col span={10}><span style={{
                                         color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
                                         display: 'flex',
                                         alignItems: 'flex-end',
                                         paddingRight: 20,
-                                    }}>928,800 VND </span></Col>
+                                    }}> {adultsPriceFomatReturn}</span></Col>
                                 </Row>
                             </div>
-
+                            {!data.children == 0 ? <div className='title-infor'>
+                                <Row>
+                                    <Col span={8}>
+                                        <span style={{
+                                            color: 'black', fontSize: 18, fontWeight: 600,
+                                            paddingLeft: 20,
+                                        }}>Giá vé trẻ em </span>
+                                    </Col>
+                                    <Col span={6}>
+                                        <span style={{
+                                            color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
+                                            display: 'flex',
+                                            alignItems: 'flex-end',
+                                            paddingRight: 20,
+                                        }}>x{data.children} </span>
+                                    </Col>
+                                    <Col span={10}><span style={{
+                                        color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
+                                        display: 'flex',
+                                        alignItems: 'flex-end',
+                                        paddingRight: 20,
+                                    }}> {childrenPriceFomatReturn}</span></Col>
+                                </Row>
+                            </div>
+                                : ''}
                             {!data.baby == 0 ? <div className='title-infor'>
                                 <Row>
                                     <Col span={8}>
@@ -221,13 +245,13 @@ const SelectInfoFly = (props) => {
                                         display: 'flex',
                                         alignItems: 'flex-end',
                                         paddingRight: 20,
-                                    }}>x{data_homepage.baby} </span></Col>
+                                    }}>x{data.baby} </span></Col>
                                     <Col span={10}><span style={{
                                         color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
                                         display: 'flex',
                                         alignItems: 'flex-end',
                                         paddingRight: 20,
-                                    }}>100,000 VND </span></Col>
+                                    }}>{infantPriceFomatReturn} </span></Col>
                                 </Row>
                             </div>
                                 : ''}
@@ -239,12 +263,18 @@ const SelectInfoFly = (props) => {
                                             paddingLeft: 20,
                                         }}>Thuế, phí </span>
                                     </Col>
-                                    <Col span={16}><span style={{
+                                    <Col span={6}><span style={{
                                         color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
                                         display: 'flex',
                                         alignItems: 'flex-end',
                                         paddingRight: 20,
-                                    }}>928,800 VND </span></Col>
+                                    }}>x{totalPeople} </span></Col>
+                                    <Col span={10}><span style={{
+                                        color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
+                                        display: 'flex',
+                                        alignItems: 'flex-end',
+                                        paddingRight: 20,
+                                    }}> {taxesfightFomatReturn}</span></Col>
                                 </Row>
                             </div>
                             <div className='title-infor'>
@@ -260,7 +290,7 @@ const SelectInfoFly = (props) => {
                                         display: 'flex',
                                         alignItems: 'flex-end',
                                         paddingRight: 20,
-                                    }}>{totalfight} </span></Col>
+                                    }}>0 VND </span></Col>
                                 </Row>
                             </div>
                         </div>

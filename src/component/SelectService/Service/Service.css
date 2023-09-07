@@ -131,13 +131,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 20px;
     
   }
   .food-service-card{
     width: 650px;
     height: 163px;
     box-shadow: 1px 1px 10px #006885;
-    margin-top: 10px;
+    margin-bottom: 20px;
   }
   :where(.css-dev-only-do-not-override-17a39f8).ant-card .ant-card-body {
     padding: 0 !important;

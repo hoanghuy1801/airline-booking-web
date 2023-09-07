@@ -1,8 +1,8 @@
 
-import { DATA_SELECT } from '../action/SelectFight';
+import { DATA_SELECT, DATA_SELECT_RETURN, DATA_SERVICE } from '../action/SelectFight';
 const INITIAL_STATE = {
     data_select: {
-        listByCondition: '',
+        conditionSelect: '',
         adultsPrice: '',
         adultsPriceFomat: '',
         childrenPrice: '',
@@ -13,7 +13,22 @@ const INITIAL_STATE = {
         taxesfightFomat: '',
         totalFight: '',
         totalFightFomat: ''
+    },
+    data_select_return: {
+        conditionSelectReturn: '',
+        adultsPriceReturn: '',
+        adultsPriceFomatReturn: '',
+        childrenPriceReturn: '',
+        childrenPriceFomatReturn: '',
+        infantPriceReturn: '',
+        infantPriceFomatReturn: '',
+        taxesfightReturn: '',
+        taxesfightFomatReturn: '',
+    },
+    data_service: {
+        listService: '',
     }
+
 };
 const SelectFightReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
@@ -21,7 +36,7 @@ const SelectFightReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 data_select: {
-                    listByCondition: action?.payload?.listByCondition,
+                    conditionSelect: action?.payload?.conditionSelect,
                     adultsPrice: action?.payload?.adultsPrice,
                     adultsPriceFomat: action?.payload?.adultsPriceFomat,
                     childrenPrice: action?.payload?.childrenPrice,
@@ -32,6 +47,30 @@ const SelectFightReducer = (state = INITIAL_STATE, action) => {
                     taxesfightFomat: action?.payload?.taxesfightFomat,
                     totalFight: action?.payload?.totalFight,
                     totalFightFomat: action?.payload?.totalFightFomat
+                }
+
+            };
+        case DATA_SELECT_RETURN:
+            return {
+                ...state,
+                data_select_return: {
+                    conditionSelectReturn: action?.payload?.conditionSelectReturn,
+                    adultsPriceReturn: action?.payload?.adultsPriceReturn,
+                    adultsPriceFomatReturn: action?.payload?.adultsPriceFomatReturn,
+                    childrenPriceFomatReturn: action?.payload?.childrenPriceFomatReturn,
+                    childrenPriceFomat: action?.payload?.childrenPriceFomat,
+                    infantPriceReturn: action?.payload?.infantPriceReturn,
+                    infantPriceFomatReturn: action?.payload?.infantPriceFomatReturn,
+                    taxesfightReturn: action?.payload?.taxesfightReturn,
+                    taxesfightFomatReturn: action?.payload?.taxesfightFomatReturn
+                }
+
+            };
+        case DATA_SERVICE:
+            return {
+                ...state,
+                data_service: {
+                    listService: action?.payload?.listService,
                 }
 
             };

@@ -13,7 +13,10 @@ const getTickets = () => {
 const getListByCondition = (sourceAirportId, destinationAirportId, departureDate, seatClass, numAdults, numChildren, numInfants) => {
     return axios.get(`api/v1/flight/search?sourceAirportId=${sourceAirportId}&destinationAirportId=${destinationAirportId}&departureDate=${departureDate}&seatClass=${seatClass}&numAdults=${numAdults}&numChildren=${numChildren}&numInfants=${numInfants}`);
 }
+const getListService = (id, seatClass) => {
+    return axios.get(`api/v1/service-option?airlineId=${id}&seatClass=${seatClass}`);
+}
 
 export {
-    postLogin, getAirports, getTickets, getListByCondition
+    postLogin, getAirports, getTickets, getListByCondition, getListService
 }

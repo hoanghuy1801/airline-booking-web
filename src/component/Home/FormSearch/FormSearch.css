@@ -33,3 +33,6 @@
         color: black !important;
     }
 }
+.ant-modal-content {
+    margin-top: 50%;
+}

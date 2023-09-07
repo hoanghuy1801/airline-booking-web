@@ -10,7 +10,8 @@ import { useDispatch } from "react-redux";
 import { Data_Passengers } from '../../redux/action/PassengersAction';
 import SelectInfoFly from '../SelectFlight/SelectInfoFly/SelectInfoFly';
 import Passenger from './Passenger/Passenger';
-import InfoAndStep from '../SelectFlight/InfoAndStep/InfoAndStep';
+import { getListService } from '../../services/apiServices';
+
 
 
 
@@ -18,6 +19,9 @@ const Passengers = () => {
     const navigate = useNavigate();
 
     const [value, setValue] = useState(1);
+
+
+
 
     const [inputLastName, setInputLastName] = useState('');
 
@@ -29,21 +33,23 @@ const Passengers = () => {
 
     const dataSelect = useSelector(state => state.selectfight.data_select);
 
-    const data_homepage = useSelector(state => state.formsearch.data_booking);
+    const dataSelectReturn = useSelector(state => state.selectfight.data_select_return);
 
-    const numberBooking = data_homepage.adult + data_homepage.children;
+    const data = useSelector(state => state.formsearch.data_booking);
 
-    const numberadult = Array.from({ length: data_homepage.adult });
+    // const numberBooking = data_homepage.adult + data_homepage.children;
 
-    const numberChildren = Array.from({ length: data_homepage.children });
+    // const numberadult = Array.from({ length: data_homepage.adult });
 
-    const numberbaby = Array.from({ length: data_homepage.baby });
+    // const numberChildren = Array.from({ length: data_homepage.children });
+
+    // const numberbaby = Array.from({ length: data_homepage.baby });
 
 
 
     const data_passengers = {
         inputLastName: inputLastName,
-        inputFirstName: inputFirstName
+        inputFirstName: inputFirstName,
     }
 
     const onChange = (e) => {
@@ -72,8 +78,37 @@ const Passengers = () => {
     return (
         <div className="select-flight">
             <div className="info-flight">
-                <InfoAndStep />
+                <Row>
+                    <Col span={16} className='infor-select'>
+                        <Row>
+                            <span style={{ fontSize: 20, fontWeight: 500 }}>
+                                {!data.roundTrip ?
+                                    <div>CHUYẾN BAY MỘT CHIỀU | {data.adult} Người lớn, {data.children} Trẻ em, {data.baby} Em bé</div>
+                                    :
+                                    <div>CHUYẾN BAY KHỨ HỒI| {data.adult} Người lớn, {data.children} Trẻ em, {data.baby} Em bé </div>
+                                }
 
+                            </span>
+                        </Row>
+                        <Row style={{ paddingTop: 10 }}>
+                            <div>
+                                <span style={{ color: 'grey', fontSize: 16, fontWeight: 500, paddingRight: 10 }}>Điểm khởi hành </span>
+                                <span style={{ color: 'red', fontSize: 18, fontWeight: 500, paddingRight: 30 }} >{data.sourceAirportCity}</span>
+                                <span style={{ color: 'grey', fontSize: 16, fontWeight: 500, paddingRight: 10 }}>Điểm đến </span>
+                                <span style={{ color: 'red', fontSize: 18, fontWeight: 500, paddingRight: 30 }}> {data.destinationAirportCity}</span>
+                            </div>
+                        </Row>
+                    </Col>
+                    <Col span={8} className='icon-selcet'>
+                        <Row >
+                            <IconPlane style={{ color: '#006885', width: 30, height: 30, marginRight: 15 }} />
+                            <IconUserCircle style={{ color: '#006885', width: 30, height: 30, marginRight: 15 }} />
+                            <IconShoppingCart style={{ color: 'grey', width: 30, height: 30, marginRight: 15 }} />
+                            <IconCurrencyDollar style={{ color: 'grey', width: 30, height: 30, marginRight: 15 }} />
+                        </Row>
+
+                    </Col>
+                </Row>
             </div>
             <div className='mains-container'>
                 <Row>
@@ -90,7 +125,17 @@ const Passengers = () => {
                             childrenPriceFomat={dataSelect.childrenPriceFomat}
                             infantPriceFomat={dataSelect.infantPriceFomat}
                             taxesfightFomat={dataSelect.taxesfightFomat}
-                            totalFightFomat={dataSelect.totalFightFomat} />
+                            totalFightFomat={dataSelect.totalFightFomat}
+
+                            listByConditionReturn={dataSelectReturn.listByConditionReturn}
+                            conditionSelectReturn={dataSelectReturn.conditionSelectReturn}
+                            adultsPriceReturn={dataSelectReturn.adultsPriceReturn}
+                            childrenPriceReturn={dataSelectReturn.childrenPriceReturn}
+                            infantPriceReturn={dataSelectReturn.infantPriceReturn}
+                            adultsPriceFomatReturn={dataSelectReturn.adultsPriceFomatReturn}
+                            childrenPriceFomatReturn={dataSelectReturn.childrenPriceFomatReturn}
+                            infantPriceFomatReturn={dataSelectReturn.infantPriceFomatReturn}
+                            taxesfightFomatReturn={dataSelectReturn.taxesfightFomatReturn} />
                     </Col>
                 </Row>
 
@@ -107,7 +152,7 @@ const Passengers = () => {
                         <Row>
                             <Col span={18} className='footer-price'>Tổng tiền:
                             </Col>
-                            <Col span={6} className='footer-price'><i>1,000,000 </i><span> VND</span>    </Col>
+                            <Col span={6} className='footer-price'>{dataSelect.totalFightFomat}</Col>
                         </Row>
                     </Col>
                     <Col span={6}>
