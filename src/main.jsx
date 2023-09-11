@@ -27,7 +27,6 @@ import SelectFlyService from './component/BookingDetail/Service/SelectFlyService
 import SelectFlyChange from './component/BookingDetail/FlightScheduleChange/SelectFlyChange.jsx';
 import SelectFlightChange from './component/BookingDetail/FlightScheduleChange/SelectFlightChange.jsx';
 import SearchFightChange from './component/BookingDetail/FlightScheduleChange/SearchFightChange.jsx';
-import MyComponent from './component/Home/MyComponent.jsx';
 import ManagerAdmin from './component/Admin/ManagerAdmin/ManagerAdmin.jsx';
 import CreateAdmin from './component/Admin/ManagerAdmin/CreateAdmin.jsx';
 import EditAdmin from './component/Admin/ManagerAdmin/EditAdmin.jsx';
@@ -65,7 +64,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path='/admins/manager-admin/edit' element={<EditAdmin />} />
 
           </Route>
-          <Route path='/test' element={<MyComponent />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
         </Routes>

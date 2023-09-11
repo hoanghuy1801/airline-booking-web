@@ -9,7 +9,8 @@ import FormSearch from './FormSearch/FormSearch';
 import { useEffect, useState } from "react";
 import { getAirports, getTickets } from '../../services/apiServices';
 import axios from 'axios';
-import instance from '../../utils/awiosCustomize';
+import Slider from "react-slick";
+import Side from './Side/Side';
 
 const HomePage = () => {
     const [listAirports, setListAirports] = useState([]);
@@ -32,6 +33,40 @@ const HomePage = () => {
             setListSeats(res.data)
         }
     }
+    var settings = {
+        dots: true,
+        infinite: false,
+        speed: 500,
+        slidesToShow: 4,
+        slidesToScroll: 4,
+        initialSlide: 0,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3,
+                    infinite: true,
+                    dots: true
+                }
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                    initialSlide: 2
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                }
+            }
+        ]
+    };
     return (
         <div className='homePage'>
             <div className='video'>
@@ -55,27 +90,9 @@ const HomePage = () => {
                 <div className='label-hot'>
                     <Button className='label-img' type='link'>ĐIỂM ĐẾN HẤP DẪN</Button>
                 </div>
-                <Row>
-                    <Col span={8}>
-                        <Image
-                            width={450}
-                            src={ImgGiaLai}
-                        />
-                    </Col>
-                    <Col span={8}>
-                        <Image
-                            width={450}
-                            src={ImgPhuQuoc}
-                        />
-                    </Col>
-                    <Col span={8}>
-                        <Image
-                            width={450}
-                            src={ImgQuangBinh}
-                        />
-                    </Col>
-                </Row>
+                <Side />
             </div>
+
         </div >
     )
 }
