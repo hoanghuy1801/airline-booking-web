@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './FormSearch.css'
 import { useNavigate } from 'react-router-dom';
 import {
@@ -27,6 +27,18 @@ const warning = () => {
     });
 };
 const FormSearch = (props) => {
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+    useEffect(() => {
+        const handleResize = () => {
+            setWindowWidth(window.innerWidth);
+        };
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
     const { listAirports, listSeats } = props;
     const [value, setValue] = useState(1);
     const [sourceAirport, setSourceAirport] = useState();
@@ -66,6 +78,20 @@ const FormSearch = (props) => {
         dispath(Data_booking(data_booking))
         navigate('/select-fight')
     }
+    const handleInputChange = (value) => {
+        // Xử lý khi giá trị thay đổi
+    };
+
+    let inputNumberStyle = {};
+
+    if (windowWidth <= 600) {
+        inputNumberStyle = { width: '50%' };
+    } else if (windowWidth <= 1200) {
+        inputNumberStyle = { width: '60%' };
+    } else {
+        inputNumberStyle = { width: '70%' };
+    }
+
     const onChange = (e) => {
         setValue(e.target.value);
     };
@@ -107,16 +133,11 @@ const FormSearch = (props) => {
                 </Form.Item>
                 <Form.Item>
                     <Row>
-                        <Col span={11}><label>Từ</label></Col>
-                        <Col span={2}></Col>
-                        <Col span={11}><label>Đến</label></Col>
-                    </Row>
-                    <Row>
                         <Col span={11}>
                             <IconPlaneDeparture className='icon-search' />
                             <Select
                                 showSearch
-                                style={{ width: 250 }}
+                                style={{ width: '75%' }}
                                 placeholder="Điểm khởi hành"
                                 onChange={onChangeSourceAirport}
                                 filterOption={(input, option) =>
@@ -140,7 +161,7 @@ const FormSearch = (props) => {
                             <IconPlaneArrival className='icon-search' />
                             <Select
                                 showSearch
-                                style={{ width: 250 }}
+                                style={{ width: '75%' }}
                                 placeholder="Điểm đến"
                                 onChange={onDestinationAirport}
                                 filterOption={(input, option) =>
@@ -166,26 +187,29 @@ const FormSearch = (props) => {
                     <Row>
                         <Col span={11}>
                             <IconCalendar className='icon-search' />
-                            <Space direction="vertical">
-                                {roundTrip ?
-                                    <RangePicker style={{ width: 250 }}
-                                        placeholder={["Ngày đi", "Ngày về"]}
-                                        disabledDate={disabledDate}
-                                        value={selectedDates}
-                                        onChange={handleDateChange} format="DD/MM/YYYY" />
+                            {roundTrip ?
+                                <RangePicker
+                                    style={{ width: '75%' }}
+                                    placeholder={["Ngày đi", "Ngày về"]}
+                                    disabledDate={disabledDate}
+                                    value={selectedDates}
+                                    onChange={handleDateChange} format="DD/MM/YYYY" />
 
-                                    :
-                                    <DatePicker onChange={onChangeDatePicker} style={{ width: 250 }}
+                                :
+                                <>
+                                    <DatePicker onChange={onChangeDatePicker}
+                                        style={{ width: '75%' }}
                                         placeholder="Ngày đi" disabledDate={disabledDate} format="DD/MM/YYYY" />
-                                }
-                            </Space>
+                                </>
+                            }
+
                         </Col>
                         <Col span={2}></Col>
                         <Col span={11}>
                             <IconArmchair className='icon-search' />
                             <Select
                                 showSearch
-                                style={{ width: 250 }}
+                                style={{ width: '75%' }}
                                 placeholder="Hạng ghế"
                                 filterOption={(input, option) =>
                                     (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
@@ -205,32 +229,38 @@ const FormSearch = (props) => {
                 </Form.Item>
                 <Form.Item>
                     <Row>
-                        <IconMan className='icon-search' />
-                        <Col span={3}>
+                        <Col span={6}>
+                            <IconMan className='icon-search' />
                             <label>Người lớn <br /> <label
                                 className='label-children'>(12 tuổi trở lên)</label> </label>
                         </Col>
-                        <Col span={4}>
-                            <InputNumber min={1} max={9} defaultValue={1} onChange={(value) => setAdult(value)} />
+                        <Col span={5}>
+                            <InputNumber style={inputNumberStyle}
+                                min={1} max={9} defaultValue={1} onChange={(value) => setAdult(value)} />
                         </Col>
-                        <IconMoodKid className='icon-search' />
                         <Col span={2}>
+                        </Col>
+                        <Col span={6}>
+                            <IconMoodKid className='icon-search' />
                             <label>Trẻ em <br /> <label
                                 className='label-children'>(2-11 tuổi)</label> </label>
                         </Col>
-                        <Col span={4}>
-                            <InputNumber min={0} defaultValue={0} onChange={(value) => setChildren(value)} />
+                        <Col span={5}>
+                            <InputNumber style={inputNumberStyle}
+                                min={0} defaultValue={0} onChange={(value) => setChildren(value)} />
                         </Col>
-                        <IconBabyBottle className='icon-search' />
-                        <Col span={2}>
+                    </Row>
+                    <Row>
+                        <Col span={6}>
+                            <IconBabyBottle className='icon-search' />
                             <label>Em bé <br /> <label
                                 className='label-children'>(0-2 tuổi)</label></label>
                         </Col>
-                        <Col span={4}>
-                            <InputNumber min={0} max={adult} defaultValue={0} onChange={(value) => setBaby(value)} />
+                        <Col span={5}>
+                            <InputNumber style={inputNumberStyle}
+                                min={0} max={adult} defaultValue={0} onChange={(value) => setBaby(value)} />
                         </Col>
                     </Row>
-
                 </Form.Item>
                 <Form.Item className='btn-form'>
                     <Button
