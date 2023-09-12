@@ -18,26 +18,22 @@ const Header = () => {
     const AppMenuDrawer = ({ isInline = false }) => {
         return (
             <>
-                <Col>
+                <Row>
+                    <div style={{
+                        paddingLeft: '20%'
+                    }}> <img src={logo} onClick={() => { navigate('/') }} style={{ cursor: 'pointer' }} /></div>
+                </Row>
+                <Row>
                     <div className='auth'>
                         <UserOutlined className='auth-child' />
                         <span className='auth-child' onClick={() => { navigate('/register') }} >Đăng ký </span>
                         <span>|</span>
                         <span className='auth-child' onClick={() => { navigate('/login') }}>Đăng nhập</span>
                     </div>
-                </Col>
+                </Row>
                 <Row>
-                    <Col >
-                        <Button className='service-child' type='link'>CHUYẾN BAY CỦA TÔI</Button>
-                    </Col>
-                    <Col >
-                        <Button className='service-child' type='link' onClick={() => { navigate('/checkin') }}>CHECKIN-ONLINE</Button>
-                    </Col>
-                    <Col >
-                        <Button className='service-child' type='link'>DỊCH VỤ CHUYẾN BAY</Button>
-
-                    </Col>
-
+                    <Button className='service-child' type='link'>CHUYẾN BAY CỦA TÔI</Button>
+                    <Button className='service-child' type='link' onClick={() => { navigate('/checkin') }}>CHECKIN-ONLINE</Button>
                 </Row>
             </>
         )
@@ -49,7 +45,6 @@ const Header = () => {
                     <Row className='headerMenu'>
                         <Col span={6} >
                             <div className='logo'>  <img src={logo} onClick={() => { navigate('/') }} style={{ cursor: 'pointer' }} /></div>
-
                         </Col>
                         <Col span={12} >
                             <div className='service'>
@@ -99,7 +94,7 @@ const Header = () => {
                 onClose={() => {
                     setOpenMenu(false);
                 }}
-                bodyStyle={{ backgroundColor: '#e62c0c' }}
+                bodyStyle={{ backgroundColor: '#006885' }}
             >
                 <AppMenuDrawer />
             </Drawer>

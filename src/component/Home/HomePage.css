@@ -33,11 +33,12 @@ video.myvideo{
         background-image: url(../../assets/Backroud.webp);
           justify-content: center;
           width: 100vw;
-          height: 100vh;
+          height: auto;
           background-size: cover;
           align-items: center ;
     }
 }
+
 
 
 .btn-form{
@@ -46,22 +47,22 @@ video.myvideo{
     
 }
 .label-hot{
-    width: 200px;
+    width: auto;
     padding-bottom: 2%;
     
 }
 .label-img{
     font-size: 20px;
     font-family: 500;
-    padding: 0px 20px 0px 20px;
+    padding: 5px 20px 5px 20px;
     font-size: 18px;
     align-items: center;
     font-weight: 600;
     color: white;
     background-color: #006885;
-    &:hover{
-        color: gray !important;
-    }
+    width: auto;
+    border-radius: 10px;
+   
 }
 
 

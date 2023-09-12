@@ -1,6 +1,8 @@
-import { Row, Col } from 'antd';
+import { Row, Col, Typography } from 'antd';
 import './CheckInfoFly.css'
 import { useSelector } from 'react-redux';
+
+const { Title, Text } = Typography;
 const CheckInfoFly = (props) => {
     const data_homepage = useSelector(state => state.formsearch.data_booking);
     const { dataSelect, dataSelectReturn } = props;
@@ -42,70 +44,68 @@ const CheckInfoFly = (props) => {
             <Row style={{
                 backgroundColor: 'white',
                 height: '40px',
-                padding: 10,
-                borderBottomLeftRadius: '5px',
-                borderBottomRightRadius: '5px'
+                padding: 10
             }}>
-                <Col span={12}>
-                    <span style={{ color: '#006885', fontSize: 18, fontWeight: 500, padding: 10 }}>Chuyến đi</span>
+                <Col span={6}>
+                    <Text className='text-title-fight-info'>Chuyến đi</Text>
                 </Col>
-                <Col span={12}>
-                    <span style={{ color: '#006885', fontSize: 18, fontWeight: 500, padding: 10 }}>Tính theo giờ địa phương tại sân bay</span>
+                <Col span={18}>
+                    <Text className='text-title-fight-info' style={{ paddingLeft: '27%' }}>Tính theo giờ địa phương tại sân bay</Text>
                 </Col>
             </Row>
             <div className='select-fight-infor'>
                 <Row>
                     <Col span={24}>
-                        <span className='date-fight'>Ngày {daydepartureTime}/{monthdepartureTime}/{yeardepartureTime}</span>
+                        <Text className='date-fight'>Ngày {daydepartureTime}/{monthdepartureTime}/{yeardepartureTime}</Text>
                     </Col>
                 </Row>
                 <Row>
                     <Col span={6}>
                         <Row>
                             <Col span={24}>
-                                <span className='location-start'>{dataSelect.conditionSelect.sourceAirportCode}</span>
+                                <Text className='location-start'>{dataSelect.conditionSelect.sourceAirportCode}</Text>
                             </Col>
                         </Row>
                         <Row>
                             <Col span={24}>
-                                <span className='time-start'>{hourdepartureTime}:{minutedepartureTime}</span>
+                                <Text className='time-start'>{hourdepartureTime}:{minutedepartureTime}</Text>
                             </Col>
                         </Row>
                     </Col>
                     <Col span={4}>
                         <Row>
                             <Col span={24}>
-                                <span className='flight-time'>{hourflight} giờ {minuteflight} phút</span>
+                                <Text className='flight-time'>{hourflight} giờ {minuteflight} phút</Text>
                             </Col>
                         </Row>
                         <Row>
                             <Col span={24}>
-                                <span className='code-flight'>{dataSelect.conditionSelect.flightName}</span>
+                                <Text className='code-flight'>{dataSelect.conditionSelect.flightName}</Text>
                             </Col>
                         </Row>
                     </Col>
                     <Col span={6}>
                         <Row>
                             <Col span={24}>
-                                <span className='location-start'>{dataSelect.conditionSelect.destinationAirportCode}</span>
+                                <Text className='location-start'>{dataSelect.conditionSelect.destinationAirportCode}</Text>
                             </Col>
                         </Row>
                         <Row>
                             <Col span={24}>
-                                <span className='time-start'>{hourarrivalTime}:{minutearrivalTime}</span>
+                                <Text className='time-start'>{hourarrivalTime}:{minutearrivalTime}</Text>
                             </Col>
                         </Row>
                     </Col>
                     <Col span={8}>
                         <Row>
                             <Col span={24}>
-                                <span className='flight-time'>{dataSelect.conditionSelect.aircraftName}</span>
+                                <Text className='flight-time'>{dataSelect.conditionSelect.aircraftName}</Text>
                             </Col>
                         </Row>
                         <Row>
                             <Col span={24}>
-                                <span className='code-flight'>Hãng khai thác:</span>
-                                <span className='code-flight'>{dataSelect.conditionSelect.airlineName} </span>
+                                <Text className='code-flight'>Hãng khai thác:</Text>
+                                <Text className='code-flight'>{dataSelect.conditionSelect.airlineName} </Text>
                             </Col>
                         </Row>
                     </Col>
@@ -127,70 +127,68 @@ const CheckInfoFly = (props) => {
                         backgroundColor: 'white',
                         height: '40px',
                         padding: 10,
-                        borderBottomLeftRadius: '5px',
-                        borderBottomRightRadius: '5px',
                         paddingTop: 10
                     }}>
-                        <Col span={12}>
-                            <span style={{ color: '#006885', fontSize: 18, fontWeight: 500, padding: 10 }}>Chuyến về</span>
+                        <Col span={6}>
+                            <Text className='text-title-fight-info'>Chuyến về</Text>
                         </Col>
-                        <Col span={12}>
-                            <span style={{ color: '#006885', fontSize: 18, fontWeight: 500, padding: 10 }}>Tính theo giờ địa phương tại sân bay</span>
+                        <Col span={18}>
+                            <Text className='text-title-fight-info' style={{ paddingLeft: '27%' }}>Tính theo giờ địa phương tại sân bay</Text>
                         </Col>
                     </Row>
                     <div className='select-fight-infor'>
                         <Row>
                             <Col span={24}>
-                                <span className='date-fight'>Ngày {daydepartureTimeReturn}/{monthdepartureTimeReturn}/{yeardepartureTimeReturn}</span>
+                                <Text className='date-fight'>Ngày {daydepartureTimeReturn}/{monthdepartureTimeReturn}/{yeardepartureTimeReturn}</Text>
                             </Col>
                         </Row>
                         <Row>
                             <Col span={6}>
                                 <Row>
                                     <Col span={24}>
-                                        <span className='location-start'>{dataSelectReturn.conditionSelectReturn.sourceAirportCode}</span>
+                                        <Text className='location-start'>{dataSelectReturn.conditionSelectReturn.sourceAirportCode}</Text>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col span={24}>
-                                        <span className='time-start'>{hourdepartureTimeReturn}:{minutedepartureTimeReturn}</span>
+                                        <Text className='time-start'>{hourdepartureTimeReturn}:{minutedepartureTimeReturn}</Text>
                                     </Col>
                                 </Row>
                             </Col>
                             <Col span={4}>
                                 <Row>
                                     <Col span={24}>
-                                        <span className='flight-time'>{hourflightReturn} giờ {minuteflightReturn} phút</span>
+                                        <Text className='flight-time'>{hourflightReturn} giờ {minuteflightReturn} phút</Text>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col span={24}>
-                                        <span className='code-flight'>{dataSelectReturn.conditionSelectReturn.flightName}</span>
+                                        <Text className='code-flight'>{dataSelectReturn.conditionSelectReturn.flightName}</Text>
                                     </Col>
                                 </Row>
                             </Col>
                             <Col span={6}>
                                 <Row>
                                     <Col span={24}>
-                                        <span className='location-start'>{dataSelectReturn.conditionSelectReturn.destinationAirportCode}</span>
+                                        <Text className='location-start'>{dataSelectReturn.conditionSelectReturn.destinationAirportCode}</Text>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col span={24}>
-                                        <span className='time-start'>{hourarrivalTimeReturn}:{minutearrivalTimeReturn}</span>
+                                        <Text className='time-start'>{hourarrivalTimeReturn}:{minutearrivalTimeReturn}</Text>
                                     </Col>
                                 </Row>
                             </Col>
                             <Col span={8}>
                                 <Row>
                                     <Col span={24}>
-                                        <span className='flight-time'>{dataSelectReturn.conditionSelectReturn.aircraftName}</span>
+                                        <Text className='flight-time'>{dataSelectReturn.conditionSelectReturn.aircraftName}</Text>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col span={24}>
-                                        <span className='code-flight'>Hãng khai thác:</span>
-                                        <span className='code-flight'>{dataSelectReturn.conditionSelectReturn.airlineName} </span>
+                                        <Text className='code-flight'>Hãng khai thác:</Text>
+                                        <Text className='code-flight'>{dataSelectReturn.conditionSelectReturn.airlineName} </Text>
                                     </Col>
                                 </Row>
                             </Col>

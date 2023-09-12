@@ -22,3 +22,19 @@
  padding-top: 7px;
 
 }
+@media (max-width:1700px){
+    .sourceAirportCity{
+        font-size: 15px !important;
+    }
+    .destinationAirportCity{
+        font-size: 15px !important;
+    }
+    .text-select-info{
+        font-size: 16px !important;
+    }
+}
+@media (max-width:1200px){
+    .infor-user-select{
+        margin-left: 0% !important;
+    }
+}

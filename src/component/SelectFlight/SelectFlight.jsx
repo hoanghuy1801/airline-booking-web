@@ -1,4 +1,4 @@
-import { Row, Col, Button, Modal } from 'antd';
+import { Row, Col, Button, Modal, Typography } from 'antd';
 import '../SelectFlight/SelectFlight.css'
 import { useNavigate } from 'react-router-dom';
 import React from 'react';
@@ -13,6 +13,7 @@ import { IconPlane, IconUserCircle, IconCurrencyDollar, IconShoppingCart } from 
 import moment from 'moment';
 import InfoFlyReturn from './InfoFly/InfoFlyReturn';
 
+const { Title, Text } = Typography;
 const warning = () => {
     Modal.warning({
         title: 'Bạn ơi!',
@@ -139,27 +140,30 @@ const SelectFlight = () => {
         <div className="select-flight">
             <div className="info-flight">
                 <Row>
-                    <Col span={16} className='infor-select'>
+                    <Col span={18} className='infor-select'>
                         <Row>
                             <span style={{ fontSize: 20, fontWeight: 500 }}>
                                 {!data.roundTrip ?
-                                    <div>CHUYẾN BAY MỘT CHIỀU | {data.adult} Người lớn, {data.children} Trẻ em, {data.baby} Em bé</div>
+                                    <Title level={4}>CHUYẾN BAY MỘT CHIỀU | {data.adult} Người lớn, {data.children} Trẻ em, {data.baby} Em bé</Title>
                                     :
-                                    <div>CHUYẾN BAY KHỨ HỒI| {data.adult} Người lớn, {data.children} Trẻ em, {data.baby} Em bé </div>
+                                    <Title level={4}>CHUYẾN BAY KHỨ HỒI| {data.adult} Người lớn, {data.children} Trẻ em, {data.baby} Em bé</Title>
                                 }
-
                             </span>
                         </Row>
-                        <Row style={{ paddingTop: 10 }}>
+                        <Row>
                             <div>
-                                <span style={{ color: 'grey', fontSize: 16, fontWeight: 500, paddingRight: 10 }}>Điểm khởi hành </span>
-                                <span style={{ color: 'red', fontSize: 18, fontWeight: 500, paddingRight: 30 }} >{data.sourceAirportCity}</span>
-                                <span style={{ color: 'grey', fontSize: 16, fontWeight: 500, paddingRight: 10 }}>Điểm đến </span>
-                                <span style={{ color: 'red', fontSize: 18, fontWeight: 500, paddingRight: 30 }}> {data.destinationAirportCity}</span>
+                                <Title level={5} style={{ color: 'grey', fontSize: 16, fontWeight: 500 }}>
+                                    Điểm khởi hành:
+                                    <Text type="secondary"
+                                        style={{ color: 'red', fontSize: 18, fontWeight: 500, paddingRight: 30, marginLeft: 10 }}>{data.sourceAirportCity}</Text>
+                                    <Text level={5} style={{ color: 'grey', fontSize: 16, fontWeight: 500, paddingRight: 10 }}>Điểm đến </Text>
+                                    <Text type="secondary"
+                                        style={{ color: 'red', fontSize: 18, fontWeight: 500, paddingRight: 30, marginLeft: 10 }}>{data.destinationAirportCity}</Text>
+                                </Title>
                             </div>
                         </Row>
                     </Col>
-                    <Col span={8} className='icon-selcet'>
+                    <Col xs={24} sm={24} md={24} lg={6} xl={6} className='icon-select'>
                         <Row >
                             <IconPlane style={{ color: '#006885', width: 30, height: 30, marginRight: 15 }} />
                             <IconUserCircle style={{ color: 'grey', width: 30, height: 30, marginRight: 15 }} />
@@ -172,7 +176,7 @@ const SelectFlight = () => {
             </div>
             <div className='mains-container'>
                 <Row>
-                    <Col span={15} className='infor-user-select-flight'>
+                    <Col xs={24} sm={24} md={24} lg={24} xl={15} className='infor-user-select-flight'>
                         {hideSelectFightReturn ?
                             <InfoFlyReturn
                                 listByConditionReturn={listByConditionReturn}
@@ -208,7 +212,7 @@ const SelectFlight = () => {
                             />
                         }
                     </Col>
-                    <Col span={9} >
+                    <Col xs={24} sm={24} md={24} lg={24} xl={9} >
                         <SelectInfoFly
                             listByCondition={listByCondition}
                             conditionSelect={conditionSelect}
@@ -239,15 +243,15 @@ const SelectFlight = () => {
                     <Col span={6}>
 
                     </Col>
-                    <Col span={12} >
+                    <Col span={12} className='footer-price-form'>
                         <Row>
                             <Col span={16} className='footer-price'>Tổng tiền:
                             </Col>
                             <Col span={8} className='footer-price'>{totalFightFomat}</Col>
                         </Row>
                     </Col>
-                    <Col span={6}>
-                        <Button className='footer-continue' onClick={() => handleContinue()} >Tiếp tục</Button>
+                    <Col md={24} lg={6} xl={6} className='footer-price-btn'>
+                        <Button className='footer-continue-select' onClick={() => handleContinue()} >Tiếp tục</Button>
                     </Col>
                 </Row>
             </div>
