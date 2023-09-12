@@ -1,11 +1,11 @@
-import { Row, Col, Button, Radio } from 'antd';
+import { Row, Col, Button, Typography, Image } from 'antd';
 import { IconBrandCitymapper } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import './InfoFly.css'
 
-
+const { Title, Text } = Typography;
 
 const InfoFlyReturn = (props) => {
     const navigate = useNavigate();
@@ -43,7 +43,7 @@ const InfoFlyReturn = (props) => {
 
     return (
         <>
-            <p className='title'>Chuyến về</p>
+            <Text className='title'>Chuyến về</Text>
 
             {listByConditionReturn.map((item) => {
                 const dateObjectdepartureTime = new Date(item.departureTime);
@@ -64,39 +64,57 @@ const InfoFlyReturn = (props) => {
                         </div>
                         <div className='select-flight-info'>
                             <Row>
-                                <Col span={7}>
-
+                                <Col span={6}>
                                     <Row>
-                                        <p className='name-airline'>{item.airlineName}</p>
+                                        <Title level={4} className='name-airline'>{item.airlineName}</Title>
                                     </Row>
                                     <Row>
-                                        <img src={item.airlineAvatarUrl} className='img-airline' />
+                                        <Image
+                                            preview={false}
+                                            src={item.airlineAvatarUrl} className='img-airline'
+                                        />
                                     </Row>
                                     <Row>
-                                        <p className='name-aircraft-fly'>{item.aircraftName}</p>
+                                        <Text className='name-aircraft-fly'>{item.aircraftName}</Text>
                                     </Row>
                                 </Col>
-                                <Col span={10} >
+                                <Col span={11} >
                                     <Row>
                                         <Col span={8}>
-                                            <p className='time-start-fly'>{hourdepartureTime}:{minutedepartureTime}</p>
-                                            <p className='code-start-fly'>{item.sourceAirportCode}</p>
+                                            <Row>
+                                                <Text className='time-start-fly'>{hourdepartureTime}:{minutedepartureTime}</Text>
+                                            </Row>
+                                            <Row>
+                                                <Text className='code-start-fly'>{item.sourceAirportCode}</Text>
+                                            </Row>
                                         </Col>
                                         <Col span={8}>
-                                            <p className='flightName'>{item.flightName}</p>
-                                            <IconBrandCitymapper className='icon-fly' />
-                                            <p className='fly-ladder'>Bay thẳng</p>
-                                            <p className='time-to-fly'>{hourflight} giờ {minuteflight} phút</p>
+                                            <Row>
+                                                <Text className='flightName'>{item.flightName}</Text>
+                                            </Row>
+                                            <Row>
+                                                <IconBrandCitymapper className='icon-fly' />
+                                            </Row>
+                                            <Row>
+                                                <Text className='fly-ladder'>Bay thẳng</Text>
+                                            </Row>
+                                            <Row>
+                                                <Text className='time-to-fly'>{hourflight} giờ {minuteflight} phút</Text>
+                                            </Row>
                                         </Col>
                                         <Col span={8} >
-                                            <p className='time-start-fly'>{hourarrivalTime}:{minutearrivalTime}</p>
-                                            <p className='code-start-fly'>{item.destinationAirportCode}</p>
+                                            <Row>
+                                                <Text className='time-start-fly'>{hourarrivalTime}:{minutearrivalTime}</Text>
+                                            </Row>
+                                            <Row>
+                                                <Text className='code-start-fly'>{item.destinationAirportCode}</Text>
+                                            </Row>
                                         </Col>
                                     </Row>
                                 </Col>
                                 <Col span={7} >
                                     <Row>
-                                        <p className='price-fly'>{price}/Khách</p>
+                                        <Text className='price-fly text-ellipsis'>{price}/Khách</Text>
                                     </Row>
                                     <Row>
 

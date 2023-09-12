@@ -2,9 +2,10 @@
     background-color: white;
     height: auto;
     width: 100%;
-    margin-top: 10px;
-    border-radius: 10px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
     padding: 10px;
+    border-top: 2px dashed  #006885;
 }
 .date-fight{
     font-size: 16px;
@@ -41,4 +42,30 @@
     font-size: 16px;
     color: black;
     font-weight: 700;
+}
+.text-title-fight-info{
+    color: #006885;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 10px 0px 10px 10px;
+}
+@media (max-width:760px){
+    .text-title-fight-info{
+        font-size: 15px; 
+    }
+    .date-fight{
+        font-size: 15px;
+    }
+    .flight-time{
+        font-size: 14px;
+    }
+    
+}
+
+@media (max-width:500px){
+    .text-title-fight-info{
+        font-size: 13px; 
+        padding-left: 15% !important;
+    }
+    
 }

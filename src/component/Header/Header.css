@@ -16,11 +16,11 @@
 
 
 .auth{
-    padding: 10px 10px 10px 10px;
+    padding: 13px 10% 10px 10px;
 }
 .service{
     display: flex;
-    padding: 10px 10px 10px 10px;
+    padding: 10px 10% 10px 10px;
     justify-content: end;
     align-items: center;
 }
@@ -43,20 +43,18 @@
 }
 .service-child{
     padding: 0px 20px 0px 20px;
+    margin-right: 2%;
     font-size: 18px;
     align-items: center;
     font-weight: 600;
     color: white;
     &:hover{
-        background-color: white;
+        background-color: white !important;
         color: gray !important;
     }
-   
-    
-
 }
 .menuPage{
-    background-color:	#006885;
+    background-color:#006885;
 }
 .logo{
     display: flex;

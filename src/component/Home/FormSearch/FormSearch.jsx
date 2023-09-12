@@ -78,18 +78,14 @@ const FormSearch = (props) => {
         dispath(Data_booking(data_booking))
         navigate('/select-fight')
     }
-    const handleInputChange = (value) => {
-        // Xử lý khi giá trị thay đổi
-    };
-
     let inputNumberStyle = {};
 
     if (windowWidth <= 600) {
         inputNumberStyle = { width: '50%' };
     } else if (windowWidth <= 1200) {
-        inputNumberStyle = { width: '60%' };
+        inputNumberStyle = { width: '77%' };
     } else {
-        inputNumberStyle = { width: '70%' };
+        inputNumberStyle = { width: '78%' };
     }
 
     const onChange = (e) => {
@@ -119,8 +115,6 @@ const FormSearch = (props) => {
         setSeatClass(value);
     };
 
-
-
     return (
         <>
             <Form className='buyForm'>
@@ -137,7 +131,7 @@ const FormSearch = (props) => {
                             <IconPlaneDeparture className='icon-search' />
                             <Select
                                 showSearch
-                                style={{ width: '75%' }}
+                                style={{ width: '80%' }}
                                 placeholder="Điểm khởi hành"
                                 onChange={onChangeSourceAirport}
                                 filterOption={(input, option) =>
@@ -161,7 +155,7 @@ const FormSearch = (props) => {
                             <IconPlaneArrival className='icon-search' />
                             <Select
                                 showSearch
-                                style={{ width: '75%' }}
+                                style={{ width: '80%' }}
                                 placeholder="Điểm đến"
                                 onChange={onDestinationAirport}
                                 filterOption={(input, option) =>
@@ -189,7 +183,7 @@ const FormSearch = (props) => {
                             <IconCalendar className='icon-search' />
                             {roundTrip ?
                                 <RangePicker
-                                    style={{ width: '75%' }}
+                                    style={{ width: '80%' }}
                                     placeholder={["Ngày đi", "Ngày về"]}
                                     disabledDate={disabledDate}
                                     value={selectedDates}
@@ -198,7 +192,7 @@ const FormSearch = (props) => {
                                 :
                                 <>
                                     <DatePicker onChange={onChangeDatePicker}
-                                        style={{ width: '75%' }}
+                                        style={{ width: '80%' }}
                                         placeholder="Ngày đi" disabledDate={disabledDate} format="DD/MM/YYYY" />
                                 </>
                             }
@@ -209,7 +203,7 @@ const FormSearch = (props) => {
                             <IconArmchair className='icon-search' />
                             <Select
                                 showSearch
-                                style={{ width: '75%' }}
+                                style={{ width: '80%' }}
                                 placeholder="Hạng ghế"
                                 filterOption={(input, option) =>
                                     (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
@@ -269,11 +263,7 @@ const FormSearch = (props) => {
                         type='link'
                         onClick={() => handleSelectBooking()}
                     >TÌM KIẾM CHUYẾN BAY</Button>
-
-
                 </Form.Item>
-
-
             </Form>
         </>
 

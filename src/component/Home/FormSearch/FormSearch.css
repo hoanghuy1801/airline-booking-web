@@ -31,10 +31,17 @@
     background-color: #006885;
     &:hover{
         color: black !important;
+        background-color: #006885 !important;
     }
 }
 .ant-modal-content {
     margin-top: 50%;
+}
+@media (max-width:1700px){
+    .search{
+        padding: 1% 30% 1% 30% !important;
+    }
+   
 }
 @media (max-width:1200px){
     .search{

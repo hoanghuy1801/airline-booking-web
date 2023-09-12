@@ -62,7 +62,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path='/admins/manager-admin' element={<ManagerAdmin />} />
             <Route path='/admins/manager-admin/create' element={<CreateAdmin />} />
             <Route path='/admins/manager-admin/edit' element={<EditAdmin />} />
-
           </Route>
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />

@@ -1,8 +1,9 @@
-import { Row, Col, Form } from 'antd';
+import { Row, Col, Form, Typography } from 'antd';
 import './SelectInfoFly.css'
 import { IconPlane } from '@tabler/icons-react';
 import React from 'react';
 import { useSelector } from 'react-redux';
+const { Title, Text } = Typography;
 
 
 const SelectInfoFly = (props) => {
@@ -16,145 +17,169 @@ const SelectInfoFly = (props) => {
         <>
             <Form className='infor-user-select'>
                 <div className='title-select'>
-                    <span style={{ color: 'white', fontSize: 20, fontWeight: 600, paddingRight: 10 }}>THÔNG TIN ĐẶT CHỖ </span>
+                    <Text style={{ color: 'white', fontSize: 20, fontWeight: 600, paddingRight: 10 }}>THÔNG TIN ĐẶT CHỖ </Text>
                 </div>
                 <Form.Item>
                     <div className='title-infor'>
-                        <span style={{
+                        <Text style={{
                             color: 'black', fontSize: 20, fontWeight: 600,
                             paddingLeft: 20,
 
-                        }}>Thông tin hành khách </span>
+                        }}>Thông tin hành khách </Text>
                     </div>
                     <div style={{ backgroundColor: 'rgb(201, 239, 255)' }}>
-                        <span style={{
+                        <Text style={{
                             color: 'black', fontSize: 18, fontWeight: 400,
                             paddingLeft: 20,
 
-                        }}>Chuyến đi</span>
+                        }}>Chuyến đi</Text>
                     </div>
-                    <span style={{
-                        color: 'black', fontSize: 18, fontWeight: 500,
-                        paddingLeft: 40,
+                    <Row style={{ paddingTop: 10 }}>
+                        <Col span={10}>
+                            <Text className='sourceAirportCity'
+                                style={{
+                                    color: 'black', fontSize: 18, fontWeight: 500,
+                                    paddingLeft: 40,
 
-                    }}> {data.sourceAirportCity}</span>
-                    <span style={{
-                        color: 'black', fontSize: 18, fontWeight: 500,
-                        paddingLeft: 40,
-                    }}>  <IconPlane style={{ width: 25, height: 25, marginRight: 15, paddingTop: 6 }} /> </span>
-                    <span style={{
-                        color: 'black', fontSize: 18, fontWeight: 500,
-                        paddingLeft: 40,
+                                }}> {data.sourceAirportCity}</Text>
+                        </Col>
+                        <Col span={4}>
+                            <Text
+                                style={{
+                                    color: 'black', fontSize: 18, fontWeight: 500
+                                }}>  <IconPlane style={{ width: 25, height: 25, paddingTop: 6 }} /> </Text>
+                        </Col>
+                        <Col span={10}>
+                            <Text className='destinationAirportCity'
+                                style={{
+                                    color: 'black', fontSize: 18, fontWeight: 500,
+                                }}>{data.destinationAirportCity}</Text>
 
-                    }}>{data.destinationAirportCity}</span>
+                        </Col>
+                    </Row>
                     <div className='title-infor'>
                         <Row>
-                            <Col span={8}>
-                                <span style={{
-                                    color: 'black', fontSize: 18, fontWeight: 600,
-                                    paddingLeft: 20,
-                                }}>Giá vé </span>
+                            <Col span={9}>
+                                <Text className='text-select-info'
+                                    style={{
+                                        color: 'black', fontSize: 18, fontWeight: 600,
+                                        paddingLeft: 10,
+                                    }}>Giá vé </Text>
                             </Col>
-                            <Col span={6}>
-                                <span style={{
-                                    color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
-                                    display: 'flex',
-                                    alignItems: 'flex-end',
-                                    paddingRight: 20,
-                                }}>x{data.adult} </span>
+                            <Col span={2}>
+                                <Text className='text-select-info'
+                                    style={{
+                                        color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
+                                        display: 'flex',
+                                        alignItems: 'flex-end',
+                                    }}>x{data.adult} </Text>
                             </Col>
-                            <Col span={10}><span style={{
-                                color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
-                                display: 'flex',
-                                alignItems: 'flex-end',
-                                paddingRight: 20,
-                            }}> {adultsPriceFomat}</span></Col>
+                            <Col span={13}>
+                                <Text className='text-select-info'
+                                    style={{
+                                        color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
+                                        display: 'flex',
+                                        alignItems: 'flex-end',
+                                        paddingRight: 20,
+                                    }}> {adultsPriceFomat}</Text></Col>
                         </Row>
                     </div>
                     {!data.children == 0 ? <div className='title-infor'>
                         <Row>
-                            <Col span={8}>
-                                <span style={{
-                                    color: 'black', fontSize: 18, fontWeight: 600,
-                                    paddingLeft: 20,
-                                }}>Giá vé trẻ em </span>
+                            <Col span={9}>
+                                <Text className='text-select-info'
+                                    style={{
+                                        color: 'black', fontSize: 18, fontWeight: 600,
+                                        paddingLeft: 10,
+                                    }}>Giá vé trẻ em </Text>
                             </Col>
-                            <Col span={6}>
-                                <span style={{
-                                    color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
-                                    display: 'flex',
-                                    alignItems: 'flex-end',
-                                    paddingRight: 20,
-                                }}>x{data.children} </span>
+                            <Col span={2}>
+                                <Text className='text-select-info'
+                                    style={{
+                                        color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
+                                        display: 'flex',
+                                        alignItems: 'flex-end',
+                                    }}>x{data.children} </Text>
                             </Col>
-                            <Col span={10}><span style={{
-                                color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
-                                display: 'flex',
-                                alignItems: 'flex-end',
-                                paddingRight: 20,
-                            }}> {childrenPriceFomat}</span></Col>
+                            <Col span={13}>
+                                <Text className='text-select-info'
+                                    style={{
+                                        color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
+                                        display: 'flex',
+                                        alignItems: 'flex-end',
+                                        paddingRight: 20,
+                                    }}> {childrenPriceFomat}</Text></Col>
                         </Row>
                     </div>
                         : ''}
                     {!data.baby == 0 ? <div className='title-infor'>
                         <Row>
-                            <Col span={8}>
-                                <span style={{
-                                    color: 'black', fontSize: 18, fontWeight: 600,
-                                    paddingLeft: 20,
-                                }}>Giá vé em bé </span>
+                            <Col span={9}>
+                                <Text className='text-select-info'
+                                    style={{
+                                        color: 'black', fontSize: 18, fontWeight: 600,
+                                        paddingLeft: 10,
+                                    }}>Giá vé em bé </Text>
                             </Col>
-                            <Col span={6}><span style={{
-                                color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
-                                display: 'flex',
-                                alignItems: 'flex-end',
-                                paddingRight: 20,
-                            }}>x{data.baby} </span></Col>
-                            <Col span={10}><span style={{
-                                color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
-                                display: 'flex',
-                                alignItems: 'flex-end',
-                                paddingRight: 20,
-                            }}>{infantPriceFomat} </span></Col>
+                            <Col span={2}>
+                                <Text className='text-select-info'
+                                    style={{
+                                        color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
+                                        display: 'flex',
+                                        alignItems: 'flex-end',
+                                    }}>x{data.baby} </Text></Col>
+                            <Col span={13}>
+                                <Text className='text-select-info'
+                                    style={{
+                                        color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
+                                        display: 'flex',
+                                        alignItems: 'flex-end',
+                                        paddingRight: 20,
+                                    }}>{infantPriceFomat} </Text></Col>
                         </Row>
                     </div>
                         : ''}
                     <div className='title-infor'>
                         <Row>
-                            <Col span={8}>
-                                <span style={{
-                                    color: 'black', fontSize: 18, fontWeight: 600,
-                                    paddingLeft: 20,
-                                }}>Thuế, phí </span>
+                            <Col span={9}>
+                                <Text className='text-select-info'
+                                    style={{
+                                        color: 'black', fontSize: 18, fontWeight: 600,
+                                        paddingLeft: 10,
+                                    }}>Thuế, phí </Text>
                             </Col>
-                            <Col span={6}><span style={{
-                                color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
-                                display: 'flex',
-                                alignItems: 'flex-end',
-                                paddingRight: 20,
-                            }}>x{totalPeople} </span></Col>
-                            <Col span={10}><span style={{
-                                color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
-                                display: 'flex',
-                                alignItems: 'flex-end',
-                                paddingRight: 20,
-                            }}> {taxesfightFomat}</span></Col>
+                            <Col span={2}>
+                                <Text style={{
+                                    color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
+                                    display: 'flex',
+                                    alignItems: 'flex-end',
+                                }}>x{totalPeople} </Text></Col>
+                            <Col span={13}>
+                                <Text className='text-select-info'
+                                    style={{
+                                        color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
+                                        display: 'flex',
+                                        alignItems: 'flex-end',
+                                        paddingRight: 20,
+                                    }}> {taxesfightFomat}</Text></Col>
                         </Row>
                     </div>
                     <div className='title-infor'>
                         <Row>
-                            <Col span={8}>
-                                <span style={{
-                                    color: 'black', fontSize: 18, fontWeight: 600,
-                                    paddingLeft: 20,
-                                }}>Dịch vụ </span>
+                            <Col span={9}>
+                                <Text className='text-select-info'
+                                    style={{
+                                        color: 'black', fontSize: 18, fontWeight: 600,
+                                        paddingLeft: 20,
+                                    }}>Dịch vụ </Text>
                             </Col>
-                            <Col span={16}><span style={{
-                                color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
-                                display: 'flex',
-                                alignItems: 'flex-end',
-                                paddingRight: 20,
-                            }}>0 VND </span></Col>
+                            <Col span={15}>
+                                <Text style={{
+                                    color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
+                                    display: 'flex',
+                                    alignItems: 'flex-end',
+                                    paddingRight: 20,
+                                }}>0 VND </Text></Col>
                         </Row>
                     </div>
 
@@ -163,134 +188,161 @@ const SelectInfoFly = (props) => {
                         :
                         <div>
                             <div style={{ backgroundColor: 'rgb(201, 239, 255)' }}>
-                                <span style={{
-                                    color: 'black', fontSize: 18, fontWeight: 400,
-                                    paddingLeft: 20,
+                                <Text
+                                    style={{
+                                        color: 'black', fontSize: 18, fontWeight: 400,
+                                        paddingLeft: 20,
 
-                                }}>Chuyến về</span>
+                                    }}>Chuyến về</Text>
                             </div>
-                            <span style={{
-                                color: 'black', fontSize: 18, fontWeight: 500,
-                                paddingLeft: 40,
+                            <Row style={{ paddingTop: 10 }}>
+                                <Col span={10}>
+                                    <Text className='sourceAirportCity'
+                                        style={{
+                                            color: 'black', fontSize: 18, fontWeight: 500,
+                                            paddingLeft: 40,
 
-                            }}> {data.destinationAirportCity}</span>
-                            <span style={{
-                                color: 'black', fontSize: 18, fontWeight: 500,
-                                paddingLeft: 40,
-                            }}>  <IconPlane style={{ width: 25, height: 25, marginRight: 15, paddingTop: 6 }} /> </span>
-                            <span style={{
-                                color: 'black', fontSize: 18, fontWeight: 500,
-                                paddingLeft: 40,
+                                        }}> {data.destinationAirportCity}</Text>
+                                </Col>
+                                <Col span={4}>
+                                    <Text
+                                        style={{
+                                            color: 'black', fontSize: 18, fontWeight: 500
+                                        }}>  <IconPlane style={{ width: 25, height: 25, paddingTop: 6 }} /> </Text>
+                                </Col>
+                                <Col span={10}>
+                                    <Text className='destinationAirportCity'
+                                        style={{
+                                            color: 'black', fontSize: 18, fontWeight: 500,
+                                        }}>{data.sourceAirportCity}</Text>
 
-                            }}>{data.sourceAirportCity} </span>
+                                </Col>
+                            </Row>
                             <div className='title-infor'>
                                 <Row>
-                                    <Col span={8}>
-                                        <span style={{
-                                            color: 'black', fontSize: 18, fontWeight: 600,
-                                            paddingLeft: 20,
-                                        }}>Giá vé </span>
+                                    <Col span={9}>
+                                        <Text className='text-select-info'
+                                            style={{
+                                                color: 'black', fontSize: 18, fontWeight: 600,
+                                                paddingLeft: 10,
+                                            }}>Giá vé </Text>
                                     </Col>
-                                    <Col span={6}>
-                                        <span style={{
-                                            color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
-                                            display: 'flex',
-                                            alignItems: 'flex-end',
-                                            paddingRight: 20,
-                                        }}>x{data.adult} </span>
+                                    <Col span={2}>
+                                        <Text className='text-select-info'
+                                            style={{
+                                                color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
+                                                display: 'flex',
+                                                alignItems: 'flex-end',
+                                            }}>x{data.adult} </Text>
                                     </Col>
-                                    <Col span={10}><span style={{
-                                        color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
-                                        display: 'flex',
-                                        alignItems: 'flex-end',
-                                        paddingRight: 20,
-                                    }}> {adultsPriceFomatReturn}</span></Col>
+                                    <Col span={13}>
+                                        <Text className='text-select-info'
+                                            style={{
+                                                color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
+                                                display: 'flex',
+                                                alignItems: 'flex-end',
+                                                paddingRight: 20,
+                                            }}> {adultsPriceFomatReturn}</Text></Col>
                                 </Row>
                             </div>
                             {!data.children == 0 ? <div className='title-infor'>
                                 <Row>
-                                    <Col span={8}>
-                                        <span style={{
-                                            color: 'black', fontSize: 18, fontWeight: 600,
-                                            paddingLeft: 20,
-                                        }}>Giá vé trẻ em </span>
+                                    <Col span={9}>
+                                        <Text className='text-select-info'
+                                            style={{
+                                                color: 'black', fontSize: 18, fontWeight: 600,
+                                                paddingLeft: 10,
+                                            }}>Giá vé trẻ em </Text>
                                     </Col>
-                                    <Col span={6}>
-                                        <span style={{
-                                            color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
-                                            display: 'flex',
-                                            alignItems: 'flex-end',
-                                            paddingRight: 20,
-                                        }}>x{data.children} </span>
+                                    <Col span={2}>
+                                        <Text className='text-select-info'
+                                            style={{
+                                                color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
+                                                display: 'flex',
+                                                alignItems: 'flex-end',
+                                            }}>x{data.children} </Text>
                                     </Col>
-                                    <Col span={10}><span style={{
-                                        color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
-                                        display: 'flex',
-                                        alignItems: 'flex-end',
-                                        paddingRight: 20,
-                                    }}> {childrenPriceFomatReturn}</span></Col>
+                                    <Col span={13}>
+                                        <Text className='text-select-info'
+                                            style={{
+                                                color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
+                                                display: 'flex',
+                                                alignItems: 'flex-end',
+                                                paddingRight: 20,
+                                            }}> {childrenPriceFomatReturn}</Text></Col>
                                 </Row>
                             </div>
                                 : ''}
                             {!data.baby == 0 ? <div className='title-infor'>
                                 <Row>
-                                    <Col span={8}>
-                                        <span style={{
-                                            color: 'black', fontSize: 18, fontWeight: 600,
-                                            paddingLeft: 20,
-                                        }}>Giá vé em bé </span>
+                                    <Col span={9}>
+                                        <Text className='text-select-info'
+                                            style={{
+                                                color: 'black', fontSize: 18, fontWeight: 600,
+                                                paddingLeft: 10,
+                                            }}>Giá vé em bé </Text>
                                     </Col>
-                                    <Col span={6}><span style={{
-                                        color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
-                                        display: 'flex',
-                                        alignItems: 'flex-end',
-                                        paddingRight: 20,
-                                    }}>x{data.baby} </span></Col>
-                                    <Col span={10}><span style={{
-                                        color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
-                                        display: 'flex',
-                                        alignItems: 'flex-end',
-                                        paddingRight: 20,
-                                    }}>{infantPriceFomatReturn} </span></Col>
+                                    <Col span={2}>
+                                        <Text className='text-select-info'
+                                            style={{
+                                                color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
+                                                display: 'flex',
+                                                alignItems: 'flex-end',
+                                            }}>x{data.baby} </Text></Col>
+                                    <Col span={13}>
+                                        <Text className='text-select-info'
+                                            style={{
+                                                color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
+                                                display: 'flex',
+                                                alignItems: 'flex-end',
+                                                paddingRight: 20,
+                                            }}>{infantPriceFomatReturn} </Text></Col>
                                 </Row>
                             </div>
                                 : ''}
                             <div className='title-infor'>
                                 <Row>
-                                    <Col span={8}>
-                                        <span style={{
-                                            color: 'black', fontSize: 18, fontWeight: 600,
-                                            paddingLeft: 20,
-                                        }}>Thuế, phí </span>
+                                    <Col span={9}>
+                                        <Text className='text-select-info'
+                                            style={{
+                                                color: 'black', fontSize: 18, fontWeight: 600,
+                                                paddingLeft: 10,
+                                            }}>Thuế, phí </Text>
                                     </Col>
-                                    <Col span={6}><span style={{
-                                        color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
-                                        display: 'flex',
-                                        alignItems: 'flex-end',
-                                        paddingRight: 20,
-                                    }}>x{totalPeople} </span></Col>
-                                    <Col span={10}><span style={{
-                                        color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
-                                        display: 'flex',
-                                        alignItems: 'flex-end',
-                                        paddingRight: 20,
-                                    }}> {taxesfightFomatReturn}</span></Col>
+                                    <Col span={2}>
+                                        <Text className='text-select-info'
+                                            style={{
+                                                color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
+                                                display: 'flex',
+                                                alignItems: 'flex-end',
+                                            }}>x{totalPeople} </Text></Col>
+                                    <Col span={13}>
+                                        <Text className='text-select-info'
+                                            style={{
+                                                color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
+                                                display: 'flex',
+                                                alignItems: 'flex-end',
+                                                paddingRight: 20,
+                                            }}> {taxesfightFomatReturn}</Text></Col>
                                 </Row>
                             </div>
                             <div className='title-infor'>
                                 <Row>
-                                    <Col span={8}>
-                                        <span style={{
-                                            color: 'black', fontSize: 18, fontWeight: 600,
-                                            paddingLeft: 20,
-                                        }}>Dịch vụ </span>
+                                    <Col span={9}>
+                                        <Text className='text-select-info'
+                                            style={{
+                                                color: 'black', fontSize: 18, fontWeight: 600,
+                                                paddingLeft: 10,
+                                            }}>Dịch vụ </Text>
                                     </Col>
-                                    <Col span={16}><span style={{
-                                        color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
-                                        display: 'flex',
-                                        alignItems: 'flex-end',
-                                        paddingRight: 20,
-                                    }}>0 VND </span></Col>
+                                    <Col span={15}>
+                                        <Text className='text-select-info'
+                                            style={{
+                                                color: 'black', fontSize: 18, fontWeight: 600, justifyContent: 'flex-end',
+                                                display: 'flex',
+                                                alignItems: 'flex-end',
+                                                paddingRight: 20,
+                                            }}>0 VND </Text></Col>
                                 </Row>
                             </div>
                         </div>
@@ -299,21 +351,23 @@ const SelectInfoFly = (props) => {
                 <div className='title-select-end'>
                     <Row>
                         <Col span={8}>
-                            <span style={{
-                                color: 'white', fontSize: 20, fontWeight: 600,
-                                paddingLeft: 20,
-                            }}>Tổng tiền</span>
+                            <Text className='text-select-info'
+                                style={{
+                                    color: 'white', fontSize: 20, fontWeight: 600,
+                                    paddingLeft: 20,
+                                }}>Tổng tiền</Text>
                         </Col>
-                        <Col span={16}><span style={{
-                            color: 'white', fontSize: 20, fontWeight: 600, justifyContent: 'flex-end',
-                            display: 'flex',
-                            alignItems: 'flex-end',
-                            paddingRight: 20,
-                        }}>{totalFightFomat}</span></Col>
+                        <Col span={16}>
+                            <Text className='text-select-info'
+                                style={{
+                                    color: 'white', fontSize: 20, fontWeight: 600, justifyContent: 'flex-end',
+                                    display: 'flex',
+                                    alignItems: 'flex-end',
+                                    paddingRight: 20,
+                                }}>{totalFightFomat}</Text></Col>
                     </Row>
                 </div>
-
-            </Form>
+            </Form >
         </>
     )
 }

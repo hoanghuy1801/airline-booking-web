@@ -9,11 +9,9 @@
     background-color: rgb(222, 240, 223);;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
-    height: 150px;
+    height: auto;
     margin-bottom: 20px;
-
-  
-    
+ 
 }
 .name-airline{
     font-size: 20px;
@@ -90,8 +88,8 @@
 }
 
 .btn-select{
-    margin-top: 50px;
-    margin-left: 90px;
+    margin-top: 15%;
+    margin-left: 30%;
     height: 40px;
     width: 120px;
     background-color: #006885;
@@ -110,4 +108,135 @@
     font-weight: 600;
     padding-bottom: 10px;
     color: #25A006;
+}
+@media (max-width:1730px){
+    .price-fly{
+        font-size: 16px;
+    }
+    .name-aircraft-fly{
+        font-size: 15px;
+    }
+    .time-start-fly{
+        font-size: 25px;
+    }
+    .code-start-fly{
+        font-size: 18px;
+    }
+    .flightName{
+        font-size: 15px;
+    }
+    .fly-ladder{
+       font-size: 18px; 
+    }
+    .time-to-fly{
+        font-size: 15px;
+    }
+    .name-airline{
+        font-size: 19px;
+    }
+    
+}
+@media (max-width:1200px){
+    .price-fly{
+        font-size: 16px;
+    }
+    .name-aircraft-fly{
+        font-size: 15px;
+    }
+    .time-start-fly{
+        font-size: 23px;
+    }
+    .code-start-fly{
+        font-size: 17px;
+    }
+    .flightName{
+        font-size: 14px;
+    }
+    .fly-ladder{
+        font-size: 14px; 
+     }
+     .time-to-fly{
+        font-size: 14px;
+    }
+    .name-airline{
+        font-size:18px;
+    }
+}
+@media (max-width:992px){
+    .price-fly{
+        font-size: 16px;
+    }
+    .name-aircraft-fly{
+        font-size: 14px;
+    }
+    .time-start-fly{
+        font-size: 21px;
+    }
+    .code-start-fly{
+        font-size: 17px;
+    }
+    .flightName{
+        font-size: 13px;
+    }
+    .fly-ladder{
+        font-size: 13px; 
+     }
+     .time-to-fly{
+        font-size: 13px;
+    }
+    .name-airline{
+        font-size: 17px;
+    }
+}
+@media (max-width:768px){
+    .price-fly{
+        font-size: 14px;
+    }
+    .name-aircraft-fly{
+        font-size: 13px;
+    }
+    .time-start-fly{
+        font-size: 20px;
+    }
+    .code-start-fly{
+        font-size: 17px;
+    }
+    .flightName{
+        font-size: 12px;
+    }
+    .fly-ladder{
+        font-size: 12px; 
+     }
+     .time-to-fly{
+        font-size: 12px;
+    }
+    .name-airline{
+        font-size: 16px;
+    }
+}
+@media (max-width:576px){
+    .price-fly{
+        font-size: 13px;
+    }
+    .name-aircraft-fly{
+        font-size: 11px;
+    }
+    .time-start-fly{
+        font-size: 18px;
+    }
+    .code-start-fly{
+        font-size: 16px;
+    }
+    .flightName{
+        font-size: 11px;
+    }
+    .fly-ladder{
+        font-size: 11px; 
+     }
+     .time-to-fly{
+        font-size: 11px;
+    }
+    .name-airline{
+        font-size: 15px;
+    }
 }
