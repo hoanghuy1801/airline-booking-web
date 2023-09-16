@@ -1,4 +1,18 @@
 .rowInforPassengers{
-   padding-top: 5px;
-   padding-bottom: 5px;
+   padding: 1% 0% 1% 4%;
+}
+@media (max-width:1200px){
+   .infor-user-select-flight {
+      padding: 2% 2% 2% 2% !important;
+  }
+}
+@media (max-width:992px){
+   .infor-user-select-flight {
+      padding: 2% 1% 2% 1% !important;
+  }
+}
+@media (max-width:768px){
+   .infor-user-select-flight {
+      padding: 2% 2% 2% 2% !important;
+  }
 }

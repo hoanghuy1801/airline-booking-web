@@ -1,15 +1,15 @@
-import { Row, Col, Radio, Collapse, Input, DatePicker, Select } from 'antd';
+import { Row, Col, Radio, Collapse, Input, DatePicker, Select, Typography } from 'antd';
 import './Passenger.css'
 import { CaretRightOutlined } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import { useDispatch } from "react-redux";
-import { Data_Passengers } from '../../../redux/action/PassengersAction';
+const { Title, Text } = Typography;
 const Passenger = () => {
     const navigate = useNavigate();
 
-    const [value, setValue] = useState(1);
+    const [valueRadio, setValueRadio] = useState();
 
     const [inputLastName, setInputLastName] = useState('');
 
@@ -26,17 +26,8 @@ const Passenger = () => {
 
     const numberbaby = Array.from({ length: data_homepage.baby });
 
-    // const removeDiacritics = (str) => {
-    //     return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    // };
-
-    // const newinputLastName = removeDiacritics(inputLastName);
-
-    // const newinputFirstName = removeDiacritics(inputFirstName);
-
-
     const onChange = (e) => {
-        setValue(e.target.value);
+        setValueRadio(e.target.value);
     };
 
     const handleInputLastName = (index, event) => {
@@ -53,8 +44,8 @@ const Passenger = () => {
     };
     return (
         <>
-            <p className='title'>Thông tin hành khách</p>
-            {numberadult.map((value, index) => (
+            <Text className='title'>Thông tin hành khách</Text>
+            {numberadult.map((_, index) => (
                 <div key={index}>
                     <Collapse
                         key='adult'
@@ -66,7 +57,7 @@ const Passenger = () => {
                                 children:
                                     <div className='formPassengers'>
                                         <Row className='rowInforPassengers'>
-                                            <Radio.Group onChange={onChange} value={value}>
+                                            <Radio.Group onChange={onChange} value={valueRadio}>
                                                 <Radio value='Nam'>Nam</Radio>
                                                 <Radio value='Nữ'>Nữ</Radio>
                                                 <Radio value='Khác'>Khác</Radio>
@@ -74,68 +65,95 @@ const Passenger = () => {
                                         </Row>
                                         <Row className='rowInforPassengers'>
                                             <Col span={12}>
-                                                <span style={{ fontSize: '16px', fontWeight: 500 }}>Họ*</span>
-                                                <Input
-                                                    placeholder='Họ'
-                                                    style={{ width: 350 }}
-                                                    value={value}
-                                                    onChange={(event) => handleInputLastName(index, event)}
-                                                />
+                                                <Row>
+                                                    <Text className='text-passenger'>Họ*</Text>
+                                                </Row>
+                                                <Row>
+                                                    <Input
+                                                        placeholder='Họ'
+                                                        style={{ width: '90%' }}
+
+                                                        onChange={(event) => handleInputLastName(index, event)}
+                                                    />
+                                                </Row>
                                             </Col>
                                             <Col span={12}>
-                                                <span style={{ fontSize: '16px', fontWeight: 500 }}>Tên đệm & tên*</span>
-                                                <Input
-                                                    placeholder='Tên đệm & tên theo trình tự CCCD'
-                                                    value={value}
-                                                    onChange={(event) => handleInputFirstName(index, event)}
-                                                />
+                                                <Row>
+                                                    <Text className='text-passenger'>Tên đệm & tên*</Text>
+                                                </Row>
+                                                <Row>
+                                                    <Input
+                                                        placeholder='Tên đệm & tên theo trình tự CCCD'
+                                                        style={{ width: '90%' }}
+
+                                                        onChange={(event) => handleInputFirstName(index, event)}
+                                                    />
+                                                </Row>
                                             </Col>
                                         </Row>
                                         <Row className='rowInforPassengers'>
                                             <Col span={12}>
-                                                <span style={{ fontSize: '16px', fontWeight: 500 }}>Ngày sinh*</span>
-                                                <DatePicker style={{ width: 350 }} placeholder='Ngày sinh' />
+                                                <Row>
+                                                    <Text className='text-passenger'>Ngày sinh*</Text>
+                                                </Row>
+                                                <Row>
+                                                    <DatePicker style={{ width: '90%' }} placeholder='Ngày sinh' />
+                                                </Row>
                                             </Col>
                                             <Col span={12}>
-                                                <span style={{ fontSize: '16px', fontWeight: 500 }}>Quốc gia*</span>
-                                                <Select
-                                                    showSearch
-                                                    style={{ width: 365 }}
-                                                    placeholder="Điểm khởi hành"
-                                                    optionFilterProp="children"
-                                                    filterOption={(input, option) => (option?.label ?? '').includes(input)}
-                                                    filterSort={(optionA, optionB) =>
-                                                        (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-                                                    }
-
-                                                    options={[
-                                                        {
-                                                            value: '1',
-                                                            label: 'SGN',
-                                                        },
-                                                        {
-                                                            value: '2',
-                                                            label: 'HN',
-                                                        },
-
-                                                    ]}
-                                                />
+                                                <Row>
+                                                    <Text className='text-passenger'>Quốc gia*</Text>
+                                                </Row>
+                                                <Row>
+                                                    <Select
+                                                        showSearch
+                                                        style={{ width: '90%' }}
+                                                        placeholder="Chọn quốc gia"
+                                                        optionFilterProp="children"
+                                                        filterOption={(input, option) => (option?.label ?? '').includes(input)}
+                                                        filterSort={(optionA, optionB) =>
+                                                            (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                                                        }
+                                                        options={[
+                                                            {
+                                                                value: '1',
+                                                                label: 'SGN',
+                                                            },
+                                                            {
+                                                                value: '2',
+                                                                label: 'HN',
+                                                            },
+                                                        ]}
+                                                    />
+                                                </Row>
                                             </Col>
                                         </Row>
                                         <Row className='rowInforPassengers'>
                                             <Col span={12}>
-                                                <span style={{ fontSize: '16px', fontWeight: 500 }}>Số điện thoại*</span>
-                                                <Input placeholder='Số điện thoại' style={{ width: 350 }} />
+                                                <Row>
+                                                    <Text className='text-passenger'>Số điện thoại*</Text>
+                                                </Row>
+                                                <Row>
+                                                    <Input placeholder='Số điện thoại' style={{ width: '90%' }} />
+                                                </Row>
                                             </Col>
                                             <Col span={12}>
-                                                <span style={{ fontSize: '16px', fontWeight: 500 }}>Email*</span>
-                                                <Input placeholder='Email của bạn' />
+                                                <Row>
+                                                    <Text className='text-passenger'>Email*</Text>
+                                                </Row>
+                                                <Row>
+                                                    <Input placeholder='Email của bạn' style={{ width: '90%' }} />
+                                                </Row>
                                             </Col>
                                         </Row>
                                         <Row className='rowInforPassengers'>
                                             <Col span={24}>
-                                                <span style={{ fontSize: '16px', fontWeight: 500 }}>Nơi ở</span>
-                                                <Input placeholder='Nơi ở hiện tại' style={{ width: 730 }} />
+                                                <Row>
+                                                    <Text className='text-passenger'>Nơi ở</Text>
+                                                </Row>
+                                                <Row>
+                                                    <Input placeholder='Nơi ở hiện tại' style={{ width: '95%' }} />
+                                                </Row>
                                             </Col>
                                         </Row>
                                     </div>
@@ -164,24 +182,41 @@ const Passenger = () => {
                                             <div className='formPassengers'>
                                                 <Row className='rowInforPassengers'>
                                                     <Col span={12}>
-                                                        <span style={{ fontSize: '16px', fontWeight: 500 }}>Họ*</span>
-                                                        <Input placeholder='Họ' style={{ width: 350 }} />
+                                                        <Row>
+                                                            <Text className='text-passenger'>Họ*</Text>
+                                                        </Row>
+                                                        <Row>
+                                                            <Input
+                                                                placeholder='Họ'
+                                                                style={{ width: '90%' }}
+                                                                onChange={(event) => handleInputLastName(index, event)}
+                                                            />
+                                                        </Row>
                                                     </Col>
                                                     <Col span={12}>
-                                                        <span style={{ fontSize: '16px', fontWeight: 500 }}>Tên đệm & tên*</span>
-                                                        <Input placeholder='Tên đệm & tên theo trình tự theo giấy khai sinh' />
+                                                        <Row>
+                                                            <Text className='text-passenger'>Tên đệm & tên*</Text>
+                                                        </Row>
+                                                        <Row>
+                                                            <Input placeholder='Tên đệm & tên theo trình tự theo giấy khai sinh'
+                                                                style={{ width: '90%' }} />
+                                                        </Row>
                                                     </Col>
                                                 </Row>
                                                 <Row className='rowInforPassengers'>
                                                     <Col span={12}>
-                                                        <span style={{ fontSize: '16px', fontWeight: 500 }}>Ngày sinh*</span>
-                                                        <DatePicker style={{ width: 350 }} placeholder='Ngày sinh' />
+                                                        <Row>
+                                                            <Text className='text-passenger'>Ngày sinh*</Text>
+                                                        </Row>
+                                                        <Row>
+                                                            <DatePicker style={{ width: '90%' }} placeholder='Ngày sinh' />
+                                                        </Row>
                                                     </Col>
                                                     <Col span={12}>
-                                                        <span style={{ fontSize: '16px', fontWeight: 500 }}>Giới tính</span>
+                                                        <Text className='text-passenger'>Giới tính</Text>
                                                         <Select
                                                             showSearch
-                                                            style={{ width: 365 }}
+                                                            style={{ width: '90%' }}
                                                             defaultValue={1}
                                                             optionFilterProp="children"
                                                             filterOption={(input, option) => (option?.label ?? '').includes(input)}
@@ -203,7 +238,6 @@ const Passenger = () => {
                                                         />
                                                     </Col>
                                                 </Row>
-
                                             </div>
                                     },
                                 ]}
@@ -233,30 +267,51 @@ const Passenger = () => {
                                             <div className='formPassengers'>
                                                 <Row className='rowInforPassengers'>
                                                     <Col span={24}>
-                                                        <span style={{ fontSize: '16px', fontWeight: 500 }}>Đi cùng</span>
-                                                        <Input placeholder='Tên người em bé đi cùng' style={{ width: 730 }} />
+                                                        <Row>
+                                                            <Text className='text-passenger'>Đi cùng</Text>
+                                                        </Row>
+                                                        <Row>
+                                                            <Input placeholder='Tên người em bé đi cùng' style={{ width: '95%' }} />
+                                                        </Row>
                                                     </Col>
                                                 </Row>
                                                 <Row className='rowInforPassengers'>
                                                     <Col span={12}>
-                                                        <span style={{ fontSize: '16px', fontWeight: 500 }}>Họ*</span>
-                                                        <Input placeholder='Họ' style={{ width: 350 }} />
+                                                        <Row>
+                                                            <Text className='text-passenger'>Họ*</Text>
+                                                        </Row>
+                                                        <Row>
+                                                            <Input
+                                                                placeholder='Họ'
+                                                                style={{ width: '90%' }}
+                                                                onChange={(event) => handleInputLastName(index, event)}
+                                                            />
+                                                        </Row>
                                                     </Col>
                                                     <Col span={12}>
-                                                        <span style={{ fontSize: '16px', fontWeight: 500 }}>Tên đệm & tên*</span>
-                                                        <Input placeholder='Tên đệm & tên theo trình tự theo giấy khai sinh' />
+                                                        <Row>
+                                                            <Text className='text-passenger'>Tên đệm & tên*</Text>
+                                                        </Row>
+                                                        <Row>
+                                                            <Input placeholder='Tên đệm & tên theo trình tự theo giấy khai sinh'
+                                                                style={{ width: '90%' }} />
+                                                        </Row>
                                                     </Col>
                                                 </Row>
                                                 <Row className='rowInforPassengers'>
                                                     <Col span={12}>
-                                                        <span style={{ fontSize: '16px', fontWeight: 500 }}>Ngày sinh*</span>
-                                                        <DatePicker style={{ width: 350 }} placeholder='Ngày sinh' />
+                                                        <Row>
+                                                            <Text className='text-passenger'>Ngày sinh*</Text>
+                                                        </Row>
+                                                        <Row>
+                                                            <DatePicker style={{ width: '90%' }} placeholder='Ngày sinh' />
+                                                        </Row>
                                                     </Col>
                                                     <Col span={12}>
-                                                        <span style={{ fontSize: '16px', fontWeight: 500 }}>Giới tính</span>
+                                                        <Text className='text-passenger'>Giới tính</Text>
                                                         <Select
                                                             showSearch
-                                                            style={{ width: 365 }}
+                                                            style={{ width: '90%' }}
                                                             defaultValue={1}
                                                             optionFilterProp="children"
                                                             filterOption={(input, option) => (option?.label ?? '').includes(input)}

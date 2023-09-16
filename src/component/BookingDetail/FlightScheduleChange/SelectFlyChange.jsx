@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { CaretRightOutlined } from '@ant-design/icons';
 import FormSelectFlyService from '../../FormSelectFlyService/FormSelectFlyService';
+import './Change.css'
 
 const SelectFlyChange = () => {
     const navigate = useNavigate();
@@ -12,7 +13,7 @@ const SelectFlyChange = () => {
         <div className='service-detail'>
             <div className="nav-service-detail">
                 <Row>
-                    <Col span={8} className='code-booking'>
+                    <Col span={24} className='code-booking-change'>
                         <p>Mã đặt chỗ : <span style={{ color: 'red', fontSize: '20px', fontWeight: 700 }}>RQTDND</span></p>
                     </Col>
                 </Row>
@@ -29,10 +30,10 @@ const SelectFlyChange = () => {
                         <Button className='footer-back'
                             onClick={() => { navigate('/my/booking-detail') }} >Quay lại</Button>
                     </Col>
-                    <Col span={12} >
+                    <Col span={10} >
                     </Col>
-                    <Col span={6}>
-                        <Button className='footer-continue'
+                    <Col span={8}>
+                        <Button className='footer-continue-info'
                             onClick={() => { navigate('/my/search-flight-change') }} >Tiếp tục</Button>
                     </Col>
                 </Row>

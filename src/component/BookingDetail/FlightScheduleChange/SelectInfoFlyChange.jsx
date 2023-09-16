@@ -2,7 +2,7 @@ import { Row, Col, Form } from 'antd';
 import { IconPlane } from '@tabler/icons-react';
 import React from 'react';
 import { useSelector } from 'react-redux';
-
+import './Change.css'
 
 const SelectInfoFlyChange = () => {
     const data_homepage = useSelector(state => state.formsearch.data_booking);

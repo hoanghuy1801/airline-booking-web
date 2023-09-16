@@ -25,11 +25,11 @@ const BookingDetail = () => {
         <div className="booking-detail" style={{ paddingBottom: "1000px" }}>
             <div className="info-booking-detail">
                 <Row>
-                    <Col span={8} className='code-booking'>
+                    <Col xs={12} sm={12} md={8} lg={8} xl={8} className='code-booking'>
                         <p>Mã đặt chỗ : <span style={{ color: 'red', fontSize: '20px', fontWeight: 700 }}>RQTDND</span></p>
 
                     </Col>
-                    <Col span={16} className='code-booking-status'>
+                    <Col xs={12} sm={12} md={16} lg={16} xl={16} className='code-booking-status'>
                         <p>Trạng thái: <span style={{ color: 'green', fontSize: '20px', fontWeight: 700 }}>Đã thanh toán</span></p>
                     </Col>
                 </Row>
@@ -44,32 +44,25 @@ const BookingDetail = () => {
                     <CollapseChildren />
                     <CollapseBaby />
                 </div>
-
             </div>
-            <div className="footer">
-                <Row>
-                    <Col span={4}>
-                    </Col>
-                    <Col span={4}>
-                        <Button className='btn-mail-search' onClick={() => showDrawerCaneclFight()} >Hoàn Tiền/Hủy Chuyến</Button>
-                    </Col>
-                    <Col span={4}>
-                        <Button className='btn-mail-search' onClick={() => navigate('/my/select-fly-change')}>Thay đổi lịch bay</Button>
-                    </Col>
-                    <Col span={4}>
-                        <Button className='btn-mail-search' onClick={() => navigate('/my/select-fly-service')} >Mua thêm dịch vụ</Button>
-                    </Col>
-                    <Col span={4}>
-                        <Button className='btn-mail-search' onClick={() => navigate('/')}>Tìm chuyến bay khách</Button>
-                    </Col>
-                    <Col span={4}>
-                    </Col>
+            <div>
+                <Row className='form-btn-booking-detail'>
 
+                    <Col xs={24} sm={12} md={12} lg={12} xl={12}>
+                        <Button className='btn-booking-detail' onClick={() => showDrawerCaneclFight()} >Hoàn Tiền/Hủy Chuyến</Button>
+                    </Col>
+                    <Col xs={24} sm={12} md={12} lg={12} xl={12}>
+                        <Button className='btn-booking-detail' onClick={() => navigate('/my/select-fly-change')}>Thay đổi lịch bay</Button>
+                    </Col>
                 </Row>
-
-
-
-
+                <Row className='form-btn-booking-detail'>
+                    <Col xs={24} sm={12} md={12} lg={12} xl={12}>
+                        <Button className='btn-booking-detail' onClick={() => navigate('/my/select-fly-service')} >Mua thêm dịch vụ</Button>
+                    </Col>
+                    <Col xs={24} sm={12} md={12} lg={12} xl={12}>
+                        <Button className='btn-booking-detail' onClick={() => navigate('/')}>Tìm chuyến bay khách</Button>
+                    </Col>
+                </Row>
             </div>
             <Drawer
                 title="Hoàn Tiền/Hủy chuyến"
@@ -84,11 +77,8 @@ const BookingDetail = () => {
                     <div className='form-cancel-trip'>
                         <div className='date-select-fly'>
                             <Row>
-                                <Col span={18}><p style={{ fontSize: '18px', fontWeight: 500 }}>Chuyến đi</p></Col>
-                                <Col span={2}>
-                                    <p style={{ fontSize: '18px', fontWeight: 500 }}> Chọn </p>
-                                </Col>
-                                <Col span={4}>
+                                <Col span={21}><p style={{ fontSize: '18px', fontWeight: 500 }}>Chuyến đi</p></Col>
+                                <Col span={3}>
                                     <Checkbox />
                                 </Col>
                             </Row>
@@ -120,11 +110,8 @@ const BookingDetail = () => {
                     <div className='form-cancel-trip'>
                         <div className='date-select-fly'>
                             <Row>
-                                <Col span={18}><p style={{ fontSize: '18px', fontWeight: 500 }}>Chuyến về</p></Col>
-                                <Col span={2}>
-                                    <p style={{ fontSize: '18px', fontWeight: 500 }}> Chọn </p>
-                                </Col>
-                                <Col span={4}>
+                                <Col span={21}><p style={{ fontSize: '18px', fontWeight: 500 }}>Chuyến về</p></Col>
+                                <Col span={3}>
                                     <Checkbox />
                                 </Col>
                             </Row>
@@ -171,12 +158,9 @@ const BookingDetail = () => {
                     </div>
 
                 </div>
-                <div className="footer-divider">
-                    <Row >
-                        <Col span={24} >
-                            <Button className='btn-cancel' >Gửi yêu cầu</Button>
-                        </Col>
-                    </Row>
+                <div className='btn-form-require'>
+
+                    <Button className='btn-require' >Gửi yêu cầu</Button>
                 </div>
             </Drawer >
 

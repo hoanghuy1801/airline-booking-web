@@ -35,6 +35,16 @@
 }
 @media (max-width:1200px){
     .infor-user-select{
-        margin-left: 0% !important;
+        margin: 2% 2% 2% 2% !important;
     }
+}
+@media (max-width:992px){
+    .infor-user-select{
+    margin: 2% 1% 2% 1% !important;
+}
+}
+@media (max-width:768px){
+   .infor-user-select-flight {
+    margin: 2% 1% 2% 1% !important;
+  }
 }
