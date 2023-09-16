@@ -3,7 +3,7 @@ import { IconPlane, IconUserCircle, IconCurrencyDollar, IconShoppingCart } from 
 import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import './SearchFightChange.css'
+import './Change.css'
 import { CaretRightOutlined } from '@ant-design/icons';
 import FormSelectFlyService from '../../FormSelectFlyService/FormSelectFlyService';
 import FormSearch from '../../Home/FormSearch/FormSearch';
@@ -26,7 +26,7 @@ const SearchFightChange = () => {
         <div className='search-detail'>
             <div className="nav-service-detail">
                 <Row>
-                    <Col span={8} className='code-booking'>
+                    <Col span={24} className='code-booking'>
                         <p>Mã đặt chỗ : <span style={{ color: 'red', fontSize: '20px', fontWeight: 700 }}>RQTDND</span></p>
                     </Col>
                 </Row>

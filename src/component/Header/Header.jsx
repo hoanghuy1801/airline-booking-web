@@ -6,7 +6,7 @@ import { MenuOutlined, UserOutlined } from '@ant-design/icons';
 import { Drawer, Menu, Row, Col, Button } from 'antd';
 import { useDispatch } from 'react-redux';
 import '../Header/Header.css'
-import logo from '../../assets/VivuTravel.png'
+import logo from '../../assets/VivuAirlines.png'
 
 
 const Header = () => {
@@ -46,13 +46,13 @@ const Header = () => {
                         <Col span={6} >
                             <div className='logo'>  <img src={logo} onClick={() => { navigate('/') }} style={{ cursor: 'pointer' }} /></div>
                         </Col>
-                        <Col span={12} >
+                        <Col span={10} >
                             <div className='service'>
                                 <Button className='service-child' type='link' onClick={() => { navigate('/my/search-booking') }}>CHUYẾN BAY CỦA TÔI</Button>
                                 <Button className='service-child' type='link' onClick={() => { navigate('/checkin') }}>CHECKIN-ONLINE</Button>
                             </div>
                         </Col>
-                        <Col span={6} >
+                        <Col span={8} >
                             <div className='auth'>
                                 <UserOutlined className='auth-Icon' />
                                 <span className='auth-child' onClick={() => { navigate('/register') }} >Đăng ký </span>

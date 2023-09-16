@@ -127,51 +127,50 @@ const Service = (props) => {
                             <span style={{ color: 'black' }}>SGN - HAN</span>
                         </Row>
                     </div>
-                    <div className='information-seat'>
-                        <Row>
-                            <Col span={8} style={{ display: 'flex' }}>
-                                <div style={{ backgroundColor: 'red' }} className='information-seat-color'>
-                                </div>
-                                <span>Ghế thương gia</span>
-                            </Col>
-                            <Col span={8} style={{ display: 'flex' }}>
-                                <div style={{ backgroundColor: '#25A006' }} className='information-seat-color'>
-                                </div>
-                                <span>Ghế phổ thông đặc biệt</span>
-                            </Col>
+                    <div className='form-seat'>
+                        <div className='information-seat'>
+                            <Row>
+                                <Col xs={12} sm={8} md={8} lg={8} xl={8} style={{ display: 'flex', paddingTop: 10 }}>
+                                    <div style={{ backgroundColor: 'red' }} className='information-seat-color'>
+                                    </div>
+                                    <span>Ghế thương gia</span>
+                                </Col>
+                                <Col xs={12} sm={8} md={8} lg={8} xl={8} style={{ display: 'flex', paddingTop: 10 }}>
+                                    <div style={{ backgroundColor: '#25A006' }} className='information-seat-color'>
+                                    </div>
+                                    <span>Ghế phổ thông đặc biệt</span>
+                                </Col>
 
-                            <Col span={8} style={{ display: 'flex' }}>
-                                <div style={{ backgroundColor: ' #208AEC' }} className='information-seat-color'>
-                                </div>
-                                <span>Ghế phổ thông</span>
-                            </Col>
-                        </Row>
-                        <Row style={{ paddingTop: '10px' }}>
-                            <Col span={8} style={{ display: 'flex' }}>
-                                <div style={{ backgroundColor: '#FBB612 ' }} className='information-seat-color'>
-                                </div>
-                                <span>Ghế đang chọn</span>
-                            </Col>
+                                <Col xs={12} sm={8} md={8} lg={8} xl={8} style={{ display: 'flex', paddingTop: 10 }}>
+                                    <div style={{ backgroundColor: ' #208AEC' }} className='information-seat-color'>
+                                    </div>
+                                    <span>Ghế phổ thông</span>
+                                </Col>
+                                <Col xs={12} sm={8} md={8} lg={8} xl={8} style={{ display: 'flex', paddingTop: 10 }}>
+                                    <div style={{ backgroundColor: '#FBB612 ' }} className='information-seat-color'>
+                                    </div>
+                                    <span>Ghế đang chọn</span>
+                                </Col>
 
-                            <Col span={8} style={{ display: 'flex' }}>
-                                <div style={{ backgroundColor: ' #D1D3D4' }} className='information-seat-color'>
-                                </div>
-                                <span>Đã có người</span>
-                            </Col>
-                        </Row>
+                                <Col xs={12} sm={8} md={8} lg={8} xl={8} style={{ display: 'flex', paddingTop: 10 }}>
+                                    <div style={{ backgroundColor: ' #D1D3D4' }} className='information-seat-color'>
+                                    </div>
+                                    <span>Đã có người</span>
+                                </Col>
+                            </Row>
+                        </div>
+                        <div className='seat-ariline'>
+                            <SeatSelector />
+                        </div>
                     </div>
-                    <div className='seat-ariline'>
-                        <SeatSelector />
-                    </div>
-
                     <div className="footer-divider">
                         <Row >
-                            <Col span={3}  >
+                            <Col span={3} className='display-img' >
                                 <div style={{ backgroundColor: 'white' }} className='information-seat-icon-color'>
                                     <img src={imgFavorite} style={{ width: '40px', height: '40px' }} />
                                 </div>
                             </Col>
-                            <Col span={12}>
+                            <Col span={12} className='display-img'>
                                 <Row>
                                     <i className='seat-price'>4-C: Ghế cao cấp</i>
                                 </Row>
@@ -179,8 +178,8 @@ const Service = (props) => {
                                     <i className='seat-price'>90,000 VND</i>
                                 </Row>
                             </Col>
-                            <Col span={7} >
-                                <Button className='footer-continue' >Xác nhận</Button>
+                            <Col xl={9} >
+                                <Button className='footer-continue-service' >Xác nhận</Button>
                             </Col>
 
                         </Row>
@@ -246,12 +245,12 @@ const Service = (props) => {
                     </div>
                     <div className="footer-divider">
                         <Row >
-                            <Col span={3}  >
+                            <Col span={3} className='display-img'>
                                 <div style={{ backgroundColor: 'white' }} className='information-seat-icon-color'>
                                     <img src={imgluggage} style={{ width: '40px', height: '40px' }} />
                                 </div>
                             </Col>
-                            <Col span={12}>
+                            <Col span={12} className='display-img'>
                                 <Row>
                                     <i className='seat-price'>Gói {valueRadio.value}kg</i>
                                 </Row>
@@ -259,8 +258,8 @@ const Service = (props) => {
                                     <i className='seat-price'>{priceBaggageFomat} VND</i>
                                 </Row>
                             </Col>
-                            <Col span={7} >
-                                <Button className='footer-continue' >Xác nhận</Button>
+                            <Col span={9} >
+                                <Button className='footer-continue-service' >Xác nhận</Button>
                             </Col>
                         </Row>
                     </div>
@@ -333,12 +332,12 @@ const Service = (props) => {
                     </div>
                     <div className="footer-divider">
                         <Row >
-                            <Col span={3}  >
+                            <Col span={3} className='display-img' >
                                 <div style={{ backgroundColor: 'white' }} className='information-seat-icon-color'>
                                     <img src={imgFood} style={{ width: '40px', height: '40px' }} />
                                 </div>
                             </Col>
-                            <Col span={12}>
+                            <Col span={12} className='display-img'>
                                 <Row>
                                     <i className='seat-price'>Suất ăn nóng</i>
                                 </Row>
@@ -346,8 +345,8 @@ const Service = (props) => {
                                     <i className='seat-price'>100,000 VND</i>
                                 </Row>
                             </Col>
-                            <Col span={7} >
-                                <Button className='footer-continue' >Xác nhận</Button>
+                            <Col span={9} >
+                                <Button className='footer-continue-service' >Xác nhận</Button>
                             </Col>
                         </Row>
                     </div>
