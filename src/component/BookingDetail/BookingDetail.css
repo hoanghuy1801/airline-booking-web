@@ -8,15 +8,15 @@
     background-color: white;
 
 }
+
 .code-booking{
-    display: flex;
-    justify-content: end;
-    align-content: center;
-    padding-right: 3%;
-    padding-top: 1%;
-    font-size: 20px;
-    font-weight: 500;
-}
+        padding-right: 3%;
+        padding-top: 1%;
+        font-size: 20px;
+        font-weight: 500;
+        display: flex;
+        justify-content: end;
+    }
 .code-booking-status{
    
     padding-right: 3%;

@@ -2,13 +2,28 @@ import { Row, Col, Collapse, Button } from 'antd';
 import { IconPlane, IconUserCircle, IconCurrencyDollar, IconShoppingCart } from '@tabler/icons-react';
 import './ServiceDetail.css'
 import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { CaretRightOutlined } from '@ant-design/icons';
 import Service from '../../SelectService/Service/Service';
 import TotalService from './TotalService';
+import { getListService } from '../../../services/apiServices';
 const ServiceDetail = () => {
+    useEffect(() => {
+        feachListService();
+    }, []);
     const navigate = useNavigate();
+    const [baggageOptions, setBaggageOptions] = useState([]);
+    const [mealOptions, setMealOptions] = useState([]);
+    const [standardBaggageOptions, setStandardBaggageOptions] = useState([]);
+    const [standardMealOptions, setStandardMealOptions] = useState([]);
+    const feachListService = async () => {
+        let res = await getListService(dataSelect.conditionSelect.airlineId, dataSelect.conditionSelect.seatPriceDto.seatClass);
+        setBaggageOptions(res.data.baggageOptions);
+        setMealOptions(res.data.mealOptions);
+        setStandardBaggageOptions(res.data.standardOptDto.standardBaggageOptions);
+        setStandardMealOptions(res.data.standardOptDto.standardMealOptions);
+    }
     return (
         <div className='service-detail'>
 
@@ -26,7 +41,11 @@ const ServiceDetail = () => {
             <div className="main-service-detail">
                 <Row>
                     <Col span={15}>
-                        <Service />
+                        <Service
+                            baggageOptions={baggageOptions}
+                            mealOptions={mealOptions}
+                            standardBaggageOptions={standardBaggageOptions}
+                            standardMealOptions={standardMealOptions} />
                     </Col>
                     <Col span={9}>
                         <TotalService />

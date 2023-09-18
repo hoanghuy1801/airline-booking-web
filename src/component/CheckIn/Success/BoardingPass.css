@@ -51,19 +51,23 @@
         padding: 10px;
     }
     .code-qr{
-    margin:10px 0px 20px 140px;
-
+        display: flex;
+        justify-content: center;
+        padding: 2% 0% 2% 0%;
     }
     
     
+}
+.btn-downs{
+    display: flex;
+    justify-content: center;
+    padding-top: 2%;
 }
 .btn-down{
     background-color: #006885;
     color: white;
     font-size: 15px;
     font-weight: 500;
-    margin-left: 160px;
-    margin-top: 10px;
     &:hover{
     background-color: #006885 !important;
     color: white !important;

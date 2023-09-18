@@ -30,9 +30,8 @@ const Success = () => {
             </div>
             <div className='main-success'>
                 <div className='container'>
-
                     <Row >
-                        <Col span={15} >
+                        <Col xs={24} sm={24} md={24} lg={15} xl={15} >
                             <p className='title-success'>Thông tin chuyến bay</p>
                             <Row >
                                 <Col span={5} className='info-fly'>
@@ -144,7 +143,7 @@ const Success = () => {
                                 </Col>
                             </Row>
                         </Col>
-                        <Col span={9} className='boardingpass'>
+                        <Col xs={24} sm={24} md={24} lg={9} xl={9} className='boardingpass'>
                             <BoardingPass />
                         </Col>
                     </Row>

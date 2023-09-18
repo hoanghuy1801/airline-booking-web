@@ -9,7 +9,7 @@
 
 }
 
-.form-search-checkin{
+.form-search-booking{
     background-color: rgb(255, 255, 255,0.70);
     box-shadow: 0px 10px 32px #006885;
     backdrop-filter: blur(3px);
@@ -17,6 +17,7 @@
     border-bottom-left-radius: 5px;
     height: 69%;
     margin: 5% 35% 5% 35%;
+    padding: 2%;
    
 }
 .btn-search-booking{
@@ -43,22 +44,22 @@
     }
 }
 @media (max-width:1200px){
-    .form-search-checkin{
+    .form-search-booking{
         margin: 5% 25% 5% 25% !important;
      }
  }
  @media (max-width:992px){
-    .form-search-checkin{
+    .form-search-booking{
         margin: 5% 20% 5% 20% !important;
      }
  }
  @media (max-width:768px){
-    .form-search-checkin{
+    .form-search-booking{
         margin: 5% 10% 5% 10% !important;
      }
  }
  @media (max-width:500px){
-    .form-search-checkin{
+    .form-search-booking{
         margin: 5% 2% 5% 2% !important;
      }
  }

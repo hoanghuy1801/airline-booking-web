@@ -37,7 +37,7 @@ const SelectFlyService = () => {
                     <Col span={12} >
                     </Col>
                     <Col span={6}>
-                        <Button className='footer-continue'
+                        <Button className='footer-continue-info'
                             onClick={() => { navigate('/my/sevice-detail') }} >Tiếp tục</Button>
                     </Col>
                 </Row>

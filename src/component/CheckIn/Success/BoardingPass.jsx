@@ -21,7 +21,6 @@ const BoardingPass = () => {
             link.click();
         });
     };
-
     return (
         <>
             <div className='main-boardingpass' id='boardingpass'>
@@ -100,10 +99,16 @@ const BoardingPass = () => {
                         <p> Lưu ý: Cửa khời hành sẽ đóng 15 phút trước giờ khởi hành.</p>
                         <p> Hành khách sẽ không được phép lên tàu bay khi cửa khởi hành đóng.</p>
                     </div>
-                    <QRCode value={qrData} className='code-qr' />
+                    <div className='code-qr'>
+                        <QRCode value={qrData} />
+                    </div>
+
                 </div>
             </div>
-            <Button onClick={handleImageDownload} className='btn-down'>Tải ảnh</Button>
+            <div className='btn-downs'>
+                <Button onClick={handleImageDownload} className='btn-down'>Tải ảnh</Button>
+            </div>
+
         </>
     );
 };
