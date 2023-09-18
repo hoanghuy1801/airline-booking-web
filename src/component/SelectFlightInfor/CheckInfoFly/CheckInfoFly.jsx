@@ -34,6 +34,7 @@ const CheckInfoFly = (props) => {
     const yeardepartureTimeReturn = dateObjectdepartureTimeReturn.getFullYear();
     return (
         <>
+            <Text className='title'>Thông tin chuyến bay</Text>
             <Row style={{
                 height: 8,
                 borderTopLeftRadius: '5px',

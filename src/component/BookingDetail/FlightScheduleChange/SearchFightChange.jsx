@@ -7,13 +7,15 @@ import './Change.css'
 import { CaretRightOutlined } from '@ant-design/icons';
 import FormSelectFlyService from '../../FormSelectFlyService/FormSelectFlyService';
 import FormSearch from '../../Home/FormSearch/FormSearch';
+import { getAirports } from '../../../services/apiServices';
 
 const SearchFightChange = () => {
     const [listAirports, setListAirports] = useState([]);
-    const [listAirportsCode, setListAirportCode] = useState([])
+    const [listSeats, setListSeats] = useState([])
     const navigate = useNavigate();
     useEffect(() => {
         fechListAirports();
+        fechListTickets();
     }, []);
 
     const fechListAirports = async () => {
@@ -22,11 +24,17 @@ const SearchFightChange = () => {
             setListAirports(res.data)
         }
     }
+    const fechListTickets = async () => {
+        let res = await getTickets();
+        if (res.status == 200) {
+            setListSeats(res.data)
+        }
+    }
     return (
         <div className='search-detail'>
             <div className="nav-service-detail">
                 <Row>
-                    <Col span={24} className='code-booking'>
+                    <Col span={24} className='code-booking-change'>
                         <p>Mã đặt chỗ : <span style={{ color: 'red', fontSize: '20px', fontWeight: 700 }}>RQTDND</span></p>
                     </Col>
                 </Row>
@@ -34,7 +42,7 @@ const SearchFightChange = () => {
             <div className="main-fly-change">
                 <FormSearch
                     listAirports={listAirports}
-                    listAirportsCode={listAirportsCode}
+                    listSeats={listSeats}
                 />
             </div>
             <div className="footer">
@@ -48,7 +56,7 @@ const SearchFightChange = () => {
                     <Col span={12} >
                     </Col>
                     <Col span={6}>
-                        <Button className='footer-continue'
+                        <Button className='footer-continue-info'
                             onClick={() => { navigate('/my/select-flight-change') }} >Tiếp tục</Button>
                     </Col>
                 </Row>

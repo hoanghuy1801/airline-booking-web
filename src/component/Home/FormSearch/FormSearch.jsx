@@ -71,10 +71,10 @@ const FormSearch = (props) => {
 
 
     const handleSelectBooking = () => {
-        if (sourceAirport == null || destinationAirport == null || departureDate == null || seatClass == null) {
-            warning()
-            return
-        }
+        // if (sourceAirport == null || destinationAirport == null || departureDate == null || seatClass == null) {
+        //     warning()
+        //     return
+        // }
         dispath(Data_booking(data_booking))
         navigate('/select-fight')
     }

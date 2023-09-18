@@ -1,3 +1,8 @@
+.checkin-detail{
+    background-image: url('../../../assets/BackRoud.png');
+    background-size: cover;
+    height: 911px;
+}
 .btn-continue{
     margin-right: 5%;
     width: 150px;
@@ -38,8 +43,7 @@
  border-top-left-radius: 10px;
  border-top-right-radius: 10px;
 }
-/* .icon-select{
-    display: flex;
-    justify-content: center;
-    padding: 15px;
-} */
+
+.title-booking{
+    padding-bottom: 2%;
+}

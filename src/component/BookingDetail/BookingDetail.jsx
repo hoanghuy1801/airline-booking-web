@@ -24,10 +24,9 @@ const BookingDetail = () => {
     return (
         <div className="booking-detail" style={{ paddingBottom: "1000px" }}>
             <div className="info-booking-detail">
-                <Row>
+                <Row >
                     <Col xs={12} sm={12} md={8} lg={8} xl={8} className='code-booking'>
                         <p>Mã đặt chỗ : <span style={{ color: 'red', fontSize: '20px', fontWeight: 700 }}>RQTDND</span></p>
-
                     </Col>
                     <Col xs={12} sm={12} md={16} lg={16} xl={16} className='code-booking-status'>
                         <p>Trạng thái: <span style={{ color: 'green', fontSize: '20px', fontWeight: 700 }}>Đã thanh toán</span></p>

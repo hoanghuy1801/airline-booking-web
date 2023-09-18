@@ -38,7 +38,6 @@ const SelectSeat = () => {
                             </div>
                         </div>
                         <div className='btn'>
-
                             <Button className='btn-back' onClick={() => navigate('/my/select-fight')} >Trở lại</Button>
                             <Button className='btn-continue' onClick={() => navigate('/my/restricted-baggage')}>Đi tiếp</Button>
                         </div>

@@ -6,13 +6,14 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { CaretRightOutlined } from '@ant-design/icons';
 import './SelectFight.css'
+import FormSelectFlyService from '../../FormSelectFlyService/FormSelectFlyService';
 
 
 
 const SelectFight = () => {
     const navigate = useNavigate();
     return (
-        <div className="booking-detail" >
+        <div className="checkin-detail" >
             <div className="info-booking-detail">
                 <Row>
                     <Col span={8} className='code-booking'>
@@ -30,42 +31,7 @@ const SelectFight = () => {
             </div>
             <div className='main-container-detail'>
                 <p className='title-booking' >Chọn chuyến bay</p>
-                <div className='booking-ticket'>
-                    <div className='date-select-fly'>
-                        <Row>
-                            <Col span={18}><p style={{ fontSize: '18px', fontWeight: 500 }}>Chuyến đi</p></Col>
-                            <Col span={4}>
-                                <p style={{ fontSize: '18px', fontWeight: 500 }}> Chọn làm thủ tục</p>
-                            </Col>
-                            <Col span={2}>
-                                <Checkbox />
-                            </Col>
-                        </Row>
-                    </div>
-                    <p className='date-fly'>Ngày 22/08/2023</p>
-                    <Row >
-                        <Col span={5} className='info-fly'>
-                            <p className='location'>SGN</p>
-                        </Col>
-                        <Col span={7} className='info-fly'>
-                            <p className='time-fly'>1 giờ 25 phút</p>
-                        </Col>
-                        <Col span={5} className='info-fly'>
-                            <p className='location' >HAN</p>
-                        </Col>
-                    </Row>
-                    <Row >
-                        <Col span={5} className='info-fly'>
-                            <p className='time'>22:30</p>
-                        </Col>
-                        <Col span={7} className='info-fly'>
-                            <p className='time-fly'>Bay thẳng</p>
-                        </Col>
-                        <Col span={5} className='info-fly'>
-                            <p className='time'>22:30</p>
-                        </Col>
-                    </Row>
-                </div>
+                <FormSelectFlyService />
                 <div className='btn'>
                     <Button className='btn-back' onClick={() => navigate('/checkin')} >Trở lại</Button>
                     <Button className='btn-continue' onClick={() => navigate('/my/select-seat')}>Đi tiếp</Button>

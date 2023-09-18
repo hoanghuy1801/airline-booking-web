@@ -31,7 +31,7 @@ const SearchBookingMy = () => {
     };
     return (
         <div className='page-search-booking'>
-            <div className='form-search-checkin'>
+            <div className='form-search-booking'>
                 <p className='title'>CHUYẾN BAY CỦA TÔI</p>
                 <p className='notification'>Bạn muốn xem chuyến bay đã đặt, đổi lịch trình bay hay mua thêm dịch vụ hành lý, chỗ ngồi, suất ăn..., vui lòng điền thông tin bên dưới:</p>
                 <Form>
