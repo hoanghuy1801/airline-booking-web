@@ -30,7 +30,7 @@ video.myvideo{
 }
 @media (max-width:768px){
     .content{
-        background-image: url(../../assets/Backroud.webp);
+          background-image: url(../../assets/Backroud.webp);
           justify-content: center;
           width: 100vw;
           height: auto;

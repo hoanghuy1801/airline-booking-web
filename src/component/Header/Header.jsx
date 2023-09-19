@@ -1,6 +1,5 @@
 
 import { useNavigate } from 'react-router-dom';
-
 import React, { useState } from 'react';
 import { MenuOutlined, UserOutlined } from '@ant-design/icons';
 import { Drawer, Menu, Row, Col, Button } from 'antd';
@@ -50,6 +49,8 @@ const Header = () => {
                             <div className='service'>
                                 <Button className='service-child' type='link' onClick={() => { navigate('/my/search-booking') }}>CHUYẾN BAY CỦA TÔI</Button>
                                 <Button className='service-child' type='link' onClick={() => { navigate('/checkin') }}>CHECKIN-ONLINE</Button>
+                                <Button className='service-child' type='link' onClick={() => { navigate('/admins') }}>Admin</Button>
+                                <Button className='service-child' type='link' onClick={() => { navigate('/profile/account') }}>PROFILE</Button>
                             </div>
                         </Col>
                         <Col span={8} >

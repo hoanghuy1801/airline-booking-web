@@ -30,6 +30,9 @@ import SearchFightChange from './component/BookingDetail/FlightScheduleChange/Se
 import ManagerAdmin from './component/Admin/ManagerAdmin/ManagerAdmin.jsx';
 import CreateAdmin from './component/Admin/ManagerAdmin/CreateAdmin.jsx';
 import EditAdmin from './component/Admin/ManagerAdmin/EditAdmin.jsx';
+import Account from './component/Profile/Account/Account.jsx';
+import Personal from './component/Profile/Personal/Personal.jsx';
+import TransactionHistory from './component/Profile/TransactionHistory/TransactionHistory.jsx';
 
 
 
@@ -41,6 +44,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Routes>
           <Route path='/' element={<App />} >
             <Route index element={<HomePage />} />
+            <Route path='/profile/account' element={<Account />} />
+            <Route path='/profile/personal' element={<Personal />} />
+            <Route path='/profile/transaction-history' element={<TransactionHistory />} />
             <Route path='/select-fight' element={<SelectFlight />} />
             <Route path='/select-fight-infor' element={<SelectFlightInfor />} />
             <Route path='/passengers' element={<Passengers />} />

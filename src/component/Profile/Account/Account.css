@@ -1,0 +1,111 @@
+
+.profile-account{
+    background-image: url('../../../assets/BackRoud.png');
+    background-size: cover;
+    height: 911px;
+    padding-bottom:270px
+}
+.main-profile{
+    padding: 5% 17% 2% 17%;
+}
+
+.main-profile  ul li{
+    list-style-type: none;     
+}
+.li-profile-account{
+    height: auto;
+    padding: 4% 0% 4% 0%;
+    border-bottom: 1px solid #D1D3D4;
+    .text-li{
+        font-size: 18px;
+        font-weight: 600;
+        color: #555555;
+    }
+   
+}
+.col-profile-account{
+    display: flex;
+    align-items: center;
+}
+.icon-proifile-account{
+    width: 40px;
+    height: 40px;
+}
+.profile-acount-header{
+    background-color:#F1F1F1 ;
+    padding: 2% 0% 2% 2%;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    margin-left: 20px;
+}
+.account{
+    padding: 0% 0% 2% 0%;
+    display: flex;
+    align-items: center;
+}
+.profile-acount-content{
+    margin-left: 20px;
+    background-color:#ffffff ;
+    padding: 2% 0% 2% 0%;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    .icon-account{
+        width:30px;
+        height: 30px;
+        margin-left:20px;
+        color: #6e6e6e;
+    }
+    .text-account{
+        color: #6e6e6e;
+        font-size: 18px;
+        font-weight: 500;
+    }
+    .text-change-password{
+        color: #0980EE;
+        font-size: 18px;
+        font-weight: 500;
+        cursor: pointer;
+    }
+    .change-password-account{
+        width: 50%;
+        height: 32px;
+        font-size: 17px;
+    }
+  
+}
+.title-profile{
+    font-size: 20px;
+    font-weight: 600;
+}
+.form-btn-change-password{
+    display: flex;
+    justify-content: center;
+
+    .btn-cancel-change{
+        background-color:#006885 ;
+        font-size: 17px;
+        color: white;
+        font-weight: 600;
+        height: 40px;
+        width: 90px;
+        margin-right: 10px;
+        &:hover{
+            border: none !important;
+            color: white !important;
+        }
+    }
+    .btn-confirm-change{
+        background-color:rgba(0, 0, 0, 0.26) ;
+        font-size: 17px;
+        color: black;
+        font-weight: 600;
+        height: 40px;
+        width: 100px;
+        &:hover{
+            border: none !important;
+            color: black !important;
+        }
+    }
+}
+
+

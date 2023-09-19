@@ -1,0 +1,102 @@
+.profile-history-header{
+    background-color:white ;
+    padding: 2% 0% 2% 2%;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    margin-left: 20px;
+}
+.text-profile-history{
+    display: flex;
+    justify-content: end;
+    padding-right: 20px;
+    font-size: 18px;
+    font-weight: 600;
+    color: red;
+}
+.profile-history-content{
+    background-color:#F1F1F1 ;
+    padding: 2% 0% 2% 2%;
+    margin-left: 20px;
+}
+.icon-history{
+    width: 30px;
+    height: 30px;
+    color:#006885 ;
+    
+}
+.text-history{
+    font-size: 18px;
+    font-weight: 600;
+    padding: 0 2% 0 2%;
+}
+.history{
+    display: flex;
+    align-items: center;
+}
+.profile-history-footer{
+    background-color:white ;
+    padding: 2% 0% 2% 2%;
+    margin-left: 20px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.text-check-transaction{
+    background-color: rgb(5, 165, 105);
+    padding: 5px;
+    border-radius: 10px;
+    color: white;
+    font-size: 15px;
+    font-weight: 500;
+}
+.text-detail{
+    display: flex;
+    justify-content: end;
+    padding-right: 20px;
+    color: #0980EE;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+}
+@media (max-width:1500px){
+    .main-profile{
+        padding: 5% 15% 2% 15%;
+    }
+}
+@media (max-width:1200px){
+    .main-profile{
+        padding: 5% 10% 2% 10%;
+    }
+}
+@media (max-width:992px){
+    .main-profile{
+        padding: 5% 5% 2% 5%;
+    }
+}
+@media (max-width:768px){
+    .main-profile{
+        padding: 5% 1% 2% 1%;
+    }
+    .profile-acount-header{
+        margin-top: 20px;
+        margin-left: 0px;
+    }
+    .profile-acount-content{
+        margin-left: 0px;
+    }
+    .change-personal-content{
+        margin-left: 0px;
+    }
+    .profile-personal-content{
+        margin-left: 0px;
+    }
+    .profile-history-header{
+        margin-top: 20px;
+        margin-left: 0px;
+    }
+    .profile-history-content{
+        margin-left: 0px;
+    }
+    .profile-history-footer{
+        margin-left: 0px;
+    }
+}
