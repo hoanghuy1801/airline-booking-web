@@ -1,0 +1,39 @@
+*{
+    padding:0;
+    margin: 0;
+    box-sizing: border-box;
+
+}
+.box h3{
+    text-align: center;
+    color: aliceblue;
+}
+.slick-slide div{
+    margin: 0 1rem;
+}
+.ant-image img {
+    max-width: 100%;
+    height: auto;
+  }
+  .img-slide{
+    border-radius: 10px;
+  }
+  .slick-dots li button:before {
+    color: #006885 !important;
+  }
+  @media (max-width:768px){
+    .slick-dots li button:before {
+      margin: 50px 0% 40px 0%;
+    }
+}
+
+.text-rank{
+    color: rgb(32, 104, 137);
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    
+  }
+.box{
+  padding-bottom: 20px;
+}

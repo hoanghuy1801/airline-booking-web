@@ -3,43 +3,31 @@
     padding: 0;
     box-sizing: border-box;
   }
-video.myvideo{
-    width: 100%; 
-    height:911px;
-}
 .homePage{
     position: relative;
     width: 100%;
     min-height: auto;
+    margin-bottom: 150px;
+    .video{
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-bottom: 50%; /* Tỷ lệ khung hình 16:9 */
+    }
     .myvideo{
         position: absolute;
         top: 0;
         left: 0;
         width: 100%;
+        height: 120%;
         object-fit: cover;
         z-index: -1;
-       
-      
     } 
     .content{
         padding:0 10% 0 10%;
         width: 100%;
     }
-    
-
 }
-@media (max-width:768px){
-    .content{
-          background-image: url(../../assets/Backroud.webp);
-          justify-content: center;
-          width: 100vw;
-          height: auto;
-          background-size: cover;
-          align-items: center ;
-    }
-}
-
-
 
 .btn-form{
     display: flex;
@@ -65,6 +53,90 @@ video.myvideo{
    
 }
 
+.col-inner{
+    background-color: white;
+    .inner{
+        margin: 200px 16% 40px 18%;
+        background-color: #f7f7f7;
+        padding: 20px 0px 20px 70px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 30px -15px rgb(0 0 0 / 90%);
+    }
+    .title-inner{
+        color: rgb(32, 104, 137);
+        font-size: 16px;
+        font-weight: bold;
+        margin-left: 15px;
+    }
+    .text-inner{
+        color: rgb(44, 44, 44);
+        font-size: 15px;
+        line-height: 1.4;
+        margin-left: 15px;
+    }
+}
+.title-seat{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    color: rgb(32, 104, 137);
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    padding-bottom: 10px;
+    padding-top: 30px;
+}
+.card-seat{
+    margin: 20px 18% 40px 18%;
+}
+.footer-home{
+    background-color: #006885;
+}
 
+@media (max-width:1200px){
+    .col-inner{
+    .inner{
+        margin: 200px 11% 40px 13%;
+    }
+}
+.card-seat{
+    margin: 20px 11% 40px 11%;
 
-
+}
+}
+@media (max-width:992px){
+    .col-inner{
+    .inner{
+        margin: 200px 6% 40px 8%;
+    }
+}
+.card-seat{
+    margin: 20px 6% 40px 6%;
+}
+}
+@media (max-width:768px){
+    .content{
+          justify-content: center;
+          width: 100vw;
+          height: auto;
+          background-size: cover;
+          align-items: center ;
+    }
+    .label-hot{
+        width: auto;
+        margin-bottom: 4%;
+    }
+    .col-inner{
+        .inner{
+            margin: 200px 1% 40px 1%;
+        }
+    }
+    .card-seat{
+        margin: 20px 5% 40px 15%;
+    }
+}
+@media (max-width:500px){
+    .card-seat{
+        margin: 20px 0% 40px 0%;
+    }
+}
