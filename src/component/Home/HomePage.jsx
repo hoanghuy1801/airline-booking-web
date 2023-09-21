@@ -11,6 +11,12 @@ import Side from './Side/Side';
 import Footer from './Footer/Footer';
 import Trip from './Trip/Trip';
 import SiderSeat from './SiderSeat/SiderSeat';
+import imgTicket from '../../assets/homeService/ticket.png'
+import imgBaby from '../../assets/homeService/baby.png'
+import imgLock from '../../assets/homeService/lock.png'
+import imgLuggage from '../../assets/homeService/luggage.png'
+import imgSeat from '../../assets/homeService/seat.png'
+import imgVat from '../../assets/homeService/vat.png'
 const { Title, Text } = Typography;
 const { Meta } = Card;
 const HomePage = () => {
@@ -83,7 +89,7 @@ const HomePage = () => {
                                 paddingRight: 20, paddingBottom: 30
                             }}>
                                 <Col span={4}>
-                                    <Image src='http://vemaybaygiare.maugiaodien.com/wp-content/uploads/2022/03/airticket-512-1-300x300.png'
+                                    <Image src={imgTicket}
                                         preview={false} />
                                 </Col>
                                 <Col span={20}>
@@ -101,7 +107,7 @@ const HomePage = () => {
                                 paddingRight: 20, paddingBottom: 30
                             }}>
                                 <Col span={4}>
-                                    <Image src='http://vemaybaygiare.maugiaodien.com/wp-content/uploads/2022/03/a-300x300.png'
+                                    <Image src={imgLock}
                                         preview={false} />
                                 </Col>
                                 <Col span={20}>
@@ -119,7 +125,7 @@ const HomePage = () => {
                                 paddingRight: 20, paddingBottom: 30
                             }}>
                                 <Col span={4}>
-                                    <Image src='http://vemaybaygiare.maugiaodien.com/wp-content/uploads/2022/03/a-3-300x300.png'
+                                    <Image src={imgSeat}
                                         preview={false} />
                                 </Col>
                                 <Col span={20}>
@@ -139,7 +145,7 @@ const HomePage = () => {
                                 paddingRight: 20, paddingBottom: 30
                             }}>
                                 <Col span={4}>
-                                    <Image src='http://vemaybaygiare.maugiaodien.com/wp-content/uploads/2022/03/a-6-300x300.png'
+                                    <Image src={imgLuggage}
                                         preview={false} />
                                 </Col>
                                 <Col span={20}>
@@ -157,7 +163,7 @@ const HomePage = () => {
                                 paddingRight: 20, paddingBottom: 30
                             }}>
                                 <Col span={4}>
-                                    <Image src='http://vemaybaygiare.maugiaodien.com/wp-content/uploads/2022/03/a-2-300x300.png'
+                                    <Image src={imgVat}
                                         preview={false} />
                                 </Col>
                                 <Col span={20}>
@@ -175,7 +181,7 @@ const HomePage = () => {
                                 paddingRight: 20, paddingBottom: 30
                             }}>
                                 <Col span={4}>
-                                    <Image src='http://vemaybaygiare.maugiaodien.com/wp-content/uploads/2022/03/a-5-300x300.png'
+                                    <Image src={imgBaby}
                                         preview={false} />
                                 </Col>
                                 <Col span={20}>
