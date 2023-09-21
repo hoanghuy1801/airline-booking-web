@@ -1,14 +1,18 @@
 
 import videoHomePage from '../../assets/videoHome.mp4'
 import '../Home/HomePage.css'
-import { Row, Col, Button, Image } from 'antd';
+import { Row, Col, Typography, Image, Divider, Card } from 'antd';
 import FormSearch from './FormSearch/FormSearch';
 import { useEffect, useState } from "react";
 import { getAirports, getTickets } from '../../services/apiServices';
 import axios from 'axios';
 import Slider from "react-slick";
 import Side from './Side/Side';
-
+import Footer from './Footer/Footer';
+import Trip from './Trip/Trip';
+import SiderSeat from './SiderSeat/SiderSeat';
+const { Title, Text } = Typography;
+const { Meta } = Card;
 const HomePage = () => {
     const [listAirports, setListAirports] = useState([]);
     const [listSeats, setListSeats] = useState([])
@@ -30,32 +34,175 @@ const HomePage = () => {
             setListSeats(res.data)
         }
     }
+    function resizeVideo() {
+        var videoContainer = document.querySelector('.video-container');
+        var video = document.getElementById('background-video');
+        var videoAspectRatio = 16 / 9; // Tỷ lệ khung hình của video
+
+        var containerWidth = videoContainer.offsetWidth;
+        var containerHeight = videoContainer.offsetHeight;
+        var containerAspectRatio = containerWidth / containerHeight;
+
+        if (containerAspectRatio > videoAspectRatio) {
+            video.style.width = containerWidth + 'px';
+            video.style.height = containerWidth / videoAspectRatio + 'px';
+        } else {
+            video.style.width = containerHeight * videoAspectRatio + 'px';
+            video.style.height = containerHeight + 'px';
+        }
+    }
     return (
-        <div className='homePage'>
-            <div className='video'>
-                <Row>
-                    <Col span={24}>
-                        <video autoPlay muted loop className='myvideo'  >
-                            <source
-                                src={videoHomePage}
-                                type="video/mp4" />
-                        </video>
-                    </Col>
-                </Row>
-            </div>
-            <div className="search">
-                <FormSearch
-                    listAirports={listAirports}
-                    listSeats={listSeats}
-                />
-            </div>
-            <div className='content'>
-                <div className='label-hot'>
-                    <label className='label-img' type='link'>ĐIỂM ĐẾN HẤP DẪN</label>
+        <div className='main-homepage' >
+            <div className='homePage'>
+                <div class="video-container">
+                    <video id="background-video" autoPlay muted loop className='myvideo'  >
+                        <source
+                            src={videoHomePage}
+                            type="video/mp4" />
+                    </video>
                 </div>
-                <Side />
+                <div className="search">
+                    <FormSearch
+                        listAirports={listAirports}
+                        listSeats={listSeats}
+                    />
+                </div>
+                <div className='content'>
+                    <div className='label-hot'>
+                        <label className='label-img' type='link'>ĐIỂM ĐẾN HẤP DẪN</label>
+                    </div>
+                    <Side />
+                </div>
             </div>
-        </div >
+            <div className='col-inner'>
+                <div className='inner'>
+                    <Divider style={{ borderColor: "black", fontSize: 20, paddingBottom: 20, paddingRight: 70 }}>DỊCH VỤ</Divider>
+                    <Row >
+                        <Col xs={24} sm={8} md={8} lg={8} xl={8}>
+                            <Row style={{
+                                paddingRight: 20, paddingBottom: 30
+                            }}>
+                                <Col span={4}>
+                                    <Image src='http://vemaybaygiare.maugiaodien.com/wp-content/uploads/2022/03/airticket-512-1-300x300.png'
+                                        preview={false} />
+                                </Col>
+                                <Col span={20}>
+                                    <Row>
+                                        <Text className='title-inner'>GIAO VÉ TẬN NƠI</Text>
+                                    </Row>
+                                    <Row>
+                                        <Text className='text-inner'>Miễn phí giao vé tận nhà, hỗ trợ quẹt thẻ tận nơi</Text>
+                                    </Row>
+                                </Col>
+                            </Row>
+                        </Col>
+                        <Col xs={24} sm={8} md={8} lg={8} xl={8}>
+                            <Row style={{
+                                paddingRight: 20, paddingBottom: 30
+                            }}>
+                                <Col span={4}>
+                                    <Image src='http://vemaybaygiare.maugiaodien.com/wp-content/uploads/2022/03/a-300x300.png'
+                                        preview={false} />
+                                </Col>
+                                <Col span={20}>
+                                    <Row>
+                                        <Text className='title-inner'>HOÀN HỦY THAY ĐỔ</Text>
+                                    </Row>
+                                    <Row>
+                                        <Text className='text-inner'>Hỗ trợ hoàn hủy, thay đổi 24/7</Text>
+                                    </Row>
+                                </Col>
+                            </Row>
+                        </Col>
+                        <Col xs={24} sm={8} md={8} lg={8} xl={8}>
+                            <Row style={{
+                                paddingRight: 20, paddingBottom: 30
+                            }}>
+                                <Col span={4}>
+                                    <Image src='http://vemaybaygiare.maugiaodien.com/wp-content/uploads/2022/03/a-3-300x300.png'
+                                        preview={false} />
+                                </Col>
+                                <Col span={20}>
+                                    <Row>
+                                        <Text className='title-inner'>CHECKIN ,CHỌN GHẾ</Text>
+                                    </Row>
+                                    <Row>
+                                        <Text className='text-inner'>Checkin ,chọn ghế ngồi </Text>
+                                    </Row>
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col xs={24} sm={8} md={8} lg={8} xl={8}>
+                            <Row style={{
+                                paddingRight: 20, paddingBottom: 30
+                            }}>
+                                <Col span={4}>
+                                    <Image src='http://vemaybaygiare.maugiaodien.com/wp-content/uploads/2022/03/a-6-300x300.png'
+                                        preview={false} />
+                                </Col>
+                                <Col span={20}>
+                                    <Row>
+                                        <Text className='title-inner'>HÀNH LÝ</Text>
+                                    </Row>
+                                    <Row>
+                                        <Text className='text-inner'>Mua hành lý trả trước , giá ưu đãi</Text>
+                                    </Row>
+                                </Col>
+                            </Row>
+                        </Col>
+                        <Col xs={24} sm={8} md={8} lg={8} xl={8}>
+                            <Row style={{
+                                paddingRight: 20, paddingBottom: 30
+                            }}>
+                                <Col span={4}>
+                                    <Image src='http://vemaybaygiare.maugiaodien.com/wp-content/uploads/2022/03/a-2-300x300.png'
+                                        preview={false} />
+                                </Col>
+                                <Col span={20}>
+                                    <Row>
+                                        <Text className='title-inner'>HÓA ĐƠN VAT</Text>
+                                    </Row>
+                                    <Row>
+                                        <Text className='text-inner'>Miễn phí hóa đơn GTGT cho mọi hành khách</Text>
+                                    </Row>
+                                </Col>
+                            </Row>
+                        </Col>
+                        <Col xs={24} sm={8} md={8} lg={8} xl={8}>
+                            <Row style={{
+                                paddingRight: 20, paddingBottom: 30
+                            }}>
+                                <Col span={4}>
+                                    <Image src='http://vemaybaygiare.maugiaodien.com/wp-content/uploads/2022/03/a-5-300x300.png'
+                                        preview={false} />
+                                </Col>
+                                <Col span={20}>
+                                    <Row>
+                                        <Text className='title-inner'>TRẺ EM ĐI CÙNG</Text>
+                                    </Row>
+                                    <Row>
+                                        <Text className='text-inner'>Mua vé trẻ em đi cùng </Text>
+                                    </Row>
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
+                </div>
+                <div className='trip-homepage'>
+                    <Trip />
+                </div>
+                <Text className='title-seat'>HẠNG GHẾ</Text>
+                <div className='card-seat'>
+                    <SiderSeat />
+                </div>
+                <div className='footer-home'>
+                    <Footer />
+                </div>
+            </div>
+
+        </div>
     )
 }
 export default HomePage

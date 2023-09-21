@@ -1,0 +1,28 @@
+.footer-homepage{
+    margin: 0 16% 0 20%;
+    padding: 50px 0 30px 0;
+   
+}
+.footer-homepage ul li{
+    color: rgb(255, 255, 255);
+    font-size: 15px;
+    text-align: left;
+    list-style-type: none;
+    margin-left: 0;
+    line-height: 1.5;
+    cursor: pointer;
+}
+.title-footer{
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: left;
+    line-height: 1.4;
+}
+@media (max-width:1200px){
+    .footer-homepage{
+        margin: 0 1% 0 1%;
+       
+    }
+}
