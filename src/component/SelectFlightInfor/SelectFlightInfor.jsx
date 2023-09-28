@@ -6,8 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import CheckInfoFly from './CheckInfoFly/CheckInfoFly';
 import SelectInfoFly from '../SelectFlight/SelectInfoFly/SelectInfoFly';
 import { useState, useEffect } from 'react';
-import { Data_Service } from '../../redux/action/SelectFight';
-import { getListService } from '../../services/apiServices';
+
 
 
 const { Title, Text } = Typography;
