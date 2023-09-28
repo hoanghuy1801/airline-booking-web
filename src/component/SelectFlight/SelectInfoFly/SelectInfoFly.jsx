@@ -10,7 +10,7 @@ const SelectInfoFly = (props) => {
     const { adultsPriceFomat, childrenPriceFomat, infantPriceFomat,
         taxesfightFomat, totalFightFomat, adultsPriceFomatReturn, childrenPriceFomatReturn, infantPriceFomatReturn,
         taxesfightFomatReturn, totalFightFomatReturn } = props;
-    const data = useSelector(state => state.formsearch.data_booking);
+    const data = useSelector((state) => state.homePage.homePageInfor);
 
     const totalPeople = data.children + data.adult;
     return (

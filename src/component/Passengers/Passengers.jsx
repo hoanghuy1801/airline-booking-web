@@ -7,10 +7,9 @@ import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import diacriticless from 'diacriticless';
 import { useDispatch } from "react-redux";
-import { Data_Passengers } from '../../redux/action/PassengersAction';
 import SelectInfoFly from '../SelectFlight/SelectInfoFly/SelectInfoFly';
 import Passenger from './Passenger/Passenger';
-import { getListService } from '../../services/apiServices';
+
 
 
 

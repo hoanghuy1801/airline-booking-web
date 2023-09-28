@@ -31,7 +31,7 @@ const CheckIn = () => {
     return (
         <div className='page-checkin'>
             <Row className='main-checkin'>
-                <Col span={9} className='form-search-checkin'>
+                <Col xs={24} sm={24} md={9} lg={9} xl={9} className='form-search-checkin'>
                     <p className='title'>CHECK-IN</p>
                     <p className='notification'>Sẵn sàng cho chuyến bay vui vẻ, thoải mái, bạn có thể làm thủ tục chuyến bay trực tuyến nhanh chóng và đơn giản.</p>
                     <Form>
@@ -60,7 +60,7 @@ const CheckIn = () => {
                         <Button className='btn-checkin' onClick={() => { navigate('/my/select-fight') }} >Tiếp tục</Button>
                     </Form>
                 </Col>
-                <Col span={15} className='notification-checkin'>
+                <Col xs={24} sm={24} md={15} lg={15} xl={15} className='notification-checkin'>
                     <p className='notification-header'>Quý khách có thể tự làm thủ tục chuyến bay thông qua chức năng làm thủ tục trực tuyến (Online Check-in) tại trang web của Vietjet hoặc ứng dụng Vietjet trên thiết bị di động. Đây là tính năng tiện lợi, nhanh gọn để Quý khách có thể dễ dàng thực hiện mọi lúc mọi nơi từ 24 tiếng đến 60 phút trước giờ bay.</p>
                     <p className='notification-title'>I. Các chuyến bay khai thác bởi Vietjet</p>
                     <p className='notification-item-small'>1. Chuyến bay nội địa:</p>

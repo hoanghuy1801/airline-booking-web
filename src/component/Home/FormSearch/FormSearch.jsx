@@ -4,16 +4,17 @@ import { useNavigate } from 'react-router-dom';
 import {
     SearchOutlined,
 } from '@ant-design/icons';
-import { Radio, Form, Select, DatePicker, Space, Row, Col, InputNumber, Button, Modal } from 'antd';
+import { Radio, Form, Select, DatePicker, Typography, Row, Col, InputNumber, Button, Modal } from 'antd';
 import {
     IconPlaneDeparture, IconPlaneArrival,
     IconCalendar, IconArrowsExchange2, IconMan, IconBabyBottle, IconMoodKid, IconArmchair
 } from '@tabler/icons-react';
 import { useDispatch } from "react-redux";
-import { Data_booking } from '../../../redux/action/FormSearch';
+import { setHomPageInfor } from '../../../redux/reducers/homePageSlice';
 const { RangePicker } = DatePicker;
 import moment from 'moment';
-
+import { formatCurrency } from '../../../utils/formatCurrency';
+const { Title, Text } = Typography;
 const disabledDate = current => {
     // Lấy ngày hiện tại
     const today = moment().startOf('day');
@@ -69,13 +70,12 @@ const FormSearch = (props) => {
     }
 
 
-
     const handleSelectBooking = () => {
         // if (sourceAirport == null || destinationAirport == null || departureDate == null || seatClass == null) {
         //     warning()
         //     return
         // }
-        dispath(Data_booking(data_booking))
+        dispath(setHomPageInfor(data_booking));
         navigate('/select-fight')
     }
     let inputNumberStyle = {};
@@ -139,12 +139,17 @@ const FormSearch = (props) => {
                                 }
                             >
                                 {listAirports.map((item) => (
-                                    <Option key={item.id} value={item.id} label={item.cityName}>
-                                        <Row>
-                                            {item.cityName}    ({item.airportCode})
+                                    <Option key={item.id} value={item.id} label={item.city.cityName}>
+                                        <Row className='text-cityname'>
+                                            {item.city.cityName}
                                         </Row>
-                                        <Row>
-                                            {item.airportName}
+                                        <Row >
+                                            <Col span={18} className='text-airportname'>
+                                                {item.airportName}
+                                            </Col>
+                                            <Col span={6} className='text-airportcode'>
+                                                ({item.airportCode})
+                                            </Col>
                                         </Row>
                                     </Option>
                                 ))}
@@ -163,12 +168,17 @@ const FormSearch = (props) => {
                                 }
                             >
                                 {listAirports.map((item) => (
-                                    <Option key={item.id} value={item.id} label={item.cityName}>
-                                        <Row>
-                                            {item.cityName}    ({item.airportCode})
+                                    <Option key={item.id} value={item.id} label={item.city.cityName}>
+                                        <Row className='text-cityname'>
+                                            {item.city.cityName}
                                         </Row>
-                                        <Row>
-                                            {item.airportName}
+                                        <Row >
+                                            <Col span={18} className='text-airportname'>
+                                                {item.airportName}
+                                            </Col>
+                                            <Col span={6} className='text-airportcode'>
+                                                ({item.airportCode})
+                                            </Col>
                                         </Row>
                                     </Option>
                                 ))}

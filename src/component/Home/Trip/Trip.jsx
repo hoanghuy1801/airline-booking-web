@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { Row, Col, Typography, Image, Divider, Button } from 'antd';
-import ReactPlayer from 'react-player';
 import './Trip.css'
 const { Title, Text } = Typography;
 const Trip = () => {
+    const videoId = "o1GrGvzT6E";
     return (
         <>
             <div className="trip">
@@ -21,9 +21,10 @@ const Trip = () => {
 
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={12} xl={12}>
-                        <div class="video-container">
-                            <ReactPlayer url="https://www.youtube.com/watch?v=_o1GrGvzT6E" muted={true} />
-                        </div>
+                        <Image className="img-slide"
+                            preview={false}
+                            src="https://go2joy.s3.ap-southeast-1.amazonaws.com/blog/wp-content/uploads/2022/09/14140203/bai-vung-bau-canh-dep-phu-quoc-768x512.jpg"
+                        />
                     </Col>
                     <Row>
                         <Button className="btn-trip">Đặt vé ngay</Button>
@@ -45,9 +46,10 @@ const Trip = () => {
 
                     </Col>
                     <Col xs={24} sm={12} md={12} lg={12} xl={12}>
-                        <div class="video-container">
-                            <ReactPlayer url="https://www.youtube.com/watch?v=RDIXAFtOY0Y" muted={true} />
-                        </div>
+                        <Image className="img-slide"
+                            preview={false}
+                            src="https://i1-vnexpress.vnecdn.net/2021/03/19/NhaTrang-KhoaTran-27-1616120145.jpg?w=1200&h=0&q=100&dpr=1&fit=crop&s=P6rNJD2Fm6OK-HTwBviZ4A"
+                        />
                     </Col>
                     <Row>
                         <Button className="btn-trip">Đặt vé ngay</Button>

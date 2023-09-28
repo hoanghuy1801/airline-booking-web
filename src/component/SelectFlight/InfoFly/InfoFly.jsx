@@ -14,7 +14,7 @@ const InfoFly = (props) => {
     const navigate = useNavigate();
     const { listByCondition, setAdultsPrice, setChildrenPrice, setInfantPrice, setAdultsPriceFomat, setChildrenPriceFomat,
         setInfantPriceFomat, setTaxesfightFomat, setTaxesfight, setTotalFight, setTotalFightFomat, setConditionSelect } = props;
-    const data = useSelector(state => state.formsearch.data_booking);
+    const data = useSelector((state) => state.homePage.homePageInfor);
 
     const handleSelect = (id) => {
         const selectedItem = listByCondition.find((item) => item.id === id);

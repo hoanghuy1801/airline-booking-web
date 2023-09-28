@@ -53,39 +53,26 @@ export default class SiderSeat extends Component {
             <div className="carousel">
                 <Slider {...settings}>
                     <div className="box">
-                        <Card
-                            hoverable
-                            style={{
-                                width: 340, paddingBottom: 20
-                            }}
-                            cover={<img alt="example" src="https://www.vietnamairlines.com/~/media/Images/Highlight/Korea/HL-business.jpg" />}
-                        >
-                            <Text className="text-rank">Hạng Thương Gia</Text>
-                        </Card>
-                    </div>
+                        <Image className="img-slide"
+                            preview={false}
+                            src="https://www.vietnamairlines.com/~/media/Images/Highlight/Korea/HL-business.jpg"
+                        />
 
-                    <div className="box">
-                        <Card
-                            hoverable
-                            style={{
-                                width: 340, paddingBottom: 20
-                            }}
-                            cover={<img alt="example" src="https://www.vietnamairlines.com/~/media/Images/Highlight/Korea/HL-pre-eco.jpg" />}
-                        >
-                            <Text className="text-rank">Hạng Phổ Thông Đặc Biệt</Text>
-                        </Card>
+                        <Text className="text-rank">Hạng Thương Gia</Text>
                     </div>
                     <div className="box">
-                        <Card
-                            hoverable
-                            style={{
-                                width: 340, paddingBottom: 20
-                            }}
-                            cover={<img alt="example" src="https://owa.bestprice.vn/images/articles/uploads/su-khac-nhau-cua-cac-ve-may-bay-hang-vietnam-airlines-5d0c8cdabf485.jpg" />}
-                        >
-                            <Text className="text-rank">Hạng Phổ thông</Text>
-                        </Card>
-
+                        <Image className="img-slide"
+                            preview={false}
+                            src="https://www.vietnamairlines.com/~/media/Images/Highlight/Korea/HL-pre-eco.jpg"
+                        />
+                        <Text className="text-rank">Hạng Phổ Thông Đặc Biệt</Text>
+                    </div>
+                    <div className="box">
+                        <Image className="img-slide"
+                            preview={false}
+                            src="https://owa.bestprice.vn/images/articles/uploads/su-khac-nhau-cua-cac-ve-may-bay-hang-vietnam-airlines-5d0c8cdabf485.jpg"
+                        />
+                        <Text className="text-rank">Hạng Phổ thông</Text>
                     </div>
                 </Slider>
             </div>

@@ -7,7 +7,6 @@ import SelectInfoFly from './SelectInfoFly/SelectInfoFly';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getListByCondition } from '../../services/apiServices';
-import { Data_Select, Data_Select_Return } from '../../redux/action/SelectFight';
 import { IconPlane, IconUserCircle, IconCurrencyDollar, IconShoppingCart } from '@tabler/icons-react';
 import moment from 'moment';
 import InfoFlyReturn from './InfoFly/InfoFlyReturn';
@@ -77,10 +76,12 @@ const SelectFlight = () => {
     useEffect(() => {
         feachListByCondition();
     }, []);
-    const data = useSelector(state => state.formsearch.data_booking);
+    const data = useSelector((state) => state.homePage.homePageInfor);
+    console.log("huy", data)
+    // const data = useSelector(state => state.formsearch.data_booking);
 
-    const dateFomat = moment(data.departureDate, 'DD/MM/YYYY').format('YYYY-MM-DD');
-    const dateFomatReturn = moment(data.returnDate, 'DD/MM/YYYY').format('YYYY-MM-DD');
+    // const dateFomat = moment(data.departureDate, 'DD/MM/YYYY').format('YYYY-MM-DD');
+    // const dateFomatReturn = moment(data.returnDate, 'DD/MM/YYYY').format('YYYY-MM-DD');
 
     const feachListByCondition = async () => {
         let res = await getListByCondition(data.sourceAirport, data.destinationAirport, dateFomat, data.seatClass, data.adult, data.children, data.baby);

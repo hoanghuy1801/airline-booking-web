@@ -86,7 +86,7 @@
     padding-bottom: 10px;
     padding-top: 30px;
 }
-.card-seat{
+.side-seat{
     margin: 20px 18% 40px 18%;
 }
 .footer-home{
@@ -131,12 +131,8 @@
             margin: 200px 1% 40px 1%;
         }
     }
-    .card-seat{
-        margin: 20px 5% 40px 15%;
+    .side-seat{
+        margin: 20px 7% 40px 0%;
     }
 }
-@media (max-width:500px){
-    .card-seat{
-        margin: 20px 0% 40px 0%;
-    }
-}
+

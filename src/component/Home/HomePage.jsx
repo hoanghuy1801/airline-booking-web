@@ -200,7 +200,7 @@ const HomePage = () => {
                     <Trip />
                 </div>
                 <Text className='title-seat'>HẠNG GHẾ</Text>
-                <div className='card-seat'>
+                <div className='side-seat'>
                     <SiderSeat />
                 </div>
                 <div className='footer-home'>
