@@ -6,7 +6,7 @@ import InfoFly from './InfoFly/InfoFly';
 import SelectInfoFly from './SelectInfoFly/SelectInfoFly';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getListByCondition } from '../../services/apiServices';
+
 import { IconPlane, IconUserCircle, IconCurrencyDollar, IconShoppingCart } from '@tabler/icons-react';
 import moment from 'moment';
 import InfoFlyReturn from './InfoFly/InfoFlyReturn';

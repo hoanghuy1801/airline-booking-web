@@ -1,7 +1,6 @@
 import React from 'react';
 import { Button, Form, Input, Typography, Divider, message } from 'antd';
 import { useState } from "react";
-import { postLogin } from "../../services/apiServices";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import '../Auth/Login.css'
