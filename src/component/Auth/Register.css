@@ -2,17 +2,16 @@
     background-image: url('../../assets/BackRoud.png');
     justify-content: center;
     width: 100vw;
-    height: 100vh;
+    height: 911px;
     background-size: cover;
-    display: flex;
-    align-items: center ;
+    padding: 7% 32% 0 32%;
    
 }
 .RegisterForm{
     background-color: rgb(255, 255, 255,0.33);
     box-shadow: 0px 8px 32px rgb(0, 0, 255,0.33);
     backdrop-filter: blur(3px);
-    padding: 0px 60px 20px 60px;
+    padding: 0px 60px 20px 70px;
     border-radius: 20px;
 
 }
@@ -50,4 +49,67 @@ label{
     font-size: 16px;
     font-weight: 500;
 }
+.rowInforRegister{
+  padding-bottom: 10px;
+}
+.rowbtn-register{
+  display: flex;
+  justify-content: center;
+  .btn-register{
+    width: 60%;
+  }
+}
+.text-instruct-name{
+  text-align: start;
+  font-size: 12px;
+  color: #025efc;
+}
+.text-input{
+  font-size: 16px;
+  font-weight: 500;
+}
+.text-Date{
+  font-size: 16px;
+  padding: 2px 10px 0 0;
+font-weight: 500;
+}
+.RegisterForm-title{
+  display: flex;
+  justify-content: center;
+}
+span.ant-select-selection-item {
+  font-size: 16px;
+  font-weight: 500 !important;
+}
 
+@media (max-width:1700px){
+  .page-Register{
+    padding: 4% 27% 0 27%;
+}
+}
+@media (max-width:1500px){
+  .page-Register{
+    padding: 4% 21% 0 21%;
+}
+}
+@media (max-width:1200px){
+  .page-Register{
+    padding: 4% 16% 0 16%;
+}
+}
+@media (max-width:1000px){
+  .page-Register{
+    padding: 4% 5% 0 5%;
+}
+.RegisterForm{
+  padding: 0px 20px 20px 20px;
+}
+}
+@media (max-width:1000px){
+  .page-Register{
+    padding: 4% 1% 0 1%;
+}
+.RegisterForm{
+  padding: 0px 20px 20px 20px;
+}
+}

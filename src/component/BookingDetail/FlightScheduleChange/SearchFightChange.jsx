@@ -7,7 +7,6 @@ import './Change.css'
 import { CaretRightOutlined } from '@ant-design/icons';
 import FormSelectFlyService from '../../FormSelectFlyService/FormSelectFlyService';
 import FormSearch from '../../Home/FormSearch/FormSearch';
-import { getAirports } from '../../../services/apiServices';
 
 const SearchFightChange = () => {
     const [listAirports, setListAirports] = useState([]);

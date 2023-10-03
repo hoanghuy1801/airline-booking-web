@@ -4,7 +4,7 @@ import '../Home/HomePage.css'
 import { Row, Col, Typography, Image, Divider, Card } from 'antd';
 import FormSearch from './FormSearch/FormSearch';
 import { useEffect, useState } from "react";
-import { getAirports, getTickets } from '../../services/apiServices';
+import { getAirports, getTickets } from '../../services/apiHomePage';
 import axios from 'axios';
 import Slider from "react-slick";
 import Side from './Side/Side';

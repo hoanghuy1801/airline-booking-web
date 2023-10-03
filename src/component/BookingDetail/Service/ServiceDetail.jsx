@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { CaretRightOutlined } from '@ant-design/icons';
 import Service from '../../SelectService/Service/Service';
 import TotalService from './TotalService';
-import { getListService } from '../../../services/apiServices';
+
 const ServiceDetail = () => {
     useEffect(() => {
         feachListService();

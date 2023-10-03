@@ -12,6 +12,24 @@ import axios from 'axios';
 const instance = axios.create({
     baseURL: 'http://localhost:8008/',
 });
+
+instance.interceptors.request.use(config => {
+    // Lấy ngôn ngữ từ localStorage hoặc từ ngôn ngữ mặc định
+    const language = localStorage.getItem('language') || 'vi';
+
+    // Thêm header 'Accept-Language'
+    config.headers['Accept-Language'] = language;
+
+    return config;
+});
+instance.interceptors.request.use(config => {
+    // Thêm header 'Content-Type' nếu chưa được thiết lập
+    if (!config.headers['Content-Type']) {
+        config.headers['Content-Type'] = 'application/json';
+    }
+
+    return config;
+});
 // instance.interceptors.request.use(function (config) {
 //     // Do something before request is sent
 

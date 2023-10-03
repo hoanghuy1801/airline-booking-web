@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import {
     SearchOutlined,
 } from '@ant-design/icons';
-import { Radio, Form, Select, DatePicker, Typography, Row, Col, InputNumber, Button, Modal } from 'antd';
+import { Radio, Form, Select, DatePicker, Typography, Row, Col, InputNumber, Button } from 'antd';
 import {
     IconPlaneDeparture, IconPlaneArrival,
     IconCalendar, IconArrowsExchange2, IconMan, IconBabyBottle, IconMoodKid, IconArmchair
@@ -13,19 +13,12 @@ import { useDispatch } from "react-redux";
 import { setHomPageInfor } from '../../../redux/reducers/homePageSlice';
 const { RangePicker } = DatePicker;
 import moment from 'moment';
-import { formatCurrency } from '../../../utils/formatCurrency';
-const { Title, Text } = Typography;
+import { showWaringModal } from '../../../utils/modalError';
 const disabledDate = current => {
     // Lấy ngày hiện tại
     const today = moment().startOf('day');
     // Nếu ngày hiện tại lớn hơn hoặc bằng ngày đang xét thì vô hiệu hóa
     return current && current < today;
-};
-const warning = () => {
-    Modal.warning({
-        title: 'Bạn ơi!',
-        content: 'Bạn chưa điền đầy đủ thông tin tìm chuyến bay',
-    });
 };
 const FormSearch = (props) => {
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -71,10 +64,17 @@ const FormSearch = (props) => {
 
 
     const handleSelectBooking = () => {
-        // if (sourceAirport == null || destinationAirport == null || departureDate == null || seatClass == null) {
-        //     warning()
-        //     return
-        // }
+        if (!roundTrip) {
+            if (sourceAirport == null || destinationAirport == null || departureDate == null || departureDate == null || seatClass == null) {
+                showWaringModal('Bạn ơi', 'Bạn chưa điền đầy đủ thông tin tìm chuyến bay')
+                return
+            }
+        } else {
+            if (sourceAirport == null || destinationAirport == null || departureDate == null || departureDate == null || returnDate == null || seatClass == null) {
+                showWaringModal('Bạn ơi', 'Bạn chưa điền đầy đủ thông tin tìm chuyến bay')
+                return
+            }
+        }
         dispath(setHomPageInfor(data_booking));
         navigate('/select-fight')
     }
@@ -141,14 +141,11 @@ const FormSearch = (props) => {
                                 {listAirports.map((item) => (
                                     <Option key={item.id} value={item.id} label={item.city.cityName}>
                                         <Row className='text-cityname'>
-                                            {item.city.cityName}
+                                            {item.city.cityName}  ({item.airportCode})
                                         </Row>
                                         <Row >
-                                            <Col span={18} className='text-airportname'>
+                                            <Col span={24} className='text-airportname'>
                                                 {item.airportName}
-                                            </Col>
-                                            <Col span={6} className='text-airportcode'>
-                                                ({item.airportCode})
                                             </Col>
                                         </Row>
                                     </Option>
@@ -170,14 +167,11 @@ const FormSearch = (props) => {
                                 {listAirports.map((item) => (
                                     <Option key={item.id} value={item.id} label={item.city.cityName}>
                                         <Row className='text-cityname'>
-                                            {item.city.cityName}
+                                            {item.city.cityName}  ({item.airportCode})
                                         </Row>
                                         <Row >
-                                            <Col span={18} className='text-airportname'>
+                                            <Col span={24} className='text-airportname'>
                                                 {item.airportName}
-                                            </Col>
-                                            <Col span={6} className='text-airportcode'>
-                                                ({item.airportCode})
                                             </Col>
                                         </Row>
                                     </Option>

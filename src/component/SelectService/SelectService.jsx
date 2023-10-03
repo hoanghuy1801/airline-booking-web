@@ -11,7 +11,6 @@ import imgMiy from '../../assets/service/mi-y.jpg'
 import { useState, useEffect } from 'react';
 import Service from './Service/Service';
 import SelectInfoFly from '../SelectFlight/SelectInfoFly/SelectInfoFly';
-import { getListService } from '../../services/apiServices';
 const { Title, Text } = Typography;
 const { Option } = Select;
 const SelectService = () => {
