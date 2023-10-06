@@ -22,11 +22,13 @@ const Service = (props) => {
 
     const navigate = useNavigate();
 
-    const data_homepage = useSelector(state => state.formsearch.data_booking);
+    // const data_homepage = useSelector(state => state.formsearch.data_booking);
+    const data = useSelector((state) => state.homePage.homePageInfor);
 
-    const data_passengers = useSelector(state => state.passengers.data_passengers);
 
-    const numberBooking = data_homepage.adult + data_homepage.children;
+    const data_passengers = '';
+
+    const numberBooking = data.adult + data.children;
 
     const [valueRadio, setValueRadio] = useState('');
     const [priceBaggageFomat, setPriceBaggageFomat] = useState('');
@@ -35,10 +37,10 @@ const Service = (props) => {
         setPriceBaggageFomat(value.target.label.toLocaleString('it-IT'));
     };
 
-    const DataPassengers = [];
-    for (let i = 0; i < data_passengers.inputFirstName.length; i++) {
-        DataPassengers.push(data_passengers.inputFirstName[i] + ' ' + data_passengers.inputLastName[i])
-    }
+    // const DataPassengers = [];
+    // for (let i = 0; i < data_passengers.inputFirstName.length; i++) {
+    //     DataPassengers.push(data_passengers.inputFirstName[i] + ' ' + data_passengers.inputLastName[i])
+    // }
 
     const showDrawerFavorite = () => {
         setOpenFavorite(true);
@@ -113,13 +115,13 @@ const Service = (props) => {
                             <span style={{ color: 'white' }}>Chuyến đi</span>
                         </Row>
                         <Row className='user-service'>
-                            <Select style={{ width: 200 }} defaultValue={DataPassengers[0]}>
+                            {/* <Select style={{ width: 200 }} defaultValue={DataPassengers[0]}>
                                 {DataPassengers.map((option) => (
                                     <Option key={option} value={option}>
                                         {option}
                                     </Option>
                                 ))}
-                            </Select>
+                            </Select> */}
                         </Row>
                     </div>
                     <div className='info-booking-service'>

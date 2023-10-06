@@ -13,13 +13,16 @@ import { useDispatch } from "react-redux";
 import { setHomPageInfor } from '../../../redux/reducers/homePageSlice';
 const { RangePicker } = DatePicker;
 import moment from 'moment';
-import { showWaringModal } from '../../../utils/modalError';
+import { useLanguage, LanguageProvider } from '../../../LanguageProvider/LanguageProvider';
+import { showWaringModal } from '../../../utils/modalError'
+const { Title, Text } = Typography;
 const disabledDate = current => {
     // Lấy ngày hiện tại
     const today = moment().startOf('day');
     // Nếu ngày hiện tại lớn hơn hoặc bằng ngày đang xét thì vô hiệu hóa
     return current && current < today;
 };
+
 const FormSearch = (props) => {
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     useEffect(() => {
@@ -48,6 +51,7 @@ const FormSearch = (props) => {
     const [baby, setBaby] = useState(0);
     const dispath = useDispatch();
     const navigate = useNavigate();
+    const { getText } = useLanguage();
     const data_booking = {
         roundTrip: roundTrip,
         sourceAirport: sourceAirport,
@@ -61,7 +65,6 @@ const FormSearch = (props) => {
         sourceAirportCity: sourceAirportCity,
         returnDate: returnDate,
     }
-
 
     const handleSelectBooking = () => {
         if (!roundTrip) {
@@ -116,13 +119,14 @@ const FormSearch = (props) => {
     };
 
     return (
+
         <>
             <Form className='buyForm'>
                 <Form.Item >
                     <Radio.Group onChange={onChange} value={value}
                         className='radio'>
-                        <Radio value={1} onClick={() => setRoundTrip(false)} >Một chiều</Radio>
-                        <Radio value={2} onClick={() => setRoundTrip(true)} >Khứ hồi</Radio>
+                        <Radio value={1} onClick={() => setRoundTrip(false)} >{getText('onWay')}</Radio>
+                        <Radio value={2} onClick={() => setRoundTrip(true)} >{getText('return')}</Radio>
                     </Radio.Group>
                 </Form.Item>
                 <Form.Item>
@@ -132,7 +136,7 @@ const FormSearch = (props) => {
                             <Select
                                 showSearch
                                 style={{ width: '80%' }}
-                                placeholder="Điểm khởi hành"
+                                placeholder={getText('From')}
                                 onChange={onChangeSourceAirport}
                                 filterOption={(input, option) =>
                                     (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
@@ -141,10 +145,10 @@ const FormSearch = (props) => {
                                 {listAirports.map((item) => (
                                     <Option key={item.id} value={item.id} label={item.city.cityName}>
                                         <Row className='text-cityname'>
-                                            {item.city.cityName}  ({item.airportCode})
+                                            {item.city.cityName}   ({item.airportCode})
                                         </Row>
                                         <Row >
-                                            <Col span={24} className='text-airportname'>
+                                            <Col span={18} className='text-airportname'>
                                                 {item.airportName}
                                             </Col>
                                         </Row>
@@ -158,7 +162,7 @@ const FormSearch = (props) => {
                             <Select
                                 showSearch
                                 style={{ width: '80%' }}
-                                placeholder="Điểm đến"
+                                placeholder={getText('To')}
                                 onChange={onDestinationAirport}
                                 filterOption={(input, option) =>
                                     (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
@@ -167,12 +171,13 @@ const FormSearch = (props) => {
                                 {listAirports.map((item) => (
                                     <Option key={item.id} value={item.id} label={item.city.cityName}>
                                         <Row className='text-cityname'>
-                                            {item.city.cityName}  ({item.airportCode})
+                                            {item.city.cityName} ({item.airportCode})
                                         </Row>
                                         <Row >
-                                            <Col span={24} className='text-airportname'>
+                                            <Col span={18} className='text-airportname'>
                                                 {item.airportName}
                                             </Col>
+
                                         </Row>
                                     </Option>
                                 ))}
@@ -197,7 +202,7 @@ const FormSearch = (props) => {
                                 <>
                                     <DatePicker onChange={onChangeDatePicker}
                                         style={{ width: '80%' }}
-                                        placeholder="Ngày đi" disabledDate={disabledDate} format="DD/MM/YYYY" />
+                                        placeholder={getText('dateDepartment')} disabledDate={disabledDate} format="DD/MM/YYYY" />
                                 </>
                             }
 
@@ -208,7 +213,7 @@ const FormSearch = (props) => {
                             <Select
                                 showSearch
                                 style={{ width: '80%' }}
-                                placeholder="Hạng ghế"
+                                placeholder={getText('seatClass')}
                                 filterOption={(input, option) =>
                                     (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                                 }
@@ -229,8 +234,8 @@ const FormSearch = (props) => {
                     <Row>
                         <Col span={6}>
                             <IconMan className='icon-search' />
-                            <label>Người lớn <br /> <label
-                                className='label-children'>(12 tuổi trở lên)</label> </label>
+                            <label>{getText('adult')} <br /> <label
+                                className='label-children'>{getText('adultText')}</label> </label>
                         </Col>
                         <Col span={5}>
                             <InputNumber style={inputNumberStyle}
@@ -240,8 +245,8 @@ const FormSearch = (props) => {
                         </Col>
                         <Col span={6}>
                             <IconMoodKid className='icon-search' />
-                            <label>Trẻ em <br /> <label
-                                className='label-children'>(2-11 tuổi)</label> </label>
+                            <label>{getText('children')} <br /> <label
+                                className='label-children'>{getText('childrenText')}</label> </label>
                         </Col>
                         <Col span={5}>
                             <InputNumber style={inputNumberStyle}
@@ -251,8 +256,8 @@ const FormSearch = (props) => {
                     <Row>
                         <Col span={6}>
                             <IconBabyBottle className='icon-search' />
-                            <label>Em bé <br /> <label
-                                className='label-children'>(0-2 tuổi)</label></label>
+                            <label>{getText('baby')} <br /> <label
+                                className='label-children'>{getText('babyText')}</label></label>
                         </Col>
                         <Col span={5}>
                             <InputNumber style={inputNumberStyle}
@@ -266,7 +271,7 @@ const FormSearch = (props) => {
                         icon={<SearchOutlined />}
                         type='link'
                         onClick={() => handleSelectBooking()}
-                    >TÌM KIẾM CHUYẾN BAY</Button>
+                    >{getText('searchFight')}</Button>
                 </Form.Item>
             </Form>
         </>

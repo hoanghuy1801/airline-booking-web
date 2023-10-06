@@ -17,11 +17,13 @@ import imgLock from '../../assets/homeService/lock.png'
 import imgLuggage from '../../assets/homeService/luggage.png'
 import imgSeat from '../../assets/homeService/seat.png'
 import imgVat from '../../assets/homeService/vat.png'
+import { useLanguage } from '../../LanguageProvider/LanguageProvider';
 const { Title, Text } = Typography;
 const { Meta } = Card;
 const HomePage = () => {
     const [listAirports, setListAirports] = useState([]);
     const [listSeats, setListSeats] = useState([])
+    const { getText } = useLanguage();
     useEffect(() => {
         fechListAirports();
         fechListTickets();
@@ -82,7 +84,7 @@ const HomePage = () => {
             </div>
             <div className='col-inner'>
                 <div className='inner'>
-                    <Divider style={{ borderColor: "black", fontSize: 20, paddingBottom: 20, paddingRight: 70 }}>DỊCH VỤ</Divider>
+                    <Divider style={{ borderColor: "black", fontSize: 20, paddingBottom: 20, paddingRight: 70 }}>{getText('service')}</Divider>
                     <Row >
                         <Col xs={24} sm={8} md={8} lg={8} xl={8}>
                             <Row style={{
@@ -94,10 +96,10 @@ const HomePage = () => {
                                 </Col>
                                 <Col span={20}>
                                     <Row>
-                                        <Text className='title-inner'>GIAO VÉ TẬN NƠI</Text>
+                                        <Text className='title-inner'>{getText('service-1')}</Text>
                                     </Row>
                                     <Row>
-                                        <Text className='text-inner'>Miễn phí giao vé tận nhà, hỗ trợ quẹt thẻ tận nơi</Text>
+                                        <Text className='text-inner'>{getText('service-text-1')}</Text>
                                     </Row>
                                 </Col>
                             </Row>
@@ -112,10 +114,10 @@ const HomePage = () => {
                                 </Col>
                                 <Col span={20}>
                                     <Row>
-                                        <Text className='title-inner'>HOÀN HỦY THAY ĐỔ</Text>
+                                        <Text className='title-inner'>{getText('service-2')}</Text>
                                     </Row>
                                     <Row>
-                                        <Text className='text-inner'>Hỗ trợ hoàn hủy, thay đổi 24/7</Text>
+                                        <Text className='text-inner'>{getText('service-text-2')}</Text>
                                     </Row>
                                 </Col>
                             </Row>
@@ -130,10 +132,10 @@ const HomePage = () => {
                                 </Col>
                                 <Col span={20}>
                                     <Row>
-                                        <Text className='title-inner'>CHECKIN ,CHỌN GHẾ</Text>
+                                        <Text className='title-inner'>{getText('service-3')}</Text>
                                     </Row>
                                     <Row>
-                                        <Text className='text-inner'>Checkin ,chọn ghế ngồi </Text>
+                                        <Text className='text-inner'>{getText('service-text-3')} </Text>
                                     </Row>
                                 </Col>
                             </Row>
@@ -150,10 +152,10 @@ const HomePage = () => {
                                 </Col>
                                 <Col span={20}>
                                     <Row>
-                                        <Text className='title-inner'>HÀNH LÝ</Text>
+                                        <Text className='title-inner'>{getText('service-4')}</Text>
                                     </Row>
                                     <Row>
-                                        <Text className='text-inner'>Mua hành lý trả trước , giá ưu đãi</Text>
+                                        <Text className='text-inner'>{getText('service-text-4')}</Text>
                                     </Row>
                                 </Col>
                             </Row>
@@ -168,10 +170,10 @@ const HomePage = () => {
                                 </Col>
                                 <Col span={20}>
                                     <Row>
-                                        <Text className='title-inner'>HÓA ĐƠN VAT</Text>
+                                        <Text className='title-inner'>{getText('service-5')}</Text>
                                     </Row>
                                     <Row>
-                                        <Text className='text-inner'>Miễn phí hóa đơn GTGT cho mọi hành khách</Text>
+                                        <Text className='text-inner'>{getText('service-text-5')}</Text>
                                     </Row>
                                 </Col>
                             </Row>
@@ -186,10 +188,10 @@ const HomePage = () => {
                                 </Col>
                                 <Col span={20}>
                                     <Row>
-                                        <Text className='title-inner'>TRẺ EM ĐI CÙNG</Text>
+                                        <Text className='title-inner'>{getText('service-6')}</Text>
                                     </Row>
                                     <Row>
-                                        <Text className='text-inner'>Mua vé trẻ em đi cùng </Text>
+                                        <Text className='text-inner'>{getText('service-text-6')} </Text>
                                     </Row>
                                 </Col>
                             </Row>
@@ -199,7 +201,7 @@ const HomePage = () => {
                 <div className='trip-homepage'>
                     <Trip />
                 </div>
-                <Text className='title-seat'>HẠNG GHẾ</Text>
+                <Text className='title-seat'>{getText('SEATCLASS')}</Text>
                 <div className='side-seat'>
                     <SiderSeat />
                 </div>

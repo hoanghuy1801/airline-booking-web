@@ -3,16 +3,30 @@ import './SelectInfoFly.css'
 import { IconPlane } from '@tabler/icons-react';
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { formatCurrency } from '../../../utils/format';
 const { Title, Text } = Typography;
 
 
 const SelectInfoFly = (props) => {
-    const { adultsPriceFomat, childrenPriceFomat, infantPriceFomat,
-        taxesfightFomat, totalFightFomat, adultsPriceFomatReturn, childrenPriceFomatReturn, infantPriceFomatReturn,
-        taxesfightFomatReturn, totalFightFomatReturn } = props;
+    const { flightSelect, flightSelectReturn } = props;
     const data = useSelector((state) => state.homePage.homePageInfor);
+    const adultPriceFomat = formatCurrency(flightSelect.flightSeatPrices[0].adultPrice);
+    const childrenPriceFomat = formatCurrency(flightSelect.flightSeatPrices[0].childrenPrice);
+    const infantPriceFomat = formatCurrency(flightSelect.flightSeatPrices[0].infantPrice);
+
+    const adultPriceFomatReturn = formatCurrency(flightSelectReturn.flightSeatPrices[0].adultPrice);
+    const childrenPriceFomatReturn = formatCurrency(flightSelectReturn.flightSeatPrices[0].childrenPrice);
+    const infantPriceFomatReturn = formatCurrency(flightSelectReturn.flightSeatPrices[0].infantPrice);
+    const total = flightSelect.flightSeatPrices[0].adultPrice
+        + flightSelect.flightSeatPrices[0].childrenPrice
+        + flightSelect.flightSeatPrices[0].infantPrice
+        + Number(flightSelectReturn.flightSeatPrices[0].adultPrice)
+        + Number(flightSelectReturn.flightSeatPrices[0].childrenPrice)
+        + Number(flightSelectReturn.flightSeatPrices[0].infantPrice);
+    const totalFomat = formatCurrency(total);
 
     const totalPeople = data.children + data.adult;
+
     return (
         <>
             <Form className='infor-user-select'>
@@ -81,7 +95,7 @@ const SelectInfoFly = (props) => {
                                         display: 'flex',
                                         alignItems: 'flex-end',
                                         paddingRight: 20,
-                                    }}> {adultsPriceFomat}</Text></Col>
+                                    }}>{adultPriceFomat}</Text></Col>
                         </Row>
                     </div>
                     {!data.children == 0 ? <div className='title-infor'>
@@ -108,7 +122,7 @@ const SelectInfoFly = (props) => {
                                         display: 'flex',
                                         alignItems: 'flex-end',
                                         paddingRight: 20,
-                                    }}> {childrenPriceFomat}</Text></Col>
+                                    }}>{childrenPriceFomat} </Text></Col>
                         </Row>
                     </div>
                         : ''}
@@ -161,7 +175,7 @@ const SelectInfoFly = (props) => {
                                         display: 'flex',
                                         alignItems: 'flex-end',
                                         paddingRight: 20,
-                                    }}> {taxesfightFomat}</Text></Col>
+                                    }}> </Text></Col>
                         </Row>
                     </div>
                     <div className='title-infor'>
@@ -242,7 +256,7 @@ const SelectInfoFly = (props) => {
                                                 display: 'flex',
                                                 alignItems: 'flex-end',
                                                 paddingRight: 20,
-                                            }}> {adultsPriceFomatReturn}</Text></Col>
+                                            }}>{adultPriceFomatReturn} </Text></Col>
                                 </Row>
                             </div>
                             {!data.children == 0 ? <div className='title-infor'>
@@ -296,7 +310,7 @@ const SelectInfoFly = (props) => {
                                                 display: 'flex',
                                                 alignItems: 'flex-end',
                                                 paddingRight: 20,
-                                            }}>{infantPriceFomatReturn} </Text></Col>
+                                            }}> {infantPriceFomatReturn}</Text></Col>
                                 </Row>
                             </div>
                                 : ''}
@@ -323,7 +337,7 @@ const SelectInfoFly = (props) => {
                                                 display: 'flex',
                                                 alignItems: 'flex-end',
                                                 paddingRight: 20,
-                                            }}> {taxesfightFomatReturn}</Text></Col>
+                                            }}> </Text></Col>
                                 </Row>
                             </div>
                             <div className='title-infor'>
@@ -364,7 +378,7 @@ const SelectInfoFly = (props) => {
                                     display: 'flex',
                                     alignItems: 'flex-end',
                                     paddingRight: 20,
-                                }}>{totalFightFomat}</Text></Col>
+                                }}>{totalFomat}</Text></Col>
                     </Row>
                 </div>
             </Form >
