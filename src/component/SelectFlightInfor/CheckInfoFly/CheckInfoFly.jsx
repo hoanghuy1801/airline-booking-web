@@ -4,12 +4,13 @@ import { useSelector } from 'react-redux';
 
 const { Title, Text } = Typography;
 const CheckInfoFly = (props) => {
-    const data_homepage = useSelector(state => state.formsearch.data_booking);
-    const { dataSelect, dataSelectReturn } = props;
-    const dateObjectdepartureTime = new Date(dataSelect.conditionSelect.departureTime);
+    const data_homepage = useSelector((state) => state.homePage.homePageInfor);
+    const dataSelect = useSelector((state) => state.flightSelect.flightSelect);
+    const dataSelectReturn = useSelector((state) => state.flightSelect.flightSelectReturn);
+    const dateObjectdepartureTime = new Date(dataSelect.departureTime);
     const hourdepartureTime = dateObjectdepartureTime.getHours();
     const minutedepartureTime = dateObjectdepartureTime.getMinutes();
-    const dateObjectarrivalTime = new Date(dataSelect.conditionSelect.arrivalTime);
+    const dateObjectarrivalTime = new Date(dataSelect.arrivalTime);
     const hourarrivalTime = dateObjectarrivalTime.getHours();
     const minutearrivalTime = dateObjectarrivalTime.getMinutes();
     const hourflight = hourarrivalTime - hourdepartureTime;
@@ -20,10 +21,10 @@ const CheckInfoFly = (props) => {
     const yeardepartureTime = dateObjectdepartureTime.getFullYear();
 
     //return
-    const dateObjectdepartureTimeReturn = new Date(dataSelectReturn.conditionSelectReturn.departureTime);
+    const dateObjectdepartureTimeReturn = new Date(dataSelectReturn.departureTime);
     const hourdepartureTimeReturn = dateObjectdepartureTimeReturn.getHours();
     const minutedepartureTimeReturn = dateObjectdepartureTimeReturn.getMinutes();
-    const dateObjectarrivalTimeReturn = new Date(dataSelectReturn.conditionSelectReturn.arrivalTime);
+    const dateObjectarrivalTimeReturn = new Date(dataSelectReturn.arrivalTime);
     const hourarrivalTimeReturn = dateObjectarrivalTimeReturn.getHours();
     const minutearrivalTimeReturn = dateObjectarrivalTimeReturn.getMinutes();
     const hourflightReturn = hourdepartureTimeReturn - hourarrivalTimeReturn;
@@ -64,7 +65,7 @@ const CheckInfoFly = (props) => {
                     <Col span={6}>
                         <Row>
                             <Col span={24}>
-                                <Text className='location-start'>{dataSelect.conditionSelect.sourceAirportCode}</Text>
+                                <Text className='location-start'>{dataSelect.sourceAirport.airportCode}</Text>
                             </Col>
                         </Row>
                         <Row>
@@ -81,14 +82,14 @@ const CheckInfoFly = (props) => {
                         </Row>
                         <Row>
                             <Col span={24}>
-                                <Text className='code-flight'>{dataSelect.conditionSelect.flightName}</Text>
+                                <Text className='code-flight'>{dataSelect.flightName}</Text>
                             </Col>
                         </Row>
                     </Col>
                     <Col span={6}>
                         <Row>
                             <Col span={24}>
-                                <Text className='location-start'>{dataSelect.conditionSelect.destinationAirportCode}</Text>
+                                <Text className='location-start'>{dataSelect.destinationAirport.airportCode}</Text>
                             </Col>
                         </Row>
                         <Row>
@@ -100,13 +101,13 @@ const CheckInfoFly = (props) => {
                     <Col span={8}>
                         <Row>
                             <Col span={24}>
-                                <Text className='flight-time'>{dataSelect.conditionSelect.aircraftName}</Text>
+                                <Text className='flight-time'>{dataSelect.aircraftName}</Text>
                             </Col>
                         </Row>
                         <Row>
                             <Col span={24}>
                                 <Text className='code-flight'>Hãng khai thác:</Text>
-                                <Text className='code-flight'>{dataSelect.conditionSelect.airlineName} </Text>
+                                <Text className='code-flight'>{dataSelect.airline.airlineName} </Text>
                             </Col>
                         </Row>
                     </Col>
@@ -147,7 +148,7 @@ const CheckInfoFly = (props) => {
                             <Col span={6}>
                                 <Row>
                                     <Col span={24}>
-                                        <Text className='location-start'>{dataSelectReturn.conditionSelectReturn.sourceAirportCode}</Text>
+                                        <Text className='location-start'>{dataSelectReturn.sourceAirport.airportCode}</Text>
                                     </Col>
                                 </Row>
                                 <Row>
@@ -164,14 +165,14 @@ const CheckInfoFly = (props) => {
                                 </Row>
                                 <Row>
                                     <Col span={24}>
-                                        <Text className='code-flight'>{dataSelectReturn.conditionSelectReturn.flightName}</Text>
+                                        <Text className='code-flight'>{dataSelectReturn.flightName}</Text>
                                     </Col>
                                 </Row>
                             </Col>
                             <Col span={6}>
                                 <Row>
                                     <Col span={24}>
-                                        <Text className='location-start'>{dataSelectReturn.conditionSelectReturn.destinationAirportCode}</Text>
+                                        <Text className='location-start'>{dataSelectReturn.destinationAirport.airportCode}</Text>
                                     </Col>
                                 </Row>
                                 <Row>
@@ -183,13 +184,13 @@ const CheckInfoFly = (props) => {
                             <Col span={8}>
                                 <Row>
                                     <Col span={24}>
-                                        <Text className='flight-time'>{dataSelectReturn.conditionSelectReturn.aircraftName}</Text>
+                                        <Text className='flight-time'>{dataSelectReturn.aircraftName}</Text>
                                     </Col>
                                 </Row>
                                 <Row>
                                     <Col span={24}>
                                         <Text className='code-flight'>Hãng khai thác:</Text>
-                                        <Text className='code-flight'>{dataSelectReturn.conditionSelectReturn.airlineName} </Text>
+                                        <Text className='code-flight'>{dataSelect.airline.airlineName} </Text>
                                     </Col>
                                 </Row>
                             </Col>

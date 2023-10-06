@@ -9,6 +9,7 @@ import diacriticless from 'diacriticless';
 import { useDispatch } from "react-redux";
 import SelectInfoFly from '../SelectFlight/SelectInfoFly/SelectInfoFly';
 import Passenger from './Passenger/Passenger';
+import { formatCurrency } from '../../utils/format';
 
 
 
@@ -30,22 +31,12 @@ const Passengers = () => {
 
     const dispath = useDispatch();
 
-    const dataSelect = useSelector(state => state.selectfight.data_select);
 
-    const dataSelectReturn = useSelector(state => state.selectfight.data_select_return);
-
-    const data = useSelector(state => state.formsearch.data_booking);
-
-    // const numberBooking = data_homepage.adult + data_homepage.children;
-
-    // const numberadult = Array.from({ length: data_homepage.adult });
-
-    // const numberChildren = Array.from({ length: data_homepage.children });
-
-    // const numberbaby = Array.from({ length: data_homepage.baby });
-
-
-
+    const data = useSelector((state) => state.homePage.homePageInfor);
+    const flightSelect = useSelector((state) => state.flightSelect.flightSelect);
+    const flightSelectReturn = useSelector((state) => state.flightSelect.flightSelectReturn);
+    const totalFlight = useSelector((state) => state.flightSelect.totalflight);
+    const totalFlightFomat = formatCurrency(totalFlight);
     const data_passengers = {
         inputLastName: inputLastName,
         inputFirstName: inputFirstName,
@@ -56,7 +47,7 @@ const Passengers = () => {
     };
 
     const handlePassengers = () => {
-        dispath(Data_Passengers(data_passengers))
+        // dispath(Data_Passengers(data_passengers))
         navigate('/select-service')
     }
 
@@ -118,26 +109,10 @@ const Passengers = () => {
                         <Passenger />
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={9} >
-                        <SelectInfoFly listByCondition={dataSelect.listByCondition}
-                            conditionSelect={dataSelect.conditionSelect}
-                            adultsPrice={dataSelect.adultsPrice}
-                            childrenPrice={dataSelect.childrenPrice}
-                            infantPrice={dataSelect.infantPrice}
-                            adultsPriceFomat={dataSelect.adultsPriceFomat}
-                            childrenPriceFomat={dataSelect.childrenPriceFomat}
-                            infantPriceFomat={dataSelect.infantPriceFomat}
-                            taxesfightFomat={dataSelect.taxesfightFomat}
-                            totalFightFomat={dataSelect.totalFightFomat}
-
-                            listByConditionReturn={dataSelectReturn.listByConditionReturn}
-                            conditionSelectReturn={dataSelectReturn.conditionSelectReturn}
-                            adultsPriceReturn={dataSelectReturn.adultsPriceReturn}
-                            childrenPriceReturn={dataSelectReturn.childrenPriceReturn}
-                            infantPriceReturn={dataSelectReturn.infantPriceReturn}
-                            adultsPriceFomatReturn={dataSelectReturn.adultsPriceFomatReturn}
-                            childrenPriceFomatReturn={dataSelectReturn.childrenPriceFomatReturn}
-                            infantPriceFomatReturn={dataSelectReturn.infantPriceFomatReturn}
-                            taxesfightFomatReturn={dataSelectReturn.taxesfightFomatReturn} />
+                        <SelectInfoFly
+                            flightSelect={flightSelect}
+                            flightSelectReturn={flightSelectReturn}
+                        />
                     </Col>
                 </Row>
 
@@ -154,7 +129,7 @@ const Passengers = () => {
                         <Row>
                             <Col span={18} className='footer-price-info' style={{ display: 'flex', justifyContent: 'end' }}>Tổng tiền:
                             </Col>
-                            <Col span={6} className='footer-price-info'>{dataSelect.totalFightFomat}</Col>
+                            <Col span={6} className='footer-price-info'>{totalFlightFomat}</Col>
                         </Row>
                     </Col>
                     <Col xs={11} sm={11} md={11} lg={6} xl={6}>

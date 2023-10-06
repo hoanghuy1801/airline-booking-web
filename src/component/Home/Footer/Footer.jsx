@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Row, Col, Typography, Image, Divider } from 'antd';
 import './Footer.css'
+import { useLanguage } from "../../../LanguageProvider/LanguageProvider";
 const { Title, Text } = Typography;
 const Footer = () => {
+    const { getText } = useLanguage();
     return (
         <>
             <div className="footer-homepage">
@@ -11,10 +13,9 @@ const Footer = () => {
                         <Text className="title-footer">Vivu Airlines</Text>
                         <ul>
                             <li>
-                                ĐỊA CHỈ: Số 12 Nguyễn Văn Bảo, Phường 4,
-                                Quận Gò Vấp, Thành phố Hồ Chí Minh
+                                {getText('address')}
                             </li>
-                            <li>Điện thoại: 0964505517
+                            <li>  {getText('phone')}: 0964505517
                             </li>
                             <li>
                                 Email: vivuairlines@gmail.com
@@ -25,28 +26,29 @@ const Footer = () => {
                         </ul>
                     </Col>
                     <Col xs={24} sm={5} md={5} lg={5} xl={5} style={{ paddingLeft: 20 }}>
-                        <Text className="title-footer">DỊCH VỤ</Text>
+                        <Text className="title-footer"> {getText('SERVICE')}</Text>
                         <ul>
                             <li>
-                                Đặt vé
-                            </li>
-                            <li>Check-in online
+                                {getText('booktickets')}
                             </li>
                             <li>
-                                Đặt trước ghế ngồi
+                                {getText('check-in')}
                             </li>
                             <li>
-                                Mua thêm đồ ăn
+                                {getText('reserveSeats')}
                             </li>
                             <li>
-                                Mua thêm hành lý
+                                {getText('buyfood')}
+                            </li>
+                            <li>
+                                {getText('buyluggage')}
                             </li>
                         </ul>
                     </Col>
                     <Col xs={24} sm={7} md={7} lg={7} xl={7} style={{ paddingLeft: 20 }}>
-                        <Text className="title-footer">Liên hệ quản trị viên</Text>
+                        <Text className="title-footer"> {getText('CONTACT')}</Text>
                         <ul>
-                            <li>Quản lý:</li>
+                            <li>{getText('Manage')}:</li>
                             <li>- Phạm Hoàng Huy </li>
                             <li>Email: hoanghuy.pham1801@gmail.com</li>
                             <li>- Phạm Lê Khánh Duy</li>

@@ -1,22 +1,23 @@
 import { useEffect, useState } from "react";
 import { Row, Col, Typography, Image, Divider, Button } from 'antd';
 import './Trip.css'
+import { useLanguage } from "../../../LanguageProvider/LanguageProvider";
 const { Title, Text } = Typography;
 const Trip = () => {
-    const videoId = "o1GrGvzT6E";
+    const { getText } = useLanguage();
     return (
         <>
             <div className="trip">
                 <Row className="row-trip">
                     <Col xs={24} sm={12} md={12} lg={12} xl={12}>
                         <Row>
-                            <Text className="title-trip">PHÚ QUỐC</Text>
+                            <Text className="title-trip">{getText('PHUQUOC')}</Text>
                         </Row>
                         <Row>
-                            <Text className="text-introduce">Điểm đến của thượng khách</Text>
+                            <Text className="text-introduce">{getText('titleHot-1')}</Text>
                         </Row>
                         <Row>
-                            <Text className="text">Phú Quốc vào mùa khô là sự hội tụ của thiên nhiên hoang sơ, biển trong cát vàng - đẹp đến ngỡ ngàng của hòn đảo ngọc. Đắm mình ngắm rạn san hô ở Hòn Móng Tay, lưu dấu những bức hình kỷ niệm ở Cổng Trời (The Gate Keeper), nhà gỗ hay chiều hoàng hôn buông doens’t fine ở Bãi Sao. Tối đến thì thả mình vào ẩm thực địa phương: bún quậy, bún kèn, cơm chiên ghẹ, hải sản làng chài Hàm Ninh.</Text>
+                            <Text className="text">{getText('textHot-1')}</Text>
                         </Row>
 
                     </Col>
@@ -27,7 +28,7 @@ const Trip = () => {
                         />
                     </Col>
                     <Row>
-                        <Button className="btn-trip">Đặt vé ngay</Button>
+                        <Button className="btn-trip">{getText('bookNow')}</Button>
                     </Row>
                 </Row>
             </div>
@@ -35,13 +36,13 @@ const Trip = () => {
                 <Row className="row-trip">
                     <Col xs={24} sm={12} md={12} lg={12} xl={12}>
                         <Row>
-                            <Text className="title-trip">NHA TRANG</Text>
+                            <Text className="title-trip">{getText('NHATRANG')}</Text>
                         </Row>
                         <Row>
-                            <Text className="text-introduce">Điểm đến yêu thích của du khách</Text>
+                            <Text className="text-introduce">{getText('titleHot-2')}</Text>
                         </Row>
                         <Row>
-                            <Text className="text">Nha Trang - thành phố biển xinh đẹp “lừng danh” của Việt Nam, thiên đường biển xanh cát trắng nắng vàng tuyệt đẹp cùng những đặc sản ngon ngất ngây. Hãy cùng Vivu Airlines du lịch Nha Trang và khám phá vùng đất nghỉ dưỡng lý tưởng này nhé!</Text>
+                            <Text className="text">{getText('textHot-2')}</Text>
                         </Row>
 
                     </Col>
@@ -52,7 +53,7 @@ const Trip = () => {
                         />
                     </Col>
                     <Row>
-                        <Button className="btn-trip">Đặt vé ngay</Button>
+                        <Button className="btn-trip">{getText('bookNow')}</Button>
                     </Row>
                 </Row>
             </div>

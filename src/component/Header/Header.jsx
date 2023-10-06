@@ -2,17 +2,17 @@
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import { MenuOutlined, UserOutlined } from '@ant-design/icons';
-import { Drawer, Menu, Row, Col, Button } from 'antd';
+import { Drawer, Select, Row, Col, Button } from 'antd';
 import { useDispatch } from 'react-redux';
 import '../Header/Header.css'
 import logo from '../../assets/VivuAirlines.png'
 
-
+import { useLanguage, LanguageProvider } from '../../LanguageProvider/LanguageProvider';
+import { setLanguage } from '../../redux/reducers/languageSlice';
 const Header = () => {
     const navigate = useNavigate();
     const dispastch = useDispatch();
     const [openMenu, setOpenMenu] = useState(false);
-    // const [isInline, setIsInline] = useState(true);
 
     const AppMenuDrawer = ({ isInline = false }) => {
         return (
@@ -38,6 +38,16 @@ const Header = () => {
         )
     }
     const AppMenu = ({ isInline = false }) => {
+        const { getText, changeLanguage } = useLanguage();
+        const dispastch = useDispatch();
+        const handleChangeLanguageVI = () => {
+            changeLanguage('vi');
+            dispastch(setLanguage('vi'))
+        }
+        const handleChangeLanguageEN = () => {
+            changeLanguage('en');
+            dispastch(setLanguage('en'));
+        }
         return (
             <>
                 <div className='menuPage'>
@@ -47,7 +57,7 @@ const Header = () => {
                         </Col>
                         <Col span={10} >
                             <div className='service'>
-                                <Button className='service-child' type='link' onClick={() => { navigate('/my/search-booking') }}>CHUYẾN BAY CỦA TÔI</Button>
+                                <Button className='service-child' type='link' onClick={() => { navigate('/my/search-booking') }}>{getText('myflight')}</Button>
                                 <Button className='service-child' type='link' onClick={() => { navigate('/checkin') }}>CHECKIN-ONLINE</Button>
                                 <Button className='service-child' type='link' onClick={() => { navigate('/admins') }}>Admin</Button>
                                 <Button className='service-child' type='link' onClick={() => { navigate('/profile/account') }}>PROFILE</Button>
@@ -56,9 +66,15 @@ const Header = () => {
                         <Col span={8} >
                             <div className='auth'>
                                 <UserOutlined className='auth-Icon' />
-                                <span className='auth-child' onClick={() => { navigate('/register') }} >Đăng ký </span>
+                                <span className='auth-child' onClick={() => { navigate('/register') }} >{getText('register')} </span>
                                 <span className='auth-Icon'>|</span>
-                                <span className='auth-child' onClick={() => { navigate('/login') }}>Đăng nhập</span>
+                                <span className='auth-child' onClick={() => { navigate('/login') }}>{getText('login')} </span>
+                                <div>
+                                    <span className='auth-child' onClick={() => handleChangeLanguageVI()} >VI </span>
+                                </div>
+                                <div>
+                                    <span className='auth-child' onClick={() => handleChangeLanguageEN()}>EN</span>
+                                </div>
                             </div>
                         </Col>
                     </Row>
@@ -70,40 +86,41 @@ const Header = () => {
         )
     }
     return (
-        <div className='header' >
-            <div
-                className='menuIcon' >
-                <MenuOutlined style={{
-                    color: "white",
-                    fontSize: 30,
-                    paddingLeft: 12,
-                    paddingTop: 12
-                }}
-                    onClick={() => {
-                        setOpenMenu(true);
+        <LanguageProvider>
+            <div className='header' >
+                <div
+                    className='menuIcon' >
+                    <MenuOutlined style={{
+                        color: "white",
+                        fontSize: 30,
+                        paddingLeft: 12,
+                        paddingTop: 12
                     }}
-                />
+                        onClick={() => {
+                            setOpenMenu(true);
+                        }}
+                    />
 
-            </div>
-            <span className='headerMenu'>
-                <AppMenu />
-            </span>
-            <Drawer
-                placement='left'
-                open={openMenu}
-                closable={false}
-                onClose={() => {
-                    setOpenMenu(false);
-                }}
-                bodyStyle={{ backgroundColor: '#006885' }}
-            >
-                <AppMenuDrawer />
-            </Drawer>
+                </div>
+                <span className='headerMenu'>
+                    <AppMenu />
+                </span>
+                <Drawer
+                    placement='left'
+                    open={openMenu}
+                    closable={false}
+                    onClose={() => {
+                        setOpenMenu(false);
+                    }}
+                    bodyStyle={{ backgroundColor: '#006885' }}
+                >
+                    <AppMenuDrawer />
+                </Drawer>
 
 
 
-        </div >
-
+            </div >
+        </LanguageProvider>
 
 
     );

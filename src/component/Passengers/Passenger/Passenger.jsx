@@ -18,13 +18,13 @@ const Passenger = () => {
 
     const dispath = useDispatch();
 
-    const data_homepage = useSelector(state => state.formsearch.data_booking);
+    const data = useSelector((state) => state.homePage.homePageInfor);
 
-    const numberadult = Array.from({ length: data_homepage.adult });
+    const numberadult = Array.from({ length: data.adult });
 
-    const numberChildren = Array.from({ length: data_homepage.children });
+    const numberChildren = Array.from({ length: data.children });
 
-    const numberbaby = Array.from({ length: data_homepage.baby });
+    const numberbaby = Array.from({ length: data.baby });
 
     const onChange = (e) => {
         setValueRadio(e.target.value);
@@ -167,7 +167,7 @@ const Passenger = () => {
                         }}
                     /></div>
             ))}
-            {data_homepage.children == 0 ? ''
+            {data.children == 0 ? ''
                 :
                 <div >
                     {numberChildren.map((_, index) => (
@@ -252,7 +252,7 @@ const Passenger = () => {
                     }
                 </div>
             }
-            {data_homepage.baby == 0 ? ''
+            {data.baby == 0 ? ''
                 :
                 <div>
                     {numberbaby.map((_, index) => (

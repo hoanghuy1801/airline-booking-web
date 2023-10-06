@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import CheckInfoFly from './CheckInfoFly/CheckInfoFly';
 import SelectInfoFly from '../SelectFlight/SelectInfoFly/SelectInfoFly';
 import { useState, useEffect } from 'react';
+import { formatCurrency } from '../../utils/format';
 
 
 
@@ -14,10 +15,12 @@ const SelectFlightInfor = () => {
 
     const dispath = useDispatch();
     const navigate = useNavigate();
+    const data = useSelector((state) => state.homePage.homePageInfor);
+    const flightSelect = useSelector((state) => state.flightSelect.flightSelect);
+    const flightSelectReturn = useSelector((state) => state.flightSelect.flightSelectReturn);
+    const totalFlight = useSelector((state) => state.flightSelect.totalflight);
+    const totalFlightFomat = formatCurrency(totalFlight);
 
-    const data = useSelector(state => state.formsearch.data_booking);
-    const dataSelect = useSelector(state => state.selectfight.data_select);
-    const dataSelectReturn = useSelector(state => state.selectfight.data_select_return);
 
 
 
@@ -67,32 +70,12 @@ const SelectFlightInfor = () => {
             <div className='mains-container'>
                 <Row>
                     <Col xs={24} sm={24} md={24} lg={24} xl={15} className='infor-user-select-flight'>
-                        <CheckInfoFly
-                            dataSelect={dataSelect}
-                            dataSelectReturn={dataSelectReturn} />
+                        <CheckInfoFly />
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={9} >
                         <SelectInfoFly
-                            listByCondition={dataSelect.listByCondition}
-                            conditionSelect={dataSelect.conditionSelect}
-                            adultsPrice={dataSelect.adultsPrice}
-                            childrenPrice={dataSelect.childrenPrice}
-                            infantPrice={dataSelect.infantPrice}
-                            adultsPriceFomat={dataSelect.adultsPriceFomat}
-                            childrenPriceFomat={dataSelect.childrenPriceFomat}
-                            infantPriceFomat={dataSelect.infantPriceFomat}
-                            taxesfightFomat={dataSelect.taxesfightFomat}
-                            totalFightFomat={dataSelect.totalFightFomat}
-                            //Return
-                            listByConditionReturn={dataSelectReturn.listByConditionReturn}
-                            conditionSelectReturn={dataSelectReturn.conditionSelectReturn}
-                            adultsPriceReturn={dataSelectReturn.adultsPriceReturn}
-                            childrenPriceReturn={dataSelectReturn.childrenPriceReturn}
-                            infantPriceReturn={dataSelectReturn.infantPriceReturn}
-                            adultsPriceFomatReturn={dataSelectReturn.adultsPriceFomatReturn}
-                            childrenPriceFomatReturn={dataSelectReturn.childrenPriceFomatReturn}
-                            infantPriceFomatReturn={dataSelectReturn.infantPriceFomatReturn}
-                            taxesfightFomatReturn={dataSelectReturn.taxesfightFomatReturn}
+                            flightSelect={flightSelect}
+                            flightSelectReturn={flightSelectReturn}
                         />
                     </Col>
                 </Row>
@@ -109,7 +92,7 @@ const SelectFlightInfor = () => {
                         <Row>
                             <Col span={18} className='footer-price-info' style={{ display: 'flex', justifyContent: 'end' }}>Tổng tiền:
                             </Col>
-                            <Col span={6} className='footer-price-info'>{dataSelect.totalFightFomat}</Col>
+                            <Col span={6} className='footer-price-info'>{totalFlightFomat}</Col>
                         </Row>
                     </Col>
                     <Col xs={11} sm={11} md={11} lg={6} xl={6}>
