@@ -63,18 +63,18 @@ const Header = () => {
                                 <Button className='service-child' type='link' onClick={() => { navigate('/profile/account') }}>PROFILE</Button>
                             </div>
                         </Col>
-                        <Col span={8} >
+                        <Col span={4} >
                             <div className='auth'>
                                 <UserOutlined className='auth-Icon' />
                                 <span className='auth-child' onClick={() => { navigate('/register') }} >{getText('register')} </span>
                                 <span className='auth-Icon'>|</span>
                                 <span className='auth-child' onClick={() => { navigate('/login') }}>{getText('login')} </span>
-                                <div>
-                                    <span className='auth-child' onClick={() => handleChangeLanguageVI()} >VI </span>
-                                </div>
-                                <div>
-                                    <span className='auth-child' onClick={() => handleChangeLanguageEN()}>EN</span>
-                                </div>
+                            </div>
+                        </Col>
+                        <Col span={4}>
+                            <div className='translation'>
+                                <span className='auth-child' onClick={() => handleChangeLanguageVI()} >VI </span>
+                                <span className='auth-child' onClick={() => handleChangeLanguageEN()}>EN</span>
                             </div>
                         </Col>
                     </Row>

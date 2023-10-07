@@ -5,10 +5,12 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import './InfoFly.css'
 import { formatCurrency } from '../../../utils/format';
+import { useLanguage } from '../../../LanguageProvider/LanguageProvider';
 
 const { Title, Text } = Typography;
 
 const InfoFlyReturn = (props) => {
+    const { getText } = useLanguage();
     const navigate = useNavigate();
     const { listFlightReturn, setFlightSelectReturn } = props;
     const data = useSelector((state) => state.homePage.homePageInfor);
@@ -22,7 +24,7 @@ const InfoFlyReturn = (props) => {
 
     return (
         <>
-            <Text className='title'>Chuyến về</Text>
+            <Text className='title'>{getText('TripReturn')}</Text>
 
             {listFlightReturn.map((item) => {
                 const dateObjectdepartureTime = new Date(item.departureTime);
@@ -33,7 +35,7 @@ const InfoFlyReturn = (props) => {
                 const minutearrivalTime = dateObjectarrivalTime.getMinutes();
                 const hourflight = hourarrivalTime - hourdepartureTime;
                 const minuteflight = minutearrivalTime - minutedepartureTime;
-                const adultPriceFomat = formatCurrency(item.flightSeatPrices[0].adultPrice);
+                const adultPriceFomat = formatCurrency(item.flightSeatPrice.adultPrice);
                 return (
                     <div>
                         <div className='fly-color'>
@@ -70,13 +72,13 @@ const InfoFlyReturn = (props) => {
                                                 <Text className='flightName'></Text>
                                             </Row>
                                             <Row>
+                                                <Text className='fly-ladder'>{getText('Direct-Flight')}</Text>
+                                            </Row>
+                                            <Row>
                                                 <IconBrandCitymapper className='icon-fly' />
                                             </Row>
                                             <Row>
-                                                <Text className='fly-ladder'>Bay thẳng</Text>
-                                            </Row>
-                                            <Row>
-                                                <Text className='time-to-fly'>{hourflight} giờ {minuteflight}  phút</Text>
+                                                <Text className='time-to-fly'>{hourflight} {getText('Hour')} {minuteflight}  {getText('Minute')}</Text>
                                             </Row>
                                         </Col>
                                         <Col span={8} >
@@ -91,10 +93,10 @@ const InfoFlyReturn = (props) => {
                                 </Col>
                                 <Col span={7} >
                                     <Row>
-                                        <Text className='price-fly text-ellipsis'>{adultPriceFomat}/Khách</Text>
+                                        <Text className='price-fly text-ellipsis'>{adultPriceFomat}/{getText('Guest')}</Text>
                                     </Row>
                                     <Row>
-                                        <Button className='btn-select' onClick={() => handleSelect(item.id)}>Chọn</Button>
+                                        <Button className='btn-select' onClick={() => handleSelect(item.id)}>{getText('Selected')}</Button>
                                     </Row>
                                 </Col>
                             </Row>

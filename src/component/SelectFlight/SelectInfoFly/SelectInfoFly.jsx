@@ -1,37 +1,70 @@
+import { useState, useEffect } from 'react';
 import { Row, Col, Form, Typography } from 'antd';
 import './SelectInfoFly.css'
 import { IconPlane } from '@tabler/icons-react';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { formatCurrency } from '../../../utils/format';
+import { formatCurrency, removeDiacritics } from '../../../utils/format';
+import { useLanguage } from '../../../LanguageProvider/LanguageProvider';
 const { Title, Text } = Typography;
 
 
 const SelectInfoFly = (props) => {
+
+    const { getText } = useLanguage();
     const { flightSelect, flightSelectReturn } = props;
     const data = useSelector((state) => state.homePage.homePageInfor);
-    const adultPriceFomat = formatCurrency(flightSelect.flightSeatPrices[0].adultPrice);
-    const childrenPriceFomat = formatCurrency(flightSelect.flightSeatPrices[0].childrenPrice);
-    const infantPriceFomat = formatCurrency(flightSelect.flightSeatPrices[0].infantPrice);
-
-    const adultPriceFomatReturn = formatCurrency(flightSelectReturn.flightSeatPrices[0].adultPrice);
-    const childrenPriceFomatReturn = formatCurrency(flightSelectReturn.flightSeatPrices[0].childrenPrice);
-    const infantPriceFomatReturn = formatCurrency(flightSelectReturn.flightSeatPrices[0].infantPrice);
-    const total = flightSelect.flightSeatPrices[0].adultPrice
-        + flightSelect.flightSeatPrices[0].childrenPrice
-        + flightSelect.flightSeatPrices[0].infantPrice
-        + Number(flightSelectReturn.flightSeatPrices[0].adultPrice)
-        + Number(flightSelectReturn.flightSeatPrices[0].childrenPrice)
-        + Number(flightSelectReturn.flightSeatPrices[0].infantPrice);
-    const totalFomat = formatCurrency(total);
-
     const totalPeople = data.children + data.adult;
 
+    const totalAdultPrice = flightSelect.flightSeatPrice.adultPrice * data.adult;
+    const adultPriceFomat = formatCurrency(totalAdultPrice);
+
+    const totalChildrenPrice = flightSelect.flightSeatPrice.childrenPrice * data.children;
+    const childrenPriceFomat = formatCurrency(totalChildrenPrice);
+
+    const totalInfantPrice = flightSelect.flightSeatPrice.infantPrice * data.baby;
+    const infantPriceFomat = formatCurrency(totalInfantPrice);
+
+    const totalFee = flightSelect.flightSeatPrice.taxService.totalFee * totalPeople;
+    const totalFeeFomat = formatCurrency(totalFee);
+
+    const totalAdultPriceReturn = flightSelectReturn.flightSeatPrice.adultPrice * data.adult;
+    const adultPriceFomatReturn = formatCurrency(totalAdultPriceReturn);
+
+    const totalChildrenPriceReturn = flightSelectReturn.flightSeatPrice.childrenPrice * data.children;
+    const childrenPriceFomatReturn = formatCurrency(totalChildrenPriceReturn);
+
+    const totalInfantPriceReturn = flightSelectReturn.flightSeatPrice.infantPrice * data.baby;
+    const infantPriceFomatReturn = formatCurrency(totalInfantPriceReturn);
+
+    const totalFeeReturn = flightSelectReturn.flightSeatPrice.taxService.totalFee * totalPeople;
+    const totalFeeReturnFomat = formatCurrency(totalFeeReturn);
+
+
+    const total =
+        flightSelect.flightSeatPrice.adultPrice * data.adult
+        + flightSelect.flightSeatPrice.childrenPrice * data.children
+        + flightSelect.flightSeatPrice.infantPrice * data.baby
+        + flightSelect.flightSeatPrice.taxService.totalFee * totalPeople
+
+        + flightSelectReturn.flightSeatPrice.adultPrice * data.adult
+        + flightSelectReturn.flightSeatPrice.childrenPrice * data.children
+        + flightSelectReturn.flightSeatPrice.infantPrice * data.baby
+        + flightSelectReturn.flightSeatPrice.taxService.totalFee * totalPeople;
+    const totalFomat = formatCurrency(Number(total));
+
+
+
+
+    const myLanguage = useSelector((state) => state.language.language);
+    const sourceAirportCity = removeDiacritics(data.sourceAirportCity, myLanguage)
+    const destinationAirportCity = removeDiacritics(data.destinationAirportCity, myLanguage)
+
     return (
-        <>
+        <div>
             <Form className='infor-user-select'>
                 <div className='title-select'>
-                    <Text style={{ color: 'white', fontSize: 20, fontWeight: 600, paddingRight: 10 }}>THÔNG TIN ĐẶT CHỖ </Text>
+                    <Text style={{ color: 'white', fontSize: 20, fontWeight: 600, paddingRight: 10 }}>{getText('RESERVATION-INFO')} </Text>
                 </div>
                 <Form.Item>
                     <div className='title-infor'>
@@ -39,14 +72,14 @@ const SelectInfoFly = (props) => {
                             color: 'black', fontSize: 20, fontWeight: 600,
                             paddingLeft: 20,
 
-                        }}>Thông tin hành khách </Text>
+                        }}>{getText('PassengerInformation')} </Text>
                     </div>
                     <div style={{ backgroundColor: 'rgb(201, 239, 255)' }}>
                         <Text style={{
                             color: 'black', fontSize: 18, fontWeight: 400,
                             paddingLeft: 20,
 
-                        }}>Chuyến đi</Text>
+                        }}>{getText('Trip')}</Text>
                     </div>
                     <Row style={{ paddingTop: 10 }}>
                         <Col span={10}>
@@ -55,7 +88,7 @@ const SelectInfoFly = (props) => {
                                     color: 'black', fontSize: 18, fontWeight: 500,
                                     paddingLeft: 40,
 
-                                }}> {data.sourceAirportCity}</Text>
+                                }}> {sourceAirportCity}</Text>
                         </Col>
                         <Col span={4}>
                             <Text
@@ -67,7 +100,7 @@ const SelectInfoFly = (props) => {
                             <Text className='destinationAirportCity'
                                 style={{
                                     color: 'black', fontSize: 18, fontWeight: 500,
-                                }}>{data.destinationAirportCity}</Text>
+                                }}>{destinationAirportCity}</Text>
 
                         </Col>
                     </Row>
@@ -78,7 +111,7 @@ const SelectInfoFly = (props) => {
                                     style={{
                                         color: 'black', fontSize: 18, fontWeight: 600,
                                         paddingLeft: 10,
-                                    }}>Giá vé </Text>
+                                    }}>{getText('Price')} </Text>
                             </Col>
                             <Col span={2}>
                                 <Text className='text-select-info'
@@ -105,7 +138,7 @@ const SelectInfoFly = (props) => {
                                     style={{
                                         color: 'black', fontSize: 18, fontWeight: 600,
                                         paddingLeft: 10,
-                                    }}>Giá vé trẻ em </Text>
+                                    }}>{getText('Price-Children')} </Text>
                             </Col>
                             <Col span={2}>
                                 <Text className='text-select-info'
@@ -133,7 +166,7 @@ const SelectInfoFly = (props) => {
                                     style={{
                                         color: 'black', fontSize: 18, fontWeight: 600,
                                         paddingLeft: 10,
-                                    }}>Giá vé em bé </Text>
+                                    }}>{getText('Price-Baby')} </Text>
                             </Col>
                             <Col span={2}>
                                 <Text className='text-select-info'
@@ -160,7 +193,7 @@ const SelectInfoFly = (props) => {
                                     style={{
                                         color: 'black', fontSize: 18, fontWeight: 600,
                                         paddingLeft: 10,
-                                    }}>Thuế, phí </Text>
+                                    }}>{getText('TaxesAndFees')} </Text>
                             </Col>
                             <Col span={2}>
                                 <Text style={{
@@ -175,7 +208,7 @@ const SelectInfoFly = (props) => {
                                         display: 'flex',
                                         alignItems: 'flex-end',
                                         paddingRight: 20,
-                                    }}> </Text></Col>
+                                    }}> {totalFeeFomat}</Text></Col>
                         </Row>
                     </div>
                     <div className='title-infor'>
@@ -184,8 +217,8 @@ const SelectInfoFly = (props) => {
                                 <Text className='text-select-info'
                                     style={{
                                         color: 'black', fontSize: 18, fontWeight: 600,
-                                        paddingLeft: 20,
-                                    }}>Dịch vụ </Text>
+                                        paddingLeft: 10,
+                                    }}>{getText('Add-On')} </Text>
                             </Col>
                             <Col span={15}>
                                 <Text style={{
@@ -193,7 +226,7 @@ const SelectInfoFly = (props) => {
                                     display: 'flex',
                                     alignItems: 'flex-end',
                                     paddingRight: 20,
-                                }}>0 VND </Text></Col>
+                                }}> </Text></Col>
                         </Row>
                     </div>
 
@@ -207,7 +240,7 @@ const SelectInfoFly = (props) => {
                                         color: 'black', fontSize: 18, fontWeight: 400,
                                         paddingLeft: 20,
 
-                                    }}>Chuyến về</Text>
+                                    }}>{getText('TripReturn')}</Text>
                             </div>
                             <Row style={{ paddingTop: 10 }}>
                                 <Col span={10}>
@@ -216,7 +249,7 @@ const SelectInfoFly = (props) => {
                                             color: 'black', fontSize: 18, fontWeight: 500,
                                             paddingLeft: 40,
 
-                                        }}> {data.destinationAirportCity}</Text>
+                                        }}> {destinationAirportCity}</Text>
                                 </Col>
                                 <Col span={4}>
                                     <Text
@@ -228,7 +261,7 @@ const SelectInfoFly = (props) => {
                                     <Text className='destinationAirportCity'
                                         style={{
                                             color: 'black', fontSize: 18, fontWeight: 500,
-                                        }}>{data.sourceAirportCity}</Text>
+                                        }}>{sourceAirportCity}</Text>
 
                                 </Col>
                             </Row>
@@ -239,7 +272,7 @@ const SelectInfoFly = (props) => {
                                             style={{
                                                 color: 'black', fontSize: 18, fontWeight: 600,
                                                 paddingLeft: 10,
-                                            }}>Giá vé </Text>
+                                            }}>{getText('Price')} </Text>
                                     </Col>
                                     <Col span={2}>
                                         <Text className='text-select-info'
@@ -266,7 +299,7 @@ const SelectInfoFly = (props) => {
                                             style={{
                                                 color: 'black', fontSize: 18, fontWeight: 600,
                                                 paddingLeft: 10,
-                                            }}>Giá vé trẻ em </Text>
+                                            }}>{getText('Price-Children')} </Text>
                                     </Col>
                                     <Col span={2}>
                                         <Text className='text-select-info'
@@ -294,7 +327,7 @@ const SelectInfoFly = (props) => {
                                             style={{
                                                 color: 'black', fontSize: 18, fontWeight: 600,
                                                 paddingLeft: 10,
-                                            }}>Giá vé em bé </Text>
+                                            }}>{getText('Price-Baby')} </Text>
                                     </Col>
                                     <Col span={2}>
                                         <Text className='text-select-info'
@@ -321,7 +354,7 @@ const SelectInfoFly = (props) => {
                                             style={{
                                                 color: 'black', fontSize: 18, fontWeight: 600,
                                                 paddingLeft: 10,
-                                            }}>Thuế, phí </Text>
+                                            }}>{getText('TaxesAndFees')} </Text>
                                     </Col>
                                     <Col span={2}>
                                         <Text className='text-select-info'
@@ -337,7 +370,7 @@ const SelectInfoFly = (props) => {
                                                 display: 'flex',
                                                 alignItems: 'flex-end',
                                                 paddingRight: 20,
-                                            }}> </Text></Col>
+                                            }}>{totalFeeReturnFomat} </Text></Col>
                                 </Row>
                             </div>
                             <div className='title-infor'>
@@ -347,7 +380,7 @@ const SelectInfoFly = (props) => {
                                             style={{
                                                 color: 'black', fontSize: 18, fontWeight: 600,
                                                 paddingLeft: 10,
-                                            }}>Dịch vụ </Text>
+                                            }}>{getText('Add-On')}</Text>
                                     </Col>
                                     <Col span={15}>
                                         <Text className='text-select-info'
@@ -356,7 +389,7 @@ const SelectInfoFly = (props) => {
                                                 display: 'flex',
                                                 alignItems: 'flex-end',
                                                 paddingRight: 20,
-                                            }}>0 VND </Text></Col>
+                                            }}> </Text></Col>
                                 </Row>
                             </div>
                         </div>
@@ -369,7 +402,7 @@ const SelectInfoFly = (props) => {
                                 style={{
                                     color: 'white', fontSize: 20, fontWeight: 600,
                                     paddingLeft: 20,
-                                }}>Tổng tiền</Text>
+                                }}>{getText('Total')}</Text>
                         </Col>
                         <Col span={16}>
                             <Text className='text-select-info'
@@ -382,7 +415,7 @@ const SelectInfoFly = (props) => {
                     </Row>
                 </div>
             </Form >
-        </>
+        </div>
     )
 }
 export default SelectInfoFly;

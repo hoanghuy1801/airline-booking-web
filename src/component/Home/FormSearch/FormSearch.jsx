@@ -44,7 +44,7 @@ const FormSearch = (props) => {
     const [returnDate, setReturnDate] = useState();
     const [destinationAirportCity, setDestinationAirportCity] = useState();
     const [sourceAirportCity, setSourceAirportCity] = useState();
-    const [seatClass, setSeatClass] = useState();
+    const [seatId, setSeatId] = useState();
     const [roundTrip, setRoundTrip] = useState(false);
     const [adult, setAdult] = useState(1);
     const [children, setChildren] = useState(0);
@@ -57,7 +57,7 @@ const FormSearch = (props) => {
         sourceAirport: sourceAirport,
         destinationAirport: destinationAirport,
         departureDate: departureDate,
-        seatClass: seatClass,
+        seatId: seatId,
         adult: adult,
         children: children,
         baby: baby,
@@ -68,12 +68,12 @@ const FormSearch = (props) => {
 
     const handleSelectBooking = () => {
         if (!roundTrip) {
-            if (sourceAirport == null || destinationAirport == null || departureDate == null || departureDate == null || seatClass == null) {
+            if (sourceAirport == null || destinationAirport == null || departureDate == null || departureDate == null || seatId == null) {
                 showWaringModal('Bạn ơi', 'Bạn chưa điền đầy đủ thông tin tìm chuyến bay')
                 return
             }
         } else {
-            if (sourceAirport == null || destinationAirport == null || departureDate == null || departureDate == null || returnDate == null || seatClass == null) {
+            if (sourceAirport == null || destinationAirport == null || departureDate == null || departureDate == null || returnDate == null || seatId == null) {
                 showWaringModal('Bạn ơi', 'Bạn chưa điền đầy đủ thông tin tìm chuyến bay')
                 return
             }
@@ -115,7 +115,7 @@ const FormSearch = (props) => {
         setDepartureDate(dateStrings);
     };
     const onSeatClass = (value) => {
-        setSeatClass(value);
+        setSeatId(value);
     };
 
     return (
@@ -220,7 +220,7 @@ const FormSearch = (props) => {
                                 onChange={onSeatClass}
                             >
                                 {listSeats.map((item) => (
-                                    <Option key={item.id} value={item.seatCode} label={item.seatName}>
+                                    <Option key={item.id} value={item.id} label={item.seatName}>
                                         <Row>
                                             {item.seatName}
                                         </Row>
