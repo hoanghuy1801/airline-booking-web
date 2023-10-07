@@ -18,6 +18,9 @@
 .auth{
     padding: 13px 10% 10px 10px;
 }
+.translation{
+    padding: 13px 0 10px 0px;
+}
 .service{
     display: flex;
     padding: 10px 5% 10px 10px;

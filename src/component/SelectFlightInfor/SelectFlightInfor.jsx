@@ -6,12 +6,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import CheckInfoFly from './CheckInfoFly/CheckInfoFly';
 import SelectInfoFly from '../SelectFlight/SelectInfoFly/SelectInfoFly';
 import { useState, useEffect } from 'react';
-import { formatCurrency } from '../../utils/format';
+import { formatCurrency, removeDiacritics } from '../../utils/format';
+import { useLanguage } from '../../LanguageProvider/LanguageProvider';
 
 
 
 const { Title, Text } = Typography;
 const SelectFlightInfor = () => {
+    const { getText } = useLanguage();
 
     const dispath = useDispatch();
     const navigate = useNavigate();
@@ -19,11 +21,12 @@ const SelectFlightInfor = () => {
     const flightSelect = useSelector((state) => state.flightSelect.flightSelect);
     const flightSelectReturn = useSelector((state) => state.flightSelect.flightSelectReturn);
     const totalFlight = useSelector((state) => state.flightSelect.totalflight);
-    const totalFlightFomat = formatCurrency(totalFlight);
+    const totalFlightFomat = formatCurrency(Number(totalFlight));
 
 
-
-
+    const myLanguage = useSelector((state) => state.language.language);
+    const sourceAirportCity = removeDiacritics(data.sourceAirportCity, myLanguage)
+    const destinationAirportCity = removeDiacritics(data.destinationAirportCity, myLanguage)
     const handleContinue = () => {
         // dispath(Data_Service(data_service));
         navigate('/passengers')
@@ -37,21 +40,21 @@ const SelectFlightInfor = () => {
                         <Row>
                             <span style={{ fontSize: 20, fontWeight: 500 }}>
                                 {!data.roundTrip ?
-                                    <Title level={4}>CHUYẾN BAY MỘT CHIỀU | {data.adult} Người lớn, {data.children} Trẻ em, {data.baby} Em bé</Title>
+                                    <Title level={4}> {getText('ROUND-TRIP')} | {data.adult} {getText('Adults')}, {data.children} {getText('Children')}, {data.baby} {getText('Baby')}</Title>
                                     :
-                                    <Title level={4}>CHUYẾN BAY KHỨ HỒI| {data.adult} Người lớn, {data.children} Trẻ em, {data.baby} Em bé</Title>
+                                    <Title level={4}> {getText('ONE-WAY-FLIGHT')}| {data.adult} {getText('Adults')}, {data.children} {getText('Children')}, {data.baby} {getText('Baby')}</Title>
                                 }
                             </span>
                         </Row>
                         <Row>
                             <div>
                                 <Title level={5} style={{ color: 'grey', fontSize: 16, fontWeight: 500 }}>
-                                    Điểm khởi hành:
+                                    {getText('From')}:
                                     <Text type="secondary"
-                                        style={{ color: 'red', fontSize: 18, fontWeight: 500, paddingRight: 30, marginLeft: 10 }}>{data.sourceAirportCity}</Text>
-                                    <Text level={5} style={{ color: 'grey', fontSize: 16, fontWeight: 500, paddingRight: 10 }}>Điểm đến </Text>
+                                        style={{ color: 'red', fontSize: 18, fontWeight: 500, paddingRight: 30, marginLeft: 10 }}>{sourceAirportCity}</Text>
+                                    <Text level={5} style={{ color: 'grey', fontSize: 16, fontWeight: 500 }}> {getText('To')}: </Text>
                                     <Text type="secondary"
-                                        style={{ color: 'red', fontSize: 18, fontWeight: 500, paddingRight: 30, marginLeft: 10 }}>{data.destinationAirportCity}</Text>
+                                        style={{ color: 'red', fontSize: 18, fontWeight: 500, paddingRight: 30, marginLeft: 10 }}>{destinationAirportCity}</Text>
                                 </Title>
                             </div>
                         </Row>
@@ -86,18 +89,18 @@ const SelectFlightInfor = () => {
                     </Col>
                     <Col xs={11} sm={11} md={11} lg={4} xl={4}>
                         <Button className='footer-back'
-                            onClick={() => { navigate('/select-fight') }} >Quay lại</Button>
+                            onClick={() => { navigate('/select-fight') }} >{getText('Back')}</Button>
                     </Col>
                     <Col span={12} className='footer-price-form-info'>
                         <Row>
-                            <Col span={18} className='footer-price-info' style={{ display: 'flex', justifyContent: 'end' }}>Tổng tiền:
+                            <Col span={18} className='footer-price-info' style={{ display: 'flex', justifyContent: 'end' }}>{getText('Total')}:
                             </Col>
                             <Col span={6} className='footer-price-info'>{totalFlightFomat}</Col>
                         </Row>
                     </Col>
                     <Col xs={11} sm={11} md={11} lg={6} xl={6}>
                         <Button className='footer-continue-info'
-                            onClick={() => handleContinue()} >Tiếp tục</Button>
+                            onClick={() => handleContinue()} >{getText('Continue')}</Button>
                     </Col>
                 </Row>
             </div>

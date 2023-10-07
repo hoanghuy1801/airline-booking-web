@@ -1,9 +1,11 @@
 import { Row, Col, Typography } from 'antd';
 import './CheckInfoFly.css'
 import { useSelector } from 'react-redux';
+import { useLanguage } from '../../../LanguageProvider/LanguageProvider';
 
 const { Title, Text } = Typography;
 const CheckInfoFly = (props) => {
+    const { getText } = useLanguage();
     const data_homepage = useSelector((state) => state.homePage.homePageInfor);
     const dataSelect = useSelector((state) => state.flightSelect.flightSelect);
     const dataSelectReturn = useSelector((state) => state.flightSelect.flightSelectReturn);
@@ -35,7 +37,7 @@ const CheckInfoFly = (props) => {
     const yeardepartureTimeReturn = dateObjectdepartureTimeReturn.getFullYear();
     return (
         <>
-            <Text className='title'>Thông tin chuyến bay</Text>
+            <Text className='title'>{getText('Flight-Information')}</Text>
             <Row style={{
                 height: 8,
                 borderTopLeftRadius: '5px',
@@ -49,16 +51,16 @@ const CheckInfoFly = (props) => {
                 padding: 10
             }}>
                 <Col span={6}>
-                    <Text className='text-title-fight-info'>Chuyến đi</Text>
+                    <Text className='text-title-fight-info'> {getText('Trip')}</Text>
                 </Col>
                 <Col span={18}>
-                    <Text className='text-title-fight-info' style={{ paddingLeft: '27%' }}>Tính theo giờ địa phương tại sân bay</Text>
+                    <Text className='text-title-fight-info' style={{ paddingLeft: '27%' }}>{getText('Local-time-at-airport')}</Text>
                 </Col>
             </Row>
             <div className='select-fight-infor'>
                 <Row>
                     <Col span={24}>
-                        <Text className='date-fight'>Ngày {daydepartureTime}/{monthdepartureTime}/{yeardepartureTime}</Text>
+                        <Text className='date-fight'>{getText('Date')} {daydepartureTime}/{monthdepartureTime}/{yeardepartureTime}</Text>
                     </Col>
                 </Row>
                 <Row>
@@ -77,7 +79,7 @@ const CheckInfoFly = (props) => {
                     <Col span={4}>
                         <Row>
                             <Col span={24}>
-                                <Text className='flight-time'>{hourflight} giờ {minuteflight} phút</Text>
+                                <Text className='flight-time'>{hourflight}  {getText('Hour')} {minuteflight}  {getText('Minute')}</Text>
                             </Col>
                         </Row>
                         <Row>
@@ -106,7 +108,7 @@ const CheckInfoFly = (props) => {
                         </Row>
                         <Row>
                             <Col span={24}>
-                                <Text className='code-flight'>Hãng khai thác:</Text>
+                                <Text className='code-flight'>{getText('Flight-Operating-Company')}:</Text>
                                 <Text className='code-flight'>{dataSelect.airline.airlineName} </Text>
                             </Col>
                         </Row>
@@ -132,16 +134,16 @@ const CheckInfoFly = (props) => {
                         paddingTop: 10
                     }}>
                         <Col span={6}>
-                            <Text className='text-title-fight-info'>Chuyến về</Text>
+                            <Text className='text-title-fight-info'>{getText('TripReturn')}</Text>
                         </Col>
                         <Col span={18}>
-                            <Text className='text-title-fight-info' style={{ paddingLeft: '27%' }}>Tính theo giờ địa phương tại sân bay</Text>
+                            <Text className='text-title-fight-info' style={{ paddingLeft: '27%' }}>{getText('Local-time-at-airport')}</Text>
                         </Col>
                     </Row>
                     <div className='select-fight-infor'>
                         <Row>
                             <Col span={24}>
-                                <Text className='date-fight'>Ngày {daydepartureTimeReturn}/{monthdepartureTimeReturn}/{yeardepartureTimeReturn}</Text>
+                                <Text className='date-fight'>{getText('Date')} {daydepartureTimeReturn}/{monthdepartureTimeReturn}/{yeardepartureTimeReturn}</Text>
                             </Col>
                         </Row>
                         <Row>
@@ -160,7 +162,7 @@ const CheckInfoFly = (props) => {
                             <Col span={4}>
                                 <Row>
                                     <Col span={24}>
-                                        <Text className='flight-time'>{hourflightReturn} giờ {minuteflightReturn} phút</Text>
+                                        <Text className='flight-time'>{hourflightReturn} {getText('Hour')} {minuteflightReturn} {getText('Minute')}</Text>
                                     </Col>
                                 </Row>
                                 <Row>
@@ -189,7 +191,7 @@ const CheckInfoFly = (props) => {
                                 </Row>
                                 <Row>
                                     <Col span={24}>
-                                        <Text className='code-flight'>Hãng khai thác:</Text>
+                                        <Text className='code-flight'>{getText('Flight-Operating-Company')}:</Text>
                                         <Text className='code-flight'>{dataSelect.airline.airlineName} </Text>
                                     </Col>
                                 </Row>

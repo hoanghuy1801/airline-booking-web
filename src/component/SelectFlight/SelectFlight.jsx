@@ -11,14 +11,19 @@ import { IconPlane, IconUserCircle, IconCurrencyDollar, IconShoppingCart } from 
 import moment from 'moment';
 import InfoFlyReturn from './InfoFly/InfoFlyReturn';
 import { getListFlight } from '../../services/apiBooking';
-import { formatCurrency, formatDate } from '../../utils/format';
+import { formatCurrency, formatDate, removeDiacritics, removeVietnameseAccentsAndConvert, } from '../../utils/format';
 import { showWaringModal } from '../../utils/modalError';
 import { setflightSelect, setflightSelectReturn, settotalflight } from '../../redux/reducers/booking';
+import { useLanguage } from '../../LanguageProvider/LanguageProvider';
 
 const { Title, Text } = Typography;
 const SelectFlight = () => {
+    useEffect(() => {
+        feachListFlight();
+    }, []);
     const navigate = useNavigate();
     const dispath = useDispatch();
+    const { getText } = useLanguage();
     const [hideSelectFightReturn, setHideSelectFightReturn] = useState(false);
     const [selectedShapeIndex, setSelectedShapeIndex] = useState(null);
     const [listFlight, setListFlight] = useState([]);
@@ -63,17 +68,28 @@ const SelectFlight = () => {
                 airportName: "",
                 visualIndex: 0
             },
-            flightSeatPrices: [
-                {
+            flightSeatPrice:
+            {
+                id: "",
+                createdAt: "",
+                updatedAt: "",
+                infantPrice: "",
+                adultPrice: "",
+                childrenPrice: "",
+                seatClass: "",
+                taxService: {
                     id: "",
-                    createdAt: "",
-                    updatedAt: "",
-                    infantPrice: "",
-                    adultPrice: "",
-                    childrenPrice: "",
-                    seatClass: ""
+                    airportFee: "",
+                    systemServiceSurcharge: "",
+                    systemAdministrationSurcharge: "",
+                    securityScreeningFee: "",
+                    VATTax: "",
+                    totalFee: "",
+                    fuelCharge: null,
+                    flightType: ""
                 }
-            ]
+            }
+
         }
     );
     const [flightSelectReturn, setFlightSelectReturn] = useState(
@@ -116,42 +132,55 @@ const SelectFlight = () => {
                 airportName: "",
                 visualIndex: 0
             },
-            flightSeatPrices: [
-                {
+            flightSeatPrice:
+            {
+                id: "",
+                createdAt: "",
+                updatedAt: "",
+                infantPrice: "",
+                adultPrice: "",
+                childrenPrice: "",
+                seatClass: "",
+                taxService: {
                     id: "",
-                    createdAt: "",
-                    updatedAt: "",
-                    infantPrice: "",
-                    adultPrice: "",
-                    childrenPrice: "",
-                    seatClass: ""
+                    airportFee: "",
+                    systemServiceSurcharge: "",
+                    systemAdministrationSurcharge: "",
+                    securityScreeningFee: "",
+                    VATTax: "",
+                    totalFee: "",
+                    fuelCharge: null,
+                    flightType: ""
                 }
-            ]
+            }
+
         }
     );
-    const total = flightSelect.flightSeatPrices[0].adultPrice
-        + flightSelect.flightSeatPrices[0].childrenPrice
-        + flightSelect.flightSeatPrices[0].infantPrice
-        + Number(flightSelectReturn.flightSeatPrices[0].adultPrice)
-        + Number(flightSelectReturn.flightSeatPrices[0].childrenPrice)
-        + Number(flightSelectReturn.flightSeatPrices[0].infantPrice);
-    const totalFomat = formatCurrency(total);
+    const data = useSelector((state) => state.homePage.homePageInfor);
+    const totalPeople = data.children + data.adult;
+    const total =
+        flightSelect.flightSeatPrice.adultPrice * data.adult
+        + flightSelect.flightSeatPrice.childrenPrice * data.children
+        + flightSelect.flightSeatPrice.infantPrice * data.baby
+        + flightSelect.flightSeatPrice.taxService.totalFee * totalPeople
+
+        + flightSelectReturn.flightSeatPrice.adultPrice * data.adult
+        + flightSelectReturn.flightSeatPrice.childrenPrice * data.children
+        + flightSelectReturn.flightSeatPrice.infantPrice * data.baby
+        + flightSelectReturn.flightSeatPrice.taxService.totalFee * totalPeople;
+    const totalFomat = formatCurrency(Number(total));
 
     const handleShapeClick = (index) => {
         setSelectedShapeIndex(index);
     };
-    useEffect(() => {
-        feachListFlight();
-    }, []);
-    const data = useSelector((state) => state.homePage.homePageInfor);
 
     const feachListFlight = async () => {
-        let res = await getListFlight(data.sourceAirport, data.destinationAirport, formatDate(data.departureDate), data.seatClass, data.adult, data.children, data.baby);
+        let res = await getListFlight(data.sourceAirport, data.destinationAirport, formatDate(data.departureDate), data.seatId, data.adult, data.children, data.baby);
         setListFlight(res.data);
     }
 
     const handleContinue = async () => {
-        if (flightSelect.flightSeatPrices[0].adultPrice == '') {
+        if (flightSelect.flightSeatPrice.adultPrice == '') {
             showWaringModal("Bạn ơi", "Bạn chưa chọn chuyến bay")
             return
         }
@@ -162,10 +191,10 @@ const SelectFlight = () => {
             if (hideSelectFightReturn == false) {
                 dispath(setflightSelect(flightSelect));
                 dispath(settotalflight(total));
-                let res = await getListFlight(data.destinationAirport, data.sourceAirport, formatDate(data.returnDate), data.seatClass, data.adult, data.children, data.baby);
+                let res = await getListFlight(data.destinationAirport, data.sourceAirport, formatDate(data.returnDate), data.seatId, data.adult, data.children, data.baby);
                 setListFlightReturn(res.data);
                 setHideSelectFightReturn(true)
-            } else if (flightSelectReturn.flightSeatPrices[0].adultPrice == '') {
+            } else if (flightSelectReturn.flightSeatPrice.adultPrice == '') {
                 showWaringModal("Bạn ơi", "Bạn chưa chọn chuyến bay")
                 return
             } else {
@@ -176,6 +205,9 @@ const SelectFlight = () => {
         }
 
     }
+    const myLanguage = useSelector((state) => state.language.language);
+    const sourceAirportCity = removeDiacritics(data.sourceAirportCity, myLanguage)
+    const destinationAirportCity = removeDiacritics(data.destinationAirportCity, myLanguage)
     return (
         <div className="select-flight">
             <div className="info-flight">
@@ -184,21 +216,21 @@ const SelectFlight = () => {
                         <Row>
                             <span style={{ fontSize: 20, fontWeight: 500 }}>
                                 {!data.roundTrip ?
-                                    <Title level={4}>CHUYẾN BAY MỘT CHIỀU | {data.adult} Người lớn, {data.children} Trẻ em, {data.baby} Em bé</Title>
+                                    <Title level={4}> {getText('ROUND-TRIP')} | {data.adult} {getText('Adults')}, {data.children} {getText('Children')}, {data.baby} {getText('Baby')}</Title>
                                     :
-                                    <Title level={4}>CHUYẾN BAY KHỨ HỒI| {data.adult} Người lớn, {data.children} Trẻ em, {data.baby} Em bé</Title>
+                                    <Title level={4}> {getText('ONE-WAY-FLIGHT')}| {data.adult} {getText('Adults')}, {data.children} {getText('Children')}, {data.baby} {getText('Baby')}</Title>
                                 }
                             </span>
                         </Row>
                         <Row>
                             <div>
                                 <Title level={5} style={{ color: 'grey', fontSize: 16, fontWeight: 500 }}>
-                                    Điểm khởi hành:
+                                    {getText('From')}:
                                     <Text type="secondary"
-                                        style={{ color: 'red', fontSize: 18, fontWeight: 500, paddingRight: 30, marginLeft: 10 }}>{data.sourceAirportCity}</Text>
-                                    <Text level={5} style={{ color: 'grey', fontSize: 16, fontWeight: 500, paddingRight: 10 }}>Điểm đến </Text>
+                                        style={{ color: 'red', fontSize: 18, fontWeight: 500, paddingRight: 30, marginLeft: 10 }}>{sourceAirportCity}</Text>
+                                    <Text level={5} style={{ color: 'grey', fontSize: 16, fontWeight: 500 }}> {getText('To')}: </Text>
                                     <Text type="secondary"
-                                        style={{ color: 'red', fontSize: 18, fontWeight: 500, paddingRight: 30, marginLeft: 10 }}>{data.destinationAirportCity}</Text>
+                                        style={{ color: 'red', fontSize: 18, fontWeight: 500, paddingRight: 30, marginLeft: 10 }}>{destinationAirportCity}</Text>
                                 </Title>
                             </div>
                         </Row>
@@ -226,6 +258,7 @@ const SelectFlight = () => {
                             <InfoFly
                                 listFlight={listFlight}
                                 setFlightSelect={setFlightSelect}
+
                             />
                         }
                     </Col>
@@ -244,13 +277,13 @@ const SelectFlight = () => {
                     </Col>
                     <Col span={12} className='footer-price-form'>
                         <Row>
-                            <Col span={16} className='footer-price'>Tổng tiền:
+                            <Col span={16} className='footer-price'>{getText('Total')}:
                             </Col>
                             <Col span={8} className='footer-price'>{totalFomat}</Col>
                         </Row>
                     </Col>
                     <Col md={24} lg={6} xl={6} className='footer-price-btn'>
-                        <Button className='footer-continue-select' onClick={() => handleContinue()} >Tiếp tục</Button>
+                        <Button className='footer-continue-select' onClick={() => handleContinue()} >{getText('Continue')}</Button>
                     </Col>
                 </Row>
             </div>
