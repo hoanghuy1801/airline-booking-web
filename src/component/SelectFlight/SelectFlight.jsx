@@ -188,6 +188,7 @@ const SelectFlight = () => {
         if (!data.roundTrip) {
             dispath(settotalflight(total));
             dispath(setflightSelectReturn(flightSelectReturn));
+            dispath(setflightSelect(flightSelect));
             navigate('/select-fight-infor')
         }
         else {
