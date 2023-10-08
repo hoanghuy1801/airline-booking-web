@@ -13,6 +13,7 @@ import Service from './Service/Service';
 import SelectInfoFly from '../SelectFlight/SelectInfoFly/SelectInfoFly';
 import { formatCurrency, removeDiacritics } from '../../utils/format';
 import { useLanguage } from '../../LanguageProvider/LanguageProvider';
+import { getServiceAirline } from '../../services/apiBooking';
 const { Title, Text } = Typography;
 const { Option } = Select;
 const SelectService = () => {
@@ -35,27 +36,17 @@ const SelectService = () => {
     const [value, setValue] = useState(1);
     const [baggageOptions, setBaggageOptions] = useState([]);
     const [mealOptions, setMealOptions] = useState([]);
-    const [standardBaggageOptions, setStandardBaggageOptions] = useState([]);
-    const [standardMealOptions, setStandardMealOptions] = useState([]);
+    const [defaultBaggageOptions, setDefaultBaggageOptions] = useState([
+    ]);
+    const [defaultMealOptions, setDefaultMealOptions] = useState([]);
 
     const feachListService = async () => {
-        // let res = await getListService(dataSelect.conditionSelect.airlineId, dataSelect.conditionSelect.seatPriceDto.seatClass);
+        let res = await getServiceAirline(flightSelect.airline.id, data.seatId);
         setBaggageOptions(res.data.baggageOptions);
         setMealOptions(res.data.mealOptions);
-        setStandardBaggageOptions(res.data.standardOptDto.standardBaggageOptions);
-        setStandardMealOptions(res.data.standardOptDto.standardMealOptions);
+        setDefaultBaggageOptions(res.data.standardOpt.defaultBaggageOptions);
+        setDefaultMealOptions(res.data.standardOpt.defaultMealOptions);
     }
-
-    const onChange = (e) => {
-        setValue(e.target.value);
-    };
-
-    // const DataPassengers = [];
-    // for (let i = 0; i < data_passengers.inputFirstName.length; i++) {
-    //     DataPassengers.push(data_passengers.inputFirstName[i] + ' ' + data_passengers.inputLastName[i])
-    // }
-
-
     return (
         <div className="select-flight">
             <div className="info-flight">
@@ -100,8 +91,8 @@ const SelectService = () => {
                         <Service
                             baggageOptions={baggageOptions}
                             mealOptions={mealOptions}
-                            standardBaggageOptions={standardBaggageOptions}
-                            standardMealOptions={standardMealOptions}
+                            defaultBaggageOptions={defaultBaggageOptions}
+                            defaultMealOptions={defaultMealOptions}
 
                         />
                     </Col>

@@ -104,6 +104,7 @@ const SelectInfoFly = (props) => {
 
                         </Col>
                     </Row>
+
                     <div className='title-infor'>
                         <Row>
                             <Col span={9}>

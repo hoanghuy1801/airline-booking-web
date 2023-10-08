@@ -163,6 +163,12 @@
         border: none !important;
     }
 }
+.written-notices{
+  color: #25A006;
+  font-size: 18px;
+  font-weight: bold;
+  padding-left: 10px;
+}
 @media (max-width:700px){
   .footer-divider{
       width: 630px;
