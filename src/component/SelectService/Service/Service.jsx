@@ -1,4 +1,4 @@
-import { Row, Col, Form, Button, Drawer, Divider, Card, Radio, InputNumber, Select } from 'antd';
+import { Row, Col, Typography, Button, Drawer, Divider, Card, Radio, InputNumber, Select } from 'antd';
 import './Service.css'
 import { IconPlane, IconUserCircle, IconCurrencyDollar, IconShoppingCart, IconArrowBadgeRightFilled } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
@@ -11,18 +11,17 @@ import imgMiy from '../../../assets/service/mi-y.jpg'
 import { useState } from 'react';
 import SeatSelector from '../SeatSelector/SeatSelector';
 const { Option } = Select;
-
+const { Title, Text } = Typography;
 const Service = (props) => {
-    const { baggageOptions, mealOptions, standardBaggageOptions,
-        standardMealOptions } = props;
+    const { baggageOptions, mealOptions, defaultBaggageOptions,
+        defaultMealOptions } = props;
     const [openFavorite, setOpenFavorite] = useState(false);
     const [openLuggage, setOpenLuggage] = useState(false);
     const [openFood, setOpenFood] = useState(false);
     const [selectedValue, setSelectedValue] = useState('');
-
+    console.log(defaultMealOptions)
     const navigate = useNavigate();
 
-    // const data_homepage = useSelector(state => state.formsearch.data_booking);
     const data = useSelector((state) => state.homePage.homePageInfor);
 
 
@@ -32,15 +31,56 @@ const Service = (props) => {
 
     const [valueRadio, setValueRadio] = useState('');
     const [priceBaggageFomat, setPriceBaggageFomat] = useState('');
+    let defaultBaggageOptionsCARRY_ON = {
+        id: "",
+        createdAt: "",
+        updatedAt: "",
+        optionCode: "",
+        optionName: null,
+        optionDescription: null,
+        optionImage: null,
+        value: 0,
+        optionType: "",
+        status: "",
+        seatClass: "",
+        luggageType: "",
+        optionPrice: null
+    };
+
+    const newdefaultBaggageOptionsCARRY_ON = defaultBaggageOptions.find((item) => item.luggageType === 'CARRY_ON');
+
+    if (newdefaultBaggageOptionsCARRY_ON) {
+        defaultBaggageOptionsCARRY_ON = { ...newdefaultBaggageOptionsCARRY_ON };
+    }
+    let defaultBaggageOptionsCHECKED = {
+        id: "",
+        createdAt: "",
+        updatedAt: "",
+        optionCode: "",
+        optionName: null,
+        optionDescription: null,
+        optionImage: null,
+        value: 0,
+        optionType: "",
+        status: "",
+        seatClass: "",
+        luggageType: "",
+        optionPrice: null
+    };
+
+    const newdefaultBaggageOptionsCHECKED = defaultBaggageOptions.find((item) => item.luggageType === 'CHECKED');
+
+    if (newdefaultBaggageOptionsCHECKED) {
+        defaultBaggageOptionsCHECKED = { ...newdefaultBaggageOptionsCHECKED };
+    }
+
+    console.log("defaultBaggageOptionsCARRY_ON", defaultBaggageOptionsCARRY_ON)
+    // const defaultBaggageOptionsCHECKED = defaultBaggageOptions.find((item) => item.luggageType === 'CHECKED');
+
     const onChangeRadio = (value) => {
         setValueRadio(value.target);
         setPriceBaggageFomat(value.target.label.toLocaleString('it-IT'));
     };
-
-    // const DataPassengers = [];
-    // for (let i = 0; i < data_passengers.inputFirstName.length; i++) {
-    //     DataPassengers.push(data_passengers.inputFirstName[i] + ' ' + data_passengers.inputLastName[i])
-    // }
 
     const showDrawerFavorite = () => {
         setOpenFavorite(true);
@@ -217,7 +257,11 @@ const Service = (props) => {
 
 
                     </div>
+                    <div >
+                        <Text className='written-notices'>Hạng vé của bạn đã bao gồm {defaultBaggageOptionsCARRY_ON.value}kg hành lý xách tay{newdefaultBaggageOptionsCHECKED == null ? '' : ',kg hành lý ký gửi'}.</Text>
+                    </div>
                     <div className='title-luggage'>
+
                         <span>Chọn thêm hành lý</span>
                     </div>
                     <div>
@@ -295,6 +339,10 @@ const Service = (props) => {
                         </Row>
 
 
+                    </div>
+                    <div>
+                        {defaultMealOptions == '' ?
+                            '' : <><Text className='written-notices'>Hạng vé của bạn sẽ được phục vụ suất ăn và nước uống miễn phí</Text></>}
                     </div>
                     <div className='title-luggage'>
                         <span>Hãy chọn mua thức ăn bạn yêu thích nhé !</span>

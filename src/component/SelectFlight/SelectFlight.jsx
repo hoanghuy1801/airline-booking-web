@@ -11,7 +11,7 @@ import { IconPlane, IconUserCircle, IconCurrencyDollar, IconShoppingCart } from 
 import moment from 'moment';
 import InfoFlyReturn from './InfoFly/InfoFlyReturn';
 import { getListFlight } from '../../services/apiBooking';
-import { formatCurrency, formatDate, removeDiacritics, removeVietnameseAccentsAndConvert, } from '../../utils/format';
+import { formatCurrency, formatDate, removeDiacritics } from '../../utils/format';
 import { showWaringModal } from '../../utils/modalError';
 import { setflightSelect, setflightSelectReturn, settotalflight } from '../../redux/reducers/booking';
 import { useLanguage } from '../../LanguageProvider/LanguageProvider';
@@ -19,6 +19,7 @@ import { useLanguage } from '../../LanguageProvider/LanguageProvider';
 const { Title, Text } = Typography;
 const SelectFlight = () => {
     useEffect(() => {
+
         feachListFlight();
     }, []);
     const navigate = useNavigate();
@@ -185,6 +186,8 @@ const SelectFlight = () => {
             return
         }
         if (!data.roundTrip) {
+            dispath(settotalflight(total));
+            dispath(setflightSelectReturn(flightSelectReturn));
             navigate('/select-fight-infor')
         }
         else {

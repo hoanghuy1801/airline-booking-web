@@ -33,6 +33,7 @@ import Personal from './component/Profile/Personal/Personal.jsx';
 import TransactionHistory from './component/Profile/TransactionHistory/TransactionHistory.jsx';
 import { LanguageProvider } from './LanguageProvider/LanguageProvider.jsx';
 import { PersistGate } from 'redux-persist/integration/react'
+import MyForm from './component/Home/MyForm.jsx';
 ReactDOM.createRoot(document.getElementById('root')).render(
 
   <Provider store={store}>
@@ -61,6 +62,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
               <Route path='/my/select-fly-change' element={<SelectFlyChange />} />
               <Route path='/my/select-flight-change' element={<SelectFlightChange />} />
               <Route path='/my/search-flight-change' element={<SearchFightChange />} />
+              <Route path='/test' element={<MyForm />} />
             </Route>
             <Route path='/admins' element={<Admin />} >
               <Route path='/admins/manager-admin' element={<ManagerAdmin />} />
