@@ -41,11 +41,11 @@ const SelectService = () => {
     const [defaultMealOptions, setDefaultMealOptions] = useState([]);
 
     const feachListService = async () => {
-        let res = await getServiceAirline(flightSelect.airline.id, data.seatId);
+        let res = await getServiceAirline(flightSelect.id, flightSelect.airline.id, data.seatId);
         setBaggageOptions(res.data.baggageOptions);
         setMealOptions(res.data.mealOptions);
-        setDefaultBaggageOptions(res.data.standardOpt.defaultBaggageOptions);
-        setDefaultMealOptions(res.data.standardOpt.defaultMealOptions);
+        setDefaultBaggageOptions(res.data.defaultOpt.defaultBaggageOptions);
+        setDefaultMealOptions(res.data.defaultOpt.defaultMealOptions);
     }
     return (
         <div className="select-flight">

@@ -15,5 +15,9 @@ function removeDiacritics(text, language) {
         return text;
     }
 }
+function convertToJSON(obj) {
+    const jsonString = JSON.stringify(obj);
+    return jsonString;
+}
 
-export { formatCurrency, formatDate, removeDiacritics };
+export { formatCurrency, formatDate, removeDiacritics, convertToJSON };

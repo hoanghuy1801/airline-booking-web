@@ -9,8 +9,10 @@ import diacriticless from 'diacriticless';
 import { useDispatch } from "react-redux";
 import SelectInfoFly from '../SelectFlight/SelectInfoFly/SelectInfoFly';
 import Passenger from './Passenger/Passenger';
-import { formatCurrency, removeDiacritics } from '../../utils/format';
+import { convertToJSON, formatCurrency, removeDiacritics } from '../../utils/format';
 import { useLanguage } from '../../LanguageProvider/LanguageProvider';
+import { showWaringModal } from '../../utils/modalError';
+import { setInfoPassengers } from '../../redux/reducers/booking';
 
 
 
@@ -44,31 +46,94 @@ const Passengers = () => {
     }
     const myLanguage = useSelector((state) => state.language.language);
     const sourceAirportCity = removeDiacritics(data.sourceAirportCity, myLanguage)
-    const destinationAirportCity = removeDiacritics(data.destinationAirportCity, myLanguage)
+    const destinationAirportCity = removeDiacritics(data.destinationAirportCity, myLanguage);
 
-    const onChange = (e) => {
-        setValue(e.target.value);
+    const [formDataList, setFormDataList] = useState(data.adult);
+    const [formDataListChildren, setFormDataListChildren] = useState(data.children);
+    const [formDataListBaby, setFormDataListBaby] = useState(data.baby);
+
+    const initialFormState = {
+        gender: '',
+        fristName: '',
+        lastName: '',
+        dateBirth: null,
+        nation: '',
+        phone: '',
+        email: '',
+        address: '',
     };
+    const initialFormStateChildren = {
+        fristNameChildren: '',
+        lastNameChildren: '',
+        dateBirthChildren: null,
+        genderChildren: '',
+    };
+    const initialFormStateBaby = {
+        fristNameBaby: '',
+        lastNameBaby: '',
+        dateBirthBaby: null,
+        genderBaby: '',
+    };
+    const [formData, setFormData] = useState(
+        Array.from({ length: formDataList }, () => ({ ...initialFormState }))
+    );
+    const [formDataChildren, setFormDataChildren] = useState(
+        Array.from({ length: formDataListChildren }, () => ({ ...initialFormStateChildren }))
+    );
+    const [formDataBaby, setFormDataBaby] = useState(
+        Array.from({ length: formDataListBaby }, () => ({ ...initialFormStateBaby }))
+    );
 
+    const validateEmail = (email) => {
+        return String(email)
+            .toLowerCase()
+            .match(
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            );
+    };
+    const validatePhone = (phoneNumber) => {
+        return String(phoneNumber)
+            .toLowerCase()
+            .match(
+                /^\d{10}$/
+            );
+    };
     const handlePassengers = () => {
-        // dispath(Data_Passengers(data_passengers))
+        for (let i = 0; i < formData.length; i++) {
+            const isValiEmail = validateEmail(formData[i].email);
+            const isValiPhone = validatePhone(formData[i].phone);
+            if (formData[i].gender == '' || formData[i].fristName == '' || formData[i].lastName == '' || formData[i].dateBirth == null || formData[i].nation == '') {
+                showWaringModal('Bạn ơi', "Mày chưa nhập đủ thông tin")
+                return;
+            } else if (!isValiPhone) {
+                showWaringModal('Bạn ơi', 'Bạn nhập nhập sai định dạng số điện thoại');
+                return;
+            } else if (!isValiEmail) {
+                showWaringModal('Bạn ơi', 'Bạn nhập sai định dạng Email');
+                return;
+            }
+        }
+        for (let i = 0; i < formDataChildren.length; i++) {
+            if (formDataChildren[i].genderChildren == '' || formDataChildren[i].fristNameChildren == '' || formDataChildren[i].lastNameChildren == '' || formDataChildren[i].dateBirthChildren == null) {
+                showWaringModal('Bạn ơi', "Mày chưa nhập đủ thông tin Trẻ em")
+                return;
+            }
+        }
+        for (let i = 0; i < formDataBaby.length; i++) {
+            if (formDataBaby[i].genderBaby == '' || formDataBaby[i].fristNameBaby == '' || formDataBaby[i].lastNameBaby == '' || formDataBaby[i].dateBirthBaby == null) {
+                showWaringModal('Bạn ơi', "Mày chưa nhập đủ thông tin em bé")
+                return;
+            }
+        }
+        const formInforPassengers = {
+            Adult: formData,
+            Children: formDataChildren,
+            Baby: formDataBaby
+        };
+        console.log("formData", formInforPassengers)
+        dispath(setInfoPassengers(formInforPassengers))
         navigate('/select-service')
     }
-
-
-    const handleInputLastName = (index, event) => {
-        const newValues = [...inputLastName];
-        newValues[index] = event.target.value;
-        setInputLastName(newValues);
-
-    };
-
-    const handleInputFirstName = (index, event) => {
-        const newValues = [...inputFirstName];
-        newValues[index] = event.target.value;
-        setInputFirstName(newValues);
-    };
-
     return (
         <div className="select-flight">
             <div className="info-flight">
@@ -110,7 +175,14 @@ const Passengers = () => {
             <div className='mains-container'>
                 <Row>
                     <Col xs={24} sm={24} md={24} lg={24} xl={15} className='infor-user-select-flight'>
-                        <Passenger />
+                        <Passenger
+                            formData={formData}
+                            setFormData={setFormData}
+                            formDataChildren={formDataChildren}
+                            setFormDataChildren={setFormDataChildren}
+                            formDataBaby={formDataBaby}
+                            setFormDataBaby={setFormDataBaby}
+                        />
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={9} >
                         <SelectInfoFly

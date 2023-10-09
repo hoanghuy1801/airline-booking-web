@@ -7,8 +7,10 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from "react-redux";
 import { useLanguage } from '../../../LanguageProvider/LanguageProvider';
 import { getCountries } from '../../../services/apiRegister';
+import moment from 'moment';
 const { Title, Text } = Typography;
-const Passenger = () => {
+const Passenger = (props) => {
+    const { formData, setFormData, formDataChildren, setFormDataChildren, formDataBaby, setFormDataBaby } = props;
     const navigate = useNavigate();
     const { getText } = useLanguage();
     const [valueRadio, setValueRadio] = useState();
@@ -32,54 +34,46 @@ const Passenger = () => {
 
     const data = useSelector((state) => state.homePage.homePageInfor);
 
-    const numberadult = Array.from({ length: data.adult });
 
-    const numberChildren = Array.from({ length: data.children });
-
-    const numberbaby = Array.from({ length: data.baby });
-
-    const TotalPeople = data.adult;
-
-    const [formDataList, setFormDataList] = useState(2);
-
-    const initialFormState = {
-        gender: '',
-        fristName: '',
-        lastName: '',
-        dateBirth: null,
-        nation: '',
-        phone: '',
-        email: '',
-        address: '',
-    };
-    const [formData, setFormData] = useState(
-        Array.from({ length: formDataList }, () => ({ ...initialFormState }))
-    );
     const handleFormChange = (field, value, index) => {
         const newFormData = [...formData];
         newFormData[index][field] = value;
         setFormData(newFormData);
     };
-    const handleDateChange = (date, index) => {
-        const newFormData = [...formData];
-        newFormData[index]['dateBirth'] = date;
-        setFormData(newFormData);
+    const handleFormChangeChildren = (field, value, index) => {
+        const newFormData = [...formDataChildren];
+        newFormData[index][field] = value;
+        setFormDataChildren(newFormData);
     };
+    const handleFormChangeBaby = (field, value, index) => {
+        const newFormData = [...formDataBaby];
+        newFormData[index][field] = value;
+        setFormDataBaby(newFormData);
+    };
+    const handleDateChange = (date, index) => {
+        const formattedDate = moment(date.$d).format('YYYY-MM-DD');
+        const newFormData = [...formData];
+        newFormData[index]['dateBirth'] = formattedDate;
+        setFormData(newFormData);
 
+    };
+    const handleDateChangeChildren = (date, index) => {
+        const formattedDate = moment(date.$d).format('YYYY-MM-DD');
+        const newFormData = [...formDataChildren];
+        newFormData[index]['dateBirthChildren'] = formattedDate;
+        setFormDataChildren(newFormData);
+    };
+    const handleDateChangeBaby = (date, index) => {
+        const formattedDate = moment(date.$d).format('YYYY-MM-DD');
+        const newFormData = [...formDataBaby];
+        newFormData[index]['dateBirthBaby'] = formattedDate;
+        setFormDataBaby(newFormData);
+    };
     const handleSelectChange = (value, index) => {
         const newFormData = [...formData];
         newFormData[index]['nation'] = value;
         setFormData(newFormData);
     };
-    const handleSubmit = () => {
-        // Lấy thông tin từ formData và chuyển thành JSON
-        const jsonData = JSON.stringify(formData);
-        console.log(jsonData);
-    };
-    const onChange = (e) => {
-        setValueRadio(e.target.value);
-    };
-
 
     return (
         <>
@@ -99,9 +93,9 @@ const Passenger = () => {
                                             <Radio.Group value={form.gender}
                                                 onChange={(e) => handleFormChange('gender', e.target.value, index)}
                                             >
-                                                <Radio value='Nam'>{getText('Male')}</Radio>
-                                                <Radio value='Nữ'>{getText('Female')}</Radio>
-                                                <Radio value='Khác'>{getText('Other')}</Radio>
+                                                <Radio value='Male'>{getText('Male')}</Radio>
+                                                <Radio value='Female'>{getText('Female')}</Radio>
+                                                <Radio value='Other'>{getText('Other')}</Radio>
                                             </Radio.Group>
 
                                         </Row>
@@ -136,8 +130,8 @@ const Passenger = () => {
                                                 </Row>
                                                 <Row>
                                                     <DatePicker style={{ width: '90%' }} placeholder=''
-                                                        value={form.dateBirth}
-                                                        onChange={(date) => handleDateChange(date, index)} />
+                                                        onChange={(date) => handleDateChange(date, index)}
+                                                        format="DD/MM/YYYY" />
                                                 </Row>
                                             </Col>
                                             <Col span={12}>
@@ -195,9 +189,6 @@ const Passenger = () => {
                                                         onChange={(e) => handleFormChange('address', e.target.value, index)} />
                                                 </Row>
                                             </Col>
-                                            <Button type="primary" onClick={handleSubmit}>
-                                                Submit
-                                            </Button>
                                         </Row>
                                     </div>
                             },
@@ -213,7 +204,7 @@ const Passenger = () => {
             {data.children == 0 ? ''
                 :
                 <div >
-                    {numberChildren.map((_, index) => (
+                    {formDataChildren.map((form, index) => (
                         <div key={index}>
                             <Collapse
                                 size="large"
@@ -224,6 +215,16 @@ const Passenger = () => {
                                         children:
                                             <div className='formPassengers'>
                                                 <Row className='rowInforPassengers'>
+                                                    <Radio.Group value={form.genderChildren}
+                                                        onChange={(e) => handleFormChangeChildren('genderChildren', e.target.value, index)}
+                                                    >
+                                                        <Radio value='Male'>{getText('Male')}</Radio>
+                                                        <Radio value='Female'>{getText('Female')}</Radio>
+                                                        <Radio value='Other'>{getText('Other')}</Radio>
+                                                    </Radio.Group>
+
+                                                </Row>
+                                                <Row className='rowInforPassengers'>
                                                     <Col span={12}>
                                                         <Row>
                                                             <Text className='text-passenger'>{getText('Surname')}*</Text>
@@ -231,8 +232,9 @@ const Passenger = () => {
                                                         <Row>
                                                             <Input
                                                                 style={{ width: '90%' }}
-                                                                onChange={(event) => handleInputLastName(index, event)}
+                                                                onChange={(e) => handleFormChangeChildren('fristNameChildren', e.target.value, index)}
                                                             />
+
                                                         </Row>
                                                     </Col>
                                                     <Col span={12}>
@@ -241,7 +243,8 @@ const Passenger = () => {
                                                         </Row>
                                                         <Row>
                                                             <Input
-                                                                style={{ width: '90%' }} />
+                                                                style={{ width: '90%' }}
+                                                                onChange={(e) => handleFormChangeChildren('lastNameChildren', e.target.value, index)} />
                                                         </Row>
                                                     </Col>
                                                 </Row>
@@ -251,33 +254,10 @@ const Passenger = () => {
                                                             <Text className='text-passenger'>{getText('Date-birth')}*</Text>
                                                         </Row>
                                                         <Row>
-                                                            <DatePicker style={{ width: '90%' }} placeholder='' />
+                                                            <DatePicker style={{ width: '90%' }} placeholder=''
+                                                                onChange={(date) => handleDateChangeChildren(date, index)}
+                                                                format="DD/MM/YYYY" />
                                                         </Row>
-                                                    </Col>
-                                                    <Col span={12}>
-                                                        <Text className='text-passenger'>{getText('Gender')}</Text>
-                                                        <Select
-                                                            showSearch
-                                                            style={{ width: '90%' }}
-                                                            defaultValue='Nam'
-                                                            optionFilterProp="children"
-                                                            filterOption={(input, option) => (option?.label ?? '').includes(input)}
-                                                            filterSort={(optionA, optionB) =>
-                                                                (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-                                                            }
-
-                                                            options={[
-                                                                {
-                                                                    value: '1',
-                                                                    label: 'Nam',
-                                                                },
-                                                                {
-                                                                    value: '2',
-                                                                    label: 'Nữ',
-                                                                },
-
-                                                            ]}
-                                                        />
                                                     </Col>
                                                 </Row>
                                             </div>
@@ -297,7 +277,7 @@ const Passenger = () => {
             {data.baby == 0 ? ''
                 :
                 <div>
-                    {numberbaby.map((_, index) => (
+                    {formDataBaby.map((form, index) => (
                         <div key={index}>
                             <Collapse
                                 size="large"
@@ -308,15 +288,16 @@ const Passenger = () => {
                                         children:
                                             <div className='formPassengers'>
                                                 <Row className='rowInforPassengers'>
-                                                    <Col span={24}>
-                                                        <Row>
-                                                            <Text className='text-passenger'>{getText('Fly-along')}</Text>
-                                                        </Row>
-                                                        <Row>
-                                                            <Input style={{ width: '95%' }} />
-                                                        </Row>
-                                                    </Col>
+                                                    <Radio.Group value={form.genderBaby}
+                                                        onChange={(e) => handleFormChangeBaby('genderBaby', e.target.value, index)}
+                                                    >
+                                                        <Radio value='Male'>{getText('Male')}</Radio>
+                                                        <Radio value='Female'>{getText('Female')}</Radio>
+                                                        <Radio value='Other'>{getText('Other')}</Radio>
+                                                    </Radio.Group>
+
                                                 </Row>
+
                                                 <Row className='rowInforPassengers'>
                                                     <Col span={12}>
                                                         <Row>
@@ -325,7 +306,7 @@ const Passenger = () => {
                                                         <Row>
                                                             <Input
                                                                 style={{ width: '90%' }}
-                                                                onChange={(event) => handleInputLastName(index, event)}
+                                                                onChange={(e) => handleFormChangeBaby('fristNameBaby', e.target.value, index)}
                                                             />
                                                         </Row>
                                                     </Col>
@@ -335,7 +316,8 @@ const Passenger = () => {
                                                         </Row>
                                                         <Row>
                                                             <Input
-                                                                style={{ width: '90%' }} />
+                                                                style={{ width: '90%' }}
+                                                                onChange={(e) => handleFormChangeBaby('lastNameBaby', e.target.value, index)} />
                                                         </Row>
                                                     </Col>
                                                 </Row>
@@ -345,33 +327,10 @@ const Passenger = () => {
                                                             <Text className='text-passenger'>{getText('Date-birth')}*</Text>
                                                         </Row>
                                                         <Row>
-                                                            <DatePicker style={{ width: '90%' }} placeholder='' />
+                                                            <DatePicker style={{ width: '90%' }} placeholder=''
+                                                                onChange={(date) => handleDateChangeBaby(date, index)}
+                                                                format="DD/MM/YYYY" />
                                                         </Row>
-                                                    </Col>
-                                                    <Col span={12}>
-                                                        <Text className='text-passenger'>{getText('Gender')}</Text>
-                                                        <Select
-                                                            showSearch
-                                                            style={{ width: '90%' }}
-                                                            defaultValue='Nam'
-                                                            optionFilterProp="children"
-                                                            filterOption={(input, option) => (option?.label ?? '').includes(input)}
-                                                            filterSort={(optionA, optionB) =>
-                                                                (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-                                                            }
-
-                                                            options={[
-                                                                {
-                                                                    value: '1',
-                                                                    label: 'Nam',
-                                                                },
-                                                                {
-                                                                    value: '2',
-                                                                    label: 'Nữ',
-                                                                },
-
-                                                            ]}
-                                                        />
                                                     </Col>
                                                 </Row>
 

@@ -49,9 +49,11 @@ const FormSearch = (props) => {
     const [adult, setAdult] = useState(1);
     const [children, setChildren] = useState(0);
     const [baby, setBaby] = useState(0);
+    const maxPeople = 9;
     const dispath = useDispatch();
     const navigate = useNavigate();
     const { getText } = useLanguage();
+
     const data_booking = {
         roundTrip: roundTrip,
         sourceAirport: sourceAirport,
@@ -116,6 +118,17 @@ const FormSearch = (props) => {
     };
     const onSeatClass = (value) => {
         setSeatId(value);
+    };
+    const handleAdultChange = (value) => {
+        if (value + children <= maxPeople) {
+            setAdult(value);
+        }
+    };
+
+    const handleChildrenChange = (value) => {
+        if (adult + value <= maxPeople) {
+            setChildren(value);
+        }
     };
 
     return (
@@ -238,8 +251,14 @@ const FormSearch = (props) => {
                                 className='label-children'>{getText('adultText')}</label> </label>
                         </Col>
                         <Col span={5}>
-                            <InputNumber style={inputNumberStyle}
-                                min={1} max={9} defaultValue={1} onChange={(value) => setAdult(value)} />
+                            <InputNumber
+                                style={inputNumberStyle}
+                                min={1}
+                                max={maxPeople}
+                                defaultValue={1}
+                                onChange={handleAdultChange}
+                                value={adult} />
+
                         </Col>
                         <Col span={2}>
                         </Col>
@@ -249,8 +268,14 @@ const FormSearch = (props) => {
                                 className='label-children'>{getText('childrenText')}</label> </label>
                         </Col>
                         <Col span={5}>
-                            <InputNumber style={inputNumberStyle}
-                                min={0} defaultValue={0} onChange={(value) => setChildren(value)} />
+                            <InputNumber
+                                style={inputNumberStyle}
+                                min={0}
+                                max={maxPeople}
+                                defaultValue={0}
+                                onChange={handleChildrenChange}
+                                value={children}
+                            />
                         </Col>
                     </Row>
                     <Row>
