@@ -19,7 +19,6 @@ const Service = (props) => {
     const [openLuggage, setOpenLuggage] = useState(false);
     const [openFood, setOpenFood] = useState(false);
     const [selectedValue, setSelectedValue] = useState('');
-    console.log(defaultMealOptions)
     const navigate = useNavigate();
 
     const data = useSelector((state) => state.homePage.homePageInfor);
@@ -74,8 +73,6 @@ const Service = (props) => {
         defaultBaggageOptionsCHECKED = { ...newdefaultBaggageOptionsCHECKED };
     }
 
-    console.log("defaultBaggageOptionsCARRY_ON", defaultBaggageOptionsCARRY_ON)
-    // const defaultBaggageOptionsCHECKED = defaultBaggageOptions.find((item) => item.luggageType === 'CHECKED');
 
     const onChangeRadio = (value) => {
         setValueRadio(value.target);
@@ -258,7 +255,7 @@ const Service = (props) => {
 
                     </div>
                     <div >
-                        <Text className='written-notices'>Hạng vé của bạn đã bao gồm {defaultBaggageOptionsCARRY_ON.value}kg hành lý xách tay{newdefaultBaggageOptionsCHECKED == null ? '' : ',kg hành lý ký gửi'}.</Text>
+                        <Text className='written-notices'>Hạng vé của bạn đã bao gồm {defaultBaggageOptionsCARRY_ON.value}kg hành lý xách tay{newdefaultBaggageOptionsCHECKED == null ? '' : <>, {defaultBaggageOptionsCHECKED.value}kg hành lý ký gửi</>}.</Text>
                     </div>
                     <div className='title-luggage'>
 
@@ -342,7 +339,7 @@ const Service = (props) => {
                     </div>
                     <div>
                         {defaultMealOptions == '' ?
-                            '' : <><Text className='written-notices'>Hạng vé của bạn sẽ được phục vụ suất ăn và nước uống miễn phí</Text></>}
+                            '' : <><Text className='written-notices'>Hạng vé của bạn sẽ được phục vụ suất ăn và nước uống miễn phí!</Text></>}
                     </div>
                     <div className='title-luggage'>
                         <span>Hãy chọn mua thức ăn bạn yêu thích nhé !</span>

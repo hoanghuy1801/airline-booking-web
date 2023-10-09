@@ -5,6 +5,7 @@ const initialState = {
     flightSelect: '',
     flightSelectReturn: '',
     totalflight: 0,
+    infoPassengers: '',
 };
 const booking = createSlice({
     name: 'flightSelect',
@@ -19,10 +20,13 @@ const booking = createSlice({
         settotalflight: (state, action) => {
             state.totalflight = action.payload;
         },
+        setInfoPassengers: (state, action) => {
+            state.infoPassengers = action.payload;
+        },
     },
 
 })
 
-export const { setflightSelect, setflightSelectReturn, settotalflight } = booking.actions;
+export const { setflightSelect, setflightSelectReturn, settotalflight, setInfoPassengers } = booking.actions;
 // Export reducer
 export default booking.reducer;

@@ -14,7 +14,6 @@ const InfoFlyReturn = (props) => {
     const navigate = useNavigate();
     const { listFlightReturn, setFlightSelectReturn } = props;
     const data = useSelector((state) => state.homePage.homePageInfor);
-
     const handleSelect = (id) => {
         const selectedItem = listFlightReturn.find((item) => item.id === id);
         setFlightSelectReturn(selectedItem);
