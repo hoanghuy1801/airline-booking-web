@@ -34,6 +34,7 @@ import TransactionHistory from './component/Profile/TransactionHistory/Transacti
 import { LanguageProvider } from './LanguageProvider/LanguageProvider.jsx';
 import { PersistGate } from 'redux-persist/integration/react'
 import MyForm from './component/Home/MyForm.jsx';
+import Otp from './component/Auth/otp.jsx';
 ReactDOM.createRoot(document.getElementById('root')).render(
 
   <Provider store={store}>
@@ -43,6 +44,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <Routes>
             <Route path='/' element={<App />} >
               <Route index element={<HomePage />} />
+              <Route path='/register' element={<Register />} />
+              <Route path='/register/otp' element={<Otp />} />
               <Route path='/profile/account' element={<Account />} />
               <Route path='/profile/personal' element={<Personal />} />
               <Route path='/profile/transaction-history' element={<TransactionHistory />} />
@@ -70,7 +73,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
               <Route path='/admins/manager-admin/edit' element={<EditAdmin />} />
             </Route>
             <Route path='/login' element={<Login />} />
-            <Route path='/register' element={<Register />} />
+
           </Routes>
         </LanguageProvider>
       </BrowserRouter>

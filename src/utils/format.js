@@ -19,5 +19,11 @@ function convertToJSON(obj) {
     const jsonString = JSON.stringify(obj);
     return jsonString;
 }
+function convertString(array) {
+    // Sử dụng phương thức join() để nối các số lại thành chuỗi mới
+    const newString = array.join('');
 
-export { formatCurrency, formatDate, removeDiacritics, convertToJSON };
+    return newString;
+};
+
+export { formatCurrency, formatDate, removeDiacritics, convertToJSON, convertString };

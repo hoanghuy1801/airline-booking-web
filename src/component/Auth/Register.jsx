@@ -12,6 +12,7 @@ import {
 import { getCountries, postRegister } from '../../services/apiRegister';
 import { formatDate } from '../../utils/format';
 import { showSuccessModal, showWaringModal } from '../../utils/modalError';
+import jwt from '../../utils/jwt';
 
 
 const { Title, Text } = Typography;
@@ -117,8 +118,10 @@ const Register = () => {
                 return;
             }
             let res = await postRegister(data)
+            console.log(res)
             if (res.status == 201) {
-                showSuccessModal('Thông báo', 'Bạn đã đăng ký tài khoản thành công')
+                jwt.setToken(res.data.access_token);
+                navigate('/register/otp')
             }
         } catch (e) {
             showWaringModal('Bạn ơi', e.response.data.error.message);

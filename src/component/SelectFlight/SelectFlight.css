@@ -76,6 +76,17 @@
     padding: 20px;
     size: 2rem;
 }
+.text-NotificationFlight{
+    font-size: 20px;
+    font-weight: 700;
+    color: #006885;
+
+}
+.no-flight{
+    display: flex;
+    justify-content: center;
+    padding-top: 80px;
+}
 
 @media (max-width:1500px){
     .mains-container{

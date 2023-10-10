@@ -12,14 +12,15 @@ import moment from 'moment';
 import InfoFlyReturn from './InfoFly/InfoFlyReturn';
 import { getListFlight } from '../../services/apiBooking';
 import { formatCurrency, formatDate, removeDiacritics } from '../../utils/format';
-import { showWaringModal } from '../../utils/modalError';
+import { showErrorModal, showWaringModal } from '../../utils/modalError';
 import { setflightSelect, setflightSelectReturn, settotalflight } from '../../redux/reducers/booking';
 import { useLanguage } from '../../LanguageProvider/LanguageProvider';
-
+import { BeatLoader } from 'react-spinners'
 const { Title, Text } = Typography;
 const SelectFlight = () => {
+    const [loading, setLoading] = useState(true);
+    const [listFlight, setListFlight] = useState([]);
     useEffect(() => {
-
         feachListFlight();
     }, []);
     const navigate = useNavigate();
@@ -27,7 +28,7 @@ const SelectFlight = () => {
     const { getText } = useLanguage();
     const [hideSelectFightReturn, setHideSelectFightReturn] = useState(false);
     const [selectedShapeIndex, setSelectedShapeIndex] = useState(null);
-    const [listFlight, setListFlight] = useState([]);
+
     const [listFlightReturn, setListFlightReturn] = useState([]);
     const [flightSelect, setFlightSelect] = useState(
         {
@@ -176,6 +177,7 @@ const SelectFlight = () => {
     };
 
     const feachListFlight = async () => {
+
         let res = await getListFlight(data.sourceAirport, data.destinationAirport, formatDate(data.departureDate), data.seatId, data.adult, data.children, data.baby);
         setListFlight(res.data);
     }
@@ -254,16 +256,35 @@ const SelectFlight = () => {
                 <Row>
                     <Col xs={24} sm={24} md={24} lg={24} xl={15} className='infor-user-select-flight'>
                         {hideSelectFightReturn ?
-                            <InfoFlyReturn
-                                listFlightReturn={listFlightReturn}
-                                setFlightSelectReturn={setFlightSelectReturn}
-                            />
+                            <>
+                                {listFlightReturn.length != 0 ?
+                                    <InfoFlyReturn
+                                        listFlightReturn={listFlightReturn}
+                                        setFlightSelectReturn={setFlightSelectReturn}
+                                    />
+                                    :
+                                    <div className='no-flight'>
+                                        <Text className='text-NotificationFlight'>
+                                            Không tìm thấy chuyến bay nào cho lựa chọn của bạn. Quay lại để chọn ngày khác.
+                                        </Text>
+                                    </div>
+                                }
+                            </>
                             :
-                            <InfoFly
-                                listFlight={listFlight}
-                                setFlightSelect={setFlightSelect}
-
-                            />
+                            <>
+                                {listFlight.length != 0 ?
+                                    <InfoFly
+                                        listFlight={listFlight}
+                                        setFlightSelect={setFlightSelect}
+                                    />
+                                    :
+                                    <div className='no-flight'>
+                                        <Text className='text-NotificationFlight'>
+                                            Không tìm thấy chuyến bay nào cho lựa chọn của bạn. Quay lại để chọn ngày khác.
+                                        </Text>
+                                    </div>
+                                }
+                            </>
                         }
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={9} >

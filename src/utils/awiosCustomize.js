@@ -1,6 +1,7 @@
 
 import axios from 'axios';
-
+import { useSelector } from 'react-redux';
+import jwt from './jwt';
 
 
 // NProgress.configure({
@@ -20,16 +21,17 @@ instance.interceptors.request.use(config => {
     // Thêm header 'Accept-Language'
     config.headers['Accept-Language'] = language;
 
-    return config;
-});
-instance.interceptors.request.use(config => {
-    // Thêm header 'Content-Type' nếu chưa được thiết lập
     if (!config.headers['Content-Type']) {
         config.headers['Content-Type'] = 'application/json';
     }
+    config.headers['X-Request-Source'] = 'web'; // Thay 'your-source-value' bằng giá trị thích hợp
+
+    // Thêm header "Authorization"
+    config.headers['Authorization'] = `Bearer ${jwt.getToken()}`;
 
     return config;
 });
+
 // instance.interceptors.request.use(function (config) {
 //     // Do something before request is sent
 

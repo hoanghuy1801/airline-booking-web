@@ -6,7 +6,10 @@ const getCountries = () => {
 const postRegister = (data) => {
     return axios.post('/api/v1/auth/register', data);
 }
+const postVerifyOTP = (otp) => {
+    return axios.post(`/api/v1/auth/verify?otp=${otp}`);
+}
 
 export {
-    getCountries, postRegister
+    getCountries, postRegister, postVerifyOTP
 }
