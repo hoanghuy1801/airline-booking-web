@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Form, Input, Typography, Divider, message } from 'antd';
+import { Button, Form, Input, Typography, Divider, message, Row, Col } from 'antd';
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -9,67 +9,92 @@ import {
     FacebookFilled,
     RollbackOutlined
 } from '@ant-design/icons';
+import { postLogin } from '../../services/apiAuth';
+import { useLanguage } from '../../LanguageProvider/LanguageProvider';
 
 
 
+const { Title, Text } = Typography;
 const Login = () => {
-
-    const [email, setEmail] = useState("");
+    const { getText } = useLanguage();
+    const [phoneNumber, setphoneNumber] = useState("");
 
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
     const dispastch = useDispatch();
-
-    const LoginOr = () => {
-        message.success('login oke nha')
+    const dataLogin = {
+        phoneNumber: phoneNumber,
+        password: password,
     }
-
+    const validatePhone = (phoneNumber) => {
+        return String(phoneNumber)
+            .toLowerCase()
+            .match(
+                /^\d{10}$/
+            );
+    };
     const handleLogin = async () => {
-
-
-
-        let data = await postLogin(email, password);
-
-
-        if (data.data && data.data.EC === 0) {
-            dispastch({
-                type: 'FETCH_USER_LOGIN_SUCCESS',
-                payload: data.data
-            })
-            navigate('/');
+        const isValiPhone = validatePhone(phoneNumber);
+        if (phoneNumber == '') {
+            showWaringModal(`${getText('HeyFriend')}`, `${getText('NotPhone')}`);
+            return;
+        } else if (!isValiPhone) {
+            showWaringModal(`${getText('HeyFriend')}`, `${getText('NotPhoneFomat')}`);
+            return;
+        } else if (password == '') {
+            showWaringModal(`${getText('HeyFriend')}`, `${getText('NotPassword')}`);
+            return;
         }
+        let res = await postLogin(dataLogin);
+        console.log("dataLogin", dataLogin);
+        console.log("res", res);
+
     }
     return (
         <div className='page-login'>
             <Form className='loginForm'>
-                <Typography.Title >Đăng nhập tài khoản</Typography.Title>
-                <Form.Item
-                    label='Tài khoản'
-                    name={'myEmail'}
-                    value={email}
-                    onChange={(event) => setEmail(event.target.value)}>
-                    <Input placeholder='Nhập tài khoản của bạn' />
-                </Form.Item>
-                <Form.Item
-                    label='Mật khẩu'
-                    name={'myPassword'}
-                    value={password}
-                    onChange={(event) => setPassword(event.target.value)}>
-                    <Input.Password placeholder='Nhập tài khoản của bạn' />
-                    <Typography.Text className='forgot-password'>Bạn quên mật khẩu?</Typography.Text>
-                </Form.Item>
+                <Row className='RegisterForm-title'>
+                    <Text className='title-Login' >{getText('TitleRegister')}</Text>
+                </Row>
+                <Row>
+                    <Col span={4}>
+                        <label>{getText('Account')}:</label>
+                    </Col>
+                    <Col span={20}>
+                        <Form.Item
+                            value={phoneNumber}
+                            onChange={(event) => setphoneNumber(event.target.value)}>
+                            <Input placeholder={getText('InputAccount')} />
+                        </Form.Item>
+
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={4}>
+                        <label>{getText('Password')}:</label>
+                    </Col>
+                    <Col span={20}>
+                        <Form.Item
+                            value={password}
+                            onChange={(event) => setPassword(event.target.value)}>
+                            <Input.Password placeholder={getText('InputPassword')} />
+                            <Typography.Text className='forgot-password'>{getText('Forgot')}</Typography.Text>
+                        </Form.Item>
+                    </Col>
+                </Row>
 
                 <Button
-                    type='primary' danger
+                    type='primary'
                     htmlType='submit'
                     block
+                    className='btn-login'
                     onClick={() => handleLogin()}
                 >
-                    Đăng nhập
+                    {getText('LOGIN')}
                 </Button>
 
                 <div className='register'>
-                    <span >Bạn chưa có tài khoản?<a onClick={() => { navigate('/register') }}>  Đăng ký ngay</a></span>
+                    <span >{getText('NotAccount')}<a onClick={() => { navigate('/register') }}>  {getText('RegisterNow')}</a></span>
                 </div>
                 <Divider style={{ borderColor: "black" }}>Hoặc đăng nhập bằng</Divider>
                 <div className='socialLogin'>
@@ -77,7 +102,7 @@ const Login = () => {
                     <FacebookFilled className='socialIcon' onClick={() => LoginOr()} style={{ color: 'blue' }} />
                 </div>
                 <div >
-                    <span className='back-home' onClick={() => { navigate('/') }}><RollbackOutlined /> Trở về trang chủ</span>
+                    <span className='back-home' onClick={() => { navigate('/') }}><RollbackOutlined /> {getText('BackHome')}</span>
                 </div>
 
             </Form>

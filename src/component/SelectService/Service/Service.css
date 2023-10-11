@@ -184,7 +184,7 @@
       width: 490px;
   }
 }
-:where(.css-dev-only-do-not-override-18iikkb).ant-card .ant-card-body {
+:where(.css-18iikkb).ant-card .ant-card-body {
   padding: 0px !important;
  
 }

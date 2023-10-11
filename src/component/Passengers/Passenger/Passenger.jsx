@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import { useDispatch } from "react-redux";
 import { useLanguage } from '../../../LanguageProvider/LanguageProvider';
-import { getCountries } from '../../../services/apiRegister';
+import { getCountries } from '../../../services/apiAuth';
 import moment from 'moment';
 const { Title, Text } = Typography;
 const Passenger = (props) => {
