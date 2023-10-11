@@ -9,15 +9,18 @@ import {
     FacebookFilled,
     RollbackOutlined
 } from '@ant-design/icons';
-import { getCountries, postRegister } from '../../services/apiRegister';
+import { getCountries, postRegister } from '../../services/apiAuth';
 import { formatDate } from '../../utils/format';
 import { showSuccessModal, showWaringModal } from '../../utils/modalError';
 import jwt from '../../utils/jwt';
+import { setInfoRegister } from '../../redux/reducers/Auth';
+import { useLanguage } from '../../LanguageProvider/LanguageProvider';
 
 
 const { Title, Text } = Typography;
 
 const Register = () => {
+    const { getText } = useLanguage();
     const [listCountries, setListCountries] = useState([])
     useEffect(() => {
         fechListCountries();
@@ -27,7 +30,7 @@ const Register = () => {
 
     const [lastName, setLastName] = useState("");
 
-    const [gender, setGender] = useState("");
+    const [gender, setGender] = useState("MALE");
 
     const [dateOfBirth, setDateOfBirth] = useState("");
 
@@ -90,41 +93,45 @@ const Register = () => {
             const isValiEmail = validateEmail(email);
             const isValiPhone = validatePhone(phoneNumber);
             if (data.firstName == '') {
-                showWaringModal('Bạn ơi', 'Bạn chưa nhập Họ');
+                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotLastName')}`);
                 return;
             } else if (lastName == '') {
-                showWaringModal('Bạn ơi', 'Bạn chưa nhập Tên');
+                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotName')}`);
                 return;
             } else if (gender == '') {
-                showWaringModal('Bạn ơi', 'Bạn chưa nhập giới tính');
+                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotGender')}`);
                 return;
             } else if (dateOfBirth == '') {
-                showWaringModal('Bạn ơi', 'Bạn chưa nhập ngày sinh');
+                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotDateBirth')}`);
                 return;
             } else if (country == '') {
-                showWaringModal('Bạn ơi', 'Bạn chưa chọn quốc gia');
+                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotCountry')}`);
                 return;
             } else if (email == '') {
-                showWaringModal('Bạn ơi', 'Bạn chưa nhập Email');
+                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotEmail')}`);
                 return;
             } else if (!isValiEmail) {
-                showWaringModal('Bạn ơi', 'Bạn nhập sai định dạng Email');
+                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotEmailFomat')}`);
                 return;
             } else if (phoneNumber == '') {
-                showWaringModal('Bạn ơi', 'Bạn chưa nhập số điện thoại');
+                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotPhone')}`);
                 return;
             } else if (!isValiPhone) {
-                showWaringModal('Bạn ơi', 'Bạn nhập nhập sai định dạng số điện thoại');
+                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotPhoneFomat')}`);
+                return;
+            } else if (password == '') {
+                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotPassword')}`);
                 return;
             }
             let res = await postRegister(data)
             console.log(res)
             if (res.status == 201) {
                 jwt.setToken(res.data.access_token);
+                dispastch(setInfoRegister(data));
                 navigate('/register/otp')
             }
         } catch (e) {
-            showWaringModal('Bạn ơi', e.response.data.error.message);
+            showWaringModal(`${getText('HeyFriend')}`, e.response.data.error.message);
         }
 
     }
@@ -133,13 +140,14 @@ const Register = () => {
         <div className='page-Register'>
             <Form className='RegisterForm'>
                 <Row className='RegisterForm-title'>
-                    <Typography.Title style={{ paddingTop: 15 }} >Đăng ký thành viên Vivu!</Typography.Title>
+                    <Text className='title-Login' >{getText('TitleRegister')}</Text>
+
                 </Row>
                 <Row className='rowInforRegister'>
                     <Col span={10}>
                         <Row>
                             <Input className='text-input'
-                                placeholder='Họ*'
+                                placeholder={getText('Surname')}
                                 style={{ width: '90%' }}
                                 onChange={(e) => setFirstName(e.target.value)}
                             />
@@ -148,23 +156,23 @@ const Register = () => {
                     <Col span={14}>
                         <Row>
                             <Input className='text-input'
-                                placeholder='Tên đệm & Tên *'
+                                placeholder={getText('Middle-name&first-name')}
                                 style={{ width: '100%' }}
                                 onChange={(e) => setLastName(e.target.value)}
                             />
                         </Row>
                     </Col>
                 </Row>
-                <Text className='text-instruct-name'>Vui lòng nhập họ và tên cùng định dạng trên Hộ chiếu, Thẻ căn cước công dân hoặc CMND của bạn để được tích điểm (Ví dụ với tên Nguyen Van A, bạn cần điền: Họ: NGUYEN, Tên đệm và tên: VAN A)</Text>
+                <Text className='text-instruct-name'>{getText('textInstructionsLogin')}</Text>
                 <Row className='rowInforRegister' style={{ paddingTop: 15 }}>
                     <Col span={10}>
-                        <Text className='text-Date'> Giới tính</Text>
+                        <Text className='text-Date'> {getText('Gender')}:</Text>
                         <Select
                             style={{
                                 width: '60%'
                             }}
+                            defaultValue="Nam"
                             onChange={onChangeGender}
-
                             options={[
                                 {
                                     value: 'MALE',
@@ -184,7 +192,7 @@ const Register = () => {
                     </Col>
                     <Col span={14}>
                         <Row>
-                            <Text className='text-Date'> Ngày Sinh</Text>
+                            <Text className='text-Date'> {getText('Date-birth')}:</Text>
                             <DatePicker style={{ width: '73%' }} className='text-input' placeholder='--/--/----' format="DD/MM/YYYY"
                                 onChange={onChangeDatePicker} />
                         </Row>
@@ -197,7 +205,7 @@ const Register = () => {
                             <Select
                                 showSearch
                                 style={{ width: '91%', fontSize: 16, fontWeight: 500 }}
-                                placeholder="Chọn quốc gia *"
+                                placeholder={getText('Nation')}
                                 optionFilterProp="children"
                                 filterOption={(input, option) => (option?.label ?? '').includes(input)}
                                 filterSort={(optionA, optionB) =>
@@ -225,7 +233,7 @@ const Register = () => {
                 <Row className='rowInforRegister'>
                     <Col span={24}>
                         <Row>
-                            <Input placeholder="Số điện thoại *"
+                            <Input placeholder={getText('Phone-number')}
                                 style={{ width: '100%' }} className='text-input'
                                 onChange={(e) => setPhoneNumber(e.target.value)} />
                         </Row>
@@ -234,23 +242,24 @@ const Register = () => {
                 <Row className='rowInforRegister'>
                     <Col span={24}>
                         <Row>
-                            <Input.Password placeholder="Mật khẩu *"
+                            <Input.Password placeholder={getText('Password')}
                                 style={{ width: '100%' }} className='text-input'
                                 onChange={(e) => setPassword(e.target.value)} />
                         </Row>
                     </Col>
                 </Row>
+
                 <Row className='rowbtn-register'>
                     <Button
                         type='primary' danger
                         className='btn-register'
                         onClick={() => handleRegister()}
                     >
-                        Đăng nhập
+                        {getText('Register')}
                     </Button>
                 </Row>
                 <div className='register'>
-                    <span >Bạn đã có tài khoản?<a onClick={() => { navigate('/login') }}>  Đăng nhập ngay</a></span>
+                    <span >{getText('HaveAccount')}<a onClick={() => { navigate('/login') }}>  {getText('LoginNow')}</a></span>
                 </div>
                 <Divider style={{ borderColor: "black" }}>Hoặc đăng ký bằng</Divider>
                 <div className='socialRegister'>
@@ -258,7 +267,7 @@ const Register = () => {
                     <FacebookFilled className='socialIcon' onClick={() => RegisterOr()} style={{ color: 'blue' }} />
                 </div>
                 <div >
-                    <span className='back-home' onClick={() => { navigate('/') }}><RollbackOutlined /> Trở về trang chủ</span>
+                    <span className='back-home' onClick={() => { navigate('/') }}><RollbackOutlined /> {getText('BackHome')}</span>
                 </div>
 
             </Form>

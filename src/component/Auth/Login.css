@@ -1,12 +1,9 @@
 .page-login{
     background-image: url('../../assets/BackRoud.png');
-    justify-content: center;
     width: 100vw;
-    height: 100vh;
+    height: 911px;
     background-size: cover;
-    display: flex;
-    align-items: center ;
-   
+    padding: 7% 35% 0 35%;
 }
 .loginForm{
     background-color: rgb(255, 255, 255,0.33);
@@ -49,6 +46,16 @@
  }
 
 }
+.btn-login{
+  width: 70%;
+  background-color: #006885;
+  font-size: 17px;
+  height: auto;
+  font-weight: 500;
+  &:hover{
+    background-color: #006885 !important;
+  }
+}
 .register{
  margin-top: 20px !important;
  font-weight: 500;
@@ -56,5 +63,34 @@
 }
 h1.ant-typography.css-dev-only-do-not-override-fpg3f5 {
   text-align: center;
+}
+.title-Login{
+  font-size: 30px;
+  font-weight: 600;
+  padding: 20px 0 20px 0;
+}
+@media (max-width:1500px){
+  .page-login {
+    padding: 7% 25% 0 25% !important;
+ }
+}
+@media (max-width:1200px){
+  .page-login {
+    padding: 10% 20% 0 20% !important;
+ }
+}
+@media (max-width:992px){
+  .page-login {
+    padding: 10% 10% 0 10% !important;
+ }
+}
+@media (max-width:768px){
+  .page-login {
+    padding: 10% 1% 0 1% !important;
+ }
+ .title-Login{
+  font-size: 22px;
+ 
+}
 }
 

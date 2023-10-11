@@ -1,8 +1,9 @@
 import React from 'react';
 import { Button, notification, Space } from 'antd';
 
-const openNotification = (message, description) => {
-    notification.open({
+
+const openNotification = (type, message, description) => {
+    notification[type]({
         message: message,
         description: description,
         duration: 5,

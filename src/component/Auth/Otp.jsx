@@ -4,12 +4,17 @@ import { Button, Form, Typography } from "antd";
 import { InputOTP } from "antd-input-otp";
 import { useNavigate } from 'react-router-dom';
 import "./Otp.css";
-import { postVerifyOTP } from '../../services/apiRegister';
+import { postSendOTP, postVerifyOTP } from '../../services/apiAuth';
 import { convertString } from '../../utils/format';
-import { showErrorModal } from '../../utils/modalError';
+import { showErrorModal, showSuccessModal, showWaringModal } from '../../utils/modalError';
 import { openNotification } from '../../utils/Notification';
+import jwt from '../../utils/jwt';
+import { useSelector } from 'react-redux';
+import { useLanguage } from '../../LanguageProvider/LanguageProvider';
 const { Title, Text } = Typography;
 const Otp = () => {
+    const { getText } = useLanguage();
+    const InfoRegister = useSelector((state) => state.Auth.InfoRegister);
     const [otpValues, setOtpValues] = useState([]);
     const [timeLeft, setTimeLeft] = useState(120);
     const [form] = Form.useForm();
@@ -20,19 +25,27 @@ const Otp = () => {
             return form.setFields([
                 {
                     name: "otp",
-                    errors: ["OTP không có hiệu lực"]
+                    errors: [`${getText('NotValidOTP')}`]
                 }
             ]);
-        console.log(otp)
         let res = await postVerifyOTP(convertString(otp))
         if (res.data.status == 400) {
-            showErrorModal("Thông báo", "OTP không đúng")
+            showErrorModal(`${getText('Notification')}`, `${getText('NotOTP')}`)
         } else {
-            openNotification("Thông báo", "Bạn đã đăng ký tài khoản thành công")
+            openNotification("success", `${getText('Notification')}`, `${getText('SuccessRegister')}`)
             navigate('/')
         }
 
     };
+    const hanldeSentOTP = async () => {
+        if (timeLeft == 0) {
+            let res = await postSendOTP();
+            showSuccessModal(`${getText('Notification')}`, `${getText('AgainOTP')}`)
+        } else {
+            showWaringModal(`${getText('Notification')}`, `${getText('TryAgain')} ${getText('after')} ${timeLeft} ${getText('second')}`)
+        }
+
+    }
     useEffect(() => {
         const timer = setInterval(() => {
             if (timeLeft > 0) {
@@ -45,18 +58,15 @@ const Otp = () => {
         };
     }, [timeLeft]);
 
-    const minutes = Math.floor(timeLeft / 60);
-    const seconds = timeLeft;
-
     return (
         <main className="app">
             <section className="card">
-                <h2>Vui lòng nhập mã xác thực</h2>
+                <h2>{getText('VerificationCode')}</h2>
                 <div className="form-text">
-                    <Text className="text-information">Mã xác thực đã được gửi qua Email:</Text>
+                    <Text className="text-information">{getText('textVerificationCode')}</Text>
                 </div>
                 <div className="form-text">
-                    <Text className="text-email">hoanghuy.pham1801@gmail.com</Text>
+                    <Text className="text-email">{InfoRegister.phoneNumber}</Text>
                 </div>
                 <Form form={form} onFinish={handleFinish}>
                     <Form.Item
@@ -69,15 +79,15 @@ const Otp = () => {
                         />
                     </Form.Item>
                     <div className="form-text">
-                        <Text className="text-not">Bạn chưa nhận được mã? Nhấn <u className="text-sendTo">gửi lại</u>  sau <Text style={{ color: 'red' }}>{timeLeft}</Text>  giây</Text>
+                        <Text className="text-not">{getText('HaveCode')} {getText('Press')} <u className="text-sendTo" onClick={() => hanldeSentOTP()}>{getText('SendTo')}</u>  {getText('after')} <Text style={{ color: 'red' }}>{timeLeft}</Text>  {getText('second')}</Text>
                     </div>
                     <Form.Item noStyle>
                         <Button block htmlType="submit" type="primary" className='btn-accuracy'>
-                            XÁC THỰC
+                            {getText('Authentication')}
                         </Button>
                     </Form.Item>
                     <div className="form-text">
-                        <Text className='text-back' onClick={() => navigate('/register')}>Trở về</Text>
+                        <Text className='text-back' onClick={() => navigate('/register')}>{getText('Back')}</Text>
                     </div>
                 </Form>
             </section>

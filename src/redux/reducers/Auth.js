@@ -3,6 +3,7 @@ import axios from 'axios'
 
 const initialState = {
     token: 'abc',
+    InfoRegister: ''
 };
 const Auth = createSlice({
     name: 'Token',
@@ -11,10 +12,13 @@ const Auth = createSlice({
         setToken: (state, action) => {
             state.token = action.payload;
         },
+        setInfoRegister: (state, action) => {
+            state.InfoRegister = action.payload;
+        },
     },
 
 })
 
-export const { setToken } = Auth.actions;
+export const { setToken, setInfoRegister } = Auth.actions;
 // Export reducer
 export default Auth.reducer;
