@@ -34,7 +34,7 @@ import TransactionHistory from './component/Profile/TransactionHistory/Transacti
 import { LanguageProvider } from './LanguageProvider/LanguageProvider.jsx';
 import { PersistGate } from 'redux-persist/integration/react'
 import MyForm from './component/Home/MyForm.jsx';
-import Otp from './component/Auth/otp.jsx';
+import Otp from './component/Auth/Otp.jsx';
 ReactDOM.createRoot(document.getElementById('root')).render(
 
   <Provider store={store}>
