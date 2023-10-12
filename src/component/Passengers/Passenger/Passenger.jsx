@@ -8,16 +8,12 @@ import { useDispatch } from "react-redux";
 import { useLanguage } from '../../../LanguageProvider/LanguageProvider';
 import { getCountries } from '../../../services/apiAuth';
 import moment from 'moment';
+import { generateRandomID } from '../../../utils/utils';
 const { Title, Text } = Typography;
 const Passenger = (props) => {
     const { formData, setFormData, formDataChildren, setFormDataChildren, formDataBaby, setFormDataBaby } = props;
     const navigate = useNavigate();
     const { getText } = useLanguage();
-    const [valueRadio, setValueRadio] = useState();
-
-    const [inputLastName, setInputLastName] = useState('');
-
-    const [inputFirstName, setInputFirstName] = useState('');
 
     const [listCountries, setListCountries] = useState([])
     useEffect(() => {
@@ -38,16 +34,19 @@ const Passenger = (props) => {
     const handleFormChange = (field, value, index) => {
         const newFormData = [...formData];
         newFormData[index][field] = value;
+        newFormData[index]['id'] = generateRandomID(8);
         setFormData(newFormData);
     };
     const handleFormChangeChildren = (field, value, index) => {
         const newFormData = [...formDataChildren];
         newFormData[index][field] = value;
+        newFormData[index]['id'] = generateRandomID(8);
         setFormDataChildren(newFormData);
     };
     const handleFormChangeBaby = (field, value, index) => {
         const newFormData = [...formDataBaby];
         newFormData[index][field] = value;
+        newFormData[index]['id'] = generateRandomID(8);
         setFormDataBaby(newFormData);
     };
     const handleDateChange = (date, index) => {
@@ -60,13 +59,13 @@ const Passenger = (props) => {
     const handleDateChangeChildren = (date, index) => {
         const formattedDate = moment(date.$d).format('YYYY-MM-DD');
         const newFormData = [...formDataChildren];
-        newFormData[index]['dateBirthChildren'] = formattedDate;
+        newFormData[index]['dateBirth'] = formattedDate;
         setFormDataChildren(newFormData);
     };
     const handleDateChangeBaby = (date, index) => {
         const formattedDate = moment(date.$d).format('YYYY-MM-DD');
         const newFormData = [...formDataBaby];
-        newFormData[index]['dateBirthBaby'] = formattedDate;
+        newFormData[index]['dateBirth'] = formattedDate;
         setFormDataBaby(newFormData);
     };
     const handleSelectChange = (value, index) => {
@@ -74,6 +73,7 @@ const Passenger = (props) => {
         newFormData[index]['nation'] = value;
         setFormData(newFormData);
     };
+
 
     return (
         <>
@@ -143,7 +143,6 @@ const Passenger = (props) => {
                                                         showSearch
                                                         onChange={(value) => handleSelectChange(value, index)}
                                                         style={{ width: '91%', fontSize: 16, fontWeight: 500 }}
-                                                        placeholder="Chọn quốc gia *"
                                                         optionFilterProp="children"
                                                         filterOption={(input, option) => (option?.label ?? '').includes(input)}
                                                         filterSort={(optionA, optionB) =>
@@ -215,8 +214,8 @@ const Passenger = (props) => {
                                         children:
                                             <div className='formPassengers'>
                                                 <Row className='rowInforPassengers'>
-                                                    <Radio.Group value={form.genderChildren}
-                                                        onChange={(e) => handleFormChangeChildren('genderChildren', e.target.value, index)}
+                                                    <Radio.Group value={form.gender}
+                                                        onChange={(e) => handleFormChangeChildren('gender', e.target.value, index)}
                                                     >
                                                         <Radio value='Male'>{getText('Male')}</Radio>
                                                         <Radio value='Female'>{getText('Female')}</Radio>
@@ -232,7 +231,7 @@ const Passenger = (props) => {
                                                         <Row>
                                                             <Input
                                                                 style={{ width: '90%' }}
-                                                                onChange={(e) => handleFormChangeChildren('fristNameChildren', e.target.value, index)}
+                                                                onChange={(e) => handleFormChangeChildren('fristName', e.target.value, index)}
                                                             />
 
                                                         </Row>
@@ -244,7 +243,7 @@ const Passenger = (props) => {
                                                         <Row>
                                                             <Input
                                                                 style={{ width: '90%' }}
-                                                                onChange={(e) => handleFormChangeChildren('lastNameChildren', e.target.value, index)} />
+                                                                onChange={(e) => handleFormChangeChildren('lastName', e.target.value, index)} />
                                                         </Row>
                                                     </Col>
                                                 </Row>
@@ -288,8 +287,8 @@ const Passenger = (props) => {
                                         children:
                                             <div className='formPassengers'>
                                                 <Row className='rowInforPassengers'>
-                                                    <Radio.Group value={form.genderBaby}
-                                                        onChange={(e) => handleFormChangeBaby('genderBaby', e.target.value, index)}
+                                                    <Radio.Group value={form.gender}
+                                                        onChange={(e) => handleFormChangeBaby('gender', e.target.value, index)}
                                                     >
                                                         <Radio value='Male'>{getText('Male')}</Radio>
                                                         <Radio value='Female'>{getText('Female')}</Radio>
@@ -306,7 +305,7 @@ const Passenger = (props) => {
                                                         <Row>
                                                             <Input
                                                                 style={{ width: '90%' }}
-                                                                onChange={(e) => handleFormChangeBaby('fristNameBaby', e.target.value, index)}
+                                                                onChange={(e) => handleFormChangeBaby('fristName', e.target.value, index)}
                                                             />
                                                         </Row>
                                                     </Col>
@@ -317,7 +316,7 @@ const Passenger = (props) => {
                                                         <Row>
                                                             <Input
                                                                 style={{ width: '90%' }}
-                                                                onChange={(e) => handleFormChangeBaby('lastNameBaby', e.target.value, index)} />
+                                                                onChange={(e) => handleFormChangeBaby('lastName', e.target.value, index)} />
                                                         </Row>
                                                     </Col>
                                                 </Row>

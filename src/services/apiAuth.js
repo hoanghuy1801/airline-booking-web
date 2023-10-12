@@ -15,7 +15,10 @@ const postSendOTP = () => {
 const postLogin = (data) => {
     return axios.post('api/v1/auth/login', data);
 }
+const getInforUser = () => {
+    return axios.get('api/v1/auth/info');
+}
 
 export {
-    getCountries, postRegister, postVerifyOTP, postSendOTP, postLogin
+    getCountries, postRegister, postVerifyOTP, postSendOTP, postLogin, getInforUser
 }

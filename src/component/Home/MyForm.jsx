@@ -1,27 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { convertString } from '../../utils/format';
+import React from 'react';
+
 
 function MyForm() {
-    const [timeLeft, setTimeLeft] = useState(120);
-    useEffect(() => {
-        const timer = setInterval(() => {
-            if (timeLeft > 0) {
-                setTimeLeft(timeLeft - 1);
-            }
-        }, 1000);
+    const seats = [];
 
-        return () => {
-            clearInterval(timer);
-        };
-    }, [timeLeft]);
+    const rows = 40; // Số hàng
+    const columns = 6; // Số cột (từ A đến F)
 
-    const minutes = Math.floor(timeLeft / 60);
-    const seconds = timeLeft % 60;
-    const huy = '7,6,2,7,9,5';
-    console.log("huy", convertString(huy))
+    for (let row = 4; row <= rows; row++) {
+        for (let column = 'A'.charCodeAt(0); column <= 'F'.charCodeAt(0); column++) {
+            const seat = row + String.fromCharCode(column);
+            seats.push(seat);
+        }
+    }
+
+    console.log(seats);
+
     return (
         <div>
-            <h1>Đếm ngược: {minutes}:{seconds < 10 ? `0${seconds}` : seconds}</h1>
+
+            <a>huy</a>
         </div>
     );
 }

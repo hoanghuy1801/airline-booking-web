@@ -56,6 +56,13 @@
         color: gray !important;
     }
 }
+.auth-name{
+    padding: 0px 5px 0px 5px;
+    font-size: 18px;
+    font-weight: 500;
+    cursor: pointer;
+    color: white;
+}
 .menuPage{
     background-color:#006885;
 }

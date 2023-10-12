@@ -107,5 +107,26 @@
         }
     }
 }
+.form-logout-user{
+display: flex;
+justify-content: center;
+padding-top: 20px;
+
+
+.btn-logout-user{
+    padding-left: 30px;
+    padding-right: 30px;
+    font-size: 18px;
+    height: auto;
+    background-color: #006885;
+    color: #F1F1F1;
+    font-weight: 600;
+    border: none;
+    &:hover{
+        color: #F1F1F1 !important;
+    }
+}
+
+}
 
 

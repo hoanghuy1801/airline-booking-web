@@ -15,7 +15,7 @@ import { formatCurrency, formatDate, removeDiacritics } from '../../utils/format
 import { showErrorModal, showWaringModal } from '../../utils/modalError';
 import { setflightSelect, setflightSelectReturn, settotalflight } from '../../redux/reducers/booking';
 import { useLanguage } from '../../LanguageProvider/LanguageProvider';
-import { BeatLoader } from 'react-spinners'
+import { Spin } from 'antd';
 const { Title, Text } = Typography;
 const SelectFlight = () => {
     const [loading, setLoading] = useState(true);
@@ -177,14 +177,20 @@ const SelectFlight = () => {
     };
 
     const feachListFlight = async () => {
-
-        let res = await getListFlight(data.sourceAirport, data.destinationAirport, formatDate(data.departureDate), data.seatId, data.adult, data.children, data.baby);
-        setListFlight(res.data);
+        try {
+            setLoading(true); // Bắt đầu hiển thị Spinner
+            const res = await getListFlight(data.sourceAirport, data.destinationAirport, formatDate(data.departureDate), data.seatId, data.adult, data.children, data.baby);
+            setListFlight(res.data); // Lưu kết quả từ API vào biến data
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false); // Dừng hiển thị Spinner khi API hoàn thành
+        }
     }
 
     const handleContinue = async () => {
         if (flightSelect.flightSeatPrice.adultPrice == '') {
-            showWaringModal("Bạn ơi", "Bạn chưa chọn chuyến bay")
+            showWaringModal(`${getText('HeyFriend')}`, `${getText('NotSelectFlight')}`, `${getText('Close')}`)
             return
         }
         if (!data.roundTrip) {
@@ -201,7 +207,7 @@ const SelectFlight = () => {
                 setListFlightReturn(res.data);
                 setHideSelectFightReturn(true)
             } else if (flightSelectReturn.flightSeatPrice.adultPrice == '') {
-                showWaringModal("Bạn ơi", "Bạn chưa chọn chuyến bay")
+                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotSelectFlight')}`, `${getText('Close')}`)
                 return
             } else {
                 dispath(setflightSelectReturn(flightSelectReturn));
@@ -254,39 +260,52 @@ const SelectFlight = () => {
             </div>
             <div className='mains-container'>
                 <Row>
-                    <Col xs={24} sm={24} md={24} lg={24} xl={15} className='infor-user-select-flight'>
-                        {hideSelectFightReturn ?
-                            <>
-                                {listFlightReturn.length != 0 ?
-                                    <InfoFlyReturn
-                                        listFlightReturn={listFlightReturn}
-                                        setFlightSelectReturn={setFlightSelectReturn}
-                                    />
-                                    :
-                                    <div className='no-flight'>
-                                        <Text className='text-NotificationFlight'>
-                                            Không tìm thấy chuyến bay nào cho lựa chọn của bạn. Quay lại để chọn ngày khác.
-                                        </Text>
-                                    </div>
-                                }
-                            </>
-                            :
-                            <>
-                                {listFlight.length != 0 ?
-                                    <InfoFly
-                                        listFlight={listFlight}
-                                        setFlightSelect={setFlightSelect}
-                                    />
-                                    :
-                                    <div className='no-flight'>
-                                        <Text className='text-NotificationFlight'>
-                                            Không tìm thấy chuyến bay nào cho lựa chọn của bạn. Quay lại để chọn ngày khác.
-                                        </Text>
-                                    </div>
-                                }
-                            </>
-                        }
-                    </Col>
+                    {loading ? ( // Kiểm tra biến trạng thái để hiển thị Spinner
+                        <Col xs={24} sm={24} md={24} lg={24} xl={15} style={{ paddingTop: 200 }} >
+                            <Row className='col-spin'>
+                                <Spin size="large" className='spin' />
+                            </Row>
+                            <Row className='col-spin'>
+                                <Text className='search-spin'>{getText('searchSpin')}</Text>
+                            </Row>
+
+                        </Col>
+                    ) : (
+                        <Col xs={24} sm={24} md={24} lg={24} xl={15} className='infor-user-select-flight'>
+                            {hideSelectFightReturn ?
+                                <>
+                                    {listFlightReturn.length != 0 ?
+                                        <InfoFlyReturn
+                                            listFlightReturn={listFlightReturn}
+                                            setFlightSelectReturn={setFlightSelectReturn}
+                                        />
+                                        :
+                                        <div className='no-flight'>
+                                            <Text className='text-NotificationFlight'>
+                                                {getText('NotFlight')}
+                                            </Text>
+                                        </div>
+                                    }
+                                </>
+                                :
+                                <>
+                                    {listFlight.length != 0 ?
+                                        <InfoFly
+                                            listFlight={listFlight}
+                                            setFlightSelect={setFlightSelect}
+                                        />
+                                        :
+                                        <div className='no-flight'>
+                                            <Text className='text-NotificationFlight'>
+                                                {getText('NotFlight')}
+                                            </Text>
+                                        </div>
+                                    }
+                                </>
+                            }
+                        </Col>
+                    )}
+
                     <Col xs={24} sm={24} md={24} lg={24} xl={9} >
                         <SelectInfoFly
                             flightSelect={flightSelect}

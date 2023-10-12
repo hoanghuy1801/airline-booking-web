@@ -13,6 +13,7 @@ import { convertToJSON, formatCurrency, removeDiacritics } from '../../utils/for
 import { useLanguage } from '../../LanguageProvider/LanguageProvider';
 import { showWaringModal } from '../../utils/modalError';
 import { setInfoPassengers } from '../../redux/reducers/booking';
+import { generateRandomID } from '../../utils/utils';
 
 
 
@@ -53,6 +54,7 @@ const Passengers = () => {
     const [formDataListBaby, setFormDataListBaby] = useState(data.baby);
 
     const initialFormState = {
+        id: '',
         gender: '',
         fristName: '',
         lastName: '',
@@ -61,18 +63,25 @@ const Passengers = () => {
         phone: '',
         email: '',
         address: '',
+        passengerType: "ADULT",
     };
     const initialFormStateChildren = {
-        fristNameChildren: '',
-        lastNameChildren: '',
-        dateBirthChildren: null,
-        genderChildren: '',
+        id: '',
+        fristName: '',
+        lastName: '',
+        dateBirth: null,
+        gender: '',
+        passengerType: "CHILD",
     };
     const initialFormStateBaby = {
-        fristNameBaby: '',
-        lastNameBaby: '',
-        dateBirthBaby: null,
-        genderBaby: '',
+        id: '',
+        fristName: '',
+        lastName: '',
+        dateBirth: null,
+        gender: '',
+        passengerType: "INFANT",
+
+
     };
     const [formData, setFormData] = useState(
         Array.from({ length: formDataList }, () => ({ ...initialFormState }))
@@ -98,39 +107,34 @@ const Passengers = () => {
                 /^\d{10}$/
             );
     };
+    const formInforPassengers = formData.concat(formDataChildren, formDataBaby);
     const handlePassengers = () => {
         for (let i = 0; i < formData.length; i++) {
             const isValiEmail = validateEmail(formData[i].email);
             const isValiPhone = validatePhone(formData[i].phone);
             if (formData[i].gender == '' || formData[i].fristName == '' || formData[i].lastName == '' || formData[i].dateBirth == null || formData[i].nation == '') {
-                showWaringModal('Bạn ơi', "Mày chưa nhập đủ thông tin")
+                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotInfo')}`, `${getText('Close')}`)
                 return;
             } else if (!isValiPhone) {
-                showWaringModal('Bạn ơi', 'Bạn nhập nhập sai định dạng số điện thoại');
+                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotPhoneFomat')}`, `${getText('Close')}`)
                 return;
             } else if (!isValiEmail) {
-                showWaringModal('Bạn ơi', 'Bạn nhập sai định dạng Email');
+                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotEmailFomat')}`, `${getText('Close')}`)
                 return;
             }
         }
         for (let i = 0; i < formDataChildren.length; i++) {
-            if (formDataChildren[i].genderChildren == '' || formDataChildren[i].fristNameChildren == '' || formDataChildren[i].lastNameChildren == '' || formDataChildren[i].dateBirthChildren == null) {
-                showWaringModal('Bạn ơi', "Mày chưa nhập đủ thông tin Trẻ em")
+            if (formDataChildren[i].gender == '' || formDataChildren[i].fristName == '' || formDataChildren[i].lastName == '' || formDataChildren[i].dateBirth == null) {
+                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotInfoChildren')}`, `${getText('Close')}`)
                 return;
             }
         }
         for (let i = 0; i < formDataBaby.length; i++) {
-            if (formDataBaby[i].genderBaby == '' || formDataBaby[i].fristNameBaby == '' || formDataBaby[i].lastNameBaby == '' || formDataBaby[i].dateBirthBaby == null) {
-                showWaringModal('Bạn ơi', "Mày chưa nhập đủ thông tin em bé")
+            if (formDataBaby[i].gender == '' || formDataBaby[i].fristName == '' || formDataBaby[i].lastName == '' || formDataBaby[i].dateBirth == null) {
+                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotInfoBaby')}`, `${getText('Close')}`)
                 return;
             }
         }
-        const formInforPassengers = {
-            Adult: formData,
-            Children: formDataChildren,
-            Baby: formDataBaby
-        };
-        console.log("formData", formInforPassengers)
         dispath(setInfoPassengers(formInforPassengers))
         navigate('/select-service')
     }

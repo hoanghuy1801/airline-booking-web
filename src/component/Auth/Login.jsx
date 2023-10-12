@@ -9,8 +9,12 @@ import {
     FacebookFilled,
     RollbackOutlined
 } from '@ant-design/icons';
-import { postLogin } from '../../services/apiAuth';
+import { getInforUser, postLogin } from '../../services/apiAuth';
 import { useLanguage } from '../../LanguageProvider/LanguageProvider';
+import jwt from '../../utils/jwt';
+import { openNotification } from '../../utils/Notification';
+import { setInforUser, setIsAuthenticated } from '../../redux/reducers/Auth';
+import { showWaringModal } from '../../utils/modalError';
 
 
 
@@ -35,26 +39,34 @@ const Login = () => {
     };
     const handleLogin = async () => {
         const isValiPhone = validatePhone(phoneNumber);
-        if (phoneNumber == '') {
-            showWaringModal(`${getText('HeyFriend')}`, `${getText('NotPhone')}`);
-            return;
-        } else if (!isValiPhone) {
-            showWaringModal(`${getText('HeyFriend')}`, `${getText('NotPhoneFomat')}`);
+        if (!isValiPhone) {
+            showWaringModal(`${getText('HeyFriend')}`, `${getText('NotPhoneFomat')}`, `${getText('Close')}`);
             return;
         } else if (password == '') {
-            showWaringModal(`${getText('HeyFriend')}`, `${getText('NotPassword')}`);
+            showWaringModal(`${getText('HeyFriend')}`, `${getText('NotPassword')}`, `${getText('Close')}`);
             return;
         }
-        let res = await postLogin(dataLogin);
-        console.log("dataLogin", dataLogin);
-        console.log("res", res);
+        try {
+            let res = await postLogin(dataLogin);
+            console.log(res)
+            if (res.status == 200) {
+                jwt.setToken(res.data.access_token);
+                let ress = await getInforUser();
+                dispastch(setInforUser(ress.data))
+                dispastch(setIsAuthenticated(true))
+                navigate('/')
+            }
+        } catch (e) {
+            showWaringModal(`${getText('HeyFriend')}`, e.response.data.error.message, `${getText('Close')}`);
+        }
+
 
     }
     return (
         <div className='page-login'>
             <Form className='loginForm'>
                 <Row className='RegisterForm-title'>
-                    <Text className='title-Login' >{getText('TitleRegister')}</Text>
+                    <Text className='title-Login' >{getText('TitleLogin')}</Text>
                 </Row>
                 <Row>
                     <Col span={4}>

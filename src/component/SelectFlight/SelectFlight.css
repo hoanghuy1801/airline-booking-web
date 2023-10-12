@@ -87,6 +87,16 @@
     justify-content: center;
     padding-top: 80px;
 }
+.col-spin{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.search-spin{
+    font-size: 25px;
+    font-weight: 600;
+    color: #006885;
+}
 
 @media (max-width:1500px){
     .mains-container{

@@ -36,16 +36,44 @@ const SelectService = () => {
     const [value, setValue] = useState(1);
     const [baggageOptions, setBaggageOptions] = useState([]);
     const [mealOptions, setMealOptions] = useState([]);
+    const [seatOptions, setSeatOptions] = useState({
+        seatsInBooking: [
+        ],
+        id: "",
+        aircraftCode: "",
+        aircraftName: "",
+        capacity: 0,
+        rowNumbers: 0,
+        columnNumbers: 0,
+        type: "",
+        ECONOMY: {
+            seatNumber: 0,
+            servicePrice: ''
+        },
+        BUSINESS: {
+            seatNumber: 0,
+            servicePrice: ''
+        },
+        PREMIUM_ECONOMY: {
+            seatNumber: 0,
+            servicePrice: ''
+        }
+    });
     const [defaultBaggageOptions, setDefaultBaggageOptions] = useState([
     ]);
     const [defaultMealOptions, setDefaultMealOptions] = useState([]);
 
     const feachListService = async () => {
-        let res = await getServiceAirline(flightSelect.id, flightSelect.airline.id, data.seatId);
-        setBaggageOptions(res.data.baggageOptions);
-        setMealOptions(res.data.mealOptions);
-        setDefaultBaggageOptions(res.data.defaultOpt.defaultBaggageOptions);
-        setDefaultMealOptions(res.data.defaultOpt.defaultMealOptions);
+        try {
+            let res = await getServiceAirline(flightSelect.id, flightSelect.airline.id, data.seatId);
+            setBaggageOptions(res.data.baggageOptions);
+            setMealOptions(res.data.mealOptions);
+            setDefaultBaggageOptions(res.data.defaultOpt.defaultBaggageOptions);
+            setDefaultMealOptions(res.data.defaultOpt.defaultMealOptions);
+            setSeatOptions(res.data.seatOptions);
+        } catch (error) {
+            console.log(error);
+        }
     }
     return (
         <div className="select-flight">
@@ -93,6 +121,7 @@ const SelectService = () => {
                             mealOptions={mealOptions}
                             defaultBaggageOptions={defaultBaggageOptions}
                             defaultMealOptions={defaultMealOptions}
+                            seatOptions={seatOptions}
 
                         />
                     </Col>
@@ -111,18 +140,18 @@ const SelectService = () => {
                     </Col>
                     <Col xs={11} sm={11} md={11} lg={4} xl={4}>
                         <Button className='footer-back'
-                            onClick={() => { navigate('/passengers') }} >Quay lại</Button>
+                            onClick={() => { navigate('/passengers') }} >{getText('Back')}</Button>
                     </Col>
                     <Col span={12} className='footer-price-form-info'>
                         <Row>
-                            <Col span={18} className='footer-price-info' style={{ display: 'flex', justifyContent: 'end' }}>Tổng tiền:
+                            <Col span={18} className='footer-price-info' style={{ display: 'flex', justifyContent: 'end' }}>{getText('Total')}:
                             </Col>
                             <Col span={6} className='footer-price-info'>{totalFlightFomat}</Col>
                         </Row>
                     </Col>
                     <Col xs={11} sm={11} md={11} lg={6} xl={6}>
                         <Button className='footer-continue-info'
-                            onClick={() => handleSelectService()} >Tiếp tục</Button>
+                            onClick={() => handleSelectService()} >{getText('Continue')}</Button>
                     </Col>
                 </Row>
             </div>
