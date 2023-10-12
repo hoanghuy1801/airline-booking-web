@@ -116,7 +116,7 @@
     "after": "sau",
     "second": "giây",
     "Authentication": "XÁC THỰC",
-    "HeyFriend": "Hey Friend",
+    "HeyFriend": "Bạn ơi",
     "NotLastName": "Bạn chưa nhập Họ",
     "NotName": "Bạn chưa nhập Tên",
     "NotGender": "Bạn chưa nhập giới tính",
@@ -132,5 +132,17 @@
     "NotOTP": "OTP không đúng",
     "SuccessRegister": "Bạn đã đăng ký tài khoản thành công",
     "AgainOTP": "OTP đã được gửi lại",
-    "TryAgain": "Vui lòng thử lại"
+    "TryAgain": "Vui lòng thử lại",
+    "NotificationSearchBooking": "Bạn chưa điền đầy đủ thông tin tìm chuyến bay",
+    "Close": "Đóng",
+    "NotSelectFlight": "You have not selected a flight yet",
+    "NotFlight": "Không tìm thấy chuyến bay nào cho lựa chọn của bạn. Quay lại để chọn ngày khác.",
+    "NotInfo": "Bạn chưa nhập đủ thông tin",
+    "NotInfoChildren": "Bạn chưa nhập đủ thông tin Trẻ em",
+    "NotInfoBaby": "Bạn chưa nhập đủ thông tin em bé",
+    "TitleSelectService": "Đừng quên mua hành lý, suất ăn, chọn chỗ ngồi",
+    "SelectSeat": "Chọn chỗ ngồi yêu thích",
+    "SelectBaggage": "Chọn hành lý",
+    "SelectMeal": "Chọn suất ăn",
+    "searchSpin": "Đang tìm chuyến bay cho bạn"
 }

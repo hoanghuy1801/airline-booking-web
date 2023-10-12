@@ -3,16 +3,24 @@ import { Col, Row, Typography, Input, Button, Avatar } from 'antd';
 import './Account.css'
 import { useNavigate } from 'react-router-dom';
 import { UserOutlined } from '@ant-design/icons'
+import { useDispatch, useSelector } from 'react-redux';
 import { IconUserSquareRounded, IconInfoSquareRoundedFilled, IconClockFilled, IconPhone, IconMail, IconLock, } from '@tabler/icons-react';
+import { setInforUser, setIsAuthenticated } from '../../../redux/reducers/Auth';
 const { Title, Text } = Typography;
 
 const Account = () => {
     const navigate = useNavigate();
+    const dispastch = useDispatch();
     const [onChangePassword, setonChangePassword] = useState(false);
     const handleChangePassword = () => {
         setonChangePassword(true);
     }
-
+    const InforUser = useSelector(state => state.Auth.InforUser);
+    const hanldeLogOut = () => {
+        dispastch(setInforUser(''))
+        dispastch(setIsAuthenticated(false))
+        navigate('/')
+    }
     return (
         <>
             <div className='profile-account'>
@@ -25,7 +33,7 @@ const Account = () => {
                                     <Col span={24} className='col-profile-account'>
                                         <Avatar size={64} style={{ marginLeft: 20 }} icon={<UserOutlined
                                         />} />
-                                        <Text className='text-li' style={{ paddingLeft: 20 }}>PHAM HOANG HUY</Text>
+                                        <Text className='text-li' style={{ paddingLeft: 20 }}>{InforUser.lastName} {InforUser.firstName}</Text>
                                     </Col>
                                 </Row>
                             </li>
@@ -83,7 +91,7 @@ const Account = () => {
                                     <Text className='text-account'>Phone</Text>
                                 </Col>
                                 <Col span={17}>
-                                    <Text className='text-account'>+84964505517</Text>
+                                    <Text className='text-account'>{InforUser.phoneNumber}</Text>
                                 </Col>
                             </Row>
                             <Row className='account'>
@@ -94,7 +102,7 @@ const Account = () => {
                                     <Text className='text-account'>Email</Text>
                                 </Col>
                                 <Col span={17}>
-                                    <Text className='text-account'>hoanghuy.pham1801@gmail.com</Text>
+                                    <Text className='text-account'>{InforUser.email}</Text>
                                 </Col>
                             </Row>
                             {onChangePassword ?
@@ -162,6 +170,9 @@ const Account = () => {
 
                                 </div>
                             }
+                        </div>
+                        <div className='form-logout-user'>
+                            <Button onClick={() => hanldeLogOut()} className='btn-logout-user'>Đăng xuất</Button>
                         </div>
                     </Col>
                 </Row>

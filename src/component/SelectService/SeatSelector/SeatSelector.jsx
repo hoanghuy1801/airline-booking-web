@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-import seatIcon from "../../../assets/service/favorite-seat_red.svg";
+import seatBUSINESS from "../../../assets/service/favorite-seat_red.svg";
+import seatPREMIUM_ECONOMY from "../../../assets/service/favorite-seat_green.svg";
+import seatECONOMY from "../../../assets/service/favorite-seat_blue.svg";
 import selectedSeatIcon from "../../../assets/service/favorite-seat_yellow.svg";
 import disabledSeatIcon from "../../../assets/service/favorite-seat_grey.svg";
 import './SeatSelector.css'
 import { Row, Col } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
 
 
-const Seat = ({ seatNumber, selectedSeat, onSelect, disabledSeats }) => {
+const SeatBUSINESS = ({ seatNumber, selectedSeat, onSelect, disabledSeats }) => {
     const [isSelected, setIsSelected] = useState(false);
 
     const handleClick = () => {
@@ -31,7 +34,71 @@ const Seat = ({ seatNumber, selectedSeat, onSelect, disabledSeats }) => {
                         ? selectedSeatIcon
                         : disabledSeats.includes(seatNumber)
                             ? disabledSeatIcon
-                            : seatIcon
+                            : seatBUSINESS
+                }
+                alt="Seat"
+            />
+        </div>
+    );
+};
+const SeatPREMIUM_ECONOMY = ({ seatNumber, selectedSeat, onSelect, disabledSeats }) => {
+    const [isSelected, setIsSelected] = useState(false);
+
+    const handleClick = () => {
+        if (disabledSeats.includes(seatNumber)) {
+            return; // Không cho phép chọn ghế bị vô hiệu hóa
+        }
+
+        setIsSelected(!isSelected); // Thay đổi trạng thái chọn ghế
+        if (!isSelected) {
+            onSelect(seatNumber); // Chỉ cho phép chọn một ghế duy nhất
+        }
+    };
+
+    return (
+        <div
+            className={`seat ${selectedSeat === seatNumber ? "selected" : ""}`}
+            onClick={handleClick}
+        >
+            <img className="imgseat"
+                src={
+                    selectedSeat === seatNumber
+                        ? selectedSeatIcon
+                        : disabledSeats.includes(seatNumber)
+                            ? disabledSeatIcon
+                            : seatPREMIUM_ECONOMY
+                }
+                alt="Seat"
+            />
+        </div>
+    );
+};
+const SeatECONOMY = ({ seatNumber, selectedSeat, onSelect, disabledSeats }) => {
+    const [isSelected, setIsSelected] = useState(false);
+
+    const handleClick = () => {
+        if (disabledSeats.includes(seatNumber)) {
+            return; // Không cho phép chọn ghế bị vô hiệu hóa
+        }
+
+        setIsSelected(!isSelected); // Thay đổi trạng thái chọn ghế
+        if (!isSelected) {
+            onSelect(seatNumber); // Chỉ cho phép chọn một ghế duy nhất
+        }
+    };
+
+    return (
+        <div
+            className={`seat ${selectedSeat === seatNumber ? "selected" : ""}`}
+            onClick={handleClick}
+        >
+            <img className="imgseat"
+                src={
+                    selectedSeat === seatNumber
+                        ? selectedSeatIcon
+                        : disabledSeats.includes(seatNumber)
+                            ? disabledSeatIcon
+                            : seatECONOMY
                 }
                 alt="Seat"
             />
@@ -39,14 +106,26 @@ const Seat = ({ seatNumber, selectedSeat, onSelect, disabledSeats }) => {
     );
 };
 
-const SeatSelector = () => {
-    const [selectedSeat, setSelectedSeat] = useState(null);
-    const numRows = 15;
+const SeatSelector = (props) => {
+    const { seatOptions, selectedSeat, setSelectedSeat, disabledSeats, setPriceSeat } = props;
+    const numRowsBUSINESS = seatOptions.BUSINESS.seatNumber / 6;
+    const numRowsPREMIUM_ECONOMY = seatOptions.PREMIUM_ECONOMY.seatNumber / 6;
+    const numRowsECONOMY = seatOptions.ECONOMY.seatNumber / 6;
     const numColumns = 3;
-    const disabledSeats = ["1A", "2B", "3C", '5C'];
 
+
+    const data = useSelector((state) => state.homePage.homePageInfor);
     const handleSeatSelect = (seatNumber) => {
         setSelectedSeat(seatNumber);
+        if (data.seatClass == 'ECONOMY') {
+            setPriceSeat(seatOptions.ECONOMY.servicePrice);
+        }
+        if (data.seatClass == 'PREMIUM_ECONOMY') {
+            setPriceSeat(seatOptions.PREMIUM_ECONOMY.servicePrice);
+        }
+        if (data.seatClass == 'BUSINESS') {
+            setPriceSeat(seatOptions.BUSINESS.servicePrice);
+        }
     };
 
     return (
@@ -54,30 +133,30 @@ const SeatSelector = () => {
             <div className="seat-container">
                 <div>
                     {Array.from({ length: numColumns }).map((_, columnIndex) => {
-                        const seatNumber = `${String.fromCharCode(65 + columnIndex)}`;
+                        const seatString = `${String.fromCharCode(65 + columnIndex)}`;
                         return (
                             <>
-                                <span className="numberSeat">{seatNumber}</span>
+                                <span className="seatString">{seatString}</span>
                             </>
                         );
                     })}
                     <span className="numberseat"></span>
                     {Array.from({ length: numColumns }).map((_, columnIndex) => {
-                        const seatNumber = `${String.fromCharCode(68 + columnIndex)}`;
+                        const seatString = `${String.fromCharCode(68 + columnIndex)}`;
                         return (
                             <>
-                                <span className="numberSeat">{seatNumber}</span>
+                                <span className="seatStringRight">{seatString}</span>
                             </>
                         );
 
                     })}
                 </div>
-                {Array.from({ length: numRows }).map((_, rowIndex) => (
+                {Array.from({ length: numRowsBUSINESS }).map((_, rowIndex) => (
                     <div key={rowIndex} className="seat-row">
                         {Array.from({ length: numColumns }).map((_, columnIndex) => {
                             const seatNumber = `${rowIndex + 1}${String.fromCharCode(65 + columnIndex)}`;
                             return (
-                                <Seat
+                                <SeatBUSINESS
                                     key={seatNumber}
                                     seatNumber={seatNumber}
                                     selectedSeat={selectedSeat}
@@ -93,7 +172,71 @@ const SeatSelector = () => {
                         {Array.from({ length: numColumns }).map((_, columnIndex) => {
                             const seatNumber = `${rowIndex + 1}${String.fromCharCode(68 + columnIndex)}`;
                             return (
-                                <Seat
+                                <SeatBUSINESS
+                                    key={seatNumber}
+                                    seatNumber={seatNumber}
+                                    selectedSeat={selectedSeat}
+                                    onSelect={handleSeatSelect}
+                                    disabledSeats={disabledSeats}
+                                />
+                            );
+                        })}
+                    </div>
+                ))}
+                {Array.from({ length: numRowsPREMIUM_ECONOMY }).map((_, rowIndex) => (
+                    <div key={rowIndex} className="seat-row">
+                        {Array.from({ length: numColumns }).map((_, columnIndex) => {
+                            const seatNumber = `${rowIndex + 4}${String.fromCharCode(65 + columnIndex)}`;
+                            return (
+                                <SeatPREMIUM_ECONOMY
+                                    key={seatNumber}
+                                    seatNumber={seatNumber}
+                                    selectedSeat={selectedSeat}
+                                    onSelect={handleSeatSelect}
+                                    disabledSeats={disabledSeats}
+                                />
+                            );
+
+                        })}
+                        <h1 className="numberseat">
+                            {rowIndex + 4}
+                        </h1>
+                        {Array.from({ length: numColumns }).map((_, columnIndex) => {
+                            const seatNumber = `${rowIndex + 4}${String.fromCharCode(68 + columnIndex)}`;
+                            return (
+                                <SeatPREMIUM_ECONOMY
+                                    key={seatNumber}
+                                    seatNumber={seatNumber}
+                                    selectedSeat={selectedSeat}
+                                    onSelect={handleSeatSelect}
+                                    disabledSeats={disabledSeats}
+                                />
+                            );
+                        })}
+                    </div>
+                ))}
+                {Array.from({ length: numRowsECONOMY }).map((_, rowIndex) => (
+                    <div key={rowIndex} className="seat-row">
+                        {Array.from({ length: numColumns }).map((_, columnIndex) => {
+                            const seatNumber = `${rowIndex + 7}${String.fromCharCode(65 + columnIndex)}`;
+                            return (
+                                <SeatECONOMY
+                                    key={seatNumber}
+                                    seatNumber={seatNumber}
+                                    selectedSeat={selectedSeat}
+                                    onSelect={handleSeatSelect}
+                                    disabledSeats={disabledSeats}
+                                />
+                            );
+
+                        })}
+                        <h1 className="numberseat">
+                            {rowIndex + 7}
+                        </h1>
+                        {Array.from({ length: numColumns }).map((_, columnIndex) => {
+                            const seatNumber = `${rowIndex + 7}${String.fromCharCode(68 + columnIndex)}`;
+                            return (
+                                <SeatECONOMY
                                     key={seatNumber}
                                     seatNumber={seatNumber}
                                     selectedSeat={selectedSeat}

@@ -30,7 +30,7 @@ const Otp = () => {
             ]);
         let res = await postVerifyOTP(convertString(otp))
         if (res.data.status == 400) {
-            showErrorModal(`${getText('Notification')}`, `${getText('NotOTP')}`)
+            showErrorModal(`${getText('Notification')}`, `${getText('NotOTP')}`, `${getText('Close')}`)
         } else {
             openNotification("success", `${getText('Notification')}`, `${getText('SuccessRegister')}`)
             navigate('/')
@@ -40,9 +40,9 @@ const Otp = () => {
     const hanldeSentOTP = async () => {
         if (timeLeft == 0) {
             let res = await postSendOTP();
-            showSuccessModal(`${getText('Notification')}`, `${getText('AgainOTP')}`)
+            showSuccessModal(`${getText('Notification')}`, `${getText('AgainOTP')}`, `${getText('Close')}`)
         } else {
-            showWaringModal(`${getText('Notification')}`, `${getText('TryAgain')} ${getText('after')} ${timeLeft} ${getText('second')}`)
+            showWaringModal(`${getText('Notification')}`, `${getText('TryAgain')} ${getText('after')} ${timeLeft} ${getText('second')}`, `${getText('Close')}`)
         }
 
     }

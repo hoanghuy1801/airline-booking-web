@@ -131,5 +131,17 @@
     "NotOTP": "OTP is incorrect",
     "SuccessRegister": "You have successfully registered an account",
     "AgainOTP": "OTP has been sent again",
-    "TryAgain": "Please try again"
+    "TryAgain": "Please try again",
+    "NotificationSearchBooking": "You have not filled in all flight search information",
+    "Close": "OK",
+    "NotSelectFlight": "You have not selected a flight yet",
+    "NotFlight": "No flights were found for your selection. Come back to choose another date.",
+    "NotInfo": "You have not entered enough information",
+    "NotInfoChildren": "You have not entered enough Child information",
+    "NotInfoBaby": "You have not entered enough baby information",
+    "TitleSelectService": "Don't forget to buy luggage, meals, and choose your seat",
+    "SelectSeat": "Choose your favorite seat",
+    "SelectBaggage": "Choose luggage",
+    "SelectMeal": "Choose meal",
+    "searchSpin": "Looking for your flight"
 }

@@ -2,13 +2,15 @@
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
 import { MenuOutlined, UserOutlined } from '@ant-design/icons';
-import { Drawer, Select, Row, Col, Button } from 'antd';
-import { useDispatch } from 'react-redux';
+import { Drawer, Select, Row, Col, Button, Typography } from 'antd';
+import { useDispatch, useSelector } from 'react-redux';
 import '../Header/Header.css'
 import logo from '../../assets/VivuAirlines.png'
 
 import { useLanguage, LanguageProvider } from '../../LanguageProvider/LanguageProvider';
 import { setLanguage } from '../../redux/reducers/languageSlice';
+
+const { Title, Text } = Typography;
 const Header = () => {
     const navigate = useNavigate();
     const dispastch = useDispatch();
@@ -48,6 +50,8 @@ const Header = () => {
             changeLanguage('en');
             dispastch(setLanguage('en'));
         }
+        const isAuthenticated = useSelector(state => state.Auth.isAuthenticated);
+        const InforUser = useSelector(state => state.Auth.InforUser);
         return (
             <>
                 <div className='menuPage'>
@@ -60,15 +64,21 @@ const Header = () => {
                                 <Button className='service-child' type='link' onClick={() => { navigate('/my/search-booking') }}>{getText('myflight')}</Button>
                                 <Button className='service-child' type='link' onClick={() => { navigate('/checkin') }}>CHECKIN-ONLINE</Button>
                                 <Button className='service-child' type='link' onClick={() => { navigate('/admins') }}>Admin</Button>
-                                <Button className='service-child' type='link' onClick={() => { navigate('/profile/account') }}>PROFILE</Button>
                             </div>
                         </Col>
                         <Col span={4} >
                             <div className='auth'>
                                 <UserOutlined className='auth-Icon' />
-                                <span className='auth-child' onClick={() => { navigate('/register') }} >{getText('register')} </span>
-                                <span className='auth-Icon'>|</span>
-                                <span className='auth-child' onClick={() => { navigate('/login') }}>{getText('login')} </span>
+                                {isAuthenticated === false ?
+                                    <> <span className='auth-child' onClick={() => { navigate('/register') }} >{getText('register')} </span>
+                                        <span className='auth-Icon'>|</span>
+                                        <span className='auth-child' onClick={() => { navigate('/login') }}>{getText('login')} </span>
+                                    </>
+                                    :
+                                    <>
+                                        <Text className='auth-name' onClick={() => navigate('/profile/account')}>{InforUser.lastName} {InforUser.firstName}</Text>
+                                    </>
+                                }
                             </div>
                         </Col>
                         <Col span={4}>

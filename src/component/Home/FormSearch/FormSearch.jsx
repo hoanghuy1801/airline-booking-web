@@ -46,6 +46,7 @@ const FormSearch = (props) => {
     const [destinationAirportCity, setDestinationAirportCity] = useState();
     const [sourceAirportCity, setSourceAirportCity] = useState();
     const [seatId, setSeatId] = useState();
+    const [seatClass, setSeatClass] = useState();
     const [roundTrip, setRoundTrip] = useState(false);
     const [adult, setAdult] = useState(1);
     const [children, setChildren] = useState(0);
@@ -67,17 +68,18 @@ const FormSearch = (props) => {
         destinationAirportCity: destinationAirportCity,
         sourceAirportCity: sourceAirportCity,
         returnDate: returnDate,
+        seatClass: seatClass
     }
 
     const handleSelectBooking = () => {
         if (!roundTrip) {
             if (sourceAirport == null || destinationAirport == null || departureDate == null || departureDate == null || seatId == null) {
-                showWaringModal('Bạn ơi', 'Bạn chưa điền đầy đủ thông tin tìm chuyến bay')
+                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotificationSearchBooking')}`, `${getText('Close')}`)
                 return
             }
         } else {
             if (sourceAirport == null || destinationAirport == null || departureDate == null || departureDate == null || returnDate == null || seatId == null) {
-                showWaringModal('Bạn ơi', 'Bạn chưa điền đầy đủ thông tin tìm chuyến bay')
+                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotificationSearchBooking')}`, `${getText('Close')}`)
                 return
             }
         }
@@ -117,8 +119,9 @@ const FormSearch = (props) => {
     const onChangeDatePicker = (dates, dateStrings) => {
         setDepartureDate(dateStrings);
     };
-    const onSeatClass = (value) => {
+    const onSeatClass = (value, label) => {
         setSeatId(value);
+        setSeatClass(label.label)
     };
     const handleAdultChange = (value) => {
         if (value + children <= maxPeople) {
@@ -234,7 +237,7 @@ const FormSearch = (props) => {
                                 onChange={onSeatClass}
                             >
                                 {listSeats.map((item) => (
-                                    <Option key={item.id} value={item.id} label={item.seatName}>
+                                    <Option key={item.id} value={item.id} label={item.seatClass}>
                                         <Row>
                                             {item.seatName}
                                         </Row>

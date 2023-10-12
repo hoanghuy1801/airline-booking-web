@@ -93,45 +93,44 @@ const Register = () => {
             const isValiEmail = validateEmail(email);
             const isValiPhone = validatePhone(phoneNumber);
             if (data.firstName == '') {
-                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotLastName')}`);
+                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotLastName')}`, `${getText('Close')}`);
                 return;
             } else if (lastName == '') {
-                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotName')}`);
+                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotName')}`, `${getText('Close')}`);
                 return;
             } else if (gender == '') {
-                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotGender')}`);
+                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotGender')}`, `${getText('Close')}`);
                 return;
             } else if (dateOfBirth == '') {
-                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotDateBirth')}`);
+                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotDateBirth')}`, `${getText('Close')}`);
                 return;
             } else if (country == '') {
-                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotCountry')}`);
+                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotCountry')}`, `${getText('Close')}`);
                 return;
             } else if (email == '') {
-                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotEmail')}`);
+                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotEmail')}`, `${getText('Close')}`);
                 return;
             } else if (!isValiEmail) {
-                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotEmailFomat')}`);
+                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotEmailFomat')}`, `${getText('Close')}`);
                 return;
             } else if (phoneNumber == '') {
-                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotPhone')}`);
+                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotPhone')}`, `${getText('Close')}`);
                 return;
             } else if (!isValiPhone) {
-                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotPhoneFomat')}`);
+                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotPhoneFomat')}`, `${getText('Close')}`);
                 return;
             } else if (password == '') {
-                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotPassword')}`);
+                showWaringModal(`${getText('HeyFriend')}`, `${getText('NotPassword')}`, `${getText('Close')}`);
                 return;
             }
             let res = await postRegister(data)
-            console.log(res)
             if (res.status == 201) {
                 jwt.setToken(res.data.access_token);
                 dispastch(setInfoRegister(data));
                 navigate('/register/otp')
             }
         } catch (e) {
-            showWaringModal(`${getText('HeyFriend')}`, e.response.data.error.message);
+            showWaringModal(`${getText('HeyFriend')}`, e.response.data.error.message, `${getText('Close')}`);
         }
 
     }

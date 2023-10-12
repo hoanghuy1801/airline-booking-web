@@ -2,31 +2,486 @@ import { Row, Col, Typography, Button, Drawer, Divider, Card, Radio, InputNumber
 import './Service.css'
 import { IconPlane, IconUserCircle, IconCurrencyDollar, IconShoppingCart, IconArrowBadgeRightFilled } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import imgFavorite from '../../../assets/service/select-service_favorite.svg'
 import imgFood from '../../../assets/service/select-service_foods.svg'
 import imgluggage from '../../../assets/service/select-service_luggage.svg'
 import imgFavoriteRed from '../../../assets/service/favorite-seat_red.svg'
 import imgMiy from '../../../assets/service/mi-y.jpg'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import SeatSelector from '../SeatSelector/SeatSelector';
+import { useLanguage } from '../../../LanguageProvider/LanguageProvider';
+import { setInfoPassengers } from '../../../redux/reducers/booking';
+import { formatCurrency } from '../../../utils/format';
 const { Option } = Select;
 const { Title, Text } = Typography;
 const Service = (props) => {
     const { baggageOptions, mealOptions, defaultBaggageOptions,
-        defaultMealOptions } = props;
+        defaultMealOptions, seatOptions } = props;
+    useEffect(() => {
+        handleDisabledSeats();
+    }, []);
+    const dispath = useDispatch();
     const [openFavorite, setOpenFavorite] = useState(false);
     const [openLuggage, setOpenLuggage] = useState(false);
     const [openFood, setOpenFood] = useState(false);
-    const [selectedValue, setSelectedValue] = useState('');
+    const [selectedSeat, setSelectedSeat] = useState('');
+    const [disabledSeats, setdisabledSeats] = useState([]);
+    const [priceSeat, setPriceSeat] = useState(0);
     const navigate = useNavigate();
 
     const data = useSelector((state) => state.homePage.homePageInfor);
+    const handleDisabledSeats = () => {
+        const seatsECONOMY = ['1A', '1B', '1C', '1D', '1E', '1F', '2A', '2B', '2C', '2D', '2E', '2F', '3A', '3B', '3C', '3D', '3E', '3F', '4A', '4B', '4C', '4D', '4E', '4F', '5A', '5B', '5C', '5D', '5E', '5F', '6A', '6B', '6C', '6D', '6E', '6F'];
+        const seatsPREMIUM_ECONOMY = ['1A', '1B', '1C', '1D', '1E', '1F', '2A', '2B', '2C', '2D', '2E', '2F', '3A', '3B', '3C', '3D', '3E', '3F', "7A",
+            "7B",
+            "7C",
+            "7D",
+            "7E",
+            "7F",
+            "8A",
+            "8B",
+            "8C",
+            "8D",
+            "8E",
+            "8F",
+            "9A",
+            "9B",
+            "9C",
+            "9D",
+            "9E",
+            "9F",
+            "10A",
+            "10B",
+            "10C",
+            "10D",
+            "10E",
+            "10F",
+            "11A",
+            "11B",
+            "11C",
+            "11D",
+            "11E",
+            "11F",
+            "12A",
+            "12B",
+            "12C",
+            "12D",
+            "12E",
+            "12F",
+            "13A",
+            "13B",
+            "13C",
+            "13D",
+            "13E",
+            "13F",
+            "14A",
+            "14B",
+            "14C",
+            "14D",
+            "14E",
+            "14F",
+            "15A",
+            "15B",
+            "15C",
+            "15D",
+            "15E",
+            "15F",
+            "16A",
+            "16B",
+            "16C",
+            "16D",
+            "16E",
+            "16F",
+            "17A",
+            "17B",
+            "17C",
+            "17D",
+            "17E",
+            "17F",
+            "18A",
+            "18B",
+            "18C",
+            "18D",
+            "18E",
+            "18F",
+            "19A",
+            "19B",
+            "19C",
+            "19D",
+            "19E",
+            "19F",
+            "20A",
+            "20B",
+            "20C",
+            "20D",
+            "20E",
+            "20F",
+            "21A",
+            "21B",
+            "21C",
+            "21D",
+            "21E",
+            "21F",
+            "22A",
+            "22B",
+            "22C",
+            "22D",
+            "22E",
+            "22F",
+            "23A",
+            "23B",
+            "23C",
+            "23D",
+            "23E",
+            "23F",
+            "24A",
+            "24B",
+            "24C",
+            "24D",
+            "24E",
+            "24F",
+            "25A",
+            "25B",
+            "25C",
+            "25D",
+            "25E",
+            "25F",
+            "26A",
+            "26B",
+            "26C",
+            "26D",
+            "26E",
+            "26F",
+            "27A",
+            "27B",
+            "27C",
+            "27D",
+            "27E",
+            "27F",
+            "28A",
+            "28B",
+            "28C",
+            "28D",
+            "28E",
+            "28F",
+            "29A",
+            "29B",
+            "29C",
+            "29D",
+            "29E",
+            "29F",
+            "30A",
+            "30B",
+            "30C",
+            "30D",
+            "30E",
+            "30F",
+            "31A",
+            "31B",
+            "31C",
+            "31D",
+            "31E",
+            "31F",
+            "32A",
+            "32B",
+            "32C",
+            "32D",
+            "32E",
+            "32F",
+            "33A",
+            "33B",
+            "33C",
+            "33D",
+            "33E",
+            "33F",
+            "34A",
+            "34B",
+            "34C",
+            "34D",
+            "34E",
+            "34F",
+            "35A",
+            "35B",
+            "35C",
+            "35D",
+            "35E",
+            "35F",
+            "36A",
+            "36B",
+            "36C",
+            "36D",
+            "36E",
+            "36F",
+            "37A",
+            "37B",
+            "37C",
+            "37D",
+            "37E",
+            "37F",
+            "38A",
+            "38B",
+            "38C",
+            "38D",
+            "38E",
+            "38F",
+            "39A",
+            "39B",
+            "39C",
+            "39D",
+            "39E",
+            "39F",
+            "40A",
+            "40B",
+            "40C",
+            "40D",
+            "40E",
+            "40F"];
+        const seatsBUSINESS = [[
+            "4A",
+            "4B",
+            "4C",
+            "4D",
+            "4E",
+            "4F",
+            "5A",
+            "5B",
+            "5C",
+            "5D",
+            "5E",
+            "5F",
+            "6A",
+            "6B",
+            "6C",
+            "6D",
+            "6E",
+            "6F",
+            "7A",
+            "7B",
+            "7C",
+            "7D",
+            "7E",
+            "7F",
+            "8A",
+            "8B",
+            "8C",
+            "8D",
+            "8E",
+            "8F",
+            "9A",
+            "9B",
+            "9C",
+            "9D",
+            "9E",
+            "9F",
+            "10A",
+            "10B",
+            "10C",
+            "10D",
+            "10E",
+            "10F",
+            "11A",
+            "11B",
+            "11C",
+            "11D",
+            "11E",
+            "11F",
+            "12A",
+            "12B",
+            "12C",
+            "12D",
+            "12E",
+            "12F",
+            "13A",
+            "13B",
+            "13C",
+            "13D",
+            "13E",
+            "13F",
+            "14A",
+            "14B",
+            "14C",
+            "14D",
+            "14E",
+            "14F",
+            "15A",
+            "15B",
+            "15C",
+            "15D",
+            "15E",
+            "15F",
+            "16A",
+            "16B",
+            "16C",
+            "16D",
+            "16E",
+            "16F",
+            "17A",
+            "17B",
+            "17C",
+            "17D",
+            "17E",
+            "17F",
+            "18A",
+            "18B",
+            "18C",
+            "18D",
+            "18E",
+            "18F",
+            "19A",
+            "19B",
+            "19C",
+            "19D",
+            "19E",
+            "19F",
+            "20A",
+            "20B",
+            "20C",
+            "20D",
+            "20E",
+            "20F",
+            "21A",
+            "21B",
+            "21C",
+            "21D",
+            "21E",
+            "21F",
+            "22A",
+            "22B",
+            "22C",
+            "22D",
+            "22E",
+            "22F",
+            "23A",
+            "23B",
+            "23C",
+            "23D",
+            "23E",
+            "23F",
+            "24A",
+            "24B",
+            "24C",
+            "24D",
+            "24E",
+            "24F",
+            "25A",
+            "25B",
+            "25C",
+            "25D",
+            "25E",
+            "25F",
+            "26A",
+            "26B",
+            "26C",
+            "26D",
+            "26E",
+            "26F",
+            "27A",
+            "27B",
+            "27C",
+            "27D",
+            "27E",
+            "27F",
+            "28A",
+            "28B",
+            "28C",
+            "28D",
+            "28E",
+            "28F",
+            "29A",
+            "29B",
+            "29C",
+            "29D",
+            "29E",
+            "29F",
+            "30A",
+            "30B",
+            "30C",
+            "30D",
+            "30E",
+            "30F",
+            "31A",
+            "31B",
+            "31C",
+            "31D",
+            "31E",
+            "31F",
+            "32A",
+            "32B",
+            "32C",
+            "32D",
+            "32E",
+            "32F",
+            "33A",
+            "33B",
+            "33C",
+            "33D",
+            "33E",
+            "33F",
+            "34A",
+            "34B",
+            "34C",
+            "34D",
+            "34E",
+            "34F",
+            "35A",
+            "35B",
+            "35C",
+            "35D",
+            "35E",
+            "35F",
+            "36A",
+            "36B",
+            "36C",
+            "36D",
+            "36E",
+            "36F",
+            "37A",
+            "37B",
+            "37C",
+            "37D",
+            "37E",
+            "37F",
+            "38A",
+            "38B",
+            "38C",
+            "38D",
+            "38E",
+            "38F",
+            "39A",
+            "39B",
+            "39C",
+            "39D",
+            "39E",
+            "39F",
+            "40A",
+            "40B",
+            "40C",
+            "40D",
+            "40E",
+            "40F"
+        ]]
+        console.log("seatOptions", seatOptions)
+        if (data.seatClass == 'ECONOMY') {
+            setdisabledSeats(seatsECONOMY.concat(seatOptions.seatsInBooking));
+
+        }
+        if (data.seatClass == 'PREMIUM_ECONOMY') {
+            setdisabledSeats(seatsPREMIUM_ECONOMY.concat(seatOptions.seatsInBooking));
+
+        }
+        if (data.seatClass == 'BUSINESS') {
+            setdisabledSeats(seatsBUSINESS.concat(seatOptions.seatsInBooking));
+
+        }
+    }
+
+    const { getText } = useLanguage();
 
 
-    const data_passengers = '';
-
-    const numberBooking = data.adult + data.children;
+    const priceSeatFomat = formatCurrency(priceSeat);
+    const dataPassengers = useSelector((state) => state.flightSelect.infoPassengers);
+    const [selectPassengers, setSelectPassengers] = useState(dataPassengers[0].id);
 
     const [valueRadio, setValueRadio] = useState('');
     const [priceBaggageFomat, setPriceBaggageFomat] = useState('');
@@ -72,7 +527,7 @@ const Service = (props) => {
     if (newdefaultBaggageOptionsCHECKED) {
         defaultBaggageOptionsCHECKED = { ...newdefaultBaggageOptionsCHECKED };
     }
-
+    console.log("huy", selectPassengers)
 
     const onChangeRadio = (value) => {
         setValueRadio(value.target);
@@ -88,15 +543,44 @@ const Service = (props) => {
     const showDrawerFood = () => {
         setOpenFood(true);
     };
+    const onChangePassengers = (value, label) => {
+        setSelectPassengers(value)
+    }
+
+    const hanldeConfirm = () => {
+        const newSeat = {
+            seatId: data.seatId,
+            seatCode: selectedSeat,
+            seatClass: data.seatClass,
+        };
+        const updatedPassengers = dataPassengers.map((dataPassengers) => {
+            if (dataPassengers.id === selectPassengers) {
+                return { ...dataPassengers, seat: newSeat };
+            }
+            return dataPassengers;
+        });
+        dispath(setInfoPassengers(updatedPassengers))
+    }
+    const hanldeCancel = () => {
+        const updatedPassengers = dataPassengers.map((dataPassengers) => {
+            if (dataPassengers.id === selectPassengers) {
+                const { seat, ...rest } = dataPassengers;
+                return rest;
+            }
+            return dataPassengers;
+        });
+        dispath(setInfoPassengers(updatedPassengers))
+    }
+    const defaultValue = dataPassengers.length > 0 ? dataPassengers[0].id : undefined;
     return (
         <>
-            <p className='title'>Đừng quên mua hành lý, suất ăn, chọn chỗ ngồi</p>
+            <p className='title'>{getText('TitleSelectService')}</p>
             <Row className='selectService' onClick={() => showDrawerFavorite()}>
                 <Col span={4} className='img-service' >
                     <img src={imgFavorite} style={{ width: '70px', height: '70px' }} />
                 </Col>
                 <Col span={12} className='title-service'>
-                    <i>Chọn chỗ ngồi yêu thích</i>
+                    <i>{getText('SelectSeat')}</i>
                 </Col>
                 <Col span={6} className='price-service'>
                     <i>49,000 VND</i>
@@ -110,7 +594,7 @@ const Service = (props) => {
                     <img src={imgluggage} style={{ width: '70px', height: '70px' }} />
                 </Col>
                 <Col span={12} className='title-service'>
-                    <i>Chọn hành lý</i>
+                    <i>{getText('SelectBaggage')}</i>
                 </Col>
                 <Col span={6} className='price-service'>
                     <i>149,000 VND</i>
@@ -124,7 +608,7 @@ const Service = (props) => {
                     <img src={imgFood} style={{ width: '70px', height: '70px' }} />
                 </Col>
                 <Col span={12} className='title-service'>
-                    <i>Chọn món ăn</i>
+                    <i>{getText('SelectMeal')}</i>
                 </Col>
                 <Col span={6} className='price-service'>
                     <i>99,000 VND</i>
@@ -152,13 +636,24 @@ const Service = (props) => {
                             <span style={{ color: 'white' }}>Chuyến đi</span>
                         </Row>
                         <Row className='user-service'>
-                            {/* <Select style={{ width: 200 }} defaultValue={DataPassengers[0]}>
-                                {DataPassengers.map((option) => (
-                                    <Option key={option} value={option}>
-                                        {option}
+                            <Select
+                                showSearch
+                                style={{ width: '30%' }}
+                                onChange={onChangePassengers}
+                                defaultValue={defaultValue}
+                                filterOption={(input, option) =>
+                                    (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                                }
+                            >
+
+                                {dataPassengers.map((item) => (
+                                    <Option key={item.id} value={item.id} label={`${item.firstName} ${item.lastName}`} >
+                                        <Row >
+                                            {item.fristName}   {item.lastName}
+                                        </Row>
                                     </Option>
                                 ))}
-                            </Select> */}
+                            </Select>
                         </Row>
                     </div>
                     <div className='info-booking-service'>
@@ -199,7 +694,13 @@ const Service = (props) => {
                             </Row>
                         </div>
                         <div className='seat-ariline'>
-                            <SeatSelector />
+                            <SeatSelector
+                                seatOptions={seatOptions}
+                                setSelectedSeat={setSelectedSeat}
+                                selectedSeat={selectedSeat}
+                                disabledSeats={disabledSeats}
+                                setPriceSeat={setPriceSeat}
+                            />
                         </div>
                     </div>
                     <div className="footer-divider">
@@ -209,18 +710,20 @@ const Service = (props) => {
                                     <img src={imgFavorite} style={{ width: '40px', height: '40px' }} />
                                 </div>
                             </Col>
-                            <Col span={12} className='display-img'>
+                            <Col span={7} className='display-img'>
                                 <Row>
-                                    <i className='seat-price'>4-C: Ghế cao cấp</i>
+                                    <i className='seat-price'> Ghế: {selectedSeat}</i>
                                 </Row>
                                 <Row>
-                                    <i className='seat-price'>90,000 VND</i>
+                                    <i className='seat-price'>{priceSeatFomat}</i>
                                 </Row>
                             </Col>
-                            <Col xl={9} >
-                                <Button className='footer-continue-service' >Xác nhận</Button>
+                            <Col xl={14} >
+                                <Row>
+                                    <Button className='footer-continue-service' onClick={() => hanldeCancel()}  >Không, Cảm ơn</Button>
+                                    <Button className='footer-continue-service' onClick={() => hanldeConfirm()} >Xác nhận</Button>
+                                </Row>
                             </Col>
-
                         </Row>
                     </div>
                 </div>

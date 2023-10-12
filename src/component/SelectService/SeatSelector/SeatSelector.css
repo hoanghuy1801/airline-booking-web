@@ -7,7 +7,7 @@
 
 .imgseat{
   padding-top: 10px;
-  padding-right: 20px;
+  padding-right: 15px;
 }
 
 
@@ -23,6 +23,17 @@
   padding-left: 20px;
   padding-right: 40px;
   padding-top: 20px;
+
+}
+.seatStringRight{
+  font-size: 16px;
+  font-weight: 600;
+  padding-left: 60px;
+}
+.seatString{
+  font-size: 16px;
+  font-weight: 600;
+  padding-left: 58px;
 
 }
 .numberSeat{

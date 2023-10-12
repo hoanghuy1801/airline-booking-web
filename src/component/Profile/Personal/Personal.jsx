@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Col, Row, Typography, Input, Button, Avatar } from 'antd';
 import './Personal.css'
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { IconUserSquareRounded, IconInfoSquareRoundedFilled, IconClockFilled, IconMail, IconLock, } from '@tabler/icons-react';
 import { EditOutlined, UserOutlined } from '@ant-design/icons';
+import moment from 'moment';
 const { Title, Text } = Typography;
 
 const Personal = () => {
@@ -12,7 +14,8 @@ const Personal = () => {
     const ChangePersonal = () => {
         setonChangePersonal(true);
     }
-
+    const InforUser = useSelector(state => state.Auth.InforUser);
+    const formattedDate = moment(InforUser.dateOfBirth).format('DD/MM/YYYY');
     return (
         <>
             <div className='profile-account'>
@@ -25,7 +28,7 @@ const Personal = () => {
                                     <Col span={24} className='col-profile-account'>
                                         <Avatar size={64} style={{ marginLeft: 20 }} icon={<UserOutlined
                                         />} />
-                                        <Text className='text-li' style={{ paddingLeft: 20 }}>PHAM HOANG HUY</Text>
+                                        <Text className='text-li' style={{ paddingLeft: 20 }}>{InforUser.lastName} {InforUser.firstName}</Text>
                                     </Col>
                                 </Row>
                             </li>
@@ -168,23 +171,23 @@ const Personal = () => {
                                 <Row className='personal' style={{ paddingTop: 20 }}>
                                     <Col span={5}>
                                         <Text className='text-personal'>Danh xưng:</Text>
-                                        <Text className='text-personal' style={{ color: 'black', paddingLeft: 10 }}>Ông</Text>
+                                        <Text className='text-personal' style={{ color: 'black', paddingLeft: 10 }}>{InforUser.gender == 'MALE' ? <>Ông</> : InforUser.gender == 'FEMALE' ? <>Bà</> : <>Other</>}</Text>
                                     </Col>
                                 </Row>
                                 <Row className='personal'>
                                     <Col span={5}>
                                         <Text className='text-personal'>Họ:</Text>
-                                        <Text className='text-personal' style={{ color: 'black', paddingLeft: 10 }}>Phạm</Text>
+                                        <Text className='text-personal' style={{ color: 'black', paddingLeft: 10 }}>{InforUser.lastName}</Text>
                                     </Col>
                                     <Col span={19}>
                                         <Text className='text-personal'>Tên đệm và tên: </Text>
-                                        <Text className='text-personal' style={{ color: 'black', paddingLeft: 10 }}> HOÀNG HUY</Text>
+                                        <Text className='text-personal' style={{ color: 'black', paddingLeft: 10 }}> {InforUser.firstName}</Text>
                                     </Col>
                                 </Row>
                                 <Row className='personal' style={{ paddingTop: 20 }}>
                                     <Col span={24}>
                                         <Text className='text-personal'>Ngày sinh:</Text>
-                                        <Text className='text-personal' style={{ color: 'black', paddingLeft: 10 }}>18/01/2001</Text>
+                                        <Text className='text-personal' style={{ color: 'black', paddingLeft: 10 }}>{formattedDate}</Text>
                                     </Col>
                                 </Row>
                                 <Row className='personal' style={{ paddingTop: 20 }}>
@@ -196,12 +199,11 @@ const Personal = () => {
                                 <Row className='account' style={{ paddingTop: 20 }}>
                                     <Col span={24}>
                                         <Text className='text-personal'>Quốc tịch:</Text>
-                                        <Text className='text-personal' style={{ color: 'black', paddingLeft: 10 }}>VN</Text>
+                                        <Text className='text-personal' style={{ color: 'black', paddingLeft: 10 }}>{InforUser.country}</Text>
                                     </Col>
                                 </Row>
                             </div>
                         }
-
 
                     </Col>
                 </Row>

@@ -99,6 +99,7 @@ const TransactionHistory = () => {
                                 </Col>
                             </Row>
                         </div>
+
                     </Col>
                 </Row>
             </div>

@@ -3,7 +3,9 @@ import axios from 'axios'
 
 const initialState = {
     token: 'abc',
-    InfoRegister: ''
+    InfoRegister: '',
+    InforUser: '',
+    isAuthenticated: false,
 };
 const Auth = createSlice({
     name: 'Token',
@@ -15,10 +17,16 @@ const Auth = createSlice({
         setInfoRegister: (state, action) => {
             state.InfoRegister = action.payload;
         },
+        setInforUser: (state, action) => {
+            state.InforUser = action.payload;
+        },
+        setIsAuthenticated: (state, action) => {
+            state.isAuthenticated = action.payload;
+        },
     },
 
 })
 
-export const { setToken, setInfoRegister } = Auth.actions;
+export const { setToken, setInfoRegister, setInforUser, setIsAuthenticated } = Auth.actions;
 // Export reducer
 export default Auth.reducer;
