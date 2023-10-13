@@ -53,7 +53,7 @@ const Passengers = () => {
     const [formDataListChildren, setFormDataListChildren] = useState(data.children);
     const [formDataListBaby, setFormDataListBaby] = useState(data.baby);
 
-    const initialFormState = {
+    let initialFormState = {
         id: '',
         gender: '',
         fristName: '',
@@ -64,24 +64,32 @@ const Passengers = () => {
         email: '',
         address: '',
         passengerType: "ADULT",
+        seat: '',
+        baggage: '',
+        meal: ''
+
     };
-    const initialFormStateChildren = {
+    let initialFormStateChildren = {
         id: '',
         fristName: '',
         lastName: '',
         dateBirth: null,
         gender: '',
         passengerType: "CHILD",
+        seat: '',
+        baggage: '',
+        meal: ''
     };
-    const initialFormStateBaby = {
+    let initialFormStateBaby = {
         id: '',
         fristName: '',
         lastName: '',
         dateBirth: null,
         gender: '',
         passengerType: "INFANT",
-
-
+        seat: '',
+        baggage: '',
+        meal: ''
     };
     const [formData, setFormData] = useState(
         Array.from({ length: formDataList }, () => ({ ...initialFormState }))
