@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import seatBUSINESS from "../../../assets/service/favorite-seat_red.svg";
 import seatPREMIUM_ECONOMY from "../../../assets/service/favorite-seat_green.svg";
 import seatECONOMY from "../../../assets/service/favorite-seat_blue.svg";
@@ -9,9 +9,9 @@ import { Row, Col } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 
 
-const SeatBUSINESS = ({ seatNumber, selectedSeat, onSelect, disabledSeats }) => {
+const SeatBUSINESS = ({ seatNumber, selectedSeat, onSelect, disabledSeats, seatClass, selectedSeats, reload }) => {
     const [isSelected, setIsSelected] = useState(false);
-
+    const data = useSelector((state) => state.homePage.homePageInfor);
     const handleClick = () => {
         if (disabledSeats.includes(seatNumber)) {
             return; // Không cho phép chọn ghế bị vô hiệu hóa
@@ -30,20 +30,24 @@ const SeatBUSINESS = ({ seatNumber, selectedSeat, onSelect, disabledSeats }) => 
         >
             <img className="imgseat"
                 src={
-                    selectedSeat === seatNumber
-                        ? selectedSeatIcon
-                        : disabledSeats.includes(seatNumber)
+                    seatClass !== data.seatClass
+                        ? disabledSeatIcon
+                        : selectedSeats.includes(seatNumber)
                             ? disabledSeatIcon
-                            : seatBUSINESS
+                            : selectedSeat === seatNumber
+                                ? selectedSeatIcon
+                                : disabledSeats.includes(seatNumber)
+                                    ? disabledSeatIcon
+                                    : seatBUSINESS
                 }
                 alt="Seat"
             />
         </div>
     );
 };
-const SeatPREMIUM_ECONOMY = ({ seatNumber, selectedSeat, onSelect, disabledSeats }) => {
+const SeatPREMIUM_ECONOMY = ({ seatNumber, selectedSeat, onSelect, disabledSeats, seatClass, selectedSeats, reload }) => {
     const [isSelected, setIsSelected] = useState(false);
-
+    const data = useSelector((state) => state.homePage.homePageInfor);
     const handleClick = () => {
         if (disabledSeats.includes(seatNumber)) {
             return; // Không cho phép chọn ghế bị vô hiệu hóa
@@ -62,20 +66,25 @@ const SeatPREMIUM_ECONOMY = ({ seatNumber, selectedSeat, onSelect, disabledSeats
         >
             <img className="imgseat"
                 src={
-                    selectedSeat === seatNumber
-                        ? selectedSeatIcon
-                        : disabledSeats.includes(seatNumber)
+                    seatClass !== data.seatClass
+                        ? disabledSeatIcon
+                        : selectedSeats.includes(seatNumber)
                             ? disabledSeatIcon
-                            : seatPREMIUM_ECONOMY
+                            : selectedSeat === seatNumber
+                                ? selectedSeatIcon
+                                : disabledSeats.includes(seatNumber)
+                                    ? disabledSeatIcon
+                                    : seatPREMIUM_ECONOMY
+
                 }
                 alt="Seat"
             />
         </div>
     );
 };
-const SeatECONOMY = ({ seatNumber, selectedSeat, onSelect, disabledSeats }) => {
+const SeatECONOMY = ({ seatNumber, selectedSeat, onSelect, disabledSeats, seatClass, selectedSeats, reload }) => {
     const [isSelected, setIsSelected] = useState(false);
-
+    const data = useSelector((state) => state.homePage.homePageInfor);
     const handleClick = () => {
         if (disabledSeats.includes(seatNumber)) {
             return; // Không cho phép chọn ghế bị vô hiệu hóa
@@ -94,11 +103,15 @@ const SeatECONOMY = ({ seatNumber, selectedSeat, onSelect, disabledSeats }) => {
         >
             <img className="imgseat"
                 src={
-                    selectedSeat === seatNumber
-                        ? selectedSeatIcon
-                        : disabledSeats.includes(seatNumber)
+                    seatClass !== data.seatClass
+                        ? disabledSeatIcon
+                        : selectedSeats.includes(seatNumber)
                             ? disabledSeatIcon
-                            : seatECONOMY
+                            : selectedSeat === seatNumber
+                                ? selectedSeatIcon
+                                : disabledSeats.includes(seatNumber)
+                                    ? disabledSeatIcon
+                                    : seatECONOMY
                 }
                 alt="Seat"
             />
@@ -107,14 +120,19 @@ const SeatECONOMY = ({ seatNumber, selectedSeat, onSelect, disabledSeats }) => {
 };
 
 const SeatSelector = (props) => {
-    const { seatOptions, selectedSeat, setSelectedSeat, disabledSeats, setPriceSeat } = props;
+    const { seatOptions, selectedSeat, setSelectedSeat, setPriceSeat, selectedSeats } = props;
     const numRowsBUSINESS = seatOptions.BUSINESS.seatNumber / 6;
     const numRowsPREMIUM_ECONOMY = seatOptions.PREMIUM_ECONOMY.seatNumber / 6;
     const numRowsECONOMY = seatOptions.ECONOMY.seatNumber / 6;
     const numColumns = 3;
 
 
+    let disabledSeats = seatOptions.seatsInBooking + ',' + selectedSeats;
+    console.log("selectedSeats", selectedSeats)
+    console.log("disabledSeats1", disabledSeats)
+
     const data = useSelector((state) => state.homePage.homePageInfor);
+
     const handleSeatSelect = (seatNumber) => {
         setSelectedSeat(seatNumber);
         if (data.seatClass == 'ECONOMY') {
@@ -129,7 +147,9 @@ const SeatSelector = (props) => {
     };
 
     return (
+
         <div>
+
             <div className="seat-container">
                 <div>
                     {Array.from({ length: numColumns }).map((_, columnIndex) => {
@@ -162,6 +182,9 @@ const SeatSelector = (props) => {
                                     selectedSeat={selectedSeat}
                                     onSelect={handleSeatSelect}
                                     disabledSeats={disabledSeats}
+                                    seatClass='BUSINESS'
+                                    selectedSeats={selectedSeats}
+
                                 />
                             );
 
@@ -178,6 +201,10 @@ const SeatSelector = (props) => {
                                     selectedSeat={selectedSeat}
                                     onSelect={handleSeatSelect}
                                     disabledSeats={disabledSeats}
+                                    seatClass='BUSINESS'
+                                    selectedSeats={selectedSeats}
+
+
                                 />
                             );
                         })}
@@ -194,6 +221,9 @@ const SeatSelector = (props) => {
                                     selectedSeat={selectedSeat}
                                     onSelect={handleSeatSelect}
                                     disabledSeats={disabledSeats}
+                                    seatClass='PREMIUM_ECONOMY'
+                                    selectedSeats={selectedSeats}
+
                                 />
                             );
 
@@ -210,6 +240,9 @@ const SeatSelector = (props) => {
                                     selectedSeat={selectedSeat}
                                     onSelect={handleSeatSelect}
                                     disabledSeats={disabledSeats}
+                                    seatClass='PREMIUM_ECONOMY'
+                                    selectedSeats={selectedSeats}
+
                                 />
                             );
                         })}
@@ -226,6 +259,9 @@ const SeatSelector = (props) => {
                                     selectedSeat={selectedSeat}
                                     onSelect={handleSeatSelect}
                                     disabledSeats={disabledSeats}
+                                    seatClass='ECONOMY'
+                                    selectedSeats={selectedSeats}
+
                                 />
                             );
 
@@ -242,12 +278,16 @@ const SeatSelector = (props) => {
                                     selectedSeat={selectedSeat}
                                     onSelect={handleSeatSelect}
                                     disabledSeats={disabledSeats}
+                                    seatClass='ECONOMY'
+                                    selectedSeats={selectedSeats}
+
                                 />
                             );
                         })}
                     </div>
                 ))}
             </div>
+
             <div>
                 Selected Seat: {selectedSeat ? selectedSeat : "None"}
             </div>
