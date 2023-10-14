@@ -27,11 +27,12 @@ const PaymentReturn = () => {
             {amount ? (
                 <h3>
                     {' '}
-                    Số tiền đã thanh toán là : {amount} , Mã đặt vé : {bookingId}
+                    Số tiền đã thanh toán là : {amount} , Mã đặt vé : {bookingCode}
                 </h3>
             ) : (
                 <h3>Thanh toán thất bại</h3>
-            )}</>
+            )}
+        </>
     )
 }
 export default PaymentReturn
