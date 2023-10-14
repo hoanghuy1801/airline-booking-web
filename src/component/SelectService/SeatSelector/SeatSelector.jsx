@@ -128,8 +128,6 @@ const SeatSelector = (props) => {
 
 
     let disabledSeats = seatOptions.seatsInBooking + ',' + selectedSeats;
-    console.log("selectedSeats", selectedSeats)
-    console.log("disabledSeats1", disabledSeats)
 
     const data = useSelector((state) => state.homePage.homePageInfor);
 

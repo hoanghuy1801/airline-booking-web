@@ -64,7 +64,12 @@ const Passengers = () => {
         email: '',
         address: '',
         passengerType: "ADULT",
-        seat: '',
+        seat: {
+            seatId: '',
+            seatCode: null,
+            seatClass: '',
+            totalSeat: 0,
+        },
         baggage: '',
         meal: ''
 

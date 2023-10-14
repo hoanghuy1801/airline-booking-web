@@ -35,6 +35,8 @@ import { LanguageProvider } from './LanguageProvider/LanguageProvider.jsx';
 import { PersistGate } from 'redux-persist/integration/react'
 import MyForm from './component/Home/MyForm.jsx';
 import Otp from './component/Auth/Otp.jsx';
+import Payment from './component/Payment/Payment.jsx';
+import PaymentReturn from './component/Payment/PaymentReturn.jsx';
 ReactDOM.createRoot(document.getElementById('root')).render(
 
   <Provider store={store}>
@@ -54,6 +56,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
               <Route path='/select-fight-infor' element={<SelectFlightInfor />} />
               <Route path='/passengers' element={<Passengers />} />
               <Route path='/select-service' element={<SelectService />} />
+              <Route path='/payment-methods' element={<Payment />} />
+              <Route path='/payment-return' element={<PaymentReturn />} />
               <Route path='/checkin' element={<CheckIn />} />
               <Route path='/my/search-booking' element={<SearchBookingMy />} />
               <Route path='/my/select-fight' element={<SelectFight />} />

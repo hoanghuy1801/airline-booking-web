@@ -1,26 +1,19 @@
-import { Row, Col, Form, Button, Drawer, Divider, Card, Radio, Typography, Select } from 'antd';
-import '../SelectService/SelectService.css'
-import { IconPlane, IconUserCircle, IconCurrencyDollar, IconShoppingCart, IconArrowBadgeRightFilled } from '@tabler/icons-react';
+import { Row, Col, Typography, Button } from 'antd';
+import { IconPlane, IconUserCircle, IconCurrencyDollar, IconShoppingCart } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import imgFavorite from '../../assets/service/select-service_favorite.svg'
-import imgFood from '../../assets/service/select-service_foods.svg'
-import imgluggage from '../../assets/service/select-service_luggage.svg'
-import imgFavoriteRed from '../../assets/service/favorite-seat_red.svg'
-import imgMiy from '../../assets/service/mi-y.jpg'
+import { useSelector, useDispatch } from 'react-redux';
+
 import { useState, useEffect } from 'react';
-import Service from './Service/Service';
-import SelectInfoFly from '../SelectFlight/SelectInfoFly/SelectInfoFly';
 import { formatCurrency, removeDiacritics } from '../../utils/format';
 import { useLanguage } from '../../LanguageProvider/LanguageProvider';
-import { getServiceAirline } from '../../services/apiBooking';
+import './Payment.css'
+import SelectInfoFly from '../SelectFlight/SelectInfoFly/SelectInfoFly';
+import PaymentMethods from './PaymentMethods';
 const { Title, Text } = Typography;
-const { Option } = Select;
-const SelectService = () => {
-    useEffect(() => {
-        feachListService();
-    }, []);
+const Payment = () => {
     const { getText } = useLanguage();
+
+    const dispath = useDispatch();
     const navigate = useNavigate();
     const data = useSelector((state) => state.homePage.homePageInfor);
     const flightSelect = useSelector((state) => state.flightSelect.flightSelect);
@@ -28,52 +21,14 @@ const SelectService = () => {
     const totalFlight = useSelector((state) => state.flightSelect.totalflight);
     const totalFlightFomat = formatCurrency(Number(totalFlight));
 
-    const data_passengers = '';
+
     const myLanguage = useSelector((state) => state.language.language);
     const sourceAirportCity = removeDiacritics(data.sourceAirportCity, myLanguage)
     const destinationAirportCity = removeDiacritics(data.destinationAirportCity, myLanguage)
-
-    const [value, setValue] = useState(1);
-    const [baggageOptions, setBaggageOptions] = useState([]);
-    const [mealOptions, setMealOptions] = useState([]);
-    const [seatOptions, setSeatOptions] = useState({
-        seatsInBooking: [
-        ],
-        id: "",
-        aircraftCode: "",
-        aircraftName: "",
-        capacity: 0,
-        rowNumbers: 0,
-        columnNumbers: 0,
-        type: "",
-        ECONOMY: {
-            seatNumber: 0,
-            servicePrice: ''
-        },
-        BUSINESS: {
-            seatNumber: 0,
-            servicePrice: ''
-        },
-        PREMIUM_ECONOMY: {
-            seatNumber: 0,
-            servicePrice: ''
-        }
-    });
-    const [defaultBaggageOptions, setDefaultBaggageOptions] = useState([
-    ]);
-    const [defaultMealOptions, setDefaultMealOptions] = useState([]);
-
-    const feachListService = async () => {
-        try {
-            let res = await getServiceAirline(flightSelect.id, flightSelect.airline.id, data.seatId);
-            setBaggageOptions(res.data.baggageOptions);
-            setMealOptions(res.data.mealOptions);
-            setDefaultBaggageOptions(res.data.defaultOpt.defaultBaggageOptions);
-            setDefaultMealOptions(res.data.defaultOpt.defaultMealOptions);
-            setSeatOptions(res.data.seatOptions);
-        } catch (error) {
-            console.log(error);
-        }
+    const handleContinue = () => {
+        // dispath(Data_Service(data_service));
+        navigate('/passengers')
+        //  console.log("sadsad", res.data)
     }
     return (
         <div className="select-flight">
@@ -107,7 +62,7 @@ const SelectService = () => {
                             <IconPlane style={{ color: '#006885', width: 30, height: 30, marginRight: 15 }} />
                             <IconUserCircle style={{ color: '#006885', width: 30, height: 30, marginRight: 15 }} />
                             <IconShoppingCart style={{ color: '#006885', width: 30, height: 30, marginRight: 15 }} />
-                            <IconCurrencyDollar style={{ color: 'grey', width: 30, height: 30, marginRight: 15 }} />
+                            <IconCurrencyDollar style={{ color: '#006885', width: 30, height: 30, marginRight: 15 }} />
                         </Row>
 
                     </Col>
@@ -116,14 +71,7 @@ const SelectService = () => {
             <div className='mains-container'>
                 <Row>
                     <Col xs={24} sm={24} md={24} lg={24} xl={15} className='infor-user-select-flight'>
-                        <Service
-                            baggageOptions={baggageOptions}
-                            mealOptions={mealOptions}
-                            defaultBaggageOptions={defaultBaggageOptions}
-                            defaultMealOptions={defaultMealOptions}
-                            seatOptions={seatOptions}
-
-                        />
+                        <PaymentMethods />
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={9} >
                         <SelectInfoFly
@@ -132,7 +80,6 @@ const SelectService = () => {
                         />
                     </Col>
                 </Row>
-
             </div>
             <div className="footer">
                 <Row>
@@ -140,7 +87,7 @@ const SelectService = () => {
                     </Col>
                     <Col xs={11} sm={11} md={11} lg={4} xl={4}>
                         <Button className='footer-back'
-                            onClick={() => { navigate('/passengers') }} >{getText('Back')}</Button>
+                            onClick={() => { navigate('/select-fight') }} >{getText('Back')}</Button>
                     </Col>
                     <Col span={12} className='footer-price-form-info'>
                         <Row>
@@ -151,11 +98,11 @@ const SelectService = () => {
                     </Col>
                     <Col xs={11} sm={11} md={11} lg={6} xl={6}>
                         <Button className='footer-continue-info'
-                            onClick={() => navigate('/payment-methods')} >{getText('Continue')}</Button>
+                            onClick={() => handleContinue()} >{getText('Continue')}</Button>
                     </Col>
                 </Row>
             </div>
         </div >
     )
 }
-export default SelectService;
+export default Payment;

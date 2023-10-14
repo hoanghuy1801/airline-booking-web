@@ -110,12 +110,17 @@ const Service = (props) => {
     const onChangePassengersMeal = (value, label) => {
         setSelectPassengersMeal(value)
     }
+    const [totalBaggage, setTotalBaggage] = useState(0)
+    const [totalMeal, setTotalMeal] = useState(0)
+    const [totalSeat, setTotalSeat] = useState(0)
+
     const [selectedSeats, setSelectedSeats] = useState([]);
     const hanldeConfirm = () => {
         const newSeat = {
             seatId: data.seatId,
             seatCode: selectedSeat,
             seatClass: data.seatClass,
+            totalSeat: priceSeat,
         };
         const updatedPassengers = dataPassengers.map((dataPassengers) => {
             if (dataPassengers.seat.seatCode != null) {
@@ -132,14 +137,15 @@ const Service = (props) => {
 
             return dataPassengers;
         });
-
         dispath(setInfoPassengers(updatedPassengers))
+        handleTotalSeat();
     }
     const hanldeCancel = () => {
         const newSeat = {
             seatId: '',
             seatCode: null,
             seatClass: '',
+            totalSeat: '',
         };
         const updatedPassengers = dataPassengers.map((dataPassengers) => {
             if (dataPassengers.id === selectPassengers) {
@@ -151,6 +157,15 @@ const Service = (props) => {
 
         dispath(setInfoPassengers(updatedPassengers))
     }
+    const handleTotalSeat = () => {
+        let newTotal = 0;
+        for (let i = 0; i < dataPassengers.length; i++) {
+            newTotal += Number(dataPassengers[i].seat.totalSeat);
+
+        }
+        setTotalSeat(newTotal);
+    }
+
     const hanldeConfirmBaggage = () => {
         const newBaggage = {
             baggageId: valueRadio.id,
@@ -244,7 +259,7 @@ const Service = (props) => {
                     <i>{getText('SelectSeat')}</i>
                 </Col>
                 <Col span={6} className='price-service'>
-                    <i>49,000 VND</i>
+                    <i>{formatCurrency(totalSeat)}</i>
                 </Col>
                 <Col span={2} className='title-service'>
                     <IconArrowBadgeRightFilled style={{ color: 'grey' }} />

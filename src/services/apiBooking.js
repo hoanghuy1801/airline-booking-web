@@ -6,8 +6,12 @@ const getListFlight = (sourceAirportId, destinationAirportId, departureDate, sea
 const getServiceAirline = (flightId, airlineId, seatId) => {
     return axios.get(`api/v1/service-option?flightId=${flightId}&airlineId=${airlineId}&seatId=${seatId}`);
 }
+const postVnPay = (data) => {
+    return axios.post('/api/v1/payment/vnpay', data);
+}
 
 export {
     getListFlight,
-    getServiceAirline
+    getServiceAirline,
+    postVnPay
 }
