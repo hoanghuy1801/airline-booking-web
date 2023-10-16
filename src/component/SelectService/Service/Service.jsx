@@ -1,26 +1,21 @@
 import { Row, Col, Typography, Button, Drawer, Divider, Card, Radio, InputNumber, Select } from 'antd'
 import './Service.css'
 import {
-    IconPlane,
-    IconUserCircle,
-    IconCurrencyDollar,
-    IconShoppingCart,
     IconArrowBadgeRightFilled
 } from '@tabler/icons-react'
-import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import imgFavorite from '../../../assets/service/select-service_favorite.svg'
 import imgFood from '../../../assets/service/select-service_foods.svg'
 import imgluggage from '../../../assets/service/select-service_luggage.svg'
-import imgFavoriteRed from '../../../assets/service/favorite-seat_red.svg'
+
 import imgMiy from '../../../assets/service/mi-y.jpg'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import SeatSelector from '../SeatSelector/SeatSelector'
 import { useLanguage } from '../../../LanguageProvider/LanguageProvider'
 import { setInfoPassengers } from '../../../redux/reducers/booking'
 import { formatCurrency } from '../../../utils/format'
 const { Option } = Select
-const { Title, Text } = Typography
+const { Text } = Typography
 const Service = (props) => {
     const { baggageOptions, mealOptions, defaultBaggageOptions, defaultMealOptions, seatOptions } = props
     const dispath = useDispatch()
@@ -30,20 +25,18 @@ const Service = (props) => {
     const [selectedSeat, setSelectedSeat] = useState(null)
 
     const [priceSeat, setPriceSeat] = useState(0)
-    const [priceSeatBaggage, setPriceSeatBaggage] = useState(0)
-    const navigate = useNavigate()
+    const [priceBaggage, setPriceBaggage] = useState(0)
 
     const data = useSelector((state) => state.homePage.homePageInfor)
 
     const { getText } = useLanguage()
 
     const [valueRadio, setValueRadio] = useState('')
-    const priceSeatFomat = formatCurrency(priceSeat)
-    const priceBaggageFomat = formatCurrency(priceSeatBaggage)
+
     const dataPassengers = useSelector((state) => state.flightSelect.infoPassengers)
-    const [selectPassengers, setSelectPassengers] = useState(dataPassengers[0].id)
-    const [selectPassengersBaggage, setSelectPassengersBaggage] = useState(dataPassengers[0].id)
-    const [selectPassengersMeal, setSelectPassengersMeal] = useState(dataPassengers[0].id)
+    const [selectPassengers, setSelectPassengers] = useState(dataPassengers[0]?.id)
+    const [selectPassengersBaggage, setSelectPassengersBaggage] = useState(dataPassengers[0]?.id)
+    const [selectPassengersMeal, setSelectPassengersMeal] = useState(dataPassengers[0]?.id)
 
     let defaultBaggageOptionsCARRY_ON = {
         id: '',
@@ -90,7 +83,7 @@ const Service = (props) => {
 
     const onChangeRadio = (item) => {
         setValueRadio(item.target.item)
-        setPriceSeatBaggage(item.target.item.optionPrice)
+        setPriceBaggage(item.target.item.optionPrice)
     }
 
     const showDrawerFavorite = () => {
@@ -103,19 +96,18 @@ const Service = (props) => {
         setOpenFood(true)
     }
 
-    const onChangePassengers = (value, label) => {
+    const onChangePassengers = (value) => {
         setSelectPassengers(value)
     }
-    const onChangePassengersBaggage = (value, label) => {
+    const onChangePassengersBaggage = (value) => {
         setSelectPassengersBaggage(value)
     }
-    const onChangePassengersMeal = (value, label) => {
+    const onChangePassengersMeal = (value) => {
         setSelectPassengersMeal(value)
     }
     const [totalBaggage, setTotalBaggage] = useState(0)
     const [totalMeal, setTotalMeal] = useState(0)
     const [totalSeat, setTotalSeat] = useState(0)
-
     const [selectedSeats, setSelectedSeats] = useState([])
     const hanldeConfirm = () => {
         const newSeat = {
@@ -139,7 +131,7 @@ const Service = (props) => {
             return dataPassengers
         })
         dispath(setInfoPassengers(updatedPassengers))
-        handleTotalSeat()
+        handleTotal(updatedPassengers)
     }
     const hanldeCancel = () => {
         const newSeat = {
@@ -157,18 +149,12 @@ const Service = (props) => {
         })
 
         dispath(setInfoPassengers(updatedPassengers))
+        handleTotal(updatedPassengers)
     }
-    const handleTotalSeat = () => {
-        let newTotal = 0
-        for (let i = 0; i < dataPassengers.length; i++) {
-            newTotal += Number(dataPassengers[i].seat.totalSeat)
-        }
-        setTotalSeat(newTotal)
-    }
-
     const hanldeConfirmBaggage = () => {
         const newBaggage = {
-            baggageId: valueRadio.id
+            baggageId: valueRadio.id,
+            totalBaggage: priceBaggage
         }
         const updatedPassengers = dataPassengers.map((dataPassengers) => {
             if (dataPassengers.id === selectPassengersBaggage) {
@@ -178,10 +164,12 @@ const Service = (props) => {
         })
 
         dispath(setInfoPassengers(updatedPassengers))
+        handleTotal(updatedPassengers);
     }
     const hanldeCancelBaggage = () => {
         const newBaggage = {
-            baggageId: ''
+            baggageId: '',
+            totalBaggage: 0
         }
         const updatedPassengers = dataPassengers.map((dataPassengers) => {
             if (dataPassengers.id === selectPassengersBaggage) {
@@ -191,7 +179,10 @@ const Service = (props) => {
         })
         setValueRadio('')
         dispath(setInfoPassengers(updatedPassengers))
+        handleTotal(updatedPassengers);
+
     }
+
     const [selectedMeals, setSelectedMeals] = useState({})
     const [totalPriceMeal, setTotalPriceMeal] = useState(0)
     const totalPriceMealFomat = formatCurrency(totalPriceMeal)
@@ -199,7 +190,8 @@ const Service = (props) => {
         // Lấy thông tin món ăn và số lượng đã chọn
         const selectedMealsArray = Object.keys(selectedMeals).map((optionName) => ({
             id: mealOptions.find((meal) => meal.optionName === optionName).id,
-            quantity: selectedMeals[optionName]
+            quantity: selectedMeals[optionName],
+            totalMeal: mealOptions.find((meal) => meal.optionName === optionName).optionPrice * selectedMeals[optionName],
         }))
 
         const newTotalPrice = selectedMealsArray.reduce((total, selectedMeal) => {
@@ -216,22 +208,22 @@ const Service = (props) => {
         })
         console.log('Đơn hàng:', updatedPassengers)
         dispath(setInfoPassengers(updatedPassengers))
+        handleTotal(updatedPassengers);
     }
     const hanldeCancelMeal = () => {
-        const selectedMealsArray = Object.keys(selectedMeals).map((optionName) => {
-            return {
-                mealId: '',
-                quantity: ''
-            }
-        })
+        const selectedMealsArray = Object.keys(selectedMeals).map((optionName) => ({
+            id: '',
+            quantity: '',
+            totalMeal: 0,
+        }))
         const updatedPassengers = dataPassengers.map((dataPassengers) => {
             if (dataPassengers.id === selectPassengersMeal) {
                 return { ...dataPassengers, meal: selectedMealsArray }
             }
             return dataPassengers
         })
-        console.log('hủy:', updatedPassengers)
         dispath(setInfoPassengers(updatedPassengers))
+        handleTotal(updatedPassengers);
     }
 
     const handleQuantityChange = (item, quantity) => {
@@ -246,6 +238,24 @@ const Service = (props) => {
 
             return updatedSelectedMeals
         })
+    }
+    const handleTotal = (updatedPassengers) => {
+        let newTotal = 0;
+        let newTotalBaggage = 0;
+        let newTotalMeal = 0;
+
+        for (let i = 0; i < updatedPassengers.length; i++) {
+            newTotal += Number(updatedPassengers[i]?.seat.totalSeat)
+        }
+        setTotalSeat(newTotal)
+        for (let i = 0; i < updatedPassengers.length; i++) {
+            newTotalBaggage += Number(updatedPassengers[i]?.baggage.totalBaggage)
+        }
+        setTotalBaggage(newTotalBaggage)
+        for (let i = 0; i < updatedPassengers.length; i++) {
+            newTotalMeal += Number(updatedPassengers[i]?.meal.totalMeal)
+        }
+        setTotalMeal(newTotalMeal)
     }
     const defaultValue = dataPassengers.length > 0 ? dataPassengers[0].id : undefined
     return (
@@ -273,7 +283,7 @@ const Service = (props) => {
                     <i>{getText('SelectBaggage')}</i>
                 </Col>
                 <Col span={6} className="price-service">
-                    <i>149,000 VND</i>
+                    <i>{formatCurrency(totalBaggage)}</i>
                 </Col>
                 <Col span={2} className="title-service">
                     <IconArrowBadgeRightFilled style={{ color: 'grey' }} />
@@ -287,7 +297,7 @@ const Service = (props) => {
                     <i>{getText('SelectMeal')}</i>
                 </Col>
                 <Col span={6} className="price-service">
-                    <i>{totalPriceMealFomat}</i>
+                    <i>{formatCurrency(totalMeal)}</i>
                 </Col>
                 <Col span={2} className="title-service">
                     <IconArrowBadgeRightFilled style={{ color: 'grey' }} />
@@ -323,9 +333,9 @@ const Service = (props) => {
                                 }
                             >
                                 {dataPassengers.map((item) => (
-                                    <Option key={item.id} value={item.id} label={`${item.firstName} ${item.lastName}`}>
+                                    <Option key={item?.id} value={item?.id} label={`${item?.firstName} ${item?.lastName}`}>
                                         <Row>
-                                            {item.fristName} {item.lastName}
+                                            {item?.fristName} {item?.lastName}
                                         </Row>
                                     </Option>
                                 ))}
@@ -398,7 +408,7 @@ const Service = (props) => {
                                     <i className="seat-price"> Ghế: {selectedSeat}</i>
                                 </Row>
                                 <Row>
-                                    <i className="seat-price">{priceSeatFomat}</i>
+                                    <i className="seat-price">{formatCurrency(priceSeat)}</i>
                                 </Row>
                             </Col>
                             <Col xl={14}>
@@ -515,7 +525,7 @@ const Service = (props) => {
                                     <i className="seat-price">Gói {valueRadio.value}kg</i>
                                 </Row>
                                 <Row>
-                                    <i className="seat-price"> {priceBaggageFomat}</i>
+                                    <i className="seat-price"> {formatCurrency(priceBaggage)}</i>
                                 </Row>
                             </Col>
                             <Col span={15}>
@@ -651,7 +661,7 @@ const Service = (props) => {
                                     <i className="seat-price">Suất ăn nóng</i>
                                 </Row>
                                 <Row>
-                                    <i className="seat-price">{totalPriceMealFomat}</i>
+                                    <i className="seat-price">{formatCurrency(totalPriceMeal)}</i>
                                 </Row>
                             </Col>
                             <Col span={15}>
