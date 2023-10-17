@@ -7,26 +7,20 @@ const PaymentReturn = () => {
     const location = useLocation()
     const [amount, setAmount] = useState()
     const [bookingCode, setBookingCode] = useState('')
-    const data = useSelector((state) => state.homePage.homePageInfor)
+    // const data = useSelector((state) => state.homePage.homePageInfor)
     /// console.log('data', data)
     const dataPassengers = useSelector((state) => state.flightSelect.infoPassengers)
     const flightSelect = useSelector((state) => state.flightSelect.flightSelect)
     //   console.log('flightSelect', flightSelect)
     console.log('dataPassengers', dataPassengers)
     const totalFlight = useSelector((state) => state.flightSelect.totalflight)
-    // console.log('totalFlight', totalFlight)
-    // let passengers = [];
-    // const handlePassengers = () => {
-    //     for (let i = 0; i < Array(dataPassengers).length; i++) {
-    //         dataPassengers[i].
-    //     }
-    // }
 
     const passengers = dataPassengers.map((data) => {
-        const { id, baggage, meal, ...passengers } = data
+        const { id, baggage, meal, seats, ...passengers } = data
         const serviceOpts = [...meal, baggage]
         return {
             ...passengers,
+            seats: [seats],
             serviceOpts
         }
     })
@@ -47,7 +41,6 @@ const PaymentReturn = () => {
                         journeyType: 'ONE_AWAY',
                         passengers
                     }
-                    console.log(dataBooking)
                     await postBooking(dataBooking)
                 }
             })

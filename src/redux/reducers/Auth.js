@@ -1,32 +1,29 @@
-import { createAsyncThunk, createSlice, nanoid } from '@reduxjs/toolkit'
-import axios from 'axios'
-
+import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
     token: 'abc',
     InfoRegister: '',
     InforUser: '',
-    isAuthenticated: false,
-};
+    isAuthenticated: false
+}
 const Auth = createSlice({
     name: 'Token',
     initialState,
     reducers: {
         setToken: (state, action) => {
-            state.token = action.payload;
+            state.token = action.payload
         },
         setInfoRegister: (state, action) => {
-            state.InfoRegister = action.payload;
+            state.InfoRegister = action.payload
         },
         setInforUser: (state, action) => {
-            state.InforUser = action.payload;
+            state.InforUser = action.payload
         },
         setIsAuthenticated: (state, action) => {
-            state.isAuthenticated = action.payload;
-        },
-    },
-
+            state.isAuthenticated = action.payload
+        }
+    }
 })
 
-export const { setToken, setInfoRegister, setInforUser, setIsAuthenticated } = Auth.actions;
+export const { setToken, setInfoRegister, setInforUser, setIsAuthenticated } = Auth.actions
 // Export reducer
-export default Auth.reducer;
+export default Auth.reducer

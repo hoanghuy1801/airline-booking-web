@@ -1,26 +1,26 @@
-import jwtDecode from 'jwt-decode';
+import jwtDecode from 'jwt-decode'
 
 const JWTManager = () => {
-    let inMemoryToken = null;
-    let refreshTokenTimeOutId;
-    let userId = '';
+    let inMemoryToken = null
+    // let refreshTokenTimeOutId
+    let userId = ''
 
-    const getToken = () => inMemoryToken;
-    const getUserId = () => userId;
+    const getToken = () => inMemoryToken
+    const getUserId = () => userId
 
     const setToken = (accessToken) => {
-        inMemoryToken = accessToken;
+        inMemoryToken = accessToken
         // decode and set countdown to refresh
-        const decoded = jwtDecode(accessToken);
-        userId = decoded._id;
+        const decoded = jwtDecode(accessToken)
+        userId = decoded._id
         //  setRefreshTokenTimeOut(Number(decoded.exp) - Number(decoded.iat));
-        localStorage.setItem('isLogin', true);
-        return true;
-    };
+        localStorage.setItem('isLogin', true)
+        return true
+    }
 
-    const abortRefreshToken = () => {
-        if (refreshTokenTimeOutId) window.clearTimeout(refreshTokenTimeOutId);
-    };
+    // const abortRefreshToken = () => {
+    //     if (refreshTokenTimeOutId) window.clearTimeout(refreshTokenTimeOutId);
+    // };
 
     // const setRefreshTokenTimeOut = (delay) => {
     //     //5s before token expried
@@ -50,7 +50,7 @@ const JWTManager = () => {
     //     }
     // };
 
-    return { getToken, setToken, getUserId };
-};
+    return { getToken, setToken, getUserId }
+}
 
-export default JWTManager();
+export default JWTManager()

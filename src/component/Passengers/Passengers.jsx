@@ -1,20 +1,16 @@
-import PropTypes from 'prop-types'
-import { Row, Col, Form, Button, Typography, Collapse, Input, DatePicker, Select } from 'antd'
+import { Row, Col, Button, Typography } from 'antd'
 import '../Passengers/Passengers.css'
 import { IconPlane, IconUserCircle, IconCurrencyDollar, IconShoppingCart } from '@tabler/icons-react'
-import { CaretRightOutlined } from '@ant-design/icons'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { useState } from 'react'
-import diacriticless from 'diacriticless'
 import { useDispatch } from 'react-redux'
 import SelectInfoFly from '../SelectFlight/SelectInfoFly/SelectInfoFly'
 import Passenger from './Passenger/Passenger'
-import { convertToJSON, formatCurrency, removeDiacritics } from '../../utils/format'
+import { formatCurrency, removeDiacritics } from '../../utils/format'
 import { useLanguage } from '../../LanguageProvider/LanguageProvider'
 import { showWaringModal } from '../../utils/modalError'
 import { setInfoPassengers } from '../../redux/reducers/booking'
-import { generateRandomID } from '../../utils/utils'
 
 const { Title, Text } = Typography
 const Passengers = () => {
@@ -28,7 +24,7 @@ const Passengers = () => {
     const flightSelectReturn = useSelector((state) => state.flightSelect.flightSelectReturn)
     const totalFlight = useSelector((state) => state.flightSelect.totalflight)
     const totalFlightFomat = formatCurrency(Number(totalFlight))
-    const totalService = 0;
+    const totalService = 0
     const myLanguage = useSelector((state) => state.language.language)
     const sourceAirportCity = removeDiacritics(data.sourceAirportCity, myLanguage)
     const destinationAirportCity = removeDiacritics(data.destinationAirportCity, myLanguage)
@@ -40,10 +36,10 @@ const Passengers = () => {
     let initialFormState = {
         id: '',
         gender: '',
-        fristName: '',
+        firstName: '',
         lastName: '',
-        dateBirth: null,
-        nation: '',
+        dateOfBirth: null,
+        country: '',
         phone: '',
         email: '',
         address: '',
@@ -65,13 +61,13 @@ const Passengers = () => {
             flightId: '',
             quantity: 0,
             servicePrice: 0
-        },
+        }
     }
     let initialFormStateChildren = {
         id: '',
-        fristName: '',
+        firstName: '',
         lastName: '',
-        dateBirth: null,
+        dateOfBirth: null,
         gender: '',
         passengerType: 'CHILD',
         seats: {
@@ -91,13 +87,13 @@ const Passengers = () => {
             flightId: '',
             quantity: 0,
             servicePrice: 0
-        },
+        }
     }
     let initialFormStateBaby = {
         id: '',
-        fristName: '',
+        firstName: '',
         lastName: '',
-        dateBirth: null,
+        dateOfBirth: null,
         gender: '',
         passengerType: 'INFANT',
         seats: {
@@ -117,7 +113,7 @@ const Passengers = () => {
             flightId: '',
             quantity: 0,
             servicePrice: 0
-        },
+        }
     }
     const [formData, setFormData] = useState(Array.from({ length: formDataList }, () => ({ ...initialFormState })))
     const [formDataChildren, setFormDataChildren] = useState(
@@ -146,10 +142,10 @@ const Passengers = () => {
             const isValiPhone = validatePhone(formData[i].phone)
             if (
                 formData[i].gender == '' ||
-                formData[i].fristName == '' ||
+                formData[i].firstName == '' ||
                 formData[i].lastName == '' ||
-                formData[i].dateBirth == null ||
-                formData[i].nation == ''
+                formData[i].dateOfBirth == null ||
+                formData[i].country == ''
             ) {
                 showWaringModal(`${getText('HeyFriend')}`, `${getText('NotInfo')}`, `${getText('Close')}`)
                 return
@@ -187,10 +183,10 @@ const Passengers = () => {
         navigate('/select-service')
     }
     return (
-        <div className="select-flight">
-            <div className="info-flight">
+        <div className='select-flight'>
+            <div className='info-flight'>
                 <Row>
-                    <Col span={18} className="infor-select">
+                    <Col span={18} className='infor-select'>
                         <Row>
                             <span style={{ fontSize: 20, fontWeight: 500 }}>
                                 {!data.roundTrip ? (
@@ -213,7 +209,7 @@ const Passengers = () => {
                                 <Title level={5} style={{ color: 'grey', fontSize: 16, fontWeight: 500 }}>
                                     {getText('From')}:
                                     <Text
-                                        type="secondary"
+                                        type='secondary'
                                         style={{
                                             color: 'red',
                                             fontSize: 18,
@@ -229,7 +225,7 @@ const Passengers = () => {
                                         {getText('To')}:{' '}
                                     </Text>
                                     <Text
-                                        type="secondary"
+                                        type='secondary'
                                         style={{
                                             color: 'red',
                                             fontSize: 18,
@@ -244,7 +240,7 @@ const Passengers = () => {
                             </div>
                         </Row>
                     </Col>
-                    <Col xs={24} sm={24} md={24} lg={6} xl={6} className="icon-select">
+                    <Col xs={24} sm={24} md={24} lg={6} xl={6} className='icon-select'>
                         <Row>
                             <IconPlane style={{ color: '#006885', width: 30, height: 30, marginRight: 15 }} />
                             <IconUserCircle style={{ color: '#006885', width: 30, height: 30, marginRight: 15 }} />
@@ -254,9 +250,9 @@ const Passengers = () => {
                     </Col>
                 </Row>
             </div>
-            <div className="mains-container">
+            <div className='mains-container'>
                 <Row>
-                    <Col xs={24} sm={24} md={24} lg={24} xl={15} className="infor-user-select-flight">
+                    <Col xs={24} sm={24} md={24} lg={24} xl={15} className='infor-user-select-flight'>
                         <Passenger
                             formData={formData}
                             setFormData={setFormData}
@@ -267,17 +263,20 @@ const Passengers = () => {
                         />
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={9}>
-                        <SelectInfoFly flightSelect={flightSelect} flightSelectReturn={flightSelectReturn}
-                            totalService={totalService} />
+                        <SelectInfoFly
+                            flightSelect={flightSelect}
+                            flightSelectReturn={flightSelectReturn}
+                            totalService={totalService}
+                        />
                     </Col>
                 </Row>
             </div>
-            <div className="footer">
+            <div className='footer'>
                 <Row>
                     <Col span={2}></Col>
                     <Col xs={11} sm={11} md={11} lg={4} xl={4}>
                         <Button
-                            className="footer-back"
+                            className='footer-back'
                             onClick={() => {
                                 navigate('/select-fight-infor')
                             }}
@@ -285,22 +284,22 @@ const Passengers = () => {
                             {getText('Back')}
                         </Button>
                     </Col>
-                    <Col span={12} className="footer-price-form-info">
+                    <Col span={12} className='footer-price-form-info'>
                         <Row>
                             <Col
                                 span={18}
-                                className="footer-price-info"
+                                className='footer-price-info'
                                 style={{ display: 'flex', justifyContent: 'end' }}
                             >
                                 {getText('Total')}:
                             </Col>
-                            <Col span={6} className="footer-price-info">
+                            <Col span={6} className='footer-price-info'>
                                 {totalFlightFomat}
                             </Col>
                         </Row>
                     </Col>
                     <Col xs={11} sm={11} md={11} lg={6} xl={6}>
-                        <Button className="footer-continue-info" onClick={() => handlePassengers()}>
+                        <Button className='footer-continue-info' onClick={() => handlePassengers()}>
                             {getText('Continue')}
                         </Button>
                     </Col>

@@ -12,10 +12,10 @@ import { setLanguage } from '../../redux/reducers/languageSlice'
 const { Text } = Typography
 const Header = () => {
     const navigate = useNavigate()
-    const dispastch = useDispatch()
+
     const [openMenu, setOpenMenu] = useState(false)
 
-    const AppMenuDrawer = ({ isInline = false }) => {
+    const AppMenuDrawer = () => {
         return (
             <>
                 <Row>
@@ -34,10 +34,10 @@ const Header = () => {
                     </div>
                 </Row>
                 <Row>
-                    <div className="auth">
-                        <UserOutlined className="auth-child" />
+                    <div className='auth'>
+                        <UserOutlined className='auth-child' />
                         <span
-                            className="auth-child"
+                            className='auth-child'
                             onClick={() => {
                                 navigate('/register')
                             }}
@@ -46,7 +46,7 @@ const Header = () => {
                         </span>
                         <span>|</span>
                         <span
-                            className="auth-child"
+                            className='auth-child'
                             onClick={() => {
                                 navigate('/login')
                             }}
@@ -56,12 +56,12 @@ const Header = () => {
                     </div>
                 </Row>
                 <Row>
-                    <Button className="service-child" type="link">
+                    <Button className='service-child' type='link'>
                         CHUYẾN BAY CỦA TÔI
                     </Button>
                     <Button
-                        className="service-child"
-                        type="link"
+                        className='service-child'
+                        type='link'
                         onClick={() => {
                             navigate('/checkin')
                         }}
@@ -72,7 +72,7 @@ const Header = () => {
             </>
         )
     }
-    const AppMenu = ({ isInline = false }) => {
+    const AppMenu = () => {
         const { getText, changeLanguage } = useLanguage()
         const dispastch = useDispatch()
         const handleChangeLanguageVI = () => {
@@ -88,10 +88,10 @@ const Header = () => {
         const InforUser = useSelector((state) => state.Auth.InforUser)
         return (
             <>
-                <div className="menuPage">
-                    <Row className="headerMenu">
+                <div className='menuPage'>
+                    <Row className='headerMenu'>
                         <Col span={6}>
-                            <div className="logo">
+                            <div className='logo'>
                                 <img
                                     src={logo}
                                     onClick={() => {
@@ -102,10 +102,10 @@ const Header = () => {
                             </div>
                         </Col>
                         <Col span={10}>
-                            <div className="service">
+                            <div className='service'>
                                 <Button
-                                    className="service-child"
-                                    type="link"
+                                    className='service-child'
+                                    type='link'
                                     onClick={() => {
                                         navigate('/my/search-booking')
                                     }}
@@ -113,8 +113,8 @@ const Header = () => {
                                     {getText('myflight')}
                                 </Button>
                                 <Button
-                                    className="service-child"
-                                    type="link"
+                                    className='service-child'
+                                    type='link'
                                     onClick={() => {
                                         navigate('/checkin')
                                     }}
@@ -122,8 +122,8 @@ const Header = () => {
                                     CHECKIN-ONLINE
                                 </Button>
                                 <Button
-                                    className="service-child"
-                                    type="link"
+                                    className='service-child'
+                                    type='link'
                                     onClick={() => {
                                         navigate('/admins')
                                     }}
@@ -132,46 +132,56 @@ const Header = () => {
                                 </Button>
                             </div>
                         </Col>
-                        <Col span={4}>
-                            <div className="auth">
-                                <UserOutlined className="auth-Icon" />
+                        <Col span={8}>
+                            <div className='auth'>
+                                <UserOutlined className='auth-Icon' />
                                 {!isAuthenticated ? (
                                     <>
                                         <span
-                                            className="auth-child"
+                                            className='auth-child'
                                             onClick={() => {
                                                 navigate('/register')
                                             }}
                                         >
                                             {getText('register')}
                                         </span>
-                                        <span className="auth-Icon">|</span>
+                                        <span className='auth-Icon'>|</span>
                                         <span
-                                            className="auth-child"
+                                            className='auth-child'
                                             onClick={() => {
                                                 navigate('/login')
                                             }}
                                         >
                                             {getText('login')}
                                         </span>
+                                        <span
+                                            className='auth-child'
+                                            style={{ paddingLeft: 20 }}
+                                            onClick={() => handleChangeLanguageVI()}
+                                        >
+                                            VI
+                                        </span>
+                                        <span className='auth-child' onClick={() => handleChangeLanguageEN()}>
+                                            EN
+                                        </span>
                                     </>
                                 ) : (
                                     <>
-                                        <Text className="auth-name" onClick={() => navigate('/profile/account')}>
+                                        <Text className='auth-name' onClick={() => navigate('/profile/account')}>
                                             {InforUser?.lastName} {InforUser?.firstName}
                                         </Text>
+                                        <span
+                                            className='auth-child'
+                                            style={{ paddingLeft: 20 }}
+                                            onClick={() => handleChangeLanguageVI()}
+                                        >
+                                            VI
+                                        </span>
+                                        <span className='auth-child' onClick={() => handleChangeLanguageEN()}>
+                                            EN
+                                        </span>
                                     </>
                                 )}
-                            </div>
-                        </Col>
-                        <Col span={4}>
-                            <div className="translation">
-                                <span className="auth-child" onClick={() => handleChangeLanguageVI()}>
-                                    VI
-                                </span>
-                                <span className="auth-child" onClick={() => handleChangeLanguageEN()}>
-                                    EN
-                                </span>
                             </div>
                         </Col>
                     </Row>
@@ -181,8 +191,8 @@ const Header = () => {
     }
     return (
         <LanguageProvider>
-            <div className="header">
-                <div className="menuIcon">
+            <div className='header'>
+                <div className='menuIcon'>
                     <MenuOutlined
                         style={{
                             color: 'white',
@@ -195,11 +205,11 @@ const Header = () => {
                         }}
                     />
                 </div>
-                <span className="headerMenu">
+                <span className='headerMenu'>
                     <AppMenu />
                 </span>
                 <Drawer
-                    placement="left"
+                    placement='left'
                     open={openMenu}
                     closable={false}
                     onClose={() => {

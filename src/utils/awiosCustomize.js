@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { useSelector } from 'react-redux'
 import jwt from './jwt'
 
 // NProgress.configure({
@@ -25,7 +24,9 @@ instance.interceptors.request.use((config) => {
     config.headers['X-Request-Source'] = 'web' // Thay 'your-source-value' bằng giá trị thích hợp
 
     // Thêm header "Authorization"
-    // config.headers['Authorization'] = `Bearer ${jwt.getToken()}`;
+    if (jwt.getToken()) {
+        config.headers['Authorization'] = `Bearer ${jwt.getToken()}`
+    }
 
     return config
 })
