@@ -12,8 +12,9 @@ const { Title, Text } = Typography;
 const SelectInfoFly = (props) => {
 
     const { getText } = useLanguage();
-    const { flightSelect, flightSelectReturn } = props;
+    const { flightSelect, flightSelectReturn, totalService } = props;
     const data = useSelector((state) => state.homePage.homePageInfor);
+    const dataPassengers = useSelector((state) => state.flightSelect.infoPassengers)
     const totalPeople = data.children + data.adult;
 
     const totalAdultPrice = flightSelect.flightSeatPrice.adultPrice * data.adult;
@@ -46,14 +47,12 @@ const SelectInfoFly = (props) => {
         + flightSelect.flightSeatPrice.childrenPrice * data.children
         + flightSelect.flightSeatPrice.infantPrice * data.baby
         + flightSelect.flightSeatPrice.taxService.totalFee * totalPeople
-
+        + totalService
         + flightSelectReturn.flightSeatPrice.adultPrice * data.adult
         + flightSelectReturn.flightSeatPrice.childrenPrice * data.children
         + flightSelectReturn.flightSeatPrice.infantPrice * data.baby
         + flightSelectReturn.flightSeatPrice.taxService.totalFee * totalPeople;
     const totalFomat = formatCurrency(Number(total));
-
-
 
 
     const myLanguage = useSelector((state) => state.language.language);
@@ -227,7 +226,7 @@ const SelectInfoFly = (props) => {
                                     display: 'flex',
                                     alignItems: 'flex-end',
                                     paddingRight: 20,
-                                }}> </Text></Col>
+                                }}> {formatCurrency(totalService)}</Text></Col>
                         </Row>
                     </div>
 

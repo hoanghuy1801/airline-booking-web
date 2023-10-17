@@ -1,8 +1,6 @@
 import { Row, Col, Typography, Button, Drawer, Divider, Card, Radio, InputNumber, Select } from 'antd'
 import './Service.css'
-import {
-    IconArrowBadgeRightFilled
-} from '@tabler/icons-react'
+import { IconArrowBadgeRightFilled } from '@tabler/icons-react'
 import { useDispatch, useSelector } from 'react-redux'
 import imgFavorite from '../../../assets/service/select-service_favorite.svg'
 import imgFood from '../../../assets/service/select-service_foods.svg'
@@ -17,7 +15,19 @@ import { formatCurrency } from '../../../utils/format'
 const { Option } = Select
 const { Text } = Typography
 const Service = (props) => {
-    const { baggageOptions, mealOptions, defaultBaggageOptions, defaultMealOptions, seatOptions } = props
+    const {
+        baggageOptions,
+        mealOptions,
+        defaultBaggageOptions,
+        defaultMealOptions,
+        seatOptions,
+        totalBaggage,
+        totalMeal,
+        totalSeat,
+        setTotalBaggage,
+        setTotalMeal,
+        setTotalSeat
+    } = props
     const dispath = useDispatch()
     const [openFavorite, setOpenFavorite] = useState(false)
     const [openLuggage, setOpenLuggage] = useState(false)
@@ -29,6 +39,7 @@ const Service = (props) => {
 
     const data = useSelector((state) => state.homePage.homePageInfor)
 
+    const flightSelect = useSelector((state) => state.flightSelect.flightSelect)
     const { getText } = useLanguage()
 
     const [valueRadio, setValueRadio] = useState('')
@@ -105,19 +116,18 @@ const Service = (props) => {
     const onChangePassengersMeal = (value) => {
         setSelectPassengersMeal(value)
     }
-    const [totalBaggage, setTotalBaggage] = useState(0)
-    const [totalMeal, setTotalMeal] = useState(0)
-    const [totalSeat, setTotalSeat] = useState(0)
+
     const [selectedSeats, setSelectedSeats] = useState([])
     const hanldeConfirm = () => {
         const newSeat = {
             seatId: data.seatId,
+            flightId: flightSelect.id,
             seatCode: selectedSeat,
             seatClass: data.seatClass,
-            totalSeat: priceSeat
+            seatPrice: priceSeat
         }
         const updatedPassengers = dataPassengers.map((dataPassengers) => {
-            if (dataPassengers.seat.seatCode != null) {
+            if (dataPassengers.seats.seatCode != null) {
                 return dataPassengers
             } else if (dataPassengers.id === selectPassengers) {
                 if (selectedSeats.includes(selectedSeat)) {
@@ -125,25 +135,27 @@ const Service = (props) => {
                 }
 
                 setSelectedSeats([...selectedSeats, selectedSeat])
-                return { ...dataPassengers, seat: newSeat }
+                return { ...dataPassengers, seats: newSeat }
             }
 
             return dataPassengers
         })
+        console.log('updatedPassengersSeat', updatedPassengers)
         dispath(setInfoPassengers(updatedPassengers))
         handleTotal(updatedPassengers)
     }
     const hanldeCancel = () => {
         const newSeat = {
             seatId: '',
+            flightId: '',
             seatCode: null,
             seatClass: '',
-            totalSeat: ''
+            seatPrice: ''
         }
         const updatedPassengers = dataPassengers.map((dataPassengers) => {
             if (dataPassengers.id === selectPassengers) {
-                setSelectedSeats(selectedSeats.filter((item) => item !== dataPassengers.seat.seatCode))
-                return { ...dataPassengers, seat: newSeat }
+                setSelectedSeats(selectedSeats.filter((item) => item !== dataPassengers.seats.seatCode))
+                return { ...dataPassengers, seats: newSeat }
             }
             return dataPassengers
         })
@@ -153,8 +165,9 @@ const Service = (props) => {
     }
     const hanldeConfirmBaggage = () => {
         const newBaggage = {
-            baggageId: valueRadio.id,
-            totalBaggage: priceBaggage
+            serviceOptId: valueRadio.id,
+            flightId: flightSelect.id,
+            servicePrice: priceBaggage
         }
         const updatedPassengers = dataPassengers.map((dataPassengers) => {
             if (dataPassengers.id === selectPassengersBaggage) {
@@ -164,12 +177,13 @@ const Service = (props) => {
         })
 
         dispath(setInfoPassengers(updatedPassengers))
-        handleTotal(updatedPassengers);
+        handleTotal(updatedPassengers)
     }
     const hanldeCancelBaggage = () => {
         const newBaggage = {
             baggageId: '',
-            totalBaggage: 0
+            flightId: '',
+            servicePrice: 0
         }
         const updatedPassengers = dataPassengers.map((dataPassengers) => {
             if (dataPassengers.id === selectPassengersBaggage) {
@@ -179,23 +193,23 @@ const Service = (props) => {
         })
         setValueRadio('')
         dispath(setInfoPassengers(updatedPassengers))
-        handleTotal(updatedPassengers);
-
+        handleTotal(updatedPassengers)
     }
 
     const [selectedMeals, setSelectedMeals] = useState({})
     const [totalPriceMeal, setTotalPriceMeal] = useState(0)
-    const totalPriceMealFomat = formatCurrency(totalPriceMeal)
     const hanldeConfirmMeal = () => {
         // Lấy thông tin món ăn và số lượng đã chọn
         const selectedMealsArray = Object.keys(selectedMeals).map((optionName) => ({
-            id: mealOptions.find((meal) => meal.optionName === optionName).id,
+            serviceOptId: mealOptions.find((meal) => meal.optionName === optionName).id,
+            flightId: flightSelect.id,
             quantity: selectedMeals[optionName],
-            totalMeal: mealOptions.find((meal) => meal.optionName === optionName).optionPrice * selectedMeals[optionName],
+            servicePrice:
+                mealOptions.find((meal) => meal.optionName === optionName).optionPrice * selectedMeals[optionName]
         }))
 
         const newTotalPrice = selectedMealsArray.reduce((total, selectedMeal) => {
-            const meal = mealOptions.find((meal) => meal.id === selectedMeal.id)
+            const meal = mealOptions.find((meal) => meal.id === selectedMeal.serviceOptId)
             return total + meal.optionPrice * selectedMeal.quantity
         }, 0)
 
@@ -206,15 +220,15 @@ const Service = (props) => {
             }
             return dataPassengers
         })
-        console.log('Đơn hàng:', updatedPassengers)
         dispath(setInfoPassengers(updatedPassengers))
-        handleTotal(updatedPassengers);
+        handleTotal(updatedPassengers)
     }
     const hanldeCancelMeal = () => {
         const selectedMealsArray = Object.keys(selectedMeals).map((optionName) => ({
-            id: '',
+            serviceOptId: '',
+            flightId: '',
             quantity: '',
-            totalMeal: 0,
+            servicePrice: ''
         }))
         const updatedPassengers = dataPassengers.map((dataPassengers) => {
             if (dataPassengers.id === selectPassengersMeal) {
@@ -223,7 +237,7 @@ const Service = (props) => {
             return dataPassengers
         })
         dispath(setInfoPassengers(updatedPassengers))
-        handleTotal(updatedPassengers);
+        handleTotal(updatedPassengers)
     }
 
     const handleQuantityChange = (item, quantity) => {
@@ -240,89 +254,94 @@ const Service = (props) => {
         })
     }
     const handleTotal = (updatedPassengers) => {
-        let newTotal = 0;
-        let newTotalBaggage = 0;
-        let newTotalMeal = 0;
-
+        let newTotal = 0
+        let newTotalBaggage = 0
+        let newTotalMeal = 0
         for (let i = 0; i < updatedPassengers.length; i++) {
-            newTotal += Number(updatedPassengers[i]?.seat.totalSeat)
+            newTotal += Number(updatedPassengers[i]?.seats?.seatPrice)
+            console.log('newTotalIIII', newTotal)
         }
+        console.log('newTotal', newTotal)
         setTotalSeat(newTotal)
         for (let i = 0; i < updatedPassengers.length; i++) {
-            newTotalBaggage += Number(updatedPassengers[i]?.baggage.totalBaggage)
+            newTotalBaggage += Number(updatedPassengers[i]?.baggage?.servicePrice)
         }
         setTotalBaggage(newTotalBaggage)
+
         for (let i = 0; i < updatedPassengers.length; i++) {
-            newTotalMeal += Number(updatedPassengers[i]?.meal.totalMeal)
+            const meal = updatedPassengers[i].meal
+            for (let j = 0; j < meal.length; j++) {
+                newTotalMeal += Number(updatedPassengers[i]?.meal[j]?.servicePrice)
+            }
         }
-        setTotalMeal(newTotalMeal)
+        setTotalMeal(Number(newTotalMeal))
     }
-    const defaultValue = dataPassengers.length > 0 ? dataPassengers[0].id : undefined
+    const defaultValue = dataPassengers.length > 0 ? dataPassengers[0]?.id : undefined
     return (
         <>
-            <p className="title">{getText('TitleSelectService')}</p>
-            <Row className="selectService" onClick={() => showDrawerFavorite()}>
-                <Col span={4} className="img-service">
+            <p className='title'>{getText('TitleSelectService')}</p>
+            <Row className='selectService' onClick={() => showDrawerFavorite()}>
+                <Col span={4} className='img-service'>
                     <img src={imgFavorite} style={{ width: '70px', height: '70px' }} />
                 </Col>
-                <Col span={12} className="title-service">
+                <Col span={12} className='title-service'>
                     <i>{getText('SelectSeat')}</i>
                 </Col>
-                <Col span={6} className="price-service">
+                <Col span={6} className='price-service'>
                     <i>{formatCurrency(totalSeat)}</i>
                 </Col>
-                <Col span={2} className="title-service">
+                <Col span={2} className='title-service'>
                     <IconArrowBadgeRightFilled style={{ color: 'grey' }} />
                 </Col>
             </Row>
-            <Row className="selectService" onClick={() => showDrawerLuggage()}>
-                <Col span={4} className="img-service">
+            <Row className='selectService' onClick={() => showDrawerLuggage()}>
+                <Col span={4} className='img-service'>
                     <img src={imgluggage} style={{ width: '70px', height: '70px' }} />
                 </Col>
-                <Col span={12} className="title-service">
+                <Col span={12} className='title-service'>
                     <i>{getText('SelectBaggage')}</i>
                 </Col>
-                <Col span={6} className="price-service">
+                <Col span={6} className='price-service'>
                     <i>{formatCurrency(totalBaggage)}</i>
                 </Col>
-                <Col span={2} className="title-service">
+                <Col span={2} className='title-service'>
                     <IconArrowBadgeRightFilled style={{ color: 'grey' }} />
                 </Col>
             </Row>
-            <Row className="selectService" onClick={() => showDrawerFood()}>
-                <Col span={4} className="img-service">
+            <Row className='selectService' onClick={() => showDrawerFood()}>
+                <Col span={4} className='img-service'>
                     <img src={imgFood} style={{ width: '70px', height: '70px' }} />
                 </Col>
-                <Col span={12} className="title-service">
+                <Col span={12} className='title-service'>
                     <i>{getText('SelectMeal')}</i>
                 </Col>
-                <Col span={6} className="price-service">
+                <Col span={6} className='price-service'>
                     <i>{formatCurrency(totalMeal)}</i>
                 </Col>
-                <Col span={2} className="title-service">
+                <Col span={2} className='title-service'>
                     <IconArrowBadgeRightFilled style={{ color: 'grey' }} />
                 </Col>
             </Row>
             <Drawer
-                className="service-favorite"
-                title="Chọn chỗ ngồi yêu thích"
-                placement="right"
+                className='service-favorite'
+                title='Chọn chỗ ngồi yêu thích'
+                placement='right'
                 open={openFavorite}
                 onClose={() => {
                     setOpenFavorite(false)
                 }}
                 width={700}
             >
-                <div className="form-favorite">
-                    <Row className="roundTrip">
+                <div className='form-favorite'>
+                    <Row className='roundTrip'>
                         <span>Chuyến đi</span>
                     </Row>
                     <Divider style={{ borderColor: 'black' }}></Divider>
-                    <div className="info-user-service">
-                        <Row className="user-service">
+                    <div className='info-user-service'>
+                        <Row className='user-service'>
                             <span style={{ color: 'white' }}>Chuyến đi</span>
                         </Row>
-                        <Row className="user-service">
+                        <Row className='user-service'>
                             <Select
                                 showSearch
                                 style={{ width: '30%' }}
@@ -333,7 +352,11 @@ const Service = (props) => {
                                 }
                             >
                                 {dataPassengers.map((item) => (
-                                    <Option key={item?.id} value={item?.id} label={`${item?.firstName} ${item?.lastName}`}>
+                                    <Option
+                                        key={item?.id}
+                                        value={item?.id}
+                                        label={`${item?.firstName} ${item?.lastName}`}
+                                    >
                                         <Row>
                                             {item?.fristName} {item?.lastName}
                                         </Row>
@@ -342,22 +365,22 @@ const Service = (props) => {
                             </Select>
                         </Row>
                     </div>
-                    <div className="info-booking-service">
-                        <Row className="user-service">
+                    <div className='info-booking-service'>
+                        <Row className='user-service'>
                             <span style={{ color: 'black' }}>SGN - HAN</span>
                         </Row>
                     </div>
-                    <div className="form-seat">
-                        <div className="information-seat">
+                    <div className='form-seat'>
+                        <div className='information-seat'>
                             <Row>
                                 <Col xs={12} sm={8} md={8} lg={8} xl={8} style={{ display: 'flex', paddingTop: 10 }}>
-                                    <div style={{ backgroundColor: 'red' }} className="information-seat-color"></div>
+                                    <div style={{ backgroundColor: 'red' }} className='information-seat-color'></div>
                                     <span>Ghế thương gia</span>
                                 </Col>
                                 <Col xs={12} sm={8} md={8} lg={8} xl={8} style={{ display: 'flex', paddingTop: 10 }}>
                                     <div
                                         style={{ backgroundColor: '#25A006' }}
-                                        className="information-seat-color"
+                                        className='information-seat-color'
                                     ></div>
                                     <span>Ghế phổ thông đặc biệt</span>
                                 </Col>
@@ -365,14 +388,14 @@ const Service = (props) => {
                                 <Col xs={12} sm={8} md={8} lg={8} xl={8} style={{ display: 'flex', paddingTop: 10 }}>
                                     <div
                                         style={{ backgroundColor: ' #208AEC' }}
-                                        className="information-seat-color"
+                                        className='information-seat-color'
                                     ></div>
                                     <span>Ghế phổ thông</span>
                                 </Col>
                                 <Col xs={12} sm={8} md={8} lg={8} xl={8} style={{ display: 'flex', paddingTop: 10 }}>
                                     <div
                                         style={{ backgroundColor: '#FBB612 ' }}
-                                        className="information-seat-color"
+                                        className='information-seat-color'
                                     ></div>
                                     <span>Ghế đang chọn</span>
                                 </Col>
@@ -380,13 +403,13 @@ const Service = (props) => {
                                 <Col xs={12} sm={8} md={8} lg={8} xl={8} style={{ display: 'flex', paddingTop: 10 }}>
                                     <div
                                         style={{ backgroundColor: ' #D1D3D4' }}
-                                        className="information-seat-color"
+                                        className='information-seat-color'
                                     ></div>
                                     <span>Đã có người</span>
                                 </Col>
                             </Row>
                         </div>
-                        <div className="seat-ariline">
+                        <div className='seat-ariline'>
                             <SeatSelector
                                 seatOptions={seatOptions}
                                 setSelectedSeat={setSelectedSeat}
@@ -396,27 +419,27 @@ const Service = (props) => {
                             />
                         </div>
                     </div>
-                    <div className="footer-divider">
+                    <div className='footer-divider'>
                         <Row>
-                            <Col span={3} className="display-img">
-                                <div style={{ backgroundColor: 'white' }} className="information-seat-icon-color">
+                            <Col span={3} className='display-img'>
+                                <div style={{ backgroundColor: 'white' }} className='information-seat-icon-color'>
                                     <img src={imgFavorite} style={{ width: '40px', height: '40px' }} />
                                 </div>
                             </Col>
-                            <Col span={7} className="display-img">
+                            <Col span={7} className='display-img'>
                                 <Row>
-                                    <i className="seat-price"> Ghế: {selectedSeat}</i>
+                                    <i className='seat-price'> Ghế: {selectedSeat}</i>
                                 </Row>
                                 <Row>
-                                    <i className="seat-price">{formatCurrency(priceSeat)}</i>
+                                    <i className='seat-price'>{formatCurrency(priceSeat)}</i>
                                 </Row>
                             </Col>
                             <Col xl={14}>
                                 <Row>
-                                    <Button className="footer-continue-service" onClick={() => hanldeCancel()}>
+                                    <Button className='footer-continue-service' onClick={() => hanldeCancel()}>
                                         Không, Cảm ơn
                                     </Button>
-                                    <Button className="footer-continue-service" onClick={() => hanldeConfirm()}>
+                                    <Button className='footer-continue-service' onClick={() => hanldeConfirm()}>
                                         Xác nhận
                                     </Button>
                                 </Row>
@@ -426,25 +449,25 @@ const Service = (props) => {
                 </div>
             </Drawer>
             <Drawer
-                className="service-luggage"
-                title="Chọn hành lý"
-                placement="right"
+                className='service-luggage'
+                title='Chọn hành lý'
+                placement='right'
                 open={openLuggage}
                 onClose={() => {
                     setOpenLuggage(false)
                 }}
                 width={700}
             >
-                <div className="form-favorite">
-                    <Row className="roundTrip">
+                <div className='form-favorite'>
+                    <Row className='roundTrip'>
                         <span>Chuyến đi</span>
                     </Row>
                     <Divider style={{ borderColor: 'black' }}></Divider>
-                    <div className="info-user-service">
-                        <Row className="user-service">
+                    <div className='info-user-service'>
+                        <Row className='user-service'>
                             <span style={{ color: 'white' }}>Chuyến đi</span>
                         </Row>
-                        <Row className="user-service">
+                        <Row className='user-service'>
                             <Select
                                 showSearch
                                 style={{ width: '30%' }}
@@ -464,13 +487,13 @@ const Service = (props) => {
                             </Select>
                         </Row>
                     </div>
-                    <div className="info-booking-service">
-                        <Row className="user-service">
+                    <div className='info-booking-service'>
+                        <Row className='user-service'>
                             <span style={{ color: 'black' }}>SGN - HAN</span>
                         </Row>
                     </div>
                     <div>
-                        <Text className="written-notices">
+                        <Text className='written-notices'>
                             Hạng vé của bạn đã bao gồm {defaultBaggageOptionsCARRY_ON.value}kg hành lý xách tay
                             {newdefaultBaggageOptionsCHECKED == null ? (
                                 ''
@@ -480,7 +503,7 @@ const Service = (props) => {
                             .
                         </Text>
                     </div>
-                    <div className="title-luggage">
+                    <div className='title-luggage'>
                         <span>Chọn thêm hành lý</span>
                     </div>
                     <div>
@@ -488,7 +511,7 @@ const Service = (props) => {
                             {baggageOptions.map((item) => {
                                 const priceFomat = item.optionPrice.toLocaleString('it-IT')
                                 return (
-                                    <Card key={item.id} className="card-luggage">
+                                    <Card key={item.id} className='card-luggage'>
                                         <Row>
                                             <img src={imgluggage} style={{ width: '60px', height: '60px' }} />
                                         </Row>
@@ -500,7 +523,7 @@ const Service = (props) => {
                                         </p>
                                         <Radio
                                             key={item.id}
-                                            name="radioGroup"
+                                            name='radioGroup'
                                             item={item}
                                             value={item.value}
                                             label={item.label}
@@ -513,27 +536,27 @@ const Service = (props) => {
                             })}
                         </Row>
                     </div>
-                    <div className="footer-divider">
+                    <div className='footer-divider'>
                         <Row>
-                            <Col span={3} className="display-img">
-                                <div style={{ backgroundColor: 'white' }} className="information-seat-icon-color">
+                            <Col span={3} className='display-img'>
+                                <div style={{ backgroundColor: 'white' }} className='information-seat-icon-color'>
                                     <img src={imgluggage} style={{ width: '40px', height: '40px' }} />
                                 </div>
                             </Col>
-                            <Col span={6} className="display-img">
+                            <Col span={6} className='display-img'>
                                 <Row>
-                                    <i className="seat-price">Gói {valueRadio.value}kg</i>
+                                    <i className='seat-price'>Gói {valueRadio.value}kg</i>
                                 </Row>
                                 <Row>
-                                    <i className="seat-price"> {formatCurrency(priceBaggage)}</i>
+                                    <i className='seat-price'> {formatCurrency(priceBaggage)}</i>
                                 </Row>
                             </Col>
                             <Col span={15}>
                                 <Row>
-                                    <Button className="footer-continue-service" onClick={() => hanldeCancelBaggage()}>
+                                    <Button className='footer-continue-service' onClick={() => hanldeCancelBaggage()}>
                                         Không, Cảm ơn
                                     </Button>
-                                    <Button className="footer-continue-service" onClick={() => hanldeConfirmBaggage()}>
+                                    <Button className='footer-continue-service' onClick={() => hanldeConfirmBaggage()}>
                                         Xác nhận
                                     </Button>
                                 </Row>
@@ -543,25 +566,25 @@ const Service = (props) => {
                 </div>
             </Drawer>
             <Drawer
-                className="service-food"
-                title="Chọn suất ăn"
-                placement="right"
+                className='service-food'
+                title='Chọn suất ăn'
+                placement='right'
                 open={openFood}
                 onClose={() => {
                     setOpenFood(false)
                 }}
                 width={700}
             >
-                <div className="form-favorite">
-                    <Row className="roundTrip">
+                <div className='form-favorite'>
+                    <Row className='roundTrip'>
                         <span>Chuyến đi</span>
                     </Row>
                     <Divider style={{ borderColor: 'black' }}></Divider>
-                    <div className="info-user-service">
-                        <Row className="user-service">
+                    <div className='info-user-service'>
+                        <Row className='user-service'>
                             <span style={{ color: 'white' }}>Chuyến đi</span>
                         </Row>
-                        <Row className="user-service">
+                        <Row className='user-service'>
                             <Select
                                 showSearch
                                 style={{ width: '30%' }}
@@ -581,8 +604,8 @@ const Service = (props) => {
                             </Select>
                         </Row>
                     </div>
-                    <div className="info-booking-service">
-                        <Row className="user-service">
+                    <div className='info-booking-service'>
+                        <Row className='user-service'>
                             <span style={{ color: 'black' }}>SGN - HAN</span>
                         </Row>
                     </div>
@@ -591,23 +614,23 @@ const Service = (props) => {
                             ''
                         ) : (
                             <>
-                                <Text className="written-notices">
+                                <Text className='written-notices'>
                                     Hạng vé của bạn sẽ được phục vụ suất ăn và nước uống miễn phí!
                                 </Text>
                             </>
                         )}
                     </div>
-                    <div className="title-luggage">
+                    <div className='title-luggage'>
                         <span>Hãy chọn mua thức ăn bạn yêu thích nhé !</span>
                     </div>
                     <div>
                         {mealOptions.map((item) => {
                             const priceFomat = item.optionPrice.toLocaleString('it-IT')
                             return (
-                                <Card key={item.id} className="food-service-card">
+                                <Card key={item.id} className='food-service-card'>
                                     <Row>
                                         <Col span={10}>
-                                            <img src={imgMiy} className="img-foods" />
+                                            <img src={imgMiy} className='img-foods' />
                                         </Col>
                                         <Col span={14}>
                                             <Row>
@@ -649,26 +672,26 @@ const Service = (props) => {
                             )
                         })}
                     </div>
-                    <div className="footer-divider">
+                    <div className='footer-divider'>
                         <Row>
-                            <Col span={3} className="display-img">
-                                <div style={{ backgroundColor: 'white' }} className="information-seat-icon-color">
+                            <Col span={3} className='display-img'>
+                                <div style={{ backgroundColor: 'white' }} className='information-seat-icon-color'>
                                     <img src={imgFood} style={{ width: '40px', height: '40px' }} />
                                 </div>
                             </Col>
-                            <Col span={6} className="display-img">
+                            <Col span={6} className='display-img'>
                                 <Row>
-                                    <i className="seat-price">Suất ăn nóng</i>
+                                    <i className='seat-price'>Suất ăn nóng</i>
                                 </Row>
                                 <Row>
-                                    <i className="seat-price">{formatCurrency(totalPriceMeal)}</i>
+                                    <i className='seat-price'>{formatCurrency(totalPriceMeal)}</i>
                                 </Row>
                             </Col>
                             <Col span={15}>
-                                <Button className="footer-continue-service" onClick={() => hanldeCancelMeal()}>
+                                <Button className='footer-continue-service' onClick={() => hanldeCancelMeal()}>
                                     Không, Cảm ơn
                                 </Button>
-                                <Button className="footer-continue-service" onClick={() => hanldeConfirmMeal()}>
+                                <Button className='footer-continue-service' onClick={() => hanldeConfirmMeal()}>
                                     Xác nhận
                                 </Button>
                             </Col>

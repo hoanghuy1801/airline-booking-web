@@ -2,13 +2,14 @@ import { Row, Col, Button, Typography } from 'antd'
 import '../SelectService/SelectService.css'
 import { IconPlane, IconUserCircle, IconCurrencyDollar, IconShoppingCart } from '@tabler/icons-react'
 import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useState, useEffect } from 'react'
 import Service from './Service/Service'
 import SelectInfoFly from '../SelectFlight/SelectInfoFly/SelectInfoFly'
 import { formatCurrency, removeDiacritics } from '../../utils/format'
 import { useLanguage } from '../../LanguageProvider/LanguageProvider'
 import { getServiceAirline } from '../../services/apiBooking'
+import { settotalflight } from '../../redux/reducers/booking'
 const { Title, Text } = Typography
 
 const SelectService = () => {
@@ -20,15 +21,29 @@ const SelectService = () => {
     const data = useSelector((state) => state.homePage.homePageInfor)
     const flightSelect = useSelector((state) => state.flightSelect.flightSelect)
     const flightSelectReturn = useSelector((state) => state.flightSelect.flightSelectReturn)
-    const totalFlight = useSelector((state) => state.flightSelect.totalflight)
-    const totalFlightFomat = formatCurrency(Number(totalFlight))
+    const dispath = useDispatch()
 
-    const data_passengers = ''
+    const [totalBaggage, setTotalBaggage] = useState(0)
+    const [totalMeal, setTotalMeal] = useState(0)
+    const [totalSeat, setTotalSeat] = useState(0)
+    const totalService = totalBaggage + totalMeal + totalSeat;
+    const totalPeople = data.children + data.adult;
+    const total =
+        flightSelect.flightSeatPrice.adultPrice * data.adult
+        + flightSelect.flightSeatPrice.childrenPrice * data.children
+        + flightSelect.flightSeatPrice.infantPrice * data.baby
+        + flightSelect.flightSeatPrice.taxService.totalFee * totalPeople
+        + totalService
+        + flightSelectReturn.flightSeatPrice.adultPrice * data.adult
+        + flightSelectReturn.flightSeatPrice.childrenPrice * data.children
+        + flightSelectReturn.flightSeatPrice.infantPrice * data.baby
+        + flightSelectReturn.flightSeatPrice.taxService.totalFee * totalPeople
+        + 0;
+    const totalFomat = formatCurrency(Number(total));
     const myLanguage = useSelector((state) => state.language.language)
     const sourceAirportCity = removeDiacritics(data.sourceAirportCity, myLanguage)
     const destinationAirportCity = removeDiacritics(data.destinationAirportCity, myLanguage)
 
-    const [value, setValue] = useState(1)
     const [baggageOptions, setBaggageOptions] = useState([])
     const [mealOptions, setMealOptions] = useState([])
     const [seatOptions, setSeatOptions] = useState({
@@ -67,6 +82,11 @@ const SelectService = () => {
         } catch (error) {
             console.log(error)
         }
+
+    }
+    const handleContinueService = () => {
+        dispath(settotalflight(total))
+        navigate('/payment-methods')
     }
     return (
         <div className="select-flight">
@@ -145,10 +165,19 @@ const SelectService = () => {
                             defaultBaggageOptions={defaultBaggageOptions}
                             defaultMealOptions={defaultMealOptions}
                             seatOptions={seatOptions}
+                            totalBaggage={totalBaggage}
+                            setTotalBaggage={setTotalBaggage}
+                            totalSeat={totalSeat}
+                            setTotalSeat={setTotalSeat}
+                            totalMeal={totalMeal}
+                            setTotalMeal={setTotalMeal}
+
+
                         />
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={9}>
-                        <SelectInfoFly flightSelect={flightSelect} flightSelectReturn={flightSelectReturn} />
+                        <SelectInfoFly flightSelect={flightSelect} flightSelectReturn={flightSelectReturn}
+                            totalService={totalService} />
                     </Col>
                 </Row>
             </div>
@@ -175,12 +204,12 @@ const SelectService = () => {
                                 {getText('Total')}:
                             </Col>
                             <Col span={6} className="footer-price-info">
-                                {totalFlightFomat}
+                                {totalFomat}
                             </Col>
                         </Row>
                     </Col>
                     <Col xs={11} sm={11} md={11} lg={6} xl={6}>
-                        <Button className="footer-continue-info" onClick={() => navigate('/payment-methods')}>
+                        <Button className="footer-continue-info" onClick={() => handleContinueService()}>
                             {getText('Continue')}
                         </Button>
                     </Col>

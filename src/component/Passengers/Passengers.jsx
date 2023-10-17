@@ -20,13 +20,6 @@ const { Title, Text } = Typography
 const Passengers = () => {
     const navigate = useNavigate()
     const { getText } = useLanguage()
-    const [value, setValue] = useState(1)
-
-    const [inputLastName, setInputLastName] = useState('')
-
-    const [inputFirstName, setInputFirstName] = useState('')
-
-    const [input, setInput] = useState([{}])
 
     const dispath = useDispatch()
 
@@ -35,10 +28,7 @@ const Passengers = () => {
     const flightSelectReturn = useSelector((state) => state.flightSelect.flightSelectReturn)
     const totalFlight = useSelector((state) => state.flightSelect.totalflight)
     const totalFlightFomat = formatCurrency(Number(totalFlight))
-    const data_passengers = {
-        inputLastName: inputLastName,
-        inputFirstName: inputFirstName
-    }
+    const totalService = 0;
     const myLanguage = useSelector((state) => state.language.language)
     const sourceAirportCity = removeDiacritics(data.sourceAirportCity, myLanguage)
     const destinationAirportCity = removeDiacritics(data.destinationAirportCity, myLanguage)
@@ -58,17 +48,24 @@ const Passengers = () => {
         email: '',
         address: '',
         passengerType: 'ADULT',
-        seat: {
+        seats: {
             seatId: '',
+            flightId: '',
             seatCode: null,
             seatClass: '',
-            totalSeat: 0
+            seatPrice: 0
         },
         baggage: {
-            baggageId: '',
-            totalBaggage: 0
+            serviceOptId: '',
+            flightId: '',
+            servicePrice: 0
         },
-        meal: ''
+        meal: {
+            serviceOptId: '',
+            flightId: '',
+            quantity: 0,
+            servicePrice: 0
+        },
     }
     let initialFormStateChildren = {
         id: '',
@@ -77,17 +74,24 @@ const Passengers = () => {
         dateBirth: null,
         gender: '',
         passengerType: 'CHILD',
-        seat: {
+        seats: {
             seatId: '',
+            flightId: '',
             seatCode: null,
             seatClass: '',
-            totalSeat: 0
+            seatPrice: 0
         },
         baggage: {
-            baggageId: '',
-            totalBaggage: 0
+            serviceOptId: '',
+            flightId: '',
+            servicePrice: 0
         },
-        meal: ''
+        meal: {
+            serviceOptId: '',
+            flightId: '',
+            quantity: 0,
+            servicePrice: 0
+        },
     }
     let initialFormStateBaby = {
         id: '',
@@ -96,17 +100,24 @@ const Passengers = () => {
         dateBirth: null,
         gender: '',
         passengerType: 'INFANT',
-        seat: {
+        seats: {
             seatId: '',
+            flightId: '',
             seatCode: null,
             seatClass: '',
-            totalSeat: 0
+            seatPrice: 0
         },
         baggage: {
-            baggageId: '',
-            totalBaggage: 0
+            serviceOptId: '',
+            flightId: '',
+            servicePrice: 0
         },
-        meal: ''
+        meal: {
+            serviceOptId: '',
+            flightId: '',
+            quantity: 0,
+            servicePrice: 0
+        },
     }
     const [formData, setFormData] = useState(Array.from({ length: formDataList }, () => ({ ...initialFormState })))
     const [formDataChildren, setFormDataChildren] = useState(
@@ -256,7 +267,8 @@ const Passengers = () => {
                         />
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={9}>
-                        <SelectInfoFly flightSelect={flightSelect} flightSelectReturn={flightSelectReturn} />
+                        <SelectInfoFly flightSelect={flightSelect} flightSelectReturn={flightSelectReturn}
+                            totalService={totalService} />
                     </Col>
                 </Row>
             </div>

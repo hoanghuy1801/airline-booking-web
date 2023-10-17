@@ -20,6 +20,7 @@ const { RangePicker } = DatePicker
 import moment from 'moment'
 import { useLanguage } from '../../../LanguageProvider/LanguageProvider'
 import { showWaringModal } from '../../../utils/modalError'
+import { setInfoPassengers, settotalflight } from '../../../redux/reducers/booking'
 
 const { Option } = Select
 
@@ -76,7 +77,11 @@ const FormSearch = (props) => {
         returnDate: returnDate,
         seatClass: seatClass
     }
-
+    const handleSelectBookin = () => {
+        dispath(setInfoPassengers(null))
+        dispath(settotalflight(null))
+        dispath(setHomPageInfor(null))
+    }
     const handleSelectBooking = () => {
         if (!roundTrip) {
             if (
@@ -164,9 +169,9 @@ const FormSearch = (props) => {
 
     return (
         <>
-            <Form className="buyForm">
+            <Form className='buyForm'>
                 <Form.Item>
-                    <Radio.Group onChange={onChange} value={value} className="radio">
+                    <Radio.Group onChange={onChange} value={value} className='radio'>
                         <Radio value={1} onClick={() => setRoundTrip(false)}>
                             {getText('onWay')}
                         </Radio>
@@ -178,7 +183,7 @@ const FormSearch = (props) => {
                 <Form.Item>
                     <Row>
                         <Col span={11}>
-                            <IconPlaneDeparture className="icon-search" />
+                            <IconPlaneDeparture className='icon-search' />
                             <Select
                                 showSearch
                                 style={{ width: '80%' }}
@@ -191,11 +196,11 @@ const FormSearch = (props) => {
                                 {listAirports.map((item) => (
                                     <Option key={item.id} value={item.id} label={item.city.cityName}>
                                         <>
-                                            <Row className="text-cityname">
+                                            <Row className='text-cityname'>
                                                 {item.city.cityName} ({item.airportCode})
                                             </Row>
                                             <Row>
-                                                <Col span={18} className="text-airportname">
+                                                <Col span={18} className='text-airportname'>
                                                     {item.airportName}
                                                 </Col>
                                             </Row>
@@ -208,7 +213,7 @@ const FormSearch = (props) => {
                             <IconArrowsExchange2 style={{ color: '#006885' }} />
                         </Col>
                         <Col span={11}>
-                            <IconPlaneArrival className="icon-search" />
+                            <IconPlaneArrival className='icon-search' />
                             <Select
                                 showSearch
                                 style={{ width: '80%' }}
@@ -221,11 +226,11 @@ const FormSearch = (props) => {
                                 {listAirports.map((item) => (
                                     <Option key={item.id} value={item.id} label={item.city.cityName}>
                                         <>
-                                            <Row className="text-cityname">
+                                            <Row className='text-cityname'>
                                                 {item.city.cityName} ({item.airportCode})
                                             </Row>
                                             <Row>
-                                                <Col span={18} className="text-airportname">
+                                                <Col span={18} className='text-airportname'>
                                                     {item.airportName}
                                                 </Col>
                                             </Row>
@@ -239,7 +244,7 @@ const FormSearch = (props) => {
                 <Form.Item>
                     <Row>
                         <Col span={11}>
-                            <IconCalendar className="icon-search" />
+                            <IconCalendar className='icon-search' />
                             {roundTrip ? (
                                 <RangePicker
                                     style={{ width: '80%' }}
@@ -247,7 +252,7 @@ const FormSearch = (props) => {
                                     disabledDate={disabledDate}
                                     value={selectedDates}
                                     onChange={handleDateChange}
-                                    format="DD/MM/YYYY"
+                                    format='DD/MM/YYYY'
                                 />
                             ) : (
                                 <>
@@ -256,14 +261,14 @@ const FormSearch = (props) => {
                                         style={{ width: '80%' }}
                                         placeholder={getText('dateDepartment')}
                                         disabledDate={disabledDate}
-                                        format="DD/MM/YYYY"
+                                        format='DD/MM/YYYY'
                                     />
                                 </>
                             )}
                         </Col>
                         <Col span={2}></Col>
                         <Col span={11}>
-                            <IconArmchair className="icon-search" />
+                            <IconArmchair className='icon-search' />
                             <Select
                                 showSearch
                                 style={{ width: '80%' }}
@@ -285,10 +290,10 @@ const FormSearch = (props) => {
                 <Form.Item>
                     <Row>
                         <Col span={6}>
-                            <IconMan className="icon-search" />
+                            <IconMan className='icon-search' />
                             <label>
                                 {getText('adult')} <br />{' '}
-                                <label className="label-children">{getText('adultText')}</label>{' '}
+                                <label className='label-children'>{getText('adultText')}</label>{' '}
                             </label>
                         </Col>
                         <Col span={5}>
@@ -303,10 +308,10 @@ const FormSearch = (props) => {
                         </Col>
                         <Col span={2}></Col>
                         <Col span={6}>
-                            <IconMoodKid className="icon-search" />
+                            <IconMoodKid className='icon-search' />
                             <label>
                                 {getText('children')} <br />{' '}
-                                <label className="label-children">{getText('childrenText')}</label>{' '}
+                                <label className='label-children'>{getText('childrenText')}</label>{' '}
                             </label>
                         </Col>
                         <Col span={5}>
@@ -322,9 +327,9 @@ const FormSearch = (props) => {
                     </Row>
                     <Row>
                         <Col span={6}>
-                            <IconBabyBottle className="icon-search" />
+                            <IconBabyBottle className='icon-search' />
                             <label>
-                                {getText('baby')} <br /> <label className="label-children">{getText('babyText')}</label>
+                                {getText('baby')} <br /> <label className='label-children'>{getText('babyText')}</label>
                             </label>
                         </Col>
                         <Col span={5}>
@@ -338,14 +343,22 @@ const FormSearch = (props) => {
                         </Col>
                     </Row>
                 </Form.Item>
-                <Form.Item className="btn-form">
+                <Form.Item className='btn-form'>
                     <Button
-                        className="btn-search"
+                        className='btn-search'
                         icon={<SearchOutlined />}
-                        type="link"
+                        type='link'
                         onClick={() => handleSelectBooking()}
                     >
                         {getText('searchFight')}
+                    </Button>
+                    <Button
+                        className='btn-search'
+                        icon={<SearchOutlined />}
+                        type='link'
+                        onClick={() => handleSelectBookin()}
+                    >
+                        huyr
                     </Button>
                 </Form.Item>
             </Form>

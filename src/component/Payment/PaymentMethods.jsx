@@ -1,29 +1,26 @@
 import { Col, Row, Typography, Button } from "antd";
 import './PaymentMethods.css'
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { postVnPay } from "../../services/apiBooking";
-const { Title, Text } = Typography;
+import { useSelector } from "react-redux";
+import { formatCurrency } from "../../utils/format";
+const { Text } = Typography;
 const PaymentMethods = () => {
     const origin = window.location.origin
-
+    const totalFlight = useSelector((state) => state.flightSelect.totalflight);
     const [selectedPayment, setSelectedPayment] = useState(null);
-    const totalAmount = 2000000;
+    const priceBenefit = 0;
     const handlePaymentClick = (paymentMethod) => {
         setSelectedPayment(paymentMethod);
     };
     const dataVnpay = {
-        amount: totalAmount,
+        amount: totalFlight,
         returnUrl: origin + '/payment-return'
     }
     const handlePayment = async () => {
         if (selectedPayment === 'vnpay') {
-            let res = await postVnPay(dataVnpay).then((res) => window.location.href = res.data.paymentLink)
+            await postVnPay(dataVnpay).then((res) => window.location.href = res.data.paymentLink)
         }
-        // } else if (selectedPayment === 'zalopay') {
-
-        // } else {
-
-        // }
     }
 
     return (
@@ -67,7 +64,7 @@ const PaymentMethods = () => {
                             <Text className="text">Tạm tính</Text>
                         </Col>
                         <Col span={12} className="display">
-                            <Text className="text">3000000 VND</Text>
+                            <Text className="text">{formatCurrency(totalFlight)}</Text>
                         </Col>
                     </Row>
                     <Row >
@@ -75,7 +72,7 @@ const PaymentMethods = () => {
                             <Text className="text">Thí tiện ích</Text>
                         </Col>
                         <Col span={12} className="display">
-                            <Text className="text">3000000 VND</Text>
+                            <Text className="text">{formatCurrency(priceBenefit)}</Text>
                         </Col>
                     </Row>
                     <Row className="total">
@@ -83,7 +80,7 @@ const PaymentMethods = () => {
                             <Text className="text">Tổng tiền</Text>
                         </Col>
                         <Col span={12} className="display">
-                            <Text className="text">3000000 VND</Text>
+                            <Text className="text">{formatCurrency(totalFlight)}</Text>
                         </Col>
                     </Row>
                 </div>

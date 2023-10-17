@@ -17,42 +17,43 @@ const mealOptions = [
 ];
 
 function MyForm() {
-    const [selectedMeals, setSelectedMeals] = useState({});
-    const [orderDetails, setOrderDetails] = useState([]);
-    const [totalPrice, setTotalPrice] = useState(0);
+    let initialFormState = {
+        id: '',
+        gender: '',
+        fristName: '',
+        lastName: '',
+        dateBirth: null,
+        nation: '',
+        phone: '',
+        email: '',
+        address: '',
+        passengerType: 'ADULT',
+        seat: {
+            seatId: '',
+            flightId: '',
+            seatCode: null,
+            seatClass: '',
+            seatPrice: 0
+        },
+        serviceOpts: [{
+            serviceOptId: '',
+            flightId: '',
+            quantity: '',
+            priceService: 0
+        }]
+    }
 
-    const handleOrderClick = () => {
-        // Lấy thông tin món ăn và số lượng đã chọn
-        const selectedDetails = Object.keys(selectedMeals).map((optionName) => ({
-            id: mealOptions.find((meal) => meal.optionName === optionName).id,
-            quantity: selectedMeals[optionName],
-        }));
+    let newData = {
+        serviceOptId: '123',
+        flightId: '456',
+        quantity: '2',
+        priceService: 20
+    }
 
-        // Cập nhật danh sách chi tiết đơn hàng
-        setOrderDetails(selectedDetails);
-        console.log("huy", orderDetails)
-        // Tính tổng tiền
-        const newTotalPrice = selectedDetails.reduce((total, orderDetail) => {
-            const meal = mealOptions.find((meal) => meal.id === orderDetail.id);
-            return total + meal.optionPrice * orderDetail.quantity;
-        }, 0);
-        setTotalPrice(newTotalPrice);
+    initialFormState.serviceOpts.push(newData);
+    initialFormState.serviceOpts.push(newData);
 
-    };
-
-    const handleQuantityChange = (item, quantity) => {
-        setSelectedMeals((prevSelectedMeals) => {
-            const updatedSelectedMeals = { ...prevSelectedMeals };
-
-            if (quantity === 0) {
-                delete updatedSelectedMeals[item.optionName];
-            } else {
-                updatedSelectedMeals[item.optionName] = quantity;
-            }
-
-            return updatedSelectedMeals;
-        });
-    };
+    console.log(initialFormState);
 
     return (
         <div>

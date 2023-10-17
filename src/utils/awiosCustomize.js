@@ -1,8 +1,6 @@
-
-import axios from 'axios';
-import { useSelector } from 'react-redux';
-import jwt from './jwt';
-
+import axios from 'axios'
+import { useSelector } from 'react-redux'
+import jwt from './jwt'
 
 // NProgress.configure({
 //     showSpinner: false,
@@ -11,26 +9,26 @@ import jwt from './jwt';
 //})
 
 const instance = axios.create({
-    baseURL: 'https://airline-booking-api.onrender.com',
-});
+    baseURL: 'https://airline-booking-api.onrender.com'
+})
 
-instance.interceptors.request.use(config => {
+instance.interceptors.request.use((config) => {
     // Lấy ngôn ngữ từ localStorage hoặc từ ngôn ngữ mặc định
-    const language = localStorage.getItem('language') || 'vi';
+    const language = localStorage.getItem('language') || 'vi'
 
     // Thêm header 'Accept-Language'
-    config.headers['Accept-Language'] = language;
+    config.headers['Accept-Language'] = language
 
     if (!config.headers['Content-Type']) {
-        config.headers['Content-Type'] = 'application/json';
+        config.headers['Content-Type'] = 'application/json'
     }
-    config.headers['X-Request-Source'] = 'web'; // Thay 'your-source-value' bằng giá trị thích hợp
+    config.headers['X-Request-Source'] = 'web' // Thay 'your-source-value' bằng giá trị thích hợp
 
     // Thêm header "Authorization"
-    config.headers['Authorization'] = `Bearer ${jwt.getToken()}`;
+    // config.headers['Authorization'] = `Bearer ${jwt.getToken()}`;
 
-    return config;
-});
+    return config
+})
 
 // instance.interceptors.request.use(function (config) {
 //     // Do something before request is sent
@@ -57,4 +55,4 @@ instance.interceptors.request.use(config => {
 //     return error && error.response && error.response.data ? error.response.data : Promise.reject(error);
 // });
 
-export default instance;
+export default instance

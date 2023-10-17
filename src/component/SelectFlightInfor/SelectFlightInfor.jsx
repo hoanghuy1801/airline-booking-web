@@ -14,7 +14,7 @@ import { useLanguage } from '../../LanguageProvider/LanguageProvider';
 const { Title, Text } = Typography;
 const SelectFlightInfor = () => {
     const { getText } = useLanguage();
-
+    const totalService = 0;
     const dispath = useDispatch();
     const navigate = useNavigate();
     const data = useSelector((state) => state.homePage.homePageInfor);
@@ -79,6 +79,7 @@ const SelectFlightInfor = () => {
                         <SelectInfoFly
                             flightSelect={flightSelect}
                             flightSelectReturn={flightSelectReturn}
+                            totalService={totalService}
                         />
                     </Col>
                 </Row>

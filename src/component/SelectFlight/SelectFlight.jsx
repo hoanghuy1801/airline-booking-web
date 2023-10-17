@@ -28,7 +28,7 @@ const SelectFlight = () => {
     const { getText } = useLanguage();
     const [hideSelectFightReturn, setHideSelectFightReturn] = useState(false);
     const [selectedShapeIndex, setSelectedShapeIndex] = useState(null);
-
+    const totalService = 0;
     const [listFlightReturn, setListFlightReturn] = useState([]);
     const [flightSelect, setFlightSelect] = useState(
         {
@@ -165,16 +165,13 @@ const SelectFlight = () => {
         + flightSelect.flightSeatPrice.childrenPrice * data.children
         + flightSelect.flightSeatPrice.infantPrice * data.baby
         + flightSelect.flightSeatPrice.taxService.totalFee * totalPeople
-
+        + totalService
         + flightSelectReturn.flightSeatPrice.adultPrice * data.adult
         + flightSelectReturn.flightSeatPrice.childrenPrice * data.children
         + flightSelectReturn.flightSeatPrice.infantPrice * data.baby
         + flightSelectReturn.flightSeatPrice.taxService.totalFee * totalPeople;
     const totalFomat = formatCurrency(Number(total));
 
-    const handleShapeClick = (index) => {
-        setSelectedShapeIndex(index);
-    };
 
     const feachListFlight = async () => {
         try {
@@ -310,6 +307,7 @@ const SelectFlight = () => {
                         <SelectInfoFly
                             flightSelect={flightSelect}
                             flightSelectReturn={flightSelectReturn}
+                            totalService={totalService}
                         />
                     </Col>
                 </Row>
