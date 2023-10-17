@@ -25,6 +25,7 @@ const Passengers = () => {
     const totalFlight = useSelector((state) => state.flightSelect.totalflight)
     const totalFlightFomat = formatCurrency(Number(totalFlight))
     const totalService = 0
+    const totalServiceReturn = 0
     const myLanguage = useSelector((state) => state.language.language)
     const sourceAirportCity = removeDiacritics(data.sourceAirportCity, myLanguage)
     const destinationAirportCity = removeDiacritics(data.destinationAirportCity, myLanguage)
@@ -61,6 +62,24 @@ const Passengers = () => {
             flightId: '',
             quantity: 0,
             servicePrice: 0
+        },
+        seatsReturn: {
+            seatId: '',
+            flightId: '',
+            seatCode: null,
+            seatClass: '',
+            seatPrice: 0
+        },
+        baggageReturn: {
+            serviceOptId: '',
+            flightId: '',
+            servicePrice: 0
+        },
+        mealReturn: {
+            serviceOptId: '',
+            flightId: '',
+            quantity: 0,
+            servicePrice: 0
         }
     }
     let initialFormStateChildren = {
@@ -87,6 +106,24 @@ const Passengers = () => {
             flightId: '',
             quantity: 0,
             servicePrice: 0
+        },
+        seatsReturn: {
+            seatId: '',
+            flightId: '',
+            seatCode: null,
+            seatClass: '',
+            seatPrice: 0
+        },
+        baggageReturn: {
+            serviceOptId: '',
+            flightId: '',
+            servicePrice: 0
+        },
+        mealReturn: {
+            serviceOptId: '',
+            flightId: '',
+            quantity: 0,
+            servicePrice: 0
         }
     }
     let initialFormStateBaby = {
@@ -109,6 +146,24 @@ const Passengers = () => {
             servicePrice: 0
         },
         meal: {
+            serviceOptId: '',
+            flightId: '',
+            quantity: 0,
+            servicePrice: 0
+        },
+        seatsReturn: {
+            seatId: '',
+            flightId: '',
+            seatCode: null,
+            seatClass: '',
+            seatPrice: 0
+        },
+        baggageReturn: {
+            serviceOptId: '',
+            flightId: '',
+            servicePrice: 0
+        },
+        mealReturn: {
             serviceOptId: '',
             flightId: '',
             quantity: 0,
@@ -189,7 +244,7 @@ const Passengers = () => {
                     <Col span={18} className='infor-select'>
                         <Row>
                             <span style={{ fontSize: 20, fontWeight: 500 }}>
-                                {!data.roundTrip ? (
+                                {data.roundTrip ? (
                                     <Title level={4}>
                                         {' '}
                                         {getText('ROUND-TRIP')} | {data.adult} {getText('Adults')}, {data.children}{' '}
@@ -267,6 +322,7 @@ const Passengers = () => {
                             flightSelect={flightSelect}
                             flightSelectReturn={flightSelectReturn}
                             totalService={totalService}
+                            totalServiceReturn={totalServiceReturn}
                         />
                     </Col>
                 </Row>

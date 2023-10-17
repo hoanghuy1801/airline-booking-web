@@ -26,20 +26,26 @@ const SelectService = () => {
     const [totalBaggage, setTotalBaggage] = useState(0)
     const [totalMeal, setTotalMeal] = useState(0)
     const [totalSeat, setTotalSeat] = useState(0)
-    const totalService = totalBaggage + totalMeal + totalSeat;
-    const totalPeople = data.children + data.adult;
+    const [totalBaggageReturn, setTotalBaggageReturn] = useState(0)
+    const [totalMealReturn, setTotalMealReturn] = useState(0)
+    const [totalSeatReturn, setTotalSeatReturn] = useState(0)
+
+    const totalService = totalBaggage + totalMeal + totalSeat
+    const totalServiceReturn = totalBaggageReturn + totalMealReturn + totalSeatReturn
+    const totalPeople = data.children + data.adult
     const total =
-        flightSelect.flightSeatPrice.adultPrice * data.adult
-        + flightSelect.flightSeatPrice.childrenPrice * data.children
-        + flightSelect.flightSeatPrice.infantPrice * data.baby
-        + flightSelect.flightSeatPrice.taxService.totalFee * totalPeople
-        + totalService
-        + flightSelectReturn.flightSeatPrice.adultPrice * data.adult
-        + flightSelectReturn.flightSeatPrice.childrenPrice * data.children
-        + flightSelectReturn.flightSeatPrice.infantPrice * data.baby
-        + flightSelectReturn.flightSeatPrice.taxService.totalFee * totalPeople
-        + 0;
-    const totalFomat = formatCurrency(Number(total));
+        flightSelect.flightSeatPrice.adultPrice * data.adult +
+        flightSelect.flightSeatPrice.childrenPrice * data.children +
+        flightSelect.flightSeatPrice.infantPrice * data.baby +
+        flightSelect.flightSeatPrice.taxService.totalFee * totalPeople +
+        totalService +
+        totalServiceReturn +
+        flightSelectReturn.flightSeatPrice.adultPrice * data.adult +
+        flightSelectReturn.flightSeatPrice.childrenPrice * data.children +
+        flightSelectReturn.flightSeatPrice.infantPrice * data.baby +
+        flightSelectReturn.flightSeatPrice.taxService.totalFee * totalPeople +
+        0
+    const totalFomat = formatCurrency(Number(total))
     const myLanguage = useSelector((state) => state.language.language)
     const sourceAirportCity = removeDiacritics(data.sourceAirportCity, myLanguage)
     const destinationAirportCity = removeDiacritics(data.destinationAirportCity, myLanguage)
@@ -82,20 +88,19 @@ const SelectService = () => {
         } catch (error) {
             console.log(error)
         }
-
     }
     const handleContinueService = () => {
         dispath(settotalflight(total))
         navigate('/payment-methods')
     }
     return (
-        <div className="select-flight">
-            <div className="info-flight">
+        <div className='select-flight'>
+            <div className='info-flight'>
                 <Row>
-                    <Col span={18} className="infor-select">
+                    <Col span={18} className='infor-select'>
                         <Row>
                             <span style={{ fontSize: 20, fontWeight: 500 }}>
-                                {!data.roundTrip ? (
+                                {data.roundTrip ? (
                                     <Title level={4}>
                                         {' '}
                                         {getText('ROUND-TRIP')} | {data.adult} {getText('Adults')}, {data.children}{' '}
@@ -115,7 +120,7 @@ const SelectService = () => {
                                 <Title level={5} style={{ color: 'grey', fontSize: 16, fontWeight: 500 }}>
                                     {getText('From')}:
                                     <Text
-                                        type="secondary"
+                                        type='secondary'
                                         style={{
                                             color: 'red',
                                             fontSize: 18,
@@ -131,7 +136,7 @@ const SelectService = () => {
                                         {getText('To')}:{' '}
                                     </Text>
                                     <Text
-                                        type="secondary"
+                                        type='secondary'
                                         style={{
                                             color: 'red',
                                             fontSize: 18,
@@ -146,7 +151,7 @@ const SelectService = () => {
                             </div>
                         </Row>
                     </Col>
-                    <Col xs={24} sm={24} md={24} lg={6} xl={6} className="icon-select">
+                    <Col xs={24} sm={24} md={24} lg={6} xl={6} className='icon-select'>
                         <Row>
                             <IconPlane style={{ color: '#006885', width: 30, height: 30, marginRight: 15 }} />
                             <IconUserCircle style={{ color: '#006885', width: 30, height: 30, marginRight: 15 }} />
@@ -156,9 +161,9 @@ const SelectService = () => {
                     </Col>
                 </Row>
             </div>
-            <div className="mains-container">
+            <div className='mains-container'>
                 <Row>
-                    <Col xs={24} sm={24} md={24} lg={24} xl={15} className="infor-user-select-flight">
+                    <Col xs={24} sm={24} md={24} lg={24} xl={15} className='infor-user-select-flight'>
                         <Service
                             baggageOptions={baggageOptions}
                             mealOptions={mealOptions}
@@ -171,22 +176,31 @@ const SelectService = () => {
                             setTotalSeat={setTotalSeat}
                             totalMeal={totalMeal}
                             setTotalMeal={setTotalMeal}
-
-
+                            totalBaggageReturn={totalBaggageReturn}
+                            totalMealReturn={totalMealReturn}
+                            totalSeatReturn={totalSeatReturn}
+                            setTotalBaggageReturn={setTotalBaggageReturn}
+                            setTotalMealReturn={setTotalMealReturn}
+                            setTotalSeatReturn={setTotalSeatReturn}
+                            setSeatOptions={setSeatOptions}
                         />
                     </Col>
                     <Col xs={24} sm={24} md={24} lg={24} xl={9}>
-                        <SelectInfoFly flightSelect={flightSelect} flightSelectReturn={flightSelectReturn}
-                            totalService={totalService} />
+                        <SelectInfoFly
+                            flightSelect={flightSelect}
+                            flightSelectReturn={flightSelectReturn}
+                            totalService={totalService}
+                            totalServiceReturn={totalServiceReturn}
+                        />
                     </Col>
                 </Row>
             </div>
-            <div className="footer">
+            <div className='footer'>
                 <Row>
                     <Col span={2}></Col>
                     <Col xs={11} sm={11} md={11} lg={4} xl={4}>
                         <Button
-                            className="footer-back"
+                            className='footer-back'
                             onClick={() => {
                                 navigate('/passengers')
                             }}
@@ -194,22 +208,22 @@ const SelectService = () => {
                             {getText('Back')}
                         </Button>
                     </Col>
-                    <Col span={12} className="footer-price-form-info">
+                    <Col span={12} className='footer-price-form-info'>
                         <Row>
                             <Col
                                 span={18}
-                                className="footer-price-info"
+                                className='footer-price-info'
                                 style={{ display: 'flex', justifyContent: 'end' }}
                             >
                                 {getText('Total')}:
                             </Col>
-                            <Col span={6} className="footer-price-info">
+                            <Col span={6} className='footer-price-info'>
                                 {totalFomat}
                             </Col>
                         </Row>
                     </Col>
                     <Col xs={11} sm={11} md={11} lg={6} xl={6}>
-                        <Button className="footer-continue-info" onClick={() => handleContinueService()}>
+                        <Button className='footer-continue-info' onClick={() => handleContinueService()}>
                             {getText('Continue')}
                         </Button>
                     </Col>

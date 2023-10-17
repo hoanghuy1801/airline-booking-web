@@ -12,6 +12,7 @@ import SeatSelector from '../SeatSelector/SeatSelector'
 import { useLanguage } from '../../../LanguageProvider/LanguageProvider'
 import { setInfoPassengers } from '../../../redux/reducers/booking'
 import { formatCurrency } from '../../../utils/format'
+import { getServiceAirline } from '../../../services/apiBooking'
 const { Option } = Select
 const { Text } = Typography
 const Service = (props) => {
@@ -26,9 +27,19 @@ const Service = (props) => {
         totalSeat,
         setTotalBaggage,
         setTotalMeal,
-        setTotalSeat
+        setTotalSeat,
+        totalBaggageReturn,
+        totalMealReturn,
+        totalSeatReturn,
+        setTotalBaggageReturn,
+        setTotalMealReturn,
+        setTotalSeatReturn,
+        setSeatOptions
     } = props
     const dispath = useDispatch()
+    const [selectTripPassengers, setSelectTripPassengers] = useState('false')
+    const [selectTripPassengersBaggage, setSelectTripPassengersBaggage] = useState('false')
+    const [selectTripPassengersMeal, setSelectTripPassengersMeal] = useState('false')
     const [openFavorite, setOpenFavorite] = useState(false)
     const [openLuggage, setOpenLuggage] = useState(false)
     const [openFood, setOpenFood] = useState(false)
@@ -38,6 +49,7 @@ const Service = (props) => {
     const [priceBaggage, setPriceBaggage] = useState(0)
 
     const data = useSelector((state) => state.homePage.homePageInfor)
+    const flightSelectReturn = useSelector((state) => state.flightSelect.flightSelectReturn)
 
     const flightSelect = useSelector((state) => state.flightSelect.flightSelect)
     const { getText } = useLanguage()
@@ -110,6 +122,19 @@ const Service = (props) => {
     const onChangePassengers = (value) => {
         setSelectPassengers(value)
     }
+    const onChangePassengersRoundTrip = async (value) => {
+        if (value === 'true') {
+            let res = await getServiceAirline(flightSelectReturn.id, flightSelectReturn.airline.id, data.seatId)
+            setSeatOptions(res.data.seatOptions)
+        }
+        setSelectTripPassengers(value)
+    }
+    const onChangePassengersRoundTripBaggage = (value) => {
+        setSelectTripPassengersBaggage(value)
+    }
+    const onChangePassengersRoundTripMeal = (value) => {
+        setSelectTripPassengersMeal(value)
+    }
     const onChangePassengersBaggage = (value) => {
         setSelectPassengersBaggage(value)
     }
@@ -119,30 +144,56 @@ const Service = (props) => {
 
     const [selectedSeats, setSelectedSeats] = useState([])
     const hanldeConfirm = () => {
-        const newSeat = {
-            seatId: data.seatId,
-            flightId: flightSelect.id,
-            seatCode: selectedSeat,
-            seatClass: data.seatClass,
-            seatPrice: priceSeat
-        }
-        const updatedPassengers = dataPassengers.map((dataPassengers) => {
-            if (dataPassengers.seats.seatCode != null) {
-                return dataPassengers
-            } else if (dataPassengers.id === selectPassengers) {
-                if (selectedSeats.includes(selectedSeat)) {
-                    return
+        if (selectTripPassengers === 'false') {
+            const newSeat = {
+                seatId: data.seatId,
+                flightId: flightSelect.id,
+                seatCode: selectedSeat,
+                seatClass: data.seatClass,
+                seatPrice: priceSeat
+            }
+            const updatedPassengers = dataPassengers.map((dataPassengers) => {
+                if (dataPassengers.seats.seatCode != null) {
+                    return dataPassengers
+                } else if (dataPassengers.id === selectPassengers) {
+                    if (selectedSeats.includes(selectedSeat)) {
+                        return
+                    }
+
+                    setSelectedSeats([...selectedSeats, selectedSeat])
+                    return { ...dataPassengers, seats: newSeat }
                 }
 
-                setSelectedSeats([...selectedSeats, selectedSeat])
-                return { ...dataPassengers, seats: newSeat }
+                return dataPassengers
+            })
+            dispath(setInfoPassengers(updatedPassengers))
+            handleTotal(updatedPassengers)
+        } else {
+            const newSeat = {
+                seatId: data.seatId,
+                flightId: flightSelectReturn.id,
+                seatCode: selectedSeat,
+                seatClass: data.seatClass,
+                seatPrice: priceSeat
             }
+            const updatedPassengers = dataPassengers.map((dataPassengers) => {
+                if (dataPassengers.seatsReturn.seatCode != null) {
+                    return dataPassengers
+                } else if (dataPassengers.id === selectPassengers) {
+                    if (selectedSeats.includes(selectedSeat)) {
+                        return
+                    }
 
-            return dataPassengers
-        })
-        console.log('updatedPassengersSeat', updatedPassengers)
-        dispath(setInfoPassengers(updatedPassengers))
-        handleTotal(updatedPassengers)
+                    setSelectedSeats([...selectedSeats, selectedSeat])
+                    return { ...dataPassengers, seatsReturn: newSeat }
+                }
+
+                return dataPassengers
+            })
+            console.log('chuyến về', updatedPassengers)
+            dispath(setInfoPassengers(updatedPassengers))
+            handleTotalReturn(updatedPassengers)
+        }
     }
     const hanldeCancel = () => {
         const newSeat = {
@@ -152,32 +203,60 @@ const Service = (props) => {
             seatClass: '',
             seatPrice: ''
         }
-        const updatedPassengers = dataPassengers.map((dataPassengers) => {
-            if (dataPassengers.id === selectPassengers) {
-                setSelectedSeats(selectedSeats.filter((item) => item !== dataPassengers.seats.seatCode))
-                return { ...dataPassengers, seats: newSeat }
-            }
-            return dataPassengers
-        })
-
-        dispath(setInfoPassengers(updatedPassengers))
-        handleTotal(updatedPassengers)
+        if (selectTripPassengers === 'false') {
+            const updatedPassengers = dataPassengers.map((dataPassengers) => {
+                if (dataPassengers.id === selectPassengers) {
+                    setSelectedSeats(selectedSeats.filter((item) => item !== dataPassengers.seats.seatCode))
+                    return { ...dataPassengers, seats: newSeat }
+                }
+                return dataPassengers
+            })
+            dispath(setInfoPassengers(updatedPassengers))
+            handleTotal(updatedPassengers)
+        } else {
+            const updatedPassengers = dataPassengers.map((dataPassengers) => {
+                if (dataPassengers.id === selectPassengers) {
+                    setSelectedSeats(selectedSeats.filter((item) => item !== dataPassengers.seatsReturn.seatCode))
+                    return { ...dataPassengers, seatsReturn: newSeat }
+                }
+                return dataPassengers
+            })
+            dispath(setInfoPassengers(updatedPassengers))
+            handleTotalReturn(updatedPassengers)
+        }
     }
     const hanldeConfirmBaggage = () => {
-        const newBaggage = {
-            serviceOptId: valueRadio.id,
-            flightId: flightSelect.id,
-            servicePrice: priceBaggage
-        }
-        const updatedPassengers = dataPassengers.map((dataPassengers) => {
-            if (dataPassengers.id === selectPassengersBaggage) {
-                return { ...dataPassengers, baggage: newBaggage }
+        if (selectTripPassengersBaggage === 'false') {
+            const newBaggage = {
+                serviceOptId: valueRadio.id,
+                flightId: flightSelect.id,
+                servicePrice: priceBaggage
             }
-            return dataPassengers
-        })
+            const updatedPassengers = dataPassengers.map((dataPassengers) => {
+                if (dataPassengers.id === selectPassengersBaggage) {
+                    return { ...dataPassengers, baggage: newBaggage }
+                }
+                return dataPassengers
+            })
 
-        dispath(setInfoPassengers(updatedPassengers))
-        handleTotal(updatedPassengers)
+            dispath(setInfoPassengers(updatedPassengers))
+            handleTotal(updatedPassengers)
+        } else {
+            const newBaggage = {
+                serviceOptId: valueRadio.id,
+                flightId: flightSelectReturn.id,
+                servicePrice: priceBaggage
+            }
+            const updatedPassengers = dataPassengers.map((dataPassengers) => {
+                if (dataPassengers.id === selectPassengersBaggage) {
+                    return { ...dataPassengers, baggageReturn: newBaggage }
+                }
+                return dataPassengers
+            })
+
+            dispath(setInfoPassengers(updatedPassengers))
+            handleTotalReturn(updatedPassengers)
+        }
     }
     const hanldeCancelBaggage = () => {
         const newBaggage = {
@@ -185,43 +264,79 @@ const Service = (props) => {
             flightId: '',
             servicePrice: 0
         }
-        const updatedPassengers = dataPassengers.map((dataPassengers) => {
-            if (dataPassengers.id === selectPassengersBaggage) {
-                return { ...dataPassengers, baggage: newBaggage }
-            }
-            return dataPassengers
-        })
-        setValueRadio('')
-        dispath(setInfoPassengers(updatedPassengers))
-        handleTotal(updatedPassengers)
+        if (selectTripPassengersBaggage === 'false') {
+            const updatedPassengers = dataPassengers.map((dataPassengers) => {
+                if (dataPassengers.id === selectPassengersBaggage) {
+                    return { ...dataPassengers, baggage: newBaggage }
+                }
+                return dataPassengers
+            })
+            setValueRadio('')
+            dispath(setInfoPassengers(updatedPassengers))
+            handleTotal(updatedPassengers)
+        } else {
+            const updatedPassengers = dataPassengers.map((dataPassengers) => {
+                if (dataPassengers.id === selectPassengersBaggage) {
+                    return { ...dataPassengers, baggageReturn: newBaggage }
+                }
+                return dataPassengers
+            })
+            setValueRadio('')
+            dispath(setInfoPassengers(updatedPassengers))
+            handleTotalReturn(updatedPassengers)
+        }
     }
 
     const [selectedMeals, setSelectedMeals] = useState({})
     const [totalPriceMeal, setTotalPriceMeal] = useState(0)
     const hanldeConfirmMeal = () => {
-        // Lấy thông tin món ăn và số lượng đã chọn
-        const selectedMealsArray = Object.keys(selectedMeals).map((optionName) => ({
-            serviceOptId: mealOptions.find((meal) => meal.optionName === optionName).id,
-            flightId: flightSelect.id,
-            quantity: selectedMeals[optionName],
-            servicePrice:
-                mealOptions.find((meal) => meal.optionName === optionName).optionPrice * selectedMeals[optionName]
-        }))
+        if (selectTripPassengersMeal === 'false') {
+            // Lấy thông tin món ăn và số lượng đã chọn
+            const selectedMealsArray = Object.keys(selectedMeals).map((optionName) => ({
+                serviceOptId: mealOptions.find((meal) => meal.optionName === optionName).id,
+                flightId: flightSelect.id,
+                quantity: selectedMeals[optionName],
+                servicePrice:
+                    mealOptions.find((meal) => meal.optionName === optionName).optionPrice * selectedMeals[optionName]
+            }))
 
-        const newTotalPrice = selectedMealsArray.reduce((total, selectedMeal) => {
-            const meal = mealOptions.find((meal) => meal.id === selectedMeal.serviceOptId)
-            return total + meal.optionPrice * selectedMeal.quantity
-        }, 0)
+            const newTotalPrice = selectedMealsArray.reduce((total, selectedMeal) => {
+                const meal = mealOptions.find((meal) => meal.id === selectedMeal.serviceOptId)
+                return total + meal.optionPrice * selectedMeal.quantity
+            }, 0)
+            setTotalPriceMeal(newTotalPrice)
+            const updatedPassengers = dataPassengers.map((dataPassengers) => {
+                if (dataPassengers.id === selectPassengersMeal) {
+                    return { ...dataPassengers, meal: selectedMealsArray }
+                }
+                return dataPassengers
+            })
+            dispath(setInfoPassengers(updatedPassengers))
+            handleTotal(updatedPassengers)
+        } else {
+            // Lấy thông tin món ăn và số lượng đã chọn
+            const selectedMealsArray = Object.keys(selectedMeals).map((optionName) => ({
+                serviceOptId: mealOptions.find((meal) => meal.optionName === optionName).id,
+                flightId: flightSelectReturn.id,
+                quantity: selectedMeals[optionName],
+                servicePrice:
+                    mealOptions.find((meal) => meal.optionName === optionName).optionPrice * selectedMeals[optionName]
+            }))
 
-        setTotalPriceMeal(newTotalPrice)
-        const updatedPassengers = dataPassengers.map((dataPassengers) => {
-            if (dataPassengers.id === selectPassengersMeal) {
-                return { ...dataPassengers, meal: selectedMealsArray }
-            }
-            return dataPassengers
-        })
-        dispath(setInfoPassengers(updatedPassengers))
-        handleTotal(updatedPassengers)
+            const newTotalPrice = selectedMealsArray.reduce((total, selectedMeal) => {
+                const meal = mealOptions.find((meal) => meal.id === selectedMeal.serviceOptId)
+                return total + meal.optionPrice * selectedMeal.quantity
+            }, 0)
+            setTotalPriceMeal(newTotalPrice)
+            const updatedPassengers = dataPassengers.map((dataPassengers) => {
+                if (dataPassengers.id === selectPassengersMeal) {
+                    return { ...dataPassengers, mealReturn: selectedMealsArray }
+                }
+                return dataPassengers
+            })
+            dispath(setInfoPassengers(updatedPassengers))
+            handleTotalReturn(updatedPassengers)
+        }
     }
     const hanldeCancelMeal = () => {
         const selectedMealsArray = Object.keys(selectedMeals).map((optionName) => ({
@@ -230,14 +345,25 @@ const Service = (props) => {
             quantity: '',
             servicePrice: ''
         }))
-        const updatedPassengers = dataPassengers.map((dataPassengers) => {
-            if (dataPassengers.id === selectPassengersMeal) {
-                return { ...dataPassengers, meal: selectedMealsArray }
-            }
-            return dataPassengers
-        })
-        dispath(setInfoPassengers(updatedPassengers))
-        handleTotal(updatedPassengers)
+        if (selectTripPassengersMeal === 'false') {
+            const updatedPassengers = dataPassengers.map((dataPassengers) => {
+                if (dataPassengers.id === selectPassengersMeal) {
+                    return { ...dataPassengers, meal: selectedMealsArray }
+                }
+                return dataPassengers
+            })
+            dispath(setInfoPassengers(updatedPassengers))
+            handleTotal(updatedPassengers)
+        } else {
+            const updatedPassengers = dataPassengers.map((dataPassengers) => {
+                if (dataPassengers.id === selectPassengersMeal) {
+                    return { ...dataPassengers, mealReturn: selectedMealsArray }
+                }
+                return dataPassengers
+            })
+            dispath(setInfoPassengers(updatedPassengers))
+            handleTotalReturn(updatedPassengers)
+        }
     }
 
     const handleQuantityChange = (item, quantity) => {
@@ -276,6 +402,29 @@ const Service = (props) => {
         }
         setTotalMeal(Number(newTotalMeal))
     }
+    const handleTotalReturn = (updatedPassengers) => {
+        let newTotal = 0
+        let newTotalBaggage = 0
+        let newTotalMeal = 0
+        for (let i = 0; i < updatedPassengers.length; i++) {
+            newTotal += Number(updatedPassengers[i]?.seatsReturn?.seatPrice)
+            console.log('newTotalIIII', newTotal)
+        }
+
+        setTotalSeatReturn(newTotal)
+        for (let i = 0; i < updatedPassengers.length; i++) {
+            newTotalBaggage += Number(updatedPassengers[i]?.baggageReturn?.servicePrice)
+        }
+        setTotalBaggageReturn(newTotalBaggage)
+
+        for (let i = 0; i < updatedPassengers.length; i++) {
+            const meal = updatedPassengers[i].meal
+            for (let j = 0; j < meal.length; j++) {
+                newTotalMeal += Number(updatedPassengers[i]?.mealReturn[j]?.servicePrice)
+            }
+        }
+        setTotalMealReturn(Number(newTotalMeal))
+    }
     const defaultValue = dataPassengers.length > 0 ? dataPassengers[0]?.id : undefined
     return (
         <>
@@ -288,7 +437,7 @@ const Service = (props) => {
                     <i>{getText('SelectSeat')}</i>
                 </Col>
                 <Col span={6} className='price-service'>
-                    <i>{formatCurrency(totalSeat)}</i>
+                    <i>{formatCurrency(totalSeat + totalSeatReturn)}</i>
                 </Col>
                 <Col span={2} className='title-service'>
                     <IconArrowBadgeRightFilled style={{ color: 'grey' }} />
@@ -302,7 +451,7 @@ const Service = (props) => {
                     <i>{getText('SelectBaggage')}</i>
                 </Col>
                 <Col span={6} className='price-service'>
-                    <i>{formatCurrency(totalBaggage)}</i>
+                    <i>{formatCurrency(totalBaggage + totalBaggageReturn)}</i>
                 </Col>
                 <Col span={2} className='title-service'>
                     <IconArrowBadgeRightFilled style={{ color: 'grey' }} />
@@ -316,7 +465,7 @@ const Service = (props) => {
                     <i>{getText('SelectMeal')}</i>
                 </Col>
                 <Col span={6} className='price-service'>
-                    <i>{formatCurrency(totalMeal)}</i>
+                    <i>{formatCurrency(totalMeal + totalMealReturn)}</i>
                 </Col>
                 <Col span={2} className='title-service'>
                     <IconArrowBadgeRightFilled style={{ color: 'grey' }} />
@@ -334,12 +483,32 @@ const Service = (props) => {
             >
                 <div className='form-favorite'>
                     <Row className='roundTrip'>
-                        <span>Chuyến đi</span>
+                        {data.roundTrip === true ? (
+                            <Select
+                                style={{
+                                    width: 120
+                                }}
+                                defaultValue='false'
+                                onChange={onChangePassengersRoundTrip}
+                                options={[
+                                    {
+                                        value: 'false',
+                                        label: 'Chuyến đi'
+                                    },
+                                    {
+                                        value: 'true',
+                                        label: 'Chuyến về'
+                                    }
+                                ]}
+                            />
+                        ) : (
+                            <span>Chuyến đi</span>
+                        )}
                     </Row>
                     <Divider style={{ borderColor: 'black' }}></Divider>
                     <div className='info-user-service'>
                         <Row className='user-service'>
-                            <span style={{ color: 'white' }}>Chuyến đi</span>
+                            <span style={{ color: 'white' }}>Hành Khách</span>
                         </Row>
                         <Row className='user-service'>
                             <Select
@@ -358,7 +527,7 @@ const Service = (props) => {
                                         label={`${item?.firstName} ${item?.lastName}`}
                                     >
                                         <Row>
-                                            {item?.fristName} {item?.lastName}
+                                            {item?.lastName} {item?.firstName}
                                         </Row>
                                     </Option>
                                 ))}
@@ -460,12 +629,32 @@ const Service = (props) => {
             >
                 <div className='form-favorite'>
                     <Row className='roundTrip'>
-                        <span>Chuyến đi</span>
+                        {data.roundTrip === true ? (
+                            <Select
+                                style={{
+                                    width: 120
+                                }}
+                                defaultValue='false'
+                                onChange={onChangePassengersRoundTripBaggage}
+                                options={[
+                                    {
+                                        value: 'false',
+                                        label: 'Chuyến đi'
+                                    },
+                                    {
+                                        value: 'true',
+                                        label: 'Chuyến về'
+                                    }
+                                ]}
+                            />
+                        ) : (
+                            <span>Chuyến đi</span>
+                        )}
                     </Row>
                     <Divider style={{ borderColor: 'black' }}></Divider>
                     <div className='info-user-service'>
                         <Row className='user-service'>
-                            <span style={{ color: 'white' }}>Chuyến đi</span>
+                            <span style={{ color: 'white' }}>Hành Khách</span>
                         </Row>
                         <Row className='user-service'>
                             <Select
@@ -478,9 +667,13 @@ const Service = (props) => {
                                 }
                             >
                                 {dataPassengers.map((item) => (
-                                    <Option key={item.id} value={item.id} label={`${item.firstName} ${item.lastName}`}>
+                                    <Option
+                                        key={item?.id}
+                                        value={item?.id}
+                                        label={`${item?.firstName} ${item?.lastName}`}
+                                    >
                                         <Row>
-                                            {item.fristName} {item.lastName}
+                                            {item?.lastName} {item?.firstName}
                                         </Row>
                                     </Option>
                                 ))}
@@ -577,12 +770,32 @@ const Service = (props) => {
             >
                 <div className='form-favorite'>
                     <Row className='roundTrip'>
-                        <span>Chuyến đi</span>
+                        {data.roundTrip === true ? (
+                            <Select
+                                style={{
+                                    width: 120
+                                }}
+                                defaultValue='false'
+                                onChange={onChangePassengersRoundTripMeal}
+                                options={[
+                                    {
+                                        value: 'false',
+                                        label: 'Chuyến đi'
+                                    },
+                                    {
+                                        value: 'true',
+                                        label: 'Chuyến về'
+                                    }
+                                ]}
+                            />
+                        ) : (
+                            <span>Chuyến đi</span>
+                        )}
                     </Row>
                     <Divider style={{ borderColor: 'black' }}></Divider>
                     <div className='info-user-service'>
                         <Row className='user-service'>
-                            <span style={{ color: 'white' }}>Chuyến đi</span>
+                            <span style={{ color: 'white' }}>Hành Khách</span>
                         </Row>
                         <Row className='user-service'>
                             <Select
@@ -595,9 +808,13 @@ const Service = (props) => {
                                 }
                             >
                                 {dataPassengers.map((item) => (
-                                    <Option key={item.id} value={item.id} label={`${item.firstName} ${item.lastName}`}>
+                                    <Option
+                                        key={item?.id}
+                                        value={item?.id}
+                                        label={`${item?.firstName} ${item?.lastName}`}
+                                    >
                                         <Row>
-                                            {item.fristName} {item.lastName}
+                                            {item?.lastName} {item?.firstName}
                                         </Row>
                                     </Option>
                                 ))}

@@ -7,23 +7,14 @@ const PaymentReturn = () => {
     const location = useLocation()
     const [amount, setAmount] = useState()
     const [bookingCode, setBookingCode] = useState('')
-    // const data = useSelector((state) => state.homePage.homePageInfor)
+    const data = useSelector((state) => state.homePage.homePageInfor)
     /// console.log('data', data)
     const dataPassengers = useSelector((state) => state.flightSelect.infoPassengers)
     const flightSelect = useSelector((state) => state.flightSelect.flightSelect)
+    const flightSelectReturn = useSelector((state) => state.flightSelect.flightSelectReturn)
     //   console.log('flightSelect', flightSelect)
     console.log('dataPassengers', dataPassengers)
     const totalFlight = useSelector((state) => state.flightSelect.totalflight)
-
-    const passengers = dataPassengers.map((data) => {
-        const { id, baggage, meal, seats, ...passengers } = data
-        const serviceOpts = [...meal, baggage]
-        return {
-            ...passengers,
-            seats: [seats],
-            serviceOpts
-        }
-    })
 
     useEffect(() => {
         if (location.search) {
@@ -32,16 +23,49 @@ const PaymentReturn = () => {
                 if (res.status === 200) {
                     setAmount(searchParams.get('vnp_Amount'))
                     setBookingCode(searchParams.get('vnp_TxnRef'))
-                    let dataBooking = {
-                        bookingCode: searchParams.get('vnp_TxnRef'),
-                        flightAwayId: flightSelect?.id,
-                        flightReturnId: null,
-                        amountTotal: totalFlight,
-                        seatTotal: 1,
-                        journeyType: 'ONE_AWAY',
-                        passengers
+                    if (!data.roundTrip) {
+                        const passengers = dataPassengers.map((data) => {
+                            const { id, baggage, meal, seats, ...passengers } = data
+                            const serviceOpts = [...meal, baggage]
+                            return {
+                                ...passengers,
+                                seats: [seats],
+                                serviceOpts
+                            }
+                        })
+                        let dataBooking = {
+                            bookingCode: searchParams.get('vnp_TxnRef'),
+                            flightAwayId: flightSelect?.id,
+                            flightReturnId: null,
+                            amountTotal: totalFlight,
+                            seatTotal: 1,
+                            journeyType: 'ONE_AWAY',
+                            passengers
+                        }
+                        await postBooking(dataBooking)
+                    } else {
+                        const passengers = dataPassengers.map((data) => {
+                            const { id, baggage, meal, seats, seatsReturn, baggageReturn, mealReturn, ...passengers } =
+                                data
+                            const serviceOpts = [...meal, baggage, baggageReturn, mealReturn]
+
+                            return {
+                                ...passengers,
+                                seats: [seats, seatsReturn],
+                                serviceOpts
+                            }
+                        })
+                        let dataBooking = {
+                            bookingCode: searchParams.get('vnp_TxnRef'),
+                            flightAwayId: flightSelect?.id,
+                            flightReturnId: flightSelectReturn?.id,
+                            amountTotal: totalFlight,
+                            seatTotal: 1,
+                            journeyType: 'ONE_AWAY',
+                            passengers
+                        }
+                        await postBooking(dataBooking)
                     }
-                    await postBooking(dataBooking)
                 }
             })
         }
