@@ -9,7 +9,7 @@ import SelectInfoFly from '../SelectFlight/SelectInfoFly/SelectInfoFly'
 import { formatCurrency, removeDiacritics } from '../../utils/format'
 import { useLanguage } from '../../LanguageProvider/LanguageProvider'
 import { getServiceAirline } from '../../services/apiBooking'
-import { settotalflight } from '../../redux/reducers/booking'
+import { setInfoPassengers, settotalflight } from '../../redux/reducers/booking'
 const { Title, Text } = Typography
 
 const SelectService = () => {
@@ -76,7 +76,10 @@ const SelectService = () => {
     })
     const [defaultBaggageOptions, setDefaultBaggageOptions] = useState([])
     const [defaultMealOptions, setDefaultMealOptions] = useState([])
-
+    const handleBackService = () => {
+        dispath(setInfoPassengers(null))
+        navigate('/passengers')
+    }
     const feachListService = async () => {
         try {
             let res = await getServiceAirline(flightSelect.id, flightSelect.airline.id, data.seatId)
@@ -201,9 +204,10 @@ const SelectService = () => {
                     <Col xs={11} sm={11} md={11} lg={4} xl={4}>
                         <Button
                             className='footer-back'
-                            onClick={() => {
-                                navigate('/passengers')
-                            }}
+                            onClick={
+                                () => handleBackService()
+                                //
+                            }
                         >
                             {getText('Back')}
                         </Button>

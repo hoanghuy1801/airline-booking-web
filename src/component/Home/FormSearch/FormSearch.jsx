@@ -20,8 +20,9 @@ const { RangePicker } = DatePicker
 import moment from 'moment'
 import { useLanguage } from '../../../LanguageProvider/LanguageProvider'
 import { showWaringModal } from '../../../utils/modalError'
-import { setInfoPassengers, settotalflight } from '../../../redux/reducers/booking'
-
+import locale from 'antd/locale/vi_VN'
+import 'dayjs/locale/vi'
+import LocaleProvider from 'antd/es/locale'
 const { Option } = Select
 
 const disabledDate = (current) => {
@@ -77,11 +78,7 @@ const FormSearch = (props) => {
         returnDate: returnDate,
         seatClass: seatClass
     }
-    const handleSelectBookin = () => {
-        dispath(setInfoPassengers(null))
-        dispath(settotalflight(null))
-        dispath(setHomPageInfor(null))
-    }
+
     const handleSelectBooking = () => {
         if (!roundTrip) {
             if (
@@ -245,26 +242,28 @@ const FormSearch = (props) => {
                     <Row>
                         <Col span={11}>
                             <IconCalendar className='icon-search' />
-                            {roundTrip ? (
-                                <RangePicker
-                                    style={{ width: '80%' }}
-                                    placeholder={['Ngày đi', 'Ngày về']}
-                                    disabledDate={disabledDate}
-                                    value={selectedDates}
-                                    onChange={handleDateChange}
-                                    format='DD/MM/YYYY'
-                                />
-                            ) : (
-                                <>
-                                    <DatePicker
-                                        onChange={onChangeDatePicker}
+                            <LocaleProvider locale={locale}>
+                                {roundTrip ? (
+                                    <RangePicker
                                         style={{ width: '80%' }}
-                                        placeholder={getText('dateDepartment')}
+                                        placeholder={['Ngày đi', 'Ngày về']}
                                         disabledDate={disabledDate}
+                                        value={selectedDates}
+                                        onChange={handleDateChange}
                                         format='DD/MM/YYYY'
                                     />
-                                </>
-                            )}
+                                ) : (
+                                    <>
+                                        <DatePicker
+                                            onChange={onChangeDatePicker}
+                                            style={{ width: '80%' }}
+                                            placeholder={getText('dateDepartment')}
+                                            disabledDate={disabledDate}
+                                            format='DD/MM/YYYY'
+                                        />
+                                    </>
+                                )}
+                            </LocaleProvider>
                         </Col>
                         <Col span={2}></Col>
                         <Col span={11}>
@@ -351,14 +350,6 @@ const FormSearch = (props) => {
                         onClick={() => handleSelectBooking()}
                     >
                         {getText('searchFight')}
-                    </Button>
-                    <Button
-                        className='btn-search'
-                        icon={<SearchOutlined />}
-                        type='link'
-                        onClick={() => handleSelectBookin()}
-                    >
-                        huyr
                     </Button>
                 </Form.Item>
             </Form>

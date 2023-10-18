@@ -1,10 +1,10 @@
-.main-payment{
+.main-payment {
     background-color: #ffffff;
     height: 500px;
     border-radius: 10px;
     padding: 30px;
 }
-.img-payment{
+.img-payment {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -14,64 +14,62 @@
     padding: 20px;
     margin-right: 20px;
     border-radius: 10px;
-    background-color: rgb(255, 255, 255,0.33);
+    background-color: rgb(255, 255, 255, 0.33);
     box-shadow: 0px 1px 12px #8f9394;
     backdrop-filter: blur(3px);
     cursor: pointer;
-    border: 1px solid #f6f7f6;
+    border: 2px solid #f6f7f6;
     padding: 10px;
-    margin-right: 10px
+    margin-right: 10px;
 }
-.form-payment{
+.form-payment {
     padding: 10px;
 }
 .img-payment.selected {
-    border-color: green;
-  }
-  .title-payment{
+    border-color: #006885;
+}
+.title-payment {
     font-size: 24px;
     font-weight: 500;
-
-  }
-  .payment-now{
+}
+.payment-now {
     font-size: 18px;
     font-weight: 500;
-    padding:10px;
-  }
+    padding: 10px;
+}
 
-.detail-payment{
+.detail-payment {
     background-color: #d6d6d6;
     border-radius: 7px;
     padding: 20px;
-    .text{
+    .text {
         font-size: 18px;
         font-weight: 500;
     }
-    .display{
+    .display {
         display: flex;
         justify-content: end;
     }
-    .total{
+    .total {
         border-top: 2px solid white;
         padding-top: 10px;
         margin-top: 10px;
     }
 }
-.btn-payment-form{
+.btn-payment-form {
     display: flex;
     justify-content: center;
     padding-top: 20px;
-    .btn-payment{
+    .btn-payment {
         width: 130px;
-        height:40px;
+        height: 40px;
         font-size: 16px;
         font-weight: 600;
-        
-        &:hover{
+
+        &:hover {
             color: white !important;
             background-color: rgb(175, 137, 3);
             border: none !important;
         }
     }
-   
 }

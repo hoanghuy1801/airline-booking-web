@@ -25,7 +25,7 @@ const SeatBUSINESS = ({ seatNumber, selectedSeat, onSelect, disabledSeats, seatC
     return (
         <div className={`seat ${selectedSeat === seatNumber ? 'selected' : ''}`} onClick={handleClick}>
             <img
-                className="imgseat"
+                className='imgseat'
                 src={
                     seatClass !== data.seatClass
                         ? disabledSeatIcon
@@ -37,7 +37,7 @@ const SeatBUSINESS = ({ seatNumber, selectedSeat, onSelect, disabledSeats, seatC
                         ? disabledSeatIcon
                         : seatBUSINESS
                 }
-                alt="Seat"
+                alt='Seat'
             />
         </div>
     )
@@ -67,7 +67,7 @@ const SeatPREMIUM_ECONOMY = ({
     return (
         <div className={`seat ${selectedSeat === seatNumber ? 'selected' : ''}`} onClick={handleClick}>
             <img
-                className="imgseat"
+                className='imgseat'
                 src={
                     seatClass !== data.seatClass
                         ? disabledSeatIcon
@@ -79,7 +79,7 @@ const SeatPREMIUM_ECONOMY = ({
                         ? disabledSeatIcon
                         : seatPREMIUM_ECONOMY
                 }
-                alt="Seat"
+                alt='Seat'
             />
         </div>
     )
@@ -101,7 +101,7 @@ const SeatECONOMY = ({ seatNumber, selectedSeat, onSelect, disabledSeats, seatCl
     return (
         <div className={`seat ${selectedSeat === seatNumber ? 'selected' : ''}`} onClick={handleClick}>
             <img
-                className="imgseat"
+                className='imgseat'
                 src={
                     seatClass !== data.seatClass
                         ? disabledSeatIcon
@@ -113,7 +113,7 @@ const SeatECONOMY = ({ seatNumber, selectedSeat, onSelect, disabledSeats, seatCl
                         ? disabledSeatIcon
                         : seatECONOMY
                 }
-                alt="Seat"
+                alt='Seat'
             />
         </div>
     )
@@ -145,30 +145,33 @@ const SeatSelector = (props) => {
 
     return (
         <div>
-            <div className="seat-container">
-                <div>
+            <div className='seat-container'>
+                <div className='seat-row'>
                     {Array.from({ length: numColumns }).map((_, columnIndex) => {
                         const seatString = `${String.fromCharCode(65 + columnIndex)}`
                         return (
                             <div key={columnIndex}>
-                                <span className="seatString">{seatString}</span>
+                                <span key={columnIndex} className='seatString'>
+                                    {seatString}
+                                </span>
                             </div>
                         )
                     })}
-                    <span className="numberseat"></span>
+                    <h1 className='numberseat'></h1>
                     {Array.from({ length: numColumns }).map((_, columnIndex) => {
                         const seatString = `${String.fromCharCode(68 + columnIndex)}`
                         return (
                             <div key={columnIndex}>
-                                <span key={columnIndex} className="seatStringRight">
+                                <span key={columnIndex} className='seatStringRight'>
                                     {seatString}
                                 </span>
                             </div>
                         )
                     })}
                 </div>
+
                 {Array.from({ length: numRowsBUSINESS }).map((_, rowIndex) => (
-                    <div key={rowIndex} className="seat-row">
+                    <div key={rowIndex} className='seat-row'>
                         {Array.from({ length: numColumns }).map((_, columnIndex) => {
                             const seatNumber = `${rowIndex + 1}${String.fromCharCode(65 + columnIndex)}`
                             return (
@@ -178,12 +181,12 @@ const SeatSelector = (props) => {
                                     selectedSeat={selectedSeat}
                                     onSelect={handleSeatSelect}
                                     disabledSeats={disabledSeats}
-                                    seatClass="BUSINESS"
+                                    seatClass='BUSINESS'
                                     selectedSeats={selectedSeats}
                                 />
                             )
                         })}
-                        <h1 className="numberseat">{rowIndex + 1}</h1>
+                        <h1 className='numberseat'>{rowIndex + 1}</h1>
                         {Array.from({ length: numColumns }).map((_, columnIndex) => {
                             const seatNumber = `${rowIndex + 1}${String.fromCharCode(68 + columnIndex)}`
                             return (
@@ -193,7 +196,7 @@ const SeatSelector = (props) => {
                                     selectedSeat={selectedSeat}
                                     onSelect={handleSeatSelect}
                                     disabledSeats={disabledSeats}
-                                    seatClass="BUSINESS"
+                                    seatClass='BUSINESS'
                                     selectedSeats={selectedSeats}
                                 />
                             )
@@ -201,7 +204,7 @@ const SeatSelector = (props) => {
                     </div>
                 ))}
                 {Array.from({ length: numRowsPREMIUM_ECONOMY }).map((_, rowIndex) => (
-                    <div key={rowIndex} className="seat-row">
+                    <div key={rowIndex} className='seat-row'>
                         {Array.from({ length: numColumns }).map((_, columnIndex) => {
                             const seatNumber = `${rowIndex + 4}${String.fromCharCode(65 + columnIndex)}`
                             return (
@@ -211,12 +214,12 @@ const SeatSelector = (props) => {
                                     selectedSeat={selectedSeat}
                                     onSelect={handleSeatSelect}
                                     disabledSeats={disabledSeats}
-                                    seatClass="PREMIUM_ECONOMY"
+                                    seatClass='PREMIUM_ECONOMY'
                                     selectedSeats={selectedSeats}
                                 />
                             )
                         })}
-                        <h1 className="numberseat">{rowIndex + 4}</h1>
+                        <h1 className='numberseat'>{rowIndex + 4}</h1>
                         {Array.from({ length: numColumns }).map((_, columnIndex) => {
                             const seatNumber = `${rowIndex + 4}${String.fromCharCode(68 + columnIndex)}`
                             return (
@@ -226,7 +229,7 @@ const SeatSelector = (props) => {
                                     selectedSeat={selectedSeat}
                                     onSelect={handleSeatSelect}
                                     disabledSeats={disabledSeats}
-                                    seatClass="PREMIUM_ECONOMY"
+                                    seatClass='PREMIUM_ECONOMY'
                                     selectedSeats={selectedSeats}
                                 />
                             )
@@ -234,7 +237,7 @@ const SeatSelector = (props) => {
                     </div>
                 ))}
                 {Array.from({ length: numRowsECONOMY }).map((_, rowIndex) => (
-                    <div key={rowIndex} className="seat-row">
+                    <div key={rowIndex} className='seat-row'>
                         {Array.from({ length: numColumns }).map((_, columnIndex) => {
                             const seatNumber = `${rowIndex + 7}${String.fromCharCode(65 + columnIndex)}`
                             return (
@@ -244,12 +247,12 @@ const SeatSelector = (props) => {
                                     selectedSeat={selectedSeat}
                                     onSelect={handleSeatSelect}
                                     disabledSeats={disabledSeats}
-                                    seatClass="ECONOMY"
+                                    seatClass='ECONOMY'
                                     selectedSeats={selectedSeats}
                                 />
                             )
                         })}
-                        <h1 className="numberseat">{rowIndex + 7}</h1>
+                        <h1 className='numberseat'>{rowIndex + 7}</h1>
                         {Array.from({ length: numColumns }).map((_, columnIndex) => {
                             const seatNumber = `${rowIndex + 7}${String.fromCharCode(68 + columnIndex)}`
                             return (
@@ -259,7 +262,7 @@ const SeatSelector = (props) => {
                                     selectedSeat={selectedSeat}
                                     onSelect={handleSeatSelect}
                                     disabledSeats={disabledSeats}
-                                    seatClass="ECONOMY"
+                                    seatClass='ECONOMY'
                                     selectedSeats={selectedSeats}
                                 />
                             )
