@@ -153,7 +153,7 @@ const Service = (props) => {
                 seatPrice: priceSeat
             }
             const updatedPassengers = dataPassengers.map((dataPassengers) => {
-                if (dataPassengers.seats.seatCode != null) {
+                if (dataPassengers.seat.seatCode != null) {
                     return dataPassengers
                 } else if (dataPassengers.id === selectPassengers) {
                     if (selectedSeats.includes(selectedSeat)) {
@@ -161,7 +161,7 @@ const Service = (props) => {
                     }
 
                     setSelectedSeats([...selectedSeats, selectedSeat])
-                    return { ...dataPassengers, seats: newSeat }
+                    return { ...dataPassengers, seat: newSeat }
                 }
 
                 return dataPassengers
@@ -206,8 +206,8 @@ const Service = (props) => {
         if (selectTripPassengers === 'false') {
             const updatedPassengers = dataPassengers.map((dataPassengers) => {
                 if (dataPassengers.id === selectPassengers) {
-                    setSelectedSeats(selectedSeats.filter((item) => item !== dataPassengers.seats.seatCode))
-                    return { ...dataPassengers, seats: newSeat }
+                    setSelectedSeats(selectedSeats.filter((item) => item !== dataPassengers.seat.seatCode))
+                    return { ...dataPassengers, seat: newSeat }
                 }
                 return dataPassengers
             })
@@ -384,7 +384,7 @@ const Service = (props) => {
         let newTotalBaggage = 0
         let newTotalMeal = 0
         for (let i = 0; i < updatedPassengers.length; i++) {
-            newTotal += Number(updatedPassengers[i]?.seats?.seatPrice)
+            newTotal += Number(updatedPassengers[i]?.seat?.seatPrice)
             console.log('newTotalIIII', newTotal)
         }
         console.log('newTotal', newTotal)

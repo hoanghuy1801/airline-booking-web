@@ -55,7 +55,7 @@ const Passenger = (props) => {
         const currentDateFomat = moment(currentDate).format('YYYY-MM-DD')
         let age = calculateAge(formattedDate, currentDateFomat)
         if (age < 12) {
-            showWaringModal('bạn oi', 'thành viên từ 12 tuổi trở lên', 'ok')
+            showWaringModal(`${getText('HeyFriend')}`, `${getText('Notification_Adults')}`, `${getText('Close')}`)
             return
         }
         const newFormData = [...formData]
@@ -68,7 +68,7 @@ const Passenger = (props) => {
         const currentDateFomat = moment(currentDate).format('YYYY-MM-DD')
         let age = calculateAge(formattedDate, currentDateFomat)
         if (age < 2 || age > 12) {
-            showWaringModal('bạn oi', 'trẻ em phải lớn hơn 2 tuổi và dưới 12 tuổi', 'ok')
+            showWaringModal(`${getText('HeyFriend')}`, `${getText('Notification_Childrens')}`, `${getText('Close')}`)
             return
         }
         const newFormData = [...formDataChildren]
@@ -81,7 +81,7 @@ const Passenger = (props) => {
         const currentDateFomat = moment(currentDate).format('YYYY-MM-DD')
         let age = calculateAge(formattedDate, currentDateFomat)
         if (age > 2) {
-            showWaringModal('bạn oi', 'Em bé lớn hơn 2 tuổi', 'ok')
+            showWaringModal(`${getText('HeyFriend')}`, `${getText('Notification_Infants')}`, `${getText('Close')}`)
             return
         }
         const newFormData = [...formDataBaby]
@@ -277,9 +277,9 @@ const Passenger = (props) => {
                                                             handleFormChangeChildren('gender', e.target.value, index)
                                                         }
                                                     >
-                                                        <Radio value='Male'>{getText('Male')}</Radio>
-                                                        <Radio value='Female'>{getText('Female')}</Radio>
-                                                        <Radio value='Other'>{getText('Other')}</Radio>
+                                                        <Radio value='MALE'>{getText('Male')}</Radio>
+                                                        <Radio value='FEMALE'>{getText('Female')}</Radio>
+                                                        <Radio value='OTHER'>{getText('Other')}</Radio>
                                                     </Radio.Group>
                                                 </Row>
                                                 <Row className='rowInforPassengers'>
@@ -381,9 +381,9 @@ const Passenger = (props) => {
                                                             handleFormChangeBaby('gender', e.target.value, index)
                                                         }
                                                     >
-                                                        <Radio value='Male'>{getText('Male')}</Radio>
-                                                        <Radio value='Female'>{getText('Female')}</Radio>
-                                                        <Radio value='Other'>{getText('Other')}</Radio>
+                                                        <Radio value='MALE'>{getText('Male')}</Radio>
+                                                        <Radio value='FEMALE'>{getText('Female')}</Radio>
+                                                        <Radio value='OTHER'>{getText('Other')}</Radio>
                                                     </Radio.Group>
                                                 </Row>
 

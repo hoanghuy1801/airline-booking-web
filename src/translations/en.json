@@ -171,5 +171,8 @@
     "PaymentTotal": "You have paid the amount",
     "CodeBooking": "Your booking code:",
     "ErrorPayment": "Error!",
-    "Error_Notification": "Sorry, payment failed. Please try again later."
+    "Error_Notification": "Sorry, payment failed. Please try again later.",
+    "Notification_Adults": "Members must be older than 12 years old",
+    "Notification_Childrens": "Children must be older than 2 years old and younger than 12 years old",
+    "Notification_Infants": "The baby must be younger than 2 years old"
 }

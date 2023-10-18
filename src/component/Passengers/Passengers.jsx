@@ -45,7 +45,7 @@ const Passengers = () => {
         email: '',
         address: '',
         passengerType: 'ADULT',
-        seats: {
+        seat: {
             seatId: '',
             flightId: '',
             seatCode: null,
@@ -89,7 +89,7 @@ const Passengers = () => {
         dateOfBirth: null,
         gender: 'MALE',
         passengerType: 'CHILD',
-        seats: {
+        seat: {
             seatId: '',
             flightId: '',
             seatCode: null,
@@ -133,7 +133,7 @@ const Passengers = () => {
         dateOfBirth: null,
         gender: 'MALE',
         passengerType: 'INFANT',
-        seats: {
+        seat: {
             seatId: '',
             flightId: '',
             seatCode: null,

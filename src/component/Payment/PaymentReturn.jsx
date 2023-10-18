@@ -14,7 +14,7 @@ const PaymentReturn = () => {
     const location = useLocation()
     const [success, setSuccess] = useState(true)
     const { getText } = useLanguage()
-    const [amount, setAmount] = useState(0)
+    const [amount, setAmount] = useState()
     const [bookingCode, setBookingCode] = useState('')
     const data = useSelector((state) => state.homePage.homePageInfor)
     const dataPassengers = useSelector((state) => state.flightSelect.infoPassengers)
@@ -24,7 +24,7 @@ const PaymentReturn = () => {
     const myLanguage = useSelector((state) => state.language.language)
     const sourceAirportCity = removeDiacritics(data.sourceAirportCity, myLanguage)
     const destinationAirportCity = removeDiacritics(data.destinationAirportCity, myLanguage)
-    console.log(amount)
+
     useEffect(() => {
         if (location.search) {
             const searchParams = new URLSearchParams(location.search)
@@ -33,15 +33,21 @@ const PaymentReturn = () => {
                     setAmount(searchParams.get('vnp_Amount'))
                     setBookingCode(searchParams.get('vnp_TxnRef'))
                     if (!data.roundTrip) {
+                        console.log('trip')
                         const passengers = dataPassengers.map((data) => {
-                            const { id, baggage, meal, seats, ...passengers } = data
-                            let serviceOpts
+                            const { id, baggage, meal, seat, ...passengers } = data
+                            let serviceOpts = []
+                            let seats = []
+                            if (seat?.seatId !== '') {
+                                seats = [seat]
+                            }
                             if (meal?.serviceOptId !== '') {
                                 serviceOpts = [...meal, baggage]
                             }
+
                             return {
                                 ...passengers,
-                                seats: [seats],
+                                seats,
                                 serviceOpts
                             }
                         })
@@ -56,17 +62,22 @@ const PaymentReturn = () => {
                         }
                         await postBooking(dataBooking)
                     } else {
+                        console.log('trip1')
                         const passengers = dataPassengers.map((data) => {
-                            const { id, baggage, meal, seats, seatsReturn, baggageReturn, mealReturn, ...passengers } =
+                            const { id, baggage, meal, seat, seatsReturn, baggageReturn, mealReturn, ...passengers } =
                                 data
-                            let serviceOpts
+                            let serviceOpts = []
+                            let seats = []
+                            if (seat?.seatId !== '' || seatsReturn?.seatId !== '') {
+                                seats = [seat, seatsReturn]
+                            }
                             if (meal?.serviceOptId !== '' || mealReturn?.serviceOptId !== '') {
                                 serviceOpts = [...meal, baggage, baggageReturn, mealReturn]
                             }
 
                             return {
                                 ...passengers,
-                                seats: [seats, seatsReturn],
+                                seats,
                                 serviceOpts
                             }
                         })
@@ -174,7 +185,9 @@ const PaymentReturn = () => {
                                     }
                                     subTitle={
                                         <>
-                                            <Text className='text-payment-return'>{getText('PaymentTotal')}</Text>
+                                            <Text className='text-payment-return'>
+                                                {getText('PaymentTotal')} {formatCurrency(Number(amount / 100))}
+                                            </Text>
                                             <br />
                                             <Text className='text-payment-return'>
                                                 {getText('CodeBooking')}
