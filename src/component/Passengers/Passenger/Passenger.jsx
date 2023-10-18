@@ -7,10 +7,13 @@ import { useState, useEffect } from 'react'
 import { useLanguage } from '../../../LanguageProvider/LanguageProvider'
 import { getCountries } from '../../../services/apiAuth'
 import moment from 'moment'
-import { generateRandomID } from '../../../utils/utils'
+import { calculateAge, generateRandomID } from '../../../utils/utils'
 const { Text } = Typography
 const { Option } = Select
-
+import locale from 'antd/locale/vi_VN'
+import 'dayjs/locale/vi'
+import LocaleProvider from 'antd/es/locale'
+import { showWaringModal } from '../../../utils/modalError'
 const Passenger = (props) => {
     const { formData, setFormData, formDataChildren, setFormDataChildren, formDataBaby, setFormDataBaby } = props
     const { getText } = useLanguage()
@@ -47,19 +50,40 @@ const Passenger = (props) => {
         setFormDataBaby(newFormData)
     }
     const handleDateChange = (date, index) => {
+        const currentDate = new Date()
         const formattedDate = moment(date.$d).format('YYYY-MM-DD')
+        const currentDateFomat = moment(currentDate).format('YYYY-MM-DD')
+        let age = calculateAge(formattedDate, currentDateFomat)
+        if (age < 12) {
+            showWaringModal('bạn oi', 'thành viên từ 12 tuổi trở lên', 'ok')
+            return
+        }
         const newFormData = [...formData]
         newFormData[index]['dateOfBirth'] = formattedDate
         setFormData(newFormData)
     }
     const handleDateChangeChildren = (date, index) => {
+        const currentDate = new Date()
         const formattedDate = moment(date.$d).format('YYYY-MM-DD')
+        const currentDateFomat = moment(currentDate).format('YYYY-MM-DD')
+        let age = calculateAge(formattedDate, currentDateFomat)
+        if (age < 2 || age > 12) {
+            showWaringModal('bạn oi', 'trẻ em phải lớn hơn 2 tuổi và dưới 12 tuổi', 'ok')
+            return
+        }
         const newFormData = [...formDataChildren]
         newFormData[index]['dateOfBirth'] = formattedDate
         setFormDataChildren(newFormData)
     }
     const handleDateChangeBaby = (date, index) => {
+        const currentDate = new Date()
         const formattedDate = moment(date.$d).format('YYYY-MM-DD')
+        const currentDateFomat = moment(currentDate).format('YYYY-MM-DD')
+        let age = calculateAge(formattedDate, currentDateFomat)
+        if (age > 2) {
+            showWaringModal('bạn oi', 'Em bé lớn hơn 2 tuổi', 'ok')
+            return
+        }
         const newFormData = [...formDataBaby]
         newFormData[index]['dateOfBirth'] = formattedDate
         setFormDataBaby(newFormData)
@@ -130,12 +154,14 @@ const Passenger = (props) => {
                                                     <Text className='text-passenger'>{getText('Date-birth')}*</Text>
                                                 </Row>
                                                 <Row>
-                                                    <DatePicker
-                                                        style={{ width: '90%' }}
-                                                        placeholder=''
-                                                        onChange={(date) => handleDateChange(date, index)}
-                                                        format='DD/MM/YYYY'
-                                                    />
+                                                    <LocaleProvider locale={locale}>
+                                                        <DatePicker
+                                                            style={{ width: '90%' }}
+                                                            placeholder=''
+                                                            onChange={(date) => handleDateChange(date, index)}
+                                                            format='DD/MM/YYYY'
+                                                        />
+                                                    </LocaleProvider>
                                                 </Row>
                                             </Col>
                                             <Col span={12}>
@@ -304,14 +330,16 @@ const Passenger = (props) => {
                                                             </Text>
                                                         </Row>
                                                         <Row>
-                                                            <DatePicker
-                                                                style={{ width: '90%' }}
-                                                                placeholder=''
-                                                                onChange={(date) =>
-                                                                    handleDateChangeChildren(date, index)
-                                                                }
-                                                                format='DD/MM/YYYY'
-                                                            />
+                                                            <LocaleProvider locale={locale}>
+                                                                <DatePicker
+                                                                    style={{ width: '90%' }}
+                                                                    placeholder=''
+                                                                    onChange={(date) =>
+                                                                        handleDateChangeChildren(date, index)
+                                                                    }
+                                                                    format='DD/MM/YYYY'
+                                                                />
+                                                            </LocaleProvider>
                                                         </Row>
                                                     </Col>
                                                 </Row>
@@ -407,12 +435,16 @@ const Passenger = (props) => {
                                                             </Text>
                                                         </Row>
                                                         <Row>
-                                                            <DatePicker
-                                                                style={{ width: '90%' }}
-                                                                placeholder=''
-                                                                onChange={(date) => handleDateChangeBaby(date, index)}
-                                                                format='DD/MM/YYYY'
-                                                            />
+                                                            <LocaleProvider locale={locale}>
+                                                                <DatePicker
+                                                                    style={{ width: '90%' }}
+                                                                    placeholder=''
+                                                                    onChange={(date) =>
+                                                                        handleDateChangeBaby(date, index)
+                                                                    }
+                                                                    format='DD/MM/YYYY'
+                                                                />
+                                                            </LocaleProvider>
                                                         </Row>
                                                     </Col>
                                                 </Row>

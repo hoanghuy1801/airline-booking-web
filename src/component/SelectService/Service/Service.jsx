@@ -104,11 +104,11 @@ const Service = (props) => {
         defaultBaggageOptionsCHECKED = { ...newdefaultBaggageOptionsCHECKED }
     }
 
-    const onChangeRadio = (item) => {
-        setValueRadio(item.target.item)
-        setPriceBaggage(item.target.item.optionPrice)
+    const handleCardClick = (item) => {
+        setValueRadio(item.value) // Cập nhật trạng thái nút radio tương ứng với thẻ card
+        console.log(item)
+        setPriceBaggage(item.optionPrice)
     }
-
     const showDrawerFavorite = () => {
         setOpenFavorite(true)
     }
@@ -408,7 +408,6 @@ const Service = (props) => {
         let newTotalMeal = 0
         for (let i = 0; i < updatedPassengers.length; i++) {
             newTotal += Number(updatedPassengers[i]?.seatsReturn?.seatPrice)
-            console.log('newTotalIIII', newTotal)
         }
 
         setTotalSeatReturn(newTotal)
@@ -493,22 +492,22 @@ const Service = (props) => {
                                 options={[
                                     {
                                         value: 'false',
-                                        label: 'Chuyến đi'
+                                        label: <>{getText('Trip')}</>
                                     },
                                     {
                                         value: 'true',
-                                        label: 'Chuyến về'
+                                        label: <>{getText('TripReturn')}</>
                                     }
                                 ]}
                             />
                         ) : (
-                            <span>Chuyến đi</span>
+                            <span>{getText('Trip')}</span>
                         )}
                     </Row>
                     <Divider style={{ borderColor: 'black' }}></Divider>
                     <div className='info-user-service'>
                         <Row className='user-service'>
-                            <span style={{ color: 'white' }}>Hành Khách</span>
+                            <span style={{ color: 'white' }}>{getText('passenger')}</span>
                         </Row>
                         <Row className='user-service'>
                             <Select
@@ -536,7 +535,10 @@ const Service = (props) => {
                     </div>
                     <div className='info-booking-service'>
                         <Row className='user-service'>
-                            <span style={{ color: 'black' }}>SGN - HAN</span>
+                            <span style={{ color: 'black' }}>
+                                {flightSelect?.sourceAirport?.airportCode} -
+                                {flightSelect?.destinationAirport?.airportCode}
+                            </span>
                         </Row>
                     </div>
                     <div className='form-seat'>
@@ -544,14 +546,14 @@ const Service = (props) => {
                             <Row>
                                 <Col xs={12} sm={8} md={8} lg={8} xl={8} style={{ display: 'flex', paddingTop: 10 }}>
                                     <div style={{ backgroundColor: 'red' }} className='information-seat-color'></div>
-                                    <span>Ghế thương gia</span>
+                                    <span>{getText('BUSINESS')}</span>
                                 </Col>
                                 <Col xs={12} sm={8} md={8} lg={8} xl={8} style={{ display: 'flex', paddingTop: 10 }}>
                                     <div
                                         style={{ backgroundColor: '#25A006' }}
                                         className='information-seat-color'
                                     ></div>
-                                    <span>Ghế phổ thông đặc biệt</span>
+                                    <span>{getText('PREMIUM_ECONOMY')}</span>
                                 </Col>
 
                                 <Col xs={12} sm={8} md={8} lg={8} xl={8} style={{ display: 'flex', paddingTop: 10 }}>
@@ -559,14 +561,14 @@ const Service = (props) => {
                                         style={{ backgroundColor: ' #208AEC' }}
                                         className='information-seat-color'
                                     ></div>
-                                    <span>Ghế phổ thông</span>
+                                    <span>{getText('ECONOMY')}</span>
                                 </Col>
                                 <Col xs={12} sm={8} md={8} lg={8} xl={8} style={{ display: 'flex', paddingTop: 10 }}>
                                     <div
                                         style={{ backgroundColor: '#FBB612 ' }}
                                         className='information-seat-color'
                                     ></div>
-                                    <span>Ghế đang chọn</span>
+                                    <span>{getText('SEAT_IS_SELECTED')}</span>
                                 </Col>
 
                                 <Col xs={12} sm={8} md={8} lg={8} xl={8} style={{ display: 'flex', paddingTop: 10 }}>
@@ -574,7 +576,7 @@ const Service = (props) => {
                                         style={{ backgroundColor: ' #D1D3D4' }}
                                         className='information-seat-color'
                                     ></div>
-                                    <span>Đã có người</span>
+                                    <span>{getText('SEAT_SELECTED')}</span>
                                 </Col>
                             </Row>
                         </div>
@@ -597,7 +599,9 @@ const Service = (props) => {
                             </Col>
                             <Col span={7} className='display-img'>
                                 <Row>
-                                    <i className='seat-price'> Ghế: {selectedSeat}</i>
+                                    <i className='seat-price'>
+                                        {getText('seat')}: {selectedSeat}
+                                    </i>
                                 </Row>
                                 <Row>
                                     <i className='seat-price'>{formatCurrency(priceSeat)}</i>
@@ -606,10 +610,10 @@ const Service = (props) => {
                             <Col xl={14}>
                                 <Row>
                                     <Button className='footer-continue-service' onClick={() => hanldeCancel()}>
-                                        Không, Cảm ơn
+                                        {getText('No_Thank')}
                                     </Button>
                                     <Button className='footer-continue-service' onClick={() => hanldeConfirm()}>
-                                        Xác nhận
+                                        {getText('Confirm')}
                                     </Button>
                                 </Row>
                             </Col>
@@ -639,22 +643,22 @@ const Service = (props) => {
                                 options={[
                                     {
                                         value: 'false',
-                                        label: 'Chuyến đi'
+                                        label: <> {getText('Trip')}</>
                                     },
                                     {
                                         value: 'true',
-                                        label: 'Chuyến về'
+                                        label: <> {getText('TripReturn')}</>
                                     }
                                 ]}
                             />
                         ) : (
-                            <span>Chuyến đi</span>
+                            <span>{getText('Trip')}</span>
                         )}
                     </Row>
                     <Divider style={{ borderColor: 'black' }}></Divider>
                     <div className='info-user-service'>
                         <Row className='user-service'>
-                            <span style={{ color: 'white' }}>Hành Khách</span>
+                            <span style={{ color: 'white' }}>{getText('passenger')}</span>
                         </Row>
                         <Row className='user-service'>
                             <Select
@@ -682,34 +686,49 @@ const Service = (props) => {
                     </div>
                     <div className='info-booking-service'>
                         <Row className='user-service'>
-                            <span style={{ color: 'black' }}>SGN - HAN</span>
+                            <span style={{ color: 'black' }}>
+                                {flightSelect?.sourceAirport?.airportCode} -
+                                {flightSelect?.destinationAirport?.airportCode}
+                            </span>
                         </Row>
                     </div>
                     <div>
                         <Text className='written-notices'>
-                            Hạng vé của bạn đã bao gồm {defaultBaggageOptionsCARRY_ON.value}kg hành lý xách tay
+                            {getText('Ticket_Class_Is_Included')} {defaultBaggageOptionsCARRY_ON.value}kg{' '}
+                            {getText('Luggage')}
                             {newdefaultBaggageOptionsCHECKED == null ? (
                                 ''
                             ) : (
-                                <>, {defaultBaggageOptionsCHECKED.value}kg hành lý ký gửi</>
+                                <>
+                                    , {defaultBaggageOptionsCHECKED.value}kg {getText('signed_luggage')}
+                                </>
                             )}
                             .
                         </Text>
                     </div>
                     <div className='title-luggage'>
-                        <span>Chọn thêm hành lý</span>
+                        <span>{getText('ChooseLuggage')}</span>
                     </div>
                     <div>
                         <Row>
                             {baggageOptions.map((item) => {
                                 const priceFomat = item.optionPrice.toLocaleString('it-IT')
+
                                 return (
-                                    <Card key={item.id} className='card-luggage'>
+                                    <Card key={item.id} className='card-luggage' onClick={() => handleCardClick(item)}>
                                         <Row>
                                             <img src={imgluggage} style={{ width: '60px', height: '60px' }} />
                                         </Row>
-                                        <p style={{ paddingTop: '10px', fontSize: 16, fontWeight: 500 }}>
-                                            Gói {item.value}kg
+                                        <p
+                                            style={{
+                                                paddingTop: '10px',
+                                                fontSize: 16,
+                                                fontWeight: 500,
+                                                display: 'flex',
+                                                justifyContent: 'center'
+                                            }}
+                                        >
+                                            {getText('package')} {item.value}kg
                                         </p>
                                         <p style={{ paddingTop: '3px', fontSize: 17, fontWeight: 500, color: 'red' }}>
                                             {priceFomat}
@@ -720,8 +739,7 @@ const Service = (props) => {
                                             item={item}
                                             value={item.value}
                                             label={item.label}
-                                            checked={valueRadio.value === item.value}
-                                            onChange={onChangeRadio}
+                                            checked={valueRadio === item.value}
                                             style={{ paddingLeft: '20px' }}
                                         />
                                     </Card>
@@ -738,7 +756,9 @@ const Service = (props) => {
                             </Col>
                             <Col span={6} className='display-img'>
                                 <Row>
-                                    <i className='seat-price'>Gói {valueRadio.value}kg</i>
+                                    <i className='seat-price'>
+                                        {getText('package')} {valueRadio}kg
+                                    </i>
                                 </Row>
                                 <Row>
                                     <i className='seat-price'> {formatCurrency(priceBaggage)}</i>
@@ -747,10 +767,10 @@ const Service = (props) => {
                             <Col span={15}>
                                 <Row>
                                     <Button className='footer-continue-service' onClick={() => hanldeCancelBaggage()}>
-                                        Không, Cảm ơn
+                                        {getText('No_Thank')}
                                     </Button>
                                     <Button className='footer-continue-service' onClick={() => hanldeConfirmBaggage()}>
-                                        Xác nhận
+                                        {getText('Confirm')}
                                     </Button>
                                 </Row>
                             </Col>
@@ -780,22 +800,22 @@ const Service = (props) => {
                                 options={[
                                     {
                                         value: 'false',
-                                        label: 'Chuyến đi'
+                                        label: <>{getText('Trip')}</>
                                     },
                                     {
                                         value: 'true',
-                                        label: 'Chuyến về'
+                                        label: <> {getText('TripReturn')}</>
                                     }
                                 ]}
                             />
                         ) : (
-                            <span>Chuyến đi</span>
+                            <span>{getText('Trip')}</span>
                         )}
                     </Row>
                     <Divider style={{ borderColor: 'black' }}></Divider>
                     <div className='info-user-service'>
                         <Row className='user-service'>
-                            <span style={{ color: 'white' }}>Hành Khách</span>
+                            <span style={{ color: 'white' }}>{getText('passenger')}</span>
                         </Row>
                         <Row className='user-service'>
                             <Select
@@ -823,7 +843,10 @@ const Service = (props) => {
                     </div>
                     <div className='info-booking-service'>
                         <Row className='user-service'>
-                            <span style={{ color: 'black' }}>SGN - HAN</span>
+                            <span style={{ color: 'black' }}>
+                                {flightSelect?.sourceAirport?.airportCode} -
+                                {flightSelect?.destinationAirport?.airportCode}
+                            </span>
                         </Row>
                     </div>
                     <div>
@@ -831,14 +854,12 @@ const Service = (props) => {
                             ''
                         ) : (
                             <>
-                                <Text className='written-notices'>
-                                    Hạng vé của bạn sẽ được phục vụ suất ăn và nước uống miễn phí!
-                                </Text>
+                                <Text className='written-notices'>{getText('FreeMeal')}</Text>
                             </>
                         )}
                     </div>
                     <div className='title-luggage'>
-                        <span>Hãy chọn mua thức ăn bạn yêu thích nhé !</span>
+                        <span>{getText('ChooseMeal')}</span>
                     </div>
                     <div>
                         {mealOptions.map((item) => {
@@ -870,7 +891,7 @@ const Service = (props) => {
                                             </Row>
                                             <Row span={3}>
                                                 <div style={{ marginLeft: '220px', marginTop: '10px' }}>
-                                                    <label>Số lượng:</label>
+                                                    <label> {getText('quantity')}:</label>
                                                     <InputNumber
                                                         min={0}
                                                         max={10}
@@ -898,7 +919,7 @@ const Service = (props) => {
                             </Col>
                             <Col span={6} className='display-img'>
                                 <Row>
-                                    <i className='seat-price'>Suất ăn nóng</i>
+                                    <i className='seat-price'>{getText('Hot_Meal')}</i>
                                 </Row>
                                 <Row>
                                     <i className='seat-price'>{formatCurrency(totalPriceMeal)}</i>
@@ -906,10 +927,10 @@ const Service = (props) => {
                             </Col>
                             <Col span={15}>
                                 <Button className='footer-continue-service' onClick={() => hanldeCancelMeal()}>
-                                    Không, Cảm ơn
+                                    {getText('No_Thank')}
                                 </Button>
                                 <Button className='footer-continue-service' onClick={() => hanldeConfirmMeal()}>
-                                    Xác nhận
+                                    {getText('Confirm')}
                                 </Button>
                             </Col>
                         </Row>

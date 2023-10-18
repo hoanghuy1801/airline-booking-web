@@ -1,98 +1,120 @@
-import { Col, Row, Typography, Button } from "antd";
+import { Col, Row, Typography, Button } from 'antd'
 import './PaymentMethods.css'
-import { useState } from 'react';
-import { postVnPay } from "../../services/apiBooking";
-import { useSelector } from "react-redux";
-import { formatCurrency } from "../../utils/format";
-const { Text } = Typography;
+import { useState } from 'react'
+import { postVnPay } from '../../services/apiBooking'
+import { useSelector } from 'react-redux'
+import { formatCurrency } from '../../utils/format'
+import { useLanguage } from '../../LanguageProvider/LanguageProvider'
+import { useNavigate } from 'react-router-dom'
+const { Text } = Typography
 const PaymentMethods = () => {
     const origin = window.location.origin
-    const totalFlight = useSelector((state) => state.flightSelect.totalflight);
-    const [selectedPayment, setSelectedPayment] = useState(null);
-    const priceBenefit = 0;
+    const totalFlight = useSelector((state) => state.flightSelect.totalflight)
+    const [selectedPayment, setSelectedPayment] = useState(null)
+    const priceBenefit = 0
+    const navigate = useNavigate()
     const handlePaymentClick = (paymentMethod) => {
-        setSelectedPayment(paymentMethod);
-    };
+        setSelectedPayment(paymentMethod)
+    }
+    const { getText } = useLanguage()
     const dataVnpay = {
         amount: totalFlight,
         returnUrl: origin + '/payment-return'
     }
     const handlePayment = async () => {
         if (selectedPayment === 'vnpay') {
-            await postVnPay(dataVnpay).then((res) => window.location.href = res.data.paymentLink)
+            await postVnPay(dataVnpay).then((res) => (window.location.href = res.data.paymentLink))
         }
     }
 
     return (
         <>
-            <div className="main-payment">
+            <div className='main-payment'>
                 <Row>
-                    <Text className="title-payment">Phương thức thanh toán </Text>
+                    <Text className='title-payment'>{getText('Payment_methods')} </Text>
                 </Row>
                 <Row>
-                    <Text className="payment-now">Thanh toán ngay </Text>
+                    <Text className='payment-now'>{getText('Payment_Now')} </Text>
                 </Row>
-                <div className="form-payment">
-                    <Row className="form-payment">
+                <div className='form-payment'>
+                    <Row className='form-payment'>
                         <div
                             className={`img-payment ${selectedPayment === 'momo' ? 'selected' : ''}`}
                             onClick={() => handlePaymentClick('momo')}
                         >
-                            <img src="https://vj-prod-website-cms.s3.ap-southeast-1.amazonaws.com/momonew-1664036377132.png" width="80" height="80" />
+                            <img
+                                src='https://vj-prod-website-cms.s3.ap-southeast-1.amazonaws.com/momonew-1664036377132.png'
+                                width='80'
+                                height='80'
+                            />
                         </div>
                         <div
                             className={`img-payment ${selectedPayment === 'zalopay' ? 'selected' : ''}`}
                             onClick={() => handlePaymentClick('zalopay')}
                         >
-                            <img src="https://vj-prod-website-cms.s3.ap-southeast-1.amazonaws.com/zalopaypayment-1679149526539.png" width="80" height="50" />
+                            <img
+                                src='https://vj-prod-website-cms.s3.ap-southeast-1.amazonaws.com/zalopaypayment-1679149526539.png'
+                                width='80'
+                                height='50'
+                            />
                         </div>
                         <div
                             className={`img-payment ${selectedPayment === 'vnpay' ? 'selected' : ''}`}
                             onClick={() => handlePaymentClick('vnpay')}
                         >
-                            <img src="https://vnpay.vn/assets/images/logo-icon/logo-primary.svg" width="80" height="80" />
+                            <img
+                                src='https://vnpay.vn/assets/images/logo-icon/logo-primary.svg'
+                                width='80'
+                                height='80'
+                            />
                         </div>
                     </Row>
-
                 </div>
                 <Row>
-                    <Text className="title-payment">Chi tiết thanh toán</Text>
+                    <Text className='title-payment'>{getText('Payment_Details')}</Text>
                 </Row>
-                <div className="detail-payment">
+                <div className='detail-payment'>
                     <Row>
                         <Col span={12}>
-                            <Text className="text">Tạm tính</Text>
+                            <Text className='text'>{getText('provisional')}</Text>
                         </Col>
-                        <Col span={12} className="display">
-                            <Text className="text">{formatCurrency(totalFlight)}</Text>
-                        </Col>
-                    </Row>
-                    <Row >
-                        <Col span={12}>
-                            <Text className="text">Thí tiện ích</Text>
-                        </Col>
-                        <Col span={12} className="display">
-                            <Text className="text">{formatCurrency(priceBenefit)}</Text>
+                        <Col span={12} className='display'>
+                            <Text className='text'>{formatCurrency(totalFlight)}</Text>
                         </Col>
                     </Row>
-                    <Row className="total">
+                    <Row>
                         <Col span={12}>
-                            <Text className="text">Tổng tiền</Text>
+                            <Text className='text'>{getText('utility_fee')}</Text>
                         </Col>
-                        <Col span={12} className="display">
-                            <Text className="text">{formatCurrency(totalFlight)}</Text>
+                        <Col span={12} className='display'>
+                            <Text className='text'>{formatCurrency(priceBenefit)}</Text>
+                        </Col>
+                    </Row>
+                    <Row className='total'>
+                        <Col span={12}>
+                            <Text className='text'>{getText('Total')}:</Text>
+                        </Col>
+                        <Col span={12} className='display'>
+                            <Text className='text'>{formatCurrency(totalFlight)}</Text>
                         </Col>
                     </Row>
                 </div>
-
             </div>
-            <div className="btn-payment-form">
+            <div className='btn-payment-form'>
                 <Row>
-                    <Button className='btn-payment' onClick={() => handlePayment()}>Xác nhận</Button>
+                    <Button
+                        className='btn-payment'
+                        style={{ marginRight: 20 }}
+                        onClick={() => navigate('/select-service')}
+                    >
+                        {getText('Back')}
+                    </Button>
+                    <Button className='btn-payment' onClick={() => handlePayment()}>
+                        {getText('Confirm')}
+                    </Button>
                 </Row>
-
             </div>
         </>
     )
 }
-export default PaymentMethods;
+export default PaymentMethods

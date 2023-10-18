@@ -36,7 +36,7 @@ const Passengers = () => {
 
     let initialFormState = {
         id: '',
-        gender: '',
+        gender: 'MALE',
         firstName: '',
         lastName: '',
         dateOfBirth: null,
@@ -87,7 +87,7 @@ const Passengers = () => {
         firstName: '',
         lastName: '',
         dateOfBirth: null,
-        gender: '',
+        gender: 'MALE',
         passengerType: 'CHILD',
         seats: {
             seatId: '',
@@ -131,7 +131,7 @@ const Passengers = () => {
         firstName: '',
         lastName: '',
         dateOfBirth: null,
-        gender: '',
+        gender: 'MALE',
         passengerType: 'INFANT',
         seats: {
             seatId: '',
@@ -215,9 +215,9 @@ const Passengers = () => {
         for (let i = 0; i < formDataChildren.length; i++) {
             if (
                 formDataChildren[i].gender == '' ||
-                formDataChildren[i].fristName == '' ||
+                formDataChildren[i].firstName == '' ||
                 formDataChildren[i].lastName == '' ||
-                formDataChildren[i].dateBirth == null
+                formDataChildren[i].dateOfBirth == null
             ) {
                 showWaringModal(`${getText('HeyFriend')}`, `${getText('NotInfoChildren')}`, `${getText('Close')}`)
                 return
@@ -226,9 +226,9 @@ const Passengers = () => {
         for (let i = 0; i < formDataBaby.length; i++) {
             if (
                 formDataBaby[i].gender == '' ||
-                formDataBaby[i].fristName == '' ||
+                formDataBaby[i].firstName == '' ||
                 formDataBaby[i].lastName == '' ||
-                formDataBaby[i].dateBirth == null
+                formDataBaby[i].dateOfBirth == null
             ) {
                 showWaringModal(`${getText('HeyFriend')}`, `${getText('NotInfoBaby')}`, `${getText('Close')}`)
                 return
