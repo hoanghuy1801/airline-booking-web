@@ -172,5 +172,8 @@
     "PaymentTotal": "Bạn đã thanh toán số tiền",
     "CodeBooking": "Mã đặt vé của bạn:",
     "ErrorPayment": "Thanh toán thất bại!",
-    "Error_Notification": " Rất tiếc, thanh toán không thành công. Vui lòng thử lại sau."
+    "Error_Notification": " Rất tiếc, thanh toán không thành công. Vui lòng thử lại sau.",
+    "Notification_Adults": "Thành viên phải lớn hơn 12 tuổi",
+    "Notification_Childrens": "Trẻ em phải lơn hơn 2 tuổi và nhỏ hơn 12 tuổi",
+    "Notification_Infants": "Em bé phải nhỏ hơn 2 tuổi"
 }

@@ -80,6 +80,7 @@ const SelectService = () => {
         dispath(setInfoPassengers(null))
         navigate('/passengers')
     }
+
     const feachListService = async () => {
         try {
             let res = await getServiceAirline(flightSelect.id, flightSelect.airline.id, data.seatId)
