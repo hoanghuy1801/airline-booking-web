@@ -26,5 +26,25 @@ function calculateAge(birthdate, currentDate) {
         return yearsDiff
     }
 }
-
-export { generateRandomID, calculateAge }
+function convertGender(gender, language) {
+    if (language === 'vi') {
+        if (gender === 'MALE') {
+            return 'ÔNG'
+        } else if (gender === 'FEMALE') {
+            return 'BÀ'
+        } else {
+            return ''
+        }
+    } else if (language === 'en') {
+        if (gender === 'MALE') {
+            return 'MR.'
+        } else if (gender === 'FEMALE') {
+            return 'MRS.'
+        } else {
+            return ''
+        }
+    } else {
+        return ''
+    }
+}
+export { generateRandomID, calculateAge, convertGender }

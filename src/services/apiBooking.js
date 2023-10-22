@@ -22,5 +22,8 @@ const postVnPay = (data) => {
 const postBooking = (data) => {
     return axios.post('/api/v1/booking', data)
 }
+const patchBooking = (data) => {
+    return axios.patch('/api/v1/booking', data)
+}
 
-export { getListFlight, getServiceAirline, postVnPay, postBooking }
+export { getListFlight, getServiceAirline, postVnPay, postBooking, patchBooking }

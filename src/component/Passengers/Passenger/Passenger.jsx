@@ -205,7 +205,7 @@ const Passenger = (props) => {
                                                     <Input
                                                         style={{ width: '90%' }}
                                                         onChange={(e) =>
-                                                            handleFormChange('phone', e.target.value, index)
+                                                            handleFormChange('phoneNumber', e.target.value, index)
                                                         }
                                                     />
                                                 </Row>
