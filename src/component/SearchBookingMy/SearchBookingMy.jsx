@@ -1,66 +1,95 @@
-import React from 'react';
-import { Row, Col, Form, Input, Button, Typography, Image } from 'antd';
-import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { Form, Input, Button } from 'antd'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './SearchBookingMy.css'
-import diacriticless from 'diacriticless';
-import imgSearch from '../../assets/SGN-SearchBooking.jpg'
-const { Title, Text } = Typography;
+import diacriticless from 'diacriticless'
+import { useDispatch } from 'react-redux'
+import { setBookingDetail } from '../../redux/reducers/myFlight'
+import { getBookingDetails } from '../../services/apiMyFlight'
+import { Spin } from 'antd'
+import { showWaringModal } from '../../utils/modalError'
+import { useLanguage } from '../../LanguageProvider/LanguageProvider'
 const SearchBookingMy = () => {
-    const navigate = useNavigate();
-    const dispastch = useDispatch();
-    const [inputCode, setInputCode] = useState('');
-    const [inputLastName, setInputLastName] = useState('');
-    const [inputFirstName, setInputFirstName] = useState('');
+    const { getText } = useLanguage()
+    const navigate = useNavigate()
+    const dispath = useDispatch()
+    const [loading, setLoading] = useState(false)
+    const [inputCode, setInputCode] = useState('')
+    const [inputLastName, setInputLastName] = useState('')
+    const [inputFirstName, setInputFirstName] = useState('')
 
     const handleInputCode = (event) => {
-        const value = event.target.value;
-        const sanitizedValue = diacriticless(value);
-        setInputCode(sanitizedValue.toUpperCase());
-    };
+        const value = event.target.value
+        const sanitizedValue = diacriticless(value)
+        setInputCode(sanitizedValue.toUpperCase())
+    }
     const handleInputLastName = (event) => {
-        const value = event.target.value;
-        const sanitizedValue = diacriticless(value);
-        setInputLastName(sanitizedValue.toUpperCase());
-    };
+        const value = event.target.value
+        const sanitizedValue = diacriticless(value)
+        setInputLastName(sanitizedValue.toUpperCase())
+    }
     const handleInputFirstName = (event) => {
-        const value = event.target.value;
-        const sanitizedValue = diacriticless(value);
-        setInputFirstName(sanitizedValue.toUpperCase());
-    };
+        const value = event.target.value
+        const sanitizedValue = diacriticless(value)
+        setInputFirstName(sanitizedValue.toUpperCase())
+    }
+    const handleSearch = async () => {
+        if (inputCode === '' || inputLastName === '' || inputFirstName === '') {
+            showWaringModal(`${getText('HeyFriend')}`, `${getText('NotInfo')}`, `${getText('Close')}`)
+            return
+        }
+        try {
+            setLoading(true)
+            let res = await getBookingDetails(inputCode, inputFirstName, inputLastName)
+            if (res.status === 200) {
+                dispath(setBookingDetail(res.data))
+                navigate('/my/booking-detail')
+            }
+        } catch (error) {
+            showWaringModal(`${getText('Notification')}`, error.response.data.error.message, `${getText('Close')}`)
+        } finally {
+            setLoading(false) // Dừng hiển thị Spinner khi API hoàn thành
+        }
+    }
     return (
         <div className='page-search-booking'>
             <div className='form-search-booking'>
-                <p className='title'>CHUYẾN BAY CỦA TÔI</p>
-                <p className='notification'>Bạn muốn xem chuyến bay đã đặt, đổi lịch trình bay hay mua thêm dịch vụ hành lý, chỗ ngồi, suất ăn..., vui lòng điền thông tin bên dưới:</p>
+                <p className='title'>{getText('myflight')}</p>
+                <p className='notification'>{getText('Text_Notification_Myflight')}</p>
                 <Form>
                     <Form.Item>
-                        <label className='lable-form'>Mã đặt chỗ <span style={{ color: 'red' }}>*</span></label>
-                        <Input
-                            placeholder='Mã đặt chỗ'
-                            className='input-form'
-                            onChange={handleInputCode}
-                            value={inputCode}
-                        />
-                        <label className='lable-form'>Họ <span style={{ color: 'red' }}>*</span></label>
-                        <Input
-                            placeholder='Họ'
-                            className='input-form'
-                            onChange={handleInputLastName}
-                            value={inputLastName}
-                        />
-                        <label className='lable-form'>Tên đệm & tên <span style={{ color: 'red' }}>*</span></label>
-                        <Input
-                            placeholder='Tên đệm & tên'
-                            className='input-form'
-                            onChange={handleInputFirstName}
-                            value={inputFirstName} />
+                        <label className='lable-form'>
+                            {getText('BOOKING_CODE')} <span style={{ color: 'red' }}>*</span>
+                        </label>
+                        <Input className='input-form' onChange={handleInputCode} value={inputCode} />
+                        <label className='lable-form'>
+                            {getText('Surname')} <span style={{ color: 'red' }}>*</span>
+                        </label>
+                        <Input className='input-form' onChange={handleInputLastName} value={inputLastName} />
+                        <label className='lable-form'>
+                            {getText('Middle-name&first-name')} <span style={{ color: 'red' }}>*</span>
+                        </label>
+                        <Input className='input-form' onChange={handleInputFirstName} value={inputFirstName} />
                     </Form.Item>
-                    <Button className='btn-search-booking' onClick={() => { navigate('/my/booking-detail') }} >Tiếp tục</Button>
+                    {loading ? (
+                        <>
+                            <div className='form-btn-myflight'>
+                                <Button className='btn-search-booking' onClick={() => handleSearch()}>
+                                    {getText('Search')}
+                                </Button>
+                                <Spin size='large' className='spin-myflight' style={{ paddingLeft: 20 }} />
+                            </div>
+                        </>
+                    ) : (
+                        <div className='form-btn-myflight'>
+                            <Button className='btn-search-booking' onClick={() => handleSearch()}>
+                                {getText('Search')}
+                            </Button>
+                        </div>
+                    )}
                 </Form>
             </div>
-        </div >
-    );
+        </div>
+    )
 }
-export default SearchBookingMy;
+export default SearchBookingMy

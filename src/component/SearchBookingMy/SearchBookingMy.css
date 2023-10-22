@@ -1,16 +1,13 @@
-
-.page-search-booking{
+.page-search-booking {
     background-image: url('../../assets/BackRoud.png');
     background-size: cover;
     display: flex;
     width: 100%;
     height: 100vh;
-
-
 }
 
-.form-search-booking{
-    background-color: rgb(255, 255, 255,0.70);
+.form-search-booking {
+    background-color: rgb(255, 255, 255, 0.7);
     box-shadow: 0px 10px 32px #006885;
     backdrop-filter: blur(3px);
     border-top-left-radius: 5px;
@@ -18,48 +15,54 @@
     height: 69%;
     margin: 5% 35% 5% 35%;
     padding: 2%;
-   
 }
-.btn-search-booking{
-    margin-left: 30%;
+.form-btn-myflight {
+    display: flex;
+    justify-content: center;
+}
+.btn-search-booking {
     width: 150px;
-    height:40px;
+    height: 40px;
     font-size: 18px;
     font-weight: 600;
-   background-color: #006885;
-   color: white;
-   &:hover{
-    color: white !important;
     background-color: #006885;
-    border: none !important;
+    color: white;
+    &:hover {
+        color: white !important;
+        background-color: #006885;
+        border: none !important;
     }
 }
-.img-search{
+.spin-myflight {
+    display: flex;
+    justify-content: center;
+}
+.img-search {
     width: 100% !important;
     height: 100%;
 }
-@media (max-width:1500px){
-   .main-search-booking{
-     margin: 7% 10% 0 10% !important;
+@media (max-width: 1500px) {
+    .main-search-booking {
+        margin: 7% 10% 0 10% !important;
     }
 }
-@media (max-width:1200px){
-    .form-search-booking{
+@media (max-width: 1200px) {
+    .form-search-booking {
         margin: 5% 25% 5% 25% !important;
-     }
- }
- @media (max-width:992px){
-    .form-search-booking{
+    }
+}
+@media (max-width: 992px) {
+    .form-search-booking {
         margin: 5% 20% 5% 20% !important;
-     }
- }
- @media (max-width:768px){
-    .form-search-booking{
+    }
+}
+@media (max-width: 768px) {
+    .form-search-booking {
         margin: 5% 10% 5% 10% !important;
-     }
- }
- @media (max-width:500px){
-    .form-search-booking{
+    }
+}
+@media (max-width: 500px) {
+    .form-search-booking {
         margin: 5% 2% 5% 2% !important;
-     }
- }
+    }
+}

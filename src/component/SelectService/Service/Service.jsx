@@ -105,8 +105,7 @@ const Service = (props) => {
     }
 
     const handleCardClick = (item) => {
-        setValueRadio(item.value) // Cập nhật trạng thái nút radio tương ứng với thẻ card
-        console.log(item)
+        setValueRadio(item) // Cập nhật trạng thái nút radio tương ứng với thẻ card
         setPriceBaggage(item.optionPrice)
     }
     const showDrawerFavorite = () => {
@@ -385,9 +384,7 @@ const Service = (props) => {
         let newTotalMeal = 0
         for (let i = 0; i < updatedPassengers.length; i++) {
             newTotal += Number(updatedPassengers[i]?.seat?.seatPrice)
-            console.log('newTotalIIII', newTotal)
         }
-        console.log('newTotal', newTotal)
         setTotalSeat(newTotal)
         for (let i = 0; i < updatedPassengers.length; i++) {
             newTotalBaggage += Number(updatedPassengers[i]?.baggage?.servicePrice)
@@ -417,7 +414,7 @@ const Service = (props) => {
         setTotalBaggageReturn(newTotalBaggage)
 
         for (let i = 0; i < updatedPassengers.length; i++) {
-            const meal = updatedPassengers[i].meal
+            const meal = updatedPassengers[i].mealReturn
             for (let j = 0; j < meal.length; j++) {
                 newTotalMeal += Number(updatedPassengers[i]?.mealReturn[j]?.servicePrice)
             }
@@ -739,7 +736,7 @@ const Service = (props) => {
                                             item={item}
                                             value={item.value}
                                             label={item.label}
-                                            checked={valueRadio === item.value}
+                                            checked={valueRadio?.value === item.value}
                                             style={{ paddingLeft: '20px' }}
                                         />
                                     </Card>
@@ -757,7 +754,7 @@ const Service = (props) => {
                             <Col span={6} className='display-img'>
                                 <Row>
                                     <i className='seat-price'>
-                                        {getText('package')} {valueRadio}kg
+                                        {getText('package')} {valueRadio.value}kg
                                     </i>
                                 </Row>
                                 <Row>

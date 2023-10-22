@@ -33,7 +33,6 @@ const PaymentReturn = () => {
                     setAmount(searchParams.get('vnp_Amount'))
                     setBookingCode(searchParams.get('vnp_TxnRef'))
                     if (!data.roundTrip) {
-                        console.log('trip')
                         const passengers = dataPassengers.map((data) => {
                             const { id, baggage, meal, seat, ...passengers } = data
                             let serviceOpts = []
@@ -62,7 +61,6 @@ const PaymentReturn = () => {
                         }
                         await postBooking(dataBooking)
                     } else {
-                        console.log('trip1')
                         const passengers = dataPassengers.map((data) => {
                             const { id, baggage, meal, seat, seatsReturn, baggageReturn, mealReturn, ...passengers } =
                                 data
@@ -72,7 +70,7 @@ const PaymentReturn = () => {
                                 seats = [seat, seatsReturn]
                             }
                             if (meal?.serviceOptId !== '' || mealReturn?.serviceOptId !== '') {
-                                serviceOpts = [...meal, baggage, baggageReturn, mealReturn]
+                                serviceOpts = [...meal, ...mealReturn, baggage, baggageReturn]
                             }
 
                             return {
@@ -87,7 +85,7 @@ const PaymentReturn = () => {
                             flightReturnId: flightSelectReturn?.id,
                             amountTotal: totalFlight,
                             seatTotal: 1,
-                            journeyType: 'ONE_AWAY',
+                            journeyType: 'RETURN',
                             passengers
                         }
                         await postBooking(dataBooking)

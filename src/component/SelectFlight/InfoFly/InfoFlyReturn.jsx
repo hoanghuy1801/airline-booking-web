@@ -1,66 +1,57 @@
-import { Row, Col, Button, Typography, Image } from 'antd';
-import { IconBrandCitymapper } from '@tabler/icons-react';
-import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { Row, Col, Button, Typography, Image } from 'antd'
+import { IconBrandCitymapper } from '@tabler/icons-react'
+import { useState } from 'react'
 import './InfoFly.css'
-import { formatCurrency } from '../../../utils/format';
-import { useLanguage } from '../../../LanguageProvider/LanguageProvider';
+import { calculateTimeDifference, formatCurrency, formatTime } from '../../../utils/format'
+import { useLanguage } from '../../../LanguageProvider/LanguageProvider'
+import { useSelector } from 'react-redux'
 
-const { Title, Text } = Typography;
+const { Title, Text } = Typography
 
 const InfoFlyReturn = (props) => {
-    const { getText } = useLanguage();
-    const navigate = useNavigate();
-    const { listFlightReturn, setFlightSelectReturn } = props;
-    const data = useSelector((state) => state.homePage.homePageInfor);
-    const handleSelect = (id) => {
-        const selectedItem = listFlightReturn.find((item) => item.id === id);
-        setFlightSelectReturn(selectedItem);
+    const { getText } = useLanguage()
+    const { listFlightReturn, setFlightSelectReturn } = props
+    const language = useSelector((state) => state.language.language)
+    const [disabledButtonIds, setDisabledButtonIds] = useState([])
+    const isButtonDisabled = (id) => {
+        return disabledButtonIds.includes(id)
     }
-
-
+    const handleSelect = (id) => {
+        const selectedItem = listFlightReturn.find((item) => item.id === id)
+        setFlightSelectReturn(selectedItem)
+        setDisabledButtonIds([...disabledButtonIds, id])
+    }
 
     return (
         <>
             <Text className='title'>{getText('TripReturn')}</Text>
 
             {listFlightReturn.map((item) => {
-                const dateObjectdepartureTime = new Date(item.departureTime);
-                const hourdepartureTime = dateObjectdepartureTime.getHours();
-                const minutedepartureTime = dateObjectdepartureTime.getMinutes();
-                const dateObjectarrivalTime = new Date(item.arrivalTime);
-                const hourarrivalTime = dateObjectarrivalTime.getHours();
-                const minutearrivalTime = dateObjectarrivalTime.getMinutes();
-                const hourflight = hourarrivalTime - hourdepartureTime;
-                const minuteflight = minutearrivalTime - minutedepartureTime;
-                const adultPriceFomat = formatCurrency(item.flightSeatPrice.adultPrice);
                 return (
-                    <div>
-                        <div className='fly-color'>
-                        </div>
+                    <div key={item.id}>
+                        <div className='fly-color'></div>
                         <div className='select-flight-info'>
                             <Row>
                                 <Col span={6}>
-
                                     <Row>
-                                        <Title level={4} className='name-airline'>{item.airline.airlineName}</Title>
+                                        <Title level={4} className='name-airline'>
+                                            {item.airline.airlineName}
+                                        </Title>
                                     </Row>
                                     <Row>
-                                        <Image
-                                            preview={false}
-                                            src={item.airline.avatarUrl} className='img-airline'
-                                        />
+                                        <Image preview={false} src={item.airline.avatarUrl} className='img-airline' />
                                     </Row>
                                     <Row>
                                         <Text className='name-aircraft-fly'>{item.aircraft.aircraftName}</Text>
                                     </Row>
                                 </Col>
-                                <Col span={11} >
+                                <Col span={11}>
                                     <Row>
                                         <Col span={8}>
                                             <Row>
-                                                <Text className='time-start-fly'>{hourdepartureTime}:{minutedepartureTime}</Text>
+                                                <Text className='time-start-fly'>
+                                                    {formatTime(item?.departureTime)}
+                                                </Text>
                                             </Row>
                                             <Row>
                                                 <Text className='code-start-fly'>{item.sourceAirport.airportCode}</Text>
@@ -77,35 +68,49 @@ const InfoFlyReturn = (props) => {
                                                 <IconBrandCitymapper className='icon-fly' />
                                             </Row>
                                             <Row>
-                                                <Text className='time-to-fly'>{hourflight} {getText('Hour')} {minuteflight}  {getText('Minute')}</Text>
+                                                <Text className='time-to-fly'>
+                                                    {calculateTimeDifference(
+                                                        formatTime(item?.departureTime),
+                                                        formatTime(item?.arrivalTime),
+                                                        language
+                                                    )}
+                                                </Text>
                                             </Row>
                                         </Col>
-                                        <Col span={8} >
+                                        <Col span={8}>
                                             <Row>
-                                                <Text className='time-start-fly'>{hourarrivalTime}:{minutearrivalTime}</Text>
+                                                <Text className='time-start-fly'>{formatTime(item?.arrivalTime)}</Text>
                                             </Row>
                                             <Row>
-                                                <Text className='code-start-fly'>{item.destinationAirport.airportCode}</Text>
+                                                <Text className='code-start-fly'>
+                                                    {item.destinationAirport.airportCode}
+                                                </Text>
                                             </Row>
                                         </Col>
                                     </Row>
                                 </Col>
-                                <Col span={7} >
+                                <Col span={7}>
                                     <Row>
-                                        <Text className='price-fly text-ellipsis'>{adultPriceFomat}/{getText('Guest')}</Text>
+                                        <Text className='price-fly text-ellipsis'>
+                                            {formatCurrency(item.flightSeatPrice.adultPrice)}/{getText('Guest')}
+                                        </Text>
                                     </Row>
                                     <Row>
-                                        <Button className='btn-select' onClick={() => handleSelect(item.id)}>{getText('Selected')}</Button>
+                                        <Button
+                                            className='btn-select'
+                                            onClick={() => handleSelect(item.id)}
+                                            disabled={isButtonDisabled(item.id)}
+                                        >
+                                            {getText('Selected')}
+                                        </Button>
                                     </Row>
                                 </Col>
                             </Row>
-
                         </div>
                     </div>
                 )
             })}
-
         </>
     )
 }
-export default InfoFlyReturn;
+export default InfoFlyReturn

@@ -41,7 +41,7 @@ const Passengers = () => {
         lastName: '',
         dateOfBirth: null,
         country: '',
-        phone: '',
+        phoneNumber: '',
         email: '',
         address: '',
         passengerType: 'ADULT',
@@ -194,7 +194,7 @@ const Passengers = () => {
     const handlePassengers = () => {
         for (let i = 0; i < formData.length; i++) {
             const isValiEmail = validateEmail(formData[i].email)
-            const isValiPhone = validatePhone(formData[i].phone)
+            const isValiPhone = validatePhone(formData[i].phoneNumber)
             if (
                 formData[i].gender == '' ||
                 formData[i].firstName == '' ||

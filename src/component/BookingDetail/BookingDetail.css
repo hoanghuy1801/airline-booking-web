@@ -1,225 +1,223 @@
-.booking-detail{
+.booking-detail {
     background-image: url('../../assets/BackRoud.png');
     background-size: cover;
     height: auto;
 }
-.info-booking-detail{
+.info-booking-detail {
     height: 65px;
     background-color: white;
-
 }
 
-.code-booking{
-        padding-right: 3%;
-        padding-top: 1%;
-        font-size: 20px;
-        font-weight: 500;
-        display: flex;
-        justify-content: end;
-    }
-.code-booking-status{
-   
+.code-booking {
     padding-right: 3%;
     padding-top: 1%;
     font-size: 20px;
-    font-weight: 500; 
+    font-weight: 500;
+    display: flex;
+    justify-content: end;
 }
- .main-container-detail{
-        width: auto;
-        height: auto;
-        margin: 0% 25% 0 25%;
- }
+.code-booking-status {
+    padding-right: 3%;
+    padding-top: 1%;
+    font-size: 20px;
+    font-weight: 500;
+}
+.main-container-detail {
+    width: auto;
+    height: auto;
+    margin: 0% 25% 0 25%;
+}
 
-.title-booking{
+.title-booking {
     font-size: 25px;
     font-weight: 600;
     padding-top: 20px;
     color: black;
 }
-.roundTrip-booking{
+.roundTrip-booking {
     padding-top: 5px;
     padding-left: 15px;
     font-size: 18px;
     font-weight: 600;
 }
-.booking-ticket{
+.booking-ticket {
     width: 100%;
     height: auto;
     padding-bottom: 50px;
     background-color: white;
     border-radius: 15px;
 }
-.info-fly{
-   display: flex;
+.info-fly {
+    display: flex;
     justify-content: center;
-
 }
-.date-fly{
+.date-fly {
     padding: 12px;
     font-size: 17px;
     font-weight: 500;
 }
-.location{
+.location {
     font-size: 35px;
     font-weight: 600;
 }
-.time-fly{
+.time-fly {
     font-size: 18px;
-    color: #6D6E71;
+    color: #6d6e71;
     font-weight: 500;
     padding-top: 10px;
 }
-.number-fly{
+.number-fly {
     font-size: 18px;
     font-weight: 500;
 }
-.time{
+.time {
     font-size: 32px;
-
 }
-.code-fly{
+.code-fly {
     padding: 10px;
     font-size: 18px;
     font-weight: 500;
 }
-.from{
-     display: flex;
-    padding-left: 20%;
+.from {
+    padding-left: 3%;
     font-size: 18px;
     font-weight: 500;
 }
-.to{
-    display: flex;
-    padding-left: 20%;
+.to {
+    padding-left: 3%;
     font-size: 18px;
     font-weight: 500;
 }
-.time-flys{
+.time-flys {
+    padding-left: 3%;
     font-size: 18px;
     font-weight: 500;
 }
-.detail-booking-passengers{
+.detail-booking-passengers {
     background-color: white;
     padding: 20px;
     border-radius: 10px;
-
 }
-.details{
-    width: 60%;
+.details {
+    width: 100%;
     height: auto;
     padding-bottom: 10px;
+    .title-price {
+        font-size: 15px;
+        font-weight: 700;
+    }
 }
-.form-btn-booking-detail{
+.form-btn-booking-detail {
     margin: 2% 27% 2% 33%;
 }
-.btn-booking-detail{
+.col-details-price {
+    display: flex;
+    justify-content: end;
+    padding-right: 50px;
+}
+.btn-booking-detail {
     width: 250px;
-    height:40px;
+    height: 40px;
     font-size: 18px;
     font-weight: 600;
     background-color: rgb(175, 137, 3);
     border: none !important;
-    &:hover{
+    &:hover {
         color: black !important;
         background-color: rgb(175, 137, 3);
         border: none !important;
         font-size: 20px;
     }
-   
-  }
-  .btn{
+}
+.btn {
     display: flex;
     justify-content: center;
     padding-top: 20px;
-  }
-  .btn-require{
+}
+.btn-require {
     width: 150px;
-    height:40px;
+    height: 40px;
     font-size: 18px;
     font-weight: 600;
     background-color: rgb(175, 137, 3);
     border: none !important;
-    &:hover{
+    &:hover {
         color: black !important;
         background-color: rgb(175, 137, 3);
         border: none !important;
         font-size: 20px;
     }
-
-  }
-  .btn-form-require{
+}
+.btn-form-require {
     display: flex;
     justify-content: center;
-  }
+}
 
-  .form-cancel-trip{
+.form-cancel-trip {
     box-shadow: 0px 10px 32px #006885;
     border-radius: 10px;
     padding-bottom: 10px;
     margin-bottom: 30px;
-  }
-  @media (max-width:1500px){
-    .main-container-detail{
+}
+@media (max-width: 1500px) {
+    .main-container-detail {
         margin: 0% 18% 0 18%;
     }
-    .form-btn-booking-detail{
+    .form-btn-booking-detail {
         margin: 2% 26% 2% 32%;
     }
-   
 }
-@media (max-width:1200px){
-    .main-container-detail{
+@media (max-width: 1200px) {
+    .main-container-detail {
         margin: 0% 14% 0 14%;
     }
-    .form-btn-booking-detail{
+    .form-btn-booking-detail {
         margin: 2% 25% 2% 30%;
     }
-    .btn-booking-detail{
+    .btn-booking-detail {
         width: 190px;
         font-size: 16px;
     }
 }
-@media (max-width:992px){
-    .main-container-detail{
+@media (max-width: 992px) {
+    .main-container-detail {
         margin: 0% 10% 0 10%;
     }
-    .form-btn-booking-detail{
+    .form-btn-booking-detail {
         margin: 2% 20% 2% 25%;
     }
-   
 }
-@media (max-width:768px){
-    .main-container-detail{
+@media (max-width: 768px) {
+    .main-container-detail {
         margin: 0% 3% 0 3%;
     }
-    .form-btn-booking-detail{
+    .form-btn-booking-detail {
         margin: 2% 12% 2% 18%;
     }
 }
-@media (max-width:576px){
-    .main-container-detail{
+@media (max-width: 576px) {
+    .main-container-detail {
         margin: 0% 1% 0 1%;
     }
-    .location{
+    .location {
         font-size: 20px !important;
-
     }
-    .date-fly{
+    .date-fly {
         font-size: 13px !important;
     }
-    .time-fly{
+    .time-fly {
         font-size: 14px !important;
     }
-    .time{
+    .time {
         font-size: 18px !important;
     }
-    .number-fly{
-        font-size: 15px !important; 
+    .number-fly {
+        font-size: 15px !important;
     }
-    .form-btn-booking-detail{
+    .form-btn-booking-detail {
         margin: 2% 0% 2% 30%;
     }
-    .btn-booking-detail{
+    .btn-booking-detail {
         margin-top: 10px;
     }
 }
