@@ -196,5 +196,9 @@
     "Refund/Cancellation": "  Hoàn Tiền/Hủy Chuyến",
     "Change_flight_schedule": "Thay đổi lịch bay",
     "Buy_additional_services": "Mua thêm dịch vụ",
-    "Find_another_flight": "Tìm chuyến bay khác"
+    "Find_another_flight": "Tìm chuyến bay khác",
+    "PhoneOTP": "Số điện thoại nhận OTP",
+    "Reason": "Lý do",
+    "Send_require": "Gửi yêu cầu",
+    "NotPhoneRefund": "Số điện thoạt không phải của khách hàng mua vé"
 }

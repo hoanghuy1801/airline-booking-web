@@ -195,5 +195,9 @@
     "Refund/Cancellation": "Refund/ Cancellation",
     "Change_flight_schedule": "Change flight schedule",
     "Buy_additional_services": "Buy additional services",
-    "Find_another_flight": "Find another flight"
+    "Find_another_flight": "Find another flight",
+    "PhoneOTP": "Phone number to receive OTP",
+    "Reason": "Reason",
+    "Send_require": "Send require",
+    "NotPhoneRefund": "The phone number does not initially belong to the customer purchasing the ticket"
 }

@@ -75,6 +75,7 @@ const SelectFlight = () => {
             adultPrice: '',
             childrenPrice: '',
             seatClass: '',
+            taxPrice: '',
             taxService: {
                 id: '',
                 airportFee: '',
@@ -135,6 +136,7 @@ const SelectFlight = () => {
             adultPrice: '',
             childrenPrice: '',
             seatClass: '',
+            taxPrice: '',
             taxService: {
                 id: '',
                 airportFee: '',
@@ -151,14 +153,16 @@ const SelectFlight = () => {
     const data = useSelector((state) => state.homePage.homePageInfor)
     const totalPeople = data.children + data.adult
     const total =
-        flightSelect.flightSeatPrice.adultPrice * data.adult +
-        flightSelect.flightSeatPrice.childrenPrice * data.children +
+        (flightSelect?.flightSeatPrice?.adultPrice + flightSelect?.flightSeatPrice?.taxPrice) * data?.adult +
+        (flightSelect?.flightSeatPrice?.childrenPrice + flightSelect?.flightSeatPrice?.taxPrice) * data?.children +
         flightSelect.flightSeatPrice.infantPrice * data.baby +
         flightSelect.flightSeatPrice.taxService.totalFee * totalPeople +
         totalService +
         totalServiceReturn +
-        flightSelectReturn.flightSeatPrice.adultPrice * data.adult +
-        flightSelectReturn.flightSeatPrice.childrenPrice * data.children +
+        (flightSelectReturn?.flightSeatPrice?.adultPrice + flightSelectReturn?.flightSeatPrice?.taxPrice) *
+            data?.adult +
+        (flightSelectReturn?.flightSeatPrice?.childrenPrice + flightSelectReturn?.flightSeatPrice?.taxPrice) *
+            data?.children +
         flightSelectReturn.flightSeatPrice.infantPrice * data.baby +
         flightSelectReturn.flightSeatPrice.taxService.totalFee * totalPeople
     const totalFomat = formatCurrency(Number(total))
