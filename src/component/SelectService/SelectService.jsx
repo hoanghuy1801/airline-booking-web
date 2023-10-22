@@ -34,17 +34,18 @@ const SelectService = () => {
     const totalServiceReturn = totalBaggageReturn + totalMealReturn + totalSeatReturn
     const totalPeople = data.children + data.adult
     const total =
-        flightSelect.flightSeatPrice.adultPrice * data.adult +
-        flightSelect.flightSeatPrice.childrenPrice * data.children +
+        (flightSelect?.flightSeatPrice?.adultPrice + flightSelect?.flightSeatPrice?.taxPrice) * data?.adult +
+        (flightSelect?.flightSeatPrice?.childrenPrice + flightSelect?.flightSeatPrice?.taxPrice) * data?.children +
         flightSelect.flightSeatPrice.infantPrice * data.baby +
         flightSelect.flightSeatPrice.taxService.totalFee * totalPeople +
         totalService +
         totalServiceReturn +
-        flightSelectReturn.flightSeatPrice.adultPrice * data.adult +
-        flightSelectReturn.flightSeatPrice.childrenPrice * data.children +
+        (flightSelectReturn?.flightSeatPrice?.adultPrice + flightSelectReturn?.flightSeatPrice?.taxPrice) *
+            data?.adult +
+        (flightSelectReturn?.flightSeatPrice?.childrenPrice + flightSelectReturn?.flightSeatPrice?.taxPrice) *
+            data?.children +
         flightSelectReturn.flightSeatPrice.infantPrice * data.baby +
-        flightSelectReturn.flightSeatPrice.taxService.totalFee * totalPeople +
-        0
+        flightSelectReturn.flightSeatPrice.taxService.totalFee * totalPeople
     const totalFomat = formatCurrency(Number(total))
     const myLanguage = useSelector((state) => state.language.language)
     const sourceAirportCity = removeDiacritics(data.sourceAirportCity, myLanguage)

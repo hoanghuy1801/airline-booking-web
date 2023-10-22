@@ -2,7 +2,7 @@ import { Row, Col, Collapse, Typography } from 'antd'
 import vietjet from '../../../assets/vietjet.svg'
 import { CaretRightOutlined } from '@ant-design/icons'
 import { useSelector } from 'react-redux'
-import { calculateTimeDifference, formatCurrency, formatDateString, formatTime } from '../../../utils/format'
+import { calculateTimeDifference, formatDateString, formatTime } from '../../../utils/format'
 import { useLanguage } from '../../../LanguageProvider/LanguageProvider'
 const { Text } = Typography
 const CollapseDetail = () => {
@@ -69,14 +69,6 @@ const CollapseDetail = () => {
                                     </Col>
                                     <Col span={5} className='info-fly'>
                                         <Text className='time'>{formatTime(flightAwayDetail?.arrivalTime)}</Text>
-                                    </Col>
-                                    <Col span={7} className='info-fly'>
-                                        <Text
-                                            className='number-fly'
-                                            style={{ color: 'green', fontSize: '23px', fontWeight: 700 }}
-                                        >
-                                            {formatCurrency(Number(bookingDetails?.amountTotal))}
-                                        </Text>
                                     </Col>
                                 </Row>
                             </div>
@@ -214,14 +206,6 @@ const CollapseDetail = () => {
                                             <Col span={5} className='info-fly'>
                                                 <Text className='time'>
                                                     {formatTime(flightReturnDetail?.arrivalTime)}
-                                                </Text>
-                                            </Col>
-                                            <Col span={7} className='info-fly'>
-                                                <Text
-                                                    className='number-fly'
-                                                    style={{ color: 'green', fontSize: '23px', fontWeight: 700 }}
-                                                >
-                                                    {formatCurrency(Number(bookingDetails?.amountTotal))}
                                                 </Text>
                                             </Col>
                                         </Row>

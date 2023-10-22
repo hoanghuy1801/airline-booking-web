@@ -11,50 +11,54 @@ const { Title, Text } = Typography
 const SelectInfoFly = (props) => {
     const { getText } = useLanguage()
     const { flightSelect, flightSelectReturn, totalService, totalServiceReturn } = props
-    const data = useSelector((state) => state.homePage.homePageInfor)
-    const totalPeople = data.children + data.adult
+    const data = useSelector((state) => state?.homePage?.homePageInfor)
+    const totalPeople = data?.children + data?.adult
 
-    const totalAdultPrice = flightSelect.flightSeatPrice.adultPrice * data.adult
+    const totalAdultPrice =
+        (flightSelect?.flightSeatPrice?.adultPrice + flightSelect?.flightSeatPrice?.taxPrice) * data?.adult
     const adultPriceFomat = formatCurrency(totalAdultPrice)
 
-    const totalChildrenPrice = flightSelect.flightSeatPrice.childrenPrice * data.children
+    const totalChildrenPrice =
+        (flightSelect?.flightSeatPrice?.childrenPrice + flightSelect?.flightSeatPrice?.taxPrice) * data?.children
     const childrenPriceFomat = formatCurrency(totalChildrenPrice)
 
-    const totalInfantPrice = flightSelect.flightSeatPrice.infantPrice * data.baby
+    const totalInfantPrice = flightSelect?.flightSeatPrice?.infantPrice * data?.baby
     const infantPriceFomat = formatCurrency(totalInfantPrice)
 
-    const totalFee = flightSelect.flightSeatPrice.taxService.totalFee * totalPeople
+    const totalFee = flightSelect?.flightSeatPrice?.taxService?.totalFee * totalPeople
     const totalFeeFomat = formatCurrency(totalFee)
 
-    const totalAdultPriceReturn = flightSelectReturn.flightSeatPrice.adultPrice * data.adult
+    const totalAdultPriceReturn =
+        (flightSelectReturn?.flightSeatPrice?.adultPrice + flightSelectReturn?.flightSeatPrice?.taxPrice) * data?.adult
     const adultPriceFomatReturn = formatCurrency(totalAdultPriceReturn)
 
-    const totalChildrenPriceReturn = flightSelectReturn.flightSeatPrice.childrenPrice * data.children
+    const totalChildrenPriceReturn =
+        (flightSelectReturn?.flightSeatPrice?.childrenPrice + flightSelectReturn?.flightSeatPrice?.taxPrice) *
+        data?.children
     const childrenPriceFomatReturn = formatCurrency(totalChildrenPriceReturn)
 
-    const totalInfantPriceReturn = flightSelectReturn.flightSeatPrice.infantPrice * data.baby
+    const totalInfantPriceReturn = flightSelectReturn?.flightSeatPrice?.infantPrice * data?.baby
     const infantPriceFomatReturn = formatCurrency(totalInfantPriceReturn)
 
-    const totalFeeReturn = flightSelectReturn.flightSeatPrice.taxService.totalFee * totalPeople
+    const totalFeeReturn = flightSelectReturn?.flightSeatPrice?.taxService?.totalFee * totalPeople
     const totalFeeReturnFomat = formatCurrency(totalFeeReturn)
 
     const total =
-        flightSelect.flightSeatPrice.adultPrice * data.adult +
-        flightSelect.flightSeatPrice.childrenPrice * data.children +
-        flightSelect.flightSeatPrice.infantPrice * data.baby +
-        flightSelect.flightSeatPrice.taxService.totalFee * totalPeople +
+        totalAdultPrice +
+        totalChildrenPrice +
+        totalInfantPrice +
+        totalFee +
         totalService +
         totalServiceReturn +
-        flightSelectReturn.flightSeatPrice.adultPrice * data.adult +
-        flightSelectReturn.flightSeatPrice.childrenPrice * data.children +
-        flightSelectReturn.flightSeatPrice.infantPrice * data.baby +
-        flightSelectReturn.flightSeatPrice.taxService.totalFee * totalPeople
-    console.log('total', totalServiceReturn)
+        totalAdultPriceReturn +
+        totalChildrenPriceReturn +
+        totalInfantPriceReturn +
+        totalFeeReturn
     const totalFomat = formatCurrency(Number(total))
 
-    const myLanguage = useSelector((state) => state.language.language)
-    const sourceAirportCity = removeDiacritics(data.sourceAirportCity, myLanguage)
-    const destinationAirportCity = removeDiacritics(data.destinationAirportCity, myLanguage)
+    const myLanguage = useSelector((state) => state?.language?.language)
+    const sourceAirportCity = removeDiacritics(data?.sourceAirportCity, myLanguage)
+    const destinationAirportCity = removeDiacritics(data?.destinationAirportCity, myLanguage)
 
     return (
         <div>
@@ -157,7 +161,7 @@ const SelectInfoFly = (props) => {
                                         alignItems: 'flex-end'
                                     }}
                                 >
-                                    x{data.adult}{' '}
+                                    x{data?.adult}{' '}
                                 </Text>
                             </Col>
                             <Col span={13}>
@@ -178,7 +182,7 @@ const SelectInfoFly = (props) => {
                             </Col>
                         </Row>
                     </div>
-                    {!data.children == 0 ? (
+                    {!data?.children == 0 ? (
                         <div className='title-infor'>
                             <Row>
                                 <Col span={9}>
@@ -206,7 +210,7 @@ const SelectInfoFly = (props) => {
                                             alignItems: 'flex-end'
                                         }}
                                     >
-                                        x{data.children}
+                                        x{data?.children}
                                     </Text>
                                 </Col>
                                 <Col span={13}>
@@ -230,7 +234,7 @@ const SelectInfoFly = (props) => {
                     ) : (
                         ''
                     )}
-                    {!data.baby == 0 ? (
+                    {!data?.baby == 0 ? (
                         <div className='title-infor'>
                             <Row>
                                 <Col span={9}>
@@ -258,7 +262,7 @@ const SelectInfoFly = (props) => {
                                             alignItems: 'flex-end'
                                         }}
                                     >
-                                        x{data.baby}
+                                        x{data?.baby}
                                     </Text>
                                 </Col>
                                 <Col span={13}>
@@ -364,7 +368,7 @@ const SelectInfoFly = (props) => {
                         </Row>
                     </div>
 
-                    {!data.roundTrip ? (
+                    {!data?.roundTrip ? (
                         <div></div>
                     ) : (
                         <div>
@@ -445,7 +449,7 @@ const SelectInfoFly = (props) => {
                                                 alignItems: 'flex-end'
                                             }}
                                         >
-                                            x{data.adult}
+                                            x{data?.adult}
                                         </Text>
                                     </Col>
                                     <Col span={13}>
@@ -466,7 +470,7 @@ const SelectInfoFly = (props) => {
                                     </Col>
                                 </Row>
                             </div>
-                            {!data.children == 0 ? (
+                            {!data?.children == 0 ? (
                                 <div className='title-infor'>
                                     <Row>
                                         <Col span={9}>
@@ -494,7 +498,7 @@ const SelectInfoFly = (props) => {
                                                     alignItems: 'flex-end'
                                                 }}
                                             >
-                                                x{data.children}
+                                                x{data?.children}
                                             </Text>
                                         </Col>
                                         <Col span={13}>
@@ -518,7 +522,7 @@ const SelectInfoFly = (props) => {
                             ) : (
                                 ''
                             )}
-                            {!data.baby == 0 ? (
+                            {!data?.baby == 0 ? (
                                 <div className='title-infor'>
                                     <Row>
                                         <Col span={9}>
@@ -546,7 +550,7 @@ const SelectInfoFly = (props) => {
                                                     alignItems: 'flex-end'
                                                 }}
                                             >
-                                                x{data.baby}
+                                                x{data?.baby}
                                             </Text>
                                         </Col>
                                         <Col span={13}>
