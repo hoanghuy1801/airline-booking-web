@@ -1,0 +1,180 @@
+.selectService {
+    height: 100px;
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+.img-service {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+.title-service {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    font-size: 22px;
+    font-weight: 600;
+}
+.price-service {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    padding: 10px;
+    font-size: 22px;
+    font-weight: 600;
+    color: red;
+}
+.ant-drawer-title {
+    font-size: 20px !important;
+    font-weight: 600 !important;
+    color: white !important ;
+}
+.ant-drawer-header {
+    background-color: #006885;
+}
+.roundTrip {
+    display: flex;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: 600;
+}
+.info-user-service {
+    background-color: #006885;
+    height: 80px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.user-service {
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 600;
+    padding-top: 10px;
+}
+.info-booking-service {
+    background-color: #f1f1f1;
+    height: 80px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding: 20px;
+}
+.information-seat {
+    padding: 10px;
+}
+.information-seat-color {
+    height: 20px;
+    width: 20px;
+    border-radius: 4px;
+    display: flex;
+    margin-right: 5px;
+}
+.seat-ariline {
+    padding-top: 10px;
+    margin-left: 10%;
+    margin-right: 10%;
+    height: 425px;
+}
+.seat-ariline-booking {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 500;
+    padding-top: 10px;
+}
+.footer-divider {
+    background-color: #006885;
+    height: 90px;
+    position: fixed;
+    bottom: 0;
+    width: 650px;
+    padding: 22px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.information-seat-icon-color {
+    display: flex;
+    justify-content: center;
+    padding-top: 4px;
+    height: 50px;
+    width: 50px;
+    border-radius: 4px;
+}
+.seat-price {
+    font-size: 18px;
+    font-weight: 500;
+    color: white;
+}
+.title-luggage {
+    font-size: 18px;
+    font-weight: 600;
+    padding: 10px;
+}
+.card-luggage {
+    height: 180px;
+    width: 150px;
+    box-shadow: 1px 1px 10px #006885;
+    margin-left: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.food-service-card {
+    width: 650px;
+    height: 163px;
+    box-shadow: 1px 1px 10px #006885;
+    margin-bottom: 20px;
+}
+.ant-card-body {
+    padding: 0 !important;
+}
+:where(.css-dev-only-do-not-override-17a39f8).ant-card .ant-card-body {
+    padding: 0 !important;
+}
+.img-foods {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    width: 260px;
+}
+.form-seat {
+    overflow: auto;
+}
+.footer-continue-service {
+    margin-right: 20px;
+    width: 130px;
+    height: 40px;
+    font-size: 13px;
+    font-weight: 600;
+    &:hover {
+        color: white !important;
+        background-color: rgb(175, 137, 3);
+        border: none !important;
+    }
+}
+.written-notices {
+    color: #25a006;
+    font-size: 18px;
+    font-weight: bold;
+    padding-left: 10px;
+}
+@media (max-width: 700px) {
+    .footer-divider {
+        width: 630px;
+        display: flex !important;
+        justify-content: center !important;
+    }
+    .display-img {
+        display: none;
+    }
+}
+@media (max-width: 600px) {
+    .footer-divider {
+        width: 490px;
+    }
+}
+:where(.css-18iikkb).ant-card .ant-card-body {
+    padding: 0px !important;
+}

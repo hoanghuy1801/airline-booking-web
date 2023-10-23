@@ -38,6 +38,10 @@ import PaymentChange from './component/BookingDetail/PaymentChange/PaymentChange
 
 import PaymentReturn from './component/Payment/PaymentReturn.jsx'
 import PaymentChangeReturn from './component/BookingDetail/PaymentChange/PaymentChangeReturn.jsx'
+import SelectFlyService from './component/BookingDetail/Service/SelectFlyService.jsx'
+import ServiceDetail from './component/BookingDetail/Service/ServiceDetail.jsx'
+import FlyCancel from './component/Admin/FlyCancel/FlyCancel.jsx'
+import ListFlight from './component/Admin/ListFlight/ListFlight.jsx'
 ReactDOM.createRoot(document.getElementById('root')).render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
@@ -66,10 +70,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                             <Route path='/my/success' element={<Success />} />
                             <Route path='/my/booking-detail' element={<BookingDetail />} />
                             <Route path='/my/select-fly-change' element={<SelectFlyChange />} />
+                            <Route path='/my/select-fly-service' element={<SelectFlyService />} />
                             <Route path='/my/opt-change' element={<OtpChange />} />
                             <Route path='/payment-change-methods' element={<PaymentChange />} />
                             <Route path='/payment-change-return' element={<PaymentChangeReturn />} />
-
+                            <Route path='/my/sevice-detail' element={<ServiceDetail />} />
                             <Route path='/my/select-flight-change' element={<SelectFlightChange />} />
                             <Route path='/my/search-flight-change' element={<SearchFightChange />} />
                             <Route path='/test' element={<MyForm />} />
@@ -78,6 +83,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                             <Route path='/admins/manager-admin' element={<ManagerAdmin />} />
                             <Route path='/admins/manager-admin/create' element={<CreateAdmin />} />
                             <Route path='/admins/manager-admin/edit' element={<EditAdmin />} />
+                            <Route path='/admins/flyCancel' element={<FlyCancel />} />
+                            <Route path='/admins/listflight' element={<ListFlight />} />
                         </Route>
                     </Routes>
                 </LanguageProvider>

@@ -4,7 +4,7 @@ import './Change.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { calculateTimeDifference, formatDateString, formatTime } from '../../../utils/format'
 import { useState } from 'react'
-import { setDataChangeFly, setSelectChangeFly } from '../../../redux/reducers/myFlight'
+import { setSelectChangeFly } from '../../../redux/reducers/myFlight'
 const { Text } = Typography
 // eslint-disable-next-line react/prop-types
 const CustomCheckbox = ({ id, onChange }) => {
@@ -29,6 +29,7 @@ const SelectFlyChange = () => {
                 flightReturnDetail: null,
                 return: false
             }
+
             dispath(setSelectChangeFly(dataChange))
         } else if (flightReturnDetail?.id === checkedItems) {
             const dataChange = {

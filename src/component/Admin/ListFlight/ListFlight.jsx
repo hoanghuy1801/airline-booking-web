@@ -1,7 +1,7 @@
 import React from 'react'
 import { Table, Space, Input, Row, Col, Button } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
-import './ManagerAdmin.css'
+import './ListFlight.css'
 import { useNavigate } from 'react-router-dom'
 
 const { Search } = Input
@@ -10,7 +10,7 @@ const onChange = (pagination, filters, sorter, extra) => {
     console.log('params', pagination, filters, sorter, extra)
 }
 const onSearch = (value) => console.log(value)
-const ManagerAdmin = () => {
+const ListFlight = () => {
     const navigate = useNavigate()
     const columns = [
         {
@@ -22,40 +22,64 @@ const ManagerAdmin = () => {
             }
         },
         {
-            title: 'Email',
-            dataIndex: 'email',
+            title: 'Tên chuyến bay',
+            dataIndex: 'nameflight',
             sorter: {
                 compare: (a, b) => a.email - b.email,
                 multiple: 3
             }
         },
         {
-            title: 'Họ và tên',
-            dataIndex: 'fullname',
+            title: 'Điểm đi',
+            dataIndex: 'from',
             sorter: {
                 compare: (a, b) => a.fullname - b.fullname,
                 multiple: 2
             }
         },
         {
-            title: 'Số điện thoại',
-            dataIndex: 'phone',
+            title: 'điểm đến',
+            dataIndex: 'to',
             sorter: {
                 compare: (a, b) => a.phone - b.phone,
                 multiple: 1
             }
         },
         {
-            title: 'Ngày sinh',
-            dataIndex: 'DateUser',
+            title: 'Ngày đi',
+            dataIndex: 'dateto',
             sorter: {
                 compare: (a, b) => a.phone - b.phone,
                 multiple: 1
             }
         },
         {
-            title: 'Ngày tạo',
-            dataIndex: 'dataCreate',
+            title: 'Ngày về',
+            dataIndex: 'datereturn',
+            sorter: {
+                compare: (a, b) => a.phone - b.phone,
+                multiple: 1
+            }
+        },
+        {
+            title: 'Thời gian đi',
+            dataIndex: 'timego',
+            sorter: {
+                compare: (a, b) => a.phone - b.phone,
+                multiple: 1
+            }
+        },
+        {
+            title: 'Thời gian về',
+            dataIndex: 'timereturn',
+            sorter: {
+                compare: (a, b) => a.phone - b.phone,
+                multiple: 1
+            }
+        },
+        {
+            title: 'Trạng thái',
+            dataIndex: 'status',
             sorter: {
                 compare: (a, b) => a.phone - b.phone,
                 multiple: 1
@@ -80,25 +104,23 @@ const ManagerAdmin = () => {
         {
             key: '1',
             id: 1,
-            email: 'huy@gmail.com',
-            fullname: 'Phạm Hoàng Huy',
-            phone: '0964505517',
-            DateUser: '10/01/2023',
-            dataCreate: '10/01/2023'
+            nameflight: 'Arbuss',
+            from: 'HN',
+            to: 'HCM',
+            dateto: '10/01/2023',
+            datereturn: '10/01/2023',
+            timego: 'mai',
+            timereturn: 'môt',
+            status: 'oke'
         }
     ]
     return (
         <>
-            <p className='title-admin'>Thông tin nhân viên</p>
+            <p className='title-admin'>Danh sách chuyến bay</p>
             <Row>
-                <Col span={18}>
-                    <Button className='btn-create' onClick={() => navigate('/admins/manager-admin/create')}>
-                        Thêm
-                    </Button>
-                </Col>
-                <Col span={6}>
+                <Col span={24} style={{ display: 'flex', justifyContent: 'end' }}>
                     <Search
-                        placeholder='input search text'
+                        placeholder='Nhập id chuyến bay để tìm kiếm'
                         allowClear
                         enterButton='Tìm'
                         size='large'
@@ -114,4 +136,4 @@ const ManagerAdmin = () => {
     )
 }
 
-export default ManagerAdmin
+export default ListFlight

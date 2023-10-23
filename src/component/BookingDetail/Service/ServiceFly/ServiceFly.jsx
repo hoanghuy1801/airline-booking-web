@@ -1,22 +1,23 @@
 /* eslint-disable react/prop-types */
 import { Row, Col, Typography, Button, Drawer, Divider, Card, Radio, InputNumber, Select } from 'antd'
-import './Service.css'
+import './ServiceFly.css'
 import { IconArrowBadgeRightFilled } from '@tabler/icons-react'
 import { useDispatch, useSelector } from 'react-redux'
-import imgFavorite from '../../../assets/service/select-service_favorite.svg'
-import imgFood from '../../../assets/service/select-service_foods.svg'
-import imgluggage from '../../../assets/service/select-service_luggage.svg'
+import imgFavorite from '../../../../assets/service/select-service_favorite.svg'
+import imgFood from '../../../../assets/service/select-service_foods.svg'
+import imgluggage from '../../../../assets/service/select-service_luggage.svg'
 
-import imgMiy from '../../../assets/service/mi-y.jpg'
+import imgMiy from '../../../../assets/service/mi-y.jpg'
 import { useState } from 'react'
-import SeatSelector from '../SeatSelector/SeatSelector'
-import { useLanguage } from '../../../LanguageProvider/LanguageProvider'
-import { setInfoPassengers } from '../../../redux/reducers/booking'
-import { formatCurrency } from '../../../utils/format'
-import { getServiceAirline } from '../../../services/apiBooking'
+import SeatSelector from '../../../SelectService/SeatSelector/SeatSelector'
+import { useLanguage } from '../../../../LanguageProvider/LanguageProvider'
+import { setInfoPassengers } from '../../../../redux/reducers/booking'
+import { formatCurrency } from '../../../../utils/format'
+import { getServiceAirline } from '../../../../services/apiBooking'
+import { setSelectChangeFly } from '../../../../redux/reducers/myFlight'
 const { Option } = Select
 const { Text } = Typography
-const Service = (props) => {
+const ServiceFly = (props) => {
     const {
         // eslint-disable-next-line react/prop-types
         baggageOptions,
@@ -51,14 +52,17 @@ const Service = (props) => {
     const [priceBaggage, setPriceBaggage] = useState(0)
 
     const data = useSelector((state) => state.homePage.homePageInfor)
-    const flightSelectReturn = useSelector((state) => state.flightSelect.flightSelectReturn)
-
-    const flightSelect = useSelector((state) => state.flightSelect.flightSelect)
+    const flightSelectReturn = useSelector((state) => state.myFlight?.selectChangeFly?.flightReturnDetail)
+    const bookingDetail = useSelector((state) => state.myFlight?.bookingDetails?.bookingDetail)
+    const flightSelect = useSelector((state) => state.myFlight?.selectChangeFly?.flightAwayDetail)
     const { getText } = useLanguage()
 
     const [valueRadio, setValueRadio] = useState('')
+    const dataPassengers = useSelector((state) => state.myFlight.bookingDetails?.flightAwayDetail?.passengerAwaysDetail)
+    const dataPassengersReturn = useSelector(
+        (state) => state.myFlight.bookingDetails?.flightReturnDetail?.passengerReturnsDetail
+    )
 
-    const dataPassengers = useSelector((state) => state.flightSelect.infoPassengers)
     const [selectPassengers, setSelectPassengers] = useState(dataPassengers[0]?.id)
     const [selectPassengersBaggage, setSelectPassengersBaggage] = useState(dataPassengers[0]?.id)
     const [selectPassengersMeal, setSelectPassengersMeal] = useState(dataPassengers[0]?.id)
@@ -125,7 +129,11 @@ const Service = (props) => {
     }
     const onChangePassengersRoundTrip = async (value) => {
         if (value === 'true') {
-            let res = await getServiceAirline(flightSelectReturn.id, flightSelectReturn.airline.id, data.seatId)
+            let res = await getServiceAirline(
+                flightSelectReturn.id,
+                '826b4d34-fe05-48b7-b78b-9a83083a38af',
+                '94773356-7b49-4dd6-9ba9-0d8ac3f545fd'
+            )
             setSeatOptions(res.data.seatOptions)
         }
         setSelectTripPassengers(value)
@@ -147,14 +155,14 @@ const Service = (props) => {
     const hanldeConfirm = () => {
         if (selectTripPassengers === 'false') {
             const newSeat = {
-                seatId: data.seatId,
-                flightId: flightSelect.id,
+                seatId: '94773356-7b49-4dd6-9ba9-0d8ac3f545fd',
+                flightId: flightSelect?.id,
                 seatCode: selectedSeat,
-                seatClass: data.seatClass,
+                seatClass: 'ECONOMY',
                 seatPrice: priceSeat
             }
             const updatedPassengers = dataPassengers.map((dataPassengers) => {
-                if (dataPassengers.seat.seatCode != null) {
+                if (dataPassengers?.seatServicePrice) {
                     return dataPassengers
                 } else if (dataPassengers.id === selectPassengers) {
                     if (selectedSeats.includes(selectedSeat)) {
@@ -171,14 +179,14 @@ const Service = (props) => {
             handleTotal(updatedPassengers)
         } else {
             const newSeat = {
-                seatId: data.seatId,
+                seatId: '94773356-7b49-4dd6-9ba9-0d8ac3f545fd',
                 flightId: flightSelectReturn.id,
                 seatCode: selectedSeat,
-                seatClass: data.seatClass,
+                seatClass: 'ECONOMY',
                 seatPrice: priceSeat
             }
-            const updatedPassengers = dataPassengers.map((dataPassengers) => {
-                if (dataPassengers.seatsReturn.seatCode != null) {
+            const updatedPassengers = dataPassengersReturn.map((dataPassengers) => {
+                if (dataPassengers?.seatServicePrice) {
                     return dataPassengers
                 } else if (dataPassengers.id === selectPassengers) {
                     if (selectedSeats.includes(selectedSeat)) {
@@ -191,7 +199,6 @@ const Service = (props) => {
 
                 return dataPassengers
             })
-            console.log('chuyến về', updatedPassengers)
             dispath(setInfoPassengers(updatedPassengers))
             handleTotalReturn(updatedPassengers)
         }
@@ -206,7 +213,7 @@ const Service = (props) => {
         }
         if (selectTripPassengers === 'false') {
             const updatedPassengers = dataPassengers.map((dataPassengers) => {
-                if (dataPassengers.id === selectPassengers) {
+                if (dataPassengers?.seatServicePrice) {
                     setSelectedSeats(selectedSeats.filter((item) => item !== dataPassengers.seat.seatCode))
                     return { ...dataPassengers, seat: newSeat }
                 }
@@ -215,8 +222,8 @@ const Service = (props) => {
             dispath(setInfoPassengers(updatedPassengers))
             handleTotal(updatedPassengers)
         } else {
-            const updatedPassengers = dataPassengers.map((dataPassengers) => {
-                if (dataPassengers.id === selectPassengers) {
+            const updatedPassengers = dataPassengersReturn.map((dataPassengers) => {
+                if (dataPassengers?.seatServicePrice) {
                     setSelectedSeats(selectedSeats.filter((item) => item !== dataPassengers.seatsReturn.seatCode))
                     return { ...dataPassengers, seatsReturn: newSeat }
                 }
@@ -239,8 +246,11 @@ const Service = (props) => {
                 }
                 return dataPassengers
             })
-
-            dispath(setInfoPassengers(updatedPassengers))
+            const dataChange = {
+                flightAwayDetail: updatedPassengers,
+                flightReturnDetail: dataPassengersReturn
+            }
+            dispath(setSelectChangeFly(dataChange))
             handleTotal(updatedPassengers)
         } else {
             const newBaggage = {
@@ -248,7 +258,7 @@ const Service = (props) => {
                 flightId: flightSelectReturn.id,
                 servicePrice: priceBaggage
             }
-            const updatedPassengers = dataPassengers.map((dataPassengers) => {
+            const updatedPassengers = dataPassengersReturn.map((dataPassengers) => {
                 if (dataPassengers.id === selectPassengersBaggage) {
                     return { ...dataPassengers, baggageReturn: newBaggage }
                 }
@@ -481,7 +491,7 @@ const Service = (props) => {
             >
                 <div className='form-favorite'>
                     <Row className='roundTrip'>
-                        {data.roundTrip === true ? (
+                        {bookingDetail.journeyType === 'RETURN' ? (
                             <Select
                                 style={{
                                     width: 120
@@ -632,7 +642,7 @@ const Service = (props) => {
             >
                 <div className='form-favorite'>
                     <Row className='roundTrip'>
-                        {data.roundTrip === true ? (
+                        {bookingDetail.journeyType === 'RETURN' ? (
                             <Select
                                 style={{
                                     width: 120
@@ -789,7 +799,7 @@ const Service = (props) => {
             >
                 <div className='form-favorite'>
                     <Row className='roundTrip'>
-                        {data.roundTrip === true ? (
+                        {bookingDetail.journeyType === 'RETURN' ? (
                             <Select
                                 style={{
                                     width: 120
@@ -939,4 +949,4 @@ const Service = (props) => {
         </>
     )
 }
-export default Service
+export default ServiceFly
