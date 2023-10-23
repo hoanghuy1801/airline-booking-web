@@ -1,16 +1,30 @@
-.search-detail{
+.search-detail {
     background-image: url('../../../assets/BackRoud.png');
     background-size: cover;
-    height: 900px;
+    height: 911px;
 }
-.main-fly-change{
+.nav-service-detail {
+    height: 65px;
+    background-color: white;
+}
+.form-select-fly-service {
+    background-color: white;
+    box-shadow: 0px 10px 32px #006885;
+    border-radius: 10px;
+    padding-bottom: 10px;
+}
+.title-services {
+    font-size: 30px;
+    font-weight: 600;
+}
+.main-fly-change {
     padding: 5% 30% 5% 30%;
     justify-content: flex-end;
 }
-.main-service-detail{
-    margin: 0% 20% 0 20%;
+.main-service-detail {
+    margin: 0% 17% 0 17%;
 }
-.code-booking-change{
+.code-booking-change {
     display: flex;
     justify-content: center;
     align-content: center;
@@ -19,38 +33,37 @@
     font-size: 20px;
     font-weight: 500;
 }
-.title-services{
+.title-services {
     padding: 10px;
 }
-@media (max-width:1500px){
-    .main-service-detail{
+@media (max-width: 1500px) {
+    .main-service-detail {
         margin: 0% 10% 0 10%;
-    } 
+    }
 }
-@media (max-width:1200px){
-    .main-service-detail{
+@media (max-width: 1200px) {
+    .main-service-detail {
         margin: 0% 8% 0 8%;
     }
-    .main-fly-change{
+    .main-fly-change {
         padding: 5% 20% 5% 20% !important;
     }
 }
-@media (max-width:992px){
-    .main-service-detail{
+@media (max-width: 992px) {
+    .main-service-detail {
         margin: 0% 5% 0 5%;
     }
-   
 }
-@media (max-width:768px){
-    .main-service-detail{
+@media (max-width: 768px) {
+    .main-service-detail {
         margin: 0% 2% 0 2%;
     }
-    .main-fly-change{
+    .main-fly-change {
         padding: 5% 2% 15% 2% !important;
     }
 }
-@media (max-width:576px){
-    .main-service-detail{
+@media (max-width: 576px) {
+    .main-service-detail {
         margin: 0% 1% 0 1%;
     }
 }

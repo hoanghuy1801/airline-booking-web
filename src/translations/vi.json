@@ -135,7 +135,7 @@
     "TryAgain": "Vui lòng thử lại",
     "NotificationSearchBooking": "Bạn chưa điền đầy đủ thông tin tìm chuyến bay!",
     "Close": "Đóng",
-    "NotSelectFlight": "You have not selected a flight yet",
+    "NotSelectFlight": "Bạn chưa chọn chuyến bay",
     "NotFlight": "Không tìm thấy chuyến bay nào cho lựa chọn của bạn. Quay lại để chọn ngày khác.",
     "NotInfo": "Bạn chưa nhập đủ thông tin",
     "NotInfoChildren": "Bạn chưa nhập đủ thông tin Trẻ em",
@@ -170,7 +170,7 @@
     "utility_fee": "Phí tiện ích:",
     "SuccessPayment": "Thanh toán thành công!",
     "PaymentTotal": "Bạn đã thanh toán số tiền",
-    "CodeBooking": "Mã đặt vé của bạn:",
+    "CodeBooking": "Mã đặt chỗ của bạn:",
     "ErrorPayment": "Thanh toán thất bại!",
     "Error_Notification": " Rất tiếc, thanh toán không thành công. Vui lòng thử lại sau.",
     "Notification_Adults": "Thành viên phải lớn hơn 12 tuổi",
@@ -200,5 +200,6 @@
     "PhoneOTP": "Số điện thoại nhận OTP",
     "Reason": "Lý do",
     "Send_require": "Gửi yêu cầu",
-    "NotPhoneRefund": "Số điện thoạt không phải của khách hàng mua vé"
+    "NotPhoneRefund": "Số điện thoạt không phải của khách hàng mua vé",
+    "SendRefundSuccess": "Gửi yêu cầu hoàn tiền thành công"
 }

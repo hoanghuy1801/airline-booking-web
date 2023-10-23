@@ -1,45 +1,52 @@
-import { useState, useEffect } from 'react'
 import { Row, Col, Form, Typography } from 'antd'
 import './SelectInfoFly.css'
 import { IconPlane } from '@tabler/icons-react'
-import React from 'react'
 import { useSelector } from 'react-redux'
 import { formatCurrency, removeDiacritics } from '../../../utils/format'
 import { useLanguage } from '../../../LanguageProvider/LanguageProvider'
-const { Title, Text } = Typography
+const { Text } = Typography
 
 const SelectInfoFly = (props) => {
     const { getText } = useLanguage()
+    // eslint-disable-next-line react/prop-types
     const { flightSelect, flightSelectReturn, totalService, totalServiceReturn } = props
     const data = useSelector((state) => state?.homePage?.homePageInfor)
     const totalPeople = data?.children + data?.adult
 
     const totalAdultPrice =
+        // eslint-disable-next-line react/prop-types
         (flightSelect?.flightSeatPrice?.adultPrice + flightSelect?.flightSeatPrice?.taxPrice) * data?.adult
     const adultPriceFomat = formatCurrency(totalAdultPrice)
 
     const totalChildrenPrice =
+        // eslint-disable-next-line react/prop-types
         (flightSelect?.flightSeatPrice?.childrenPrice + flightSelect?.flightSeatPrice?.taxPrice) * data?.children
     const childrenPriceFomat = formatCurrency(totalChildrenPrice)
 
+    // eslint-disable-next-line react/prop-types
     const totalInfantPrice = flightSelect?.flightSeatPrice?.infantPrice * data?.baby
     const infantPriceFomat = formatCurrency(totalInfantPrice)
 
+    // eslint-disable-next-line react/prop-types
     const totalFee = flightSelect?.flightSeatPrice?.taxService?.totalFee * totalPeople
     const totalFeeFomat = formatCurrency(totalFee)
 
     const totalAdultPriceReturn =
+        // eslint-disable-next-line react/prop-types
         (flightSelectReturn?.flightSeatPrice?.adultPrice + flightSelectReturn?.flightSeatPrice?.taxPrice) * data?.adult
     const adultPriceFomatReturn = formatCurrency(totalAdultPriceReturn)
 
     const totalChildrenPriceReturn =
+        // eslint-disable-next-line react/prop-types
         (flightSelectReturn?.flightSeatPrice?.childrenPrice + flightSelectReturn?.flightSeatPrice?.taxPrice) *
         data?.children
     const childrenPriceFomatReturn = formatCurrency(totalChildrenPriceReturn)
 
+    // eslint-disable-next-line react/prop-types
     const totalInfantPriceReturn = flightSelectReturn?.flightSeatPrice?.infantPrice * data?.baby
     const infantPriceFomatReturn = formatCurrency(totalInfantPriceReturn)
 
+    // eslint-disable-next-line react/prop-types
     const totalFeeReturn = flightSelectReturn?.flightSeatPrice?.taxService?.totalFee * totalPeople
     const totalFeeReturnFomat = formatCurrency(totalFeeReturn)
 

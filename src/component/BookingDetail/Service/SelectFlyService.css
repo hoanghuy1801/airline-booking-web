@@ -1,16 +1,14 @@
-.form-select-fly-service{
+.form-select-fly-service {
     background-color: white;
     box-shadow: 0px 10px 32px #006885;
     border-radius: 10px;
     padding-bottom: 10px;
 }
-.title-services{
-   font-size: 30px;
-   font-weight: 600;
-
+.title-services {
+    font-size: 30px;
+    font-weight: 600;
 }
-.name-fly{
+.name-fly {
     font-size: 22px;
     font-weight: 600;
-    
 }
