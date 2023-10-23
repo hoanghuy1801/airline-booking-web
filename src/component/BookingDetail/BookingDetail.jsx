@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import CollapseDetail from './Collapse/CollapseDetail'
 import { useSelector } from 'react-redux'
 import { CaretRightOutlined } from '@ant-design/icons'
-import { convertGender } from '../../utils/utils'
+import { changeStatus, convertGender } from '../../utils/utils'
 import vietjet from '../../assets/vietjet.svg'
 import {
     calculateTimeDifference,
@@ -16,7 +16,7 @@ import {
 } from '../../utils/format'
 import { useLanguage } from '../../LanguageProvider/LanguageProvider'
 import { InputOTP } from 'antd-input-otp'
-import { showErrorModal, showWaringModal } from '../../utils/modalError'
+import { showErrorModal, showSuccessModal, showWaringModal } from '../../utils/modalError'
 import { postSendPhoneOTP, postVerifyPhoneOTP } from '../../services/apiAuth'
 import { openNotification } from '../../utils/Notification'
 import { patchBooking } from '../../services/apiBooking'
@@ -68,7 +68,7 @@ const BookingDetail = () => {
     let updatedAduls = aduls
     let updatedChilds = childs
     let updatedInfants = infants
-    if (passengerReturnsDetail.length !== 0) {
+    if (passengerReturnsDetail !== undefined) {
         let adultsReturn = passengerReturnsDetail.filter(
             (passengerReturnsDetail) => passengerReturnsDetail.passengerType === 'ADULT'
         )
@@ -92,18 +92,17 @@ const BookingDetail = () => {
                     errors: [`${getText('NotValidOTP')}`]
                 }
             ])
-
-        let res = await postVerifyPhoneOTP(bookingDetails.id, convertString(otp))
-        if (res.data.status == 400) {
-            showErrorModal(`${getText('Notification')}`, `${getText('NotOTP')}`, `${getText('Close')}`)
-        } else {
+        try {
+            await postVerifyPhoneOTP(bookingDetails.id, convertString(otp))
             let dataCancel = {
                 bookingId: bookingDetails.id,
                 note: reason
             }
             await patchBooking(dataCancel)
-            openNotification('success', 'thành công', 'thành công')
+            openNotification('success', `${getText('Notification')}`, `${getText('SendRefundSuccess')}`)
             setIsModalOpen(false)
+        } catch (error) {
+            showErrorModal(`${getText('Notification')}`, `${getText('NotOTP')}`, `${getText('Close')}`)
         }
     }
     const [isModalOpen, setIsModalOpen] = useState(false)
@@ -156,13 +155,26 @@ const BookingDetail = () => {
             setIsCounting(false)
         }
     }, [timeLeft, isCounting])
-
+    const hanldeSentOTP = async () => {
+        if (timeLeft == 0) {
+            await postSendPhoneOTP(bookingDetails?.id, inputNumberPhone)
+            setTimeLeft(120)
+            setIsCounting(true)
+            showSuccessModal(`${getText('Notification')}`, `${getText('AgainOTP')}`, `${getText('Close')}`)
+        } else {
+            showWaringModal(
+                `${getText('Notification')}`,
+                `${getText('TryAgain')} ${getText('after')} ${timeLeft} ${getText('second')}`,
+                `${getText('Close')}`
+            )
+        }
+    }
     return (
         <div className='booking-detail' style={{ paddingBottom: '1000px' }}>
             <div className='info-booking-detail'>
                 <Row>
                     <Col xs={8} sm={8} md={8} lg={8} xl={8} className='code-booking'>
-                        <Text style={{ fontSize: '18px', fontWeight: 700 }}>
+                        <Text style={{ fontSize: '16px', fontWeight: 700 }}>
                             {getText('BOOKING_CODE')} :{' '}
                             <span style={{ color: 'red', fontSize: '20px', fontWeight: 700 }}>
                                 {bookingDetails?.bookingCode}
@@ -170,11 +182,11 @@ const BookingDetail = () => {
                         </Text>
                     </Col>
                     <Col xs={8} sm={8} md={8} lg={8} xl={8} className='code-booking-status'>
-                        <Text style={{ fontSize: '18px', fontWeight: 700 }}>
+                        <Text style={{ fontSize: '16px', fontWeight: 700 }}>
                             {getText('STATUS')}:{' '}
                             <span style={{ color: 'green', fontSize: '20px', fontWeight: 700 }}>
                                 {' '}
-                                {getText('paid')}
+                                {changeStatus(bookingDetails?.status, language)}
                             </span>
                         </Text>
                     </Col>
@@ -379,8 +391,23 @@ const BookingDetail = () => {
                                                                     <Text className='title-price'>
                                                                         {formatCurrency(
                                                                             totalOptionbaggagePrice +
-                                                                                totalOptionMealPrice
+                                                                                totalOptionMealPrice +
+                                                                                (index?.seatServicePrice !== undefined
+                                                                                    ? index?.seatServicePrice
+                                                                                    : 0)
                                                                         )}
+                                                                    </Text>
+                                                                </Col>
+                                                            </Row>
+                                                            <Row className='details'>
+                                                                <Col span={12}>
+                                                                    <Text>{getText('seat')}</Text>
+                                                                </Col>
+                                                                <Col span={12} className='col-details-price'>
+                                                                    <Text>
+                                                                        {index?.seatServicePrice !== undefined
+                                                                            ? formatCurrency(index?.seatServicePrice)
+                                                                            : formatCurrency(0)}
                                                                     </Text>
                                                                 </Col>
                                                             </Row>
@@ -425,6 +452,9 @@ const BookingDetail = () => {
                                                                         {formatCurrency(
                                                                             totalOptionbaggagePrice +
                                                                                 totalOptionMealPrice +
+                                                                                (index?.seatServicePrice !== undefined
+                                                                                    ? index?.seatServicePrice
+                                                                                    : 0) +
                                                                                 index?.taxService?.totalFee +
                                                                                 index?.seatPrice
                                                                         )}
@@ -610,8 +640,26 @@ const BookingDetail = () => {
                                                                         <Text className='title-price'>
                                                                             {formatCurrency(
                                                                                 totalOptionbaggagePriceReturn +
-                                                                                    totalOptionMealPriceReturn
+                                                                                    totalOptionMealPriceReturn +
+                                                                                    (fightReturn?.seatServicePrice !==
+                                                                                    undefined
+                                                                                        ? fightReturn?.seatServicePrice
+                                                                                        : 0)
                                                                             )}
+                                                                        </Text>
+                                                                    </Col>
+                                                                </Row>
+                                                                <Row className='details'>
+                                                                    <Col span={12}>
+                                                                        <Text>ghế</Text>
+                                                                    </Col>
+                                                                    <Col span={12} className='col-details-price'>
+                                                                        <Text>
+                                                                            {fightReturn?.seatServicePrice !== undefined
+                                                                                ? formatCurrency(
+                                                                                      fightReturn?.seatServicePrice
+                                                                                  )
+                                                                                : formatCurrency(0)}
                                                                         </Text>
                                                                     </Col>
                                                                 </Row>
@@ -660,6 +708,10 @@ const BookingDetail = () => {
                                                                             {formatCurrency(
                                                                                 totalOptionbaggagePriceReturn +
                                                                                     totalOptionMealPriceReturn +
+                                                                                    (fightReturn?.seatServicePrice !==
+                                                                                    undefined
+                                                                                        ? fightReturn?.seatServicePrice
+                                                                                        : 0) +
                                                                                     fightReturn?.taxService?.totalFee +
                                                                                     fightReturn?.seatPrice
                                                                             )}
@@ -683,7 +735,8 @@ const BookingDetail = () => {
                             </div>
                         )
                     })}
-                    {updatedChilds.map((index) => {
+
+                    {/* {updatedInfants.map((index) => {
                         const serviceOption = index?.serviceOpts
                         const fightReturn = index?.return
                         const serviceOptionReturn = fightReturn?.serviceOpts
@@ -729,497 +782,7 @@ const BookingDetail = () => {
                                             key: 'index',
                                             label: (
                                                 <div style={{ fontSize: '18px', fontWeight: 600 }}>
-                                                    {getText('adult')}: {convertGender(index?.gender, language)}{' '}
-                                                    {index?.lastName} {index?.firstName}
-                                                </div>
-                                            ),
-                                            children: (
-                                                <div className='detail-ticket'>
-                                                    <Row>
-                                                        <Col span={12}>
-                                                            <Text
-                                                                style={{
-                                                                    color: 'green',
-                                                                    fontSize: '16px',
-                                                                    fontWeight: 500
-                                                                }}
-                                                            >
-                                                                {getText('Trip_details')}:{' '}
-                                                            </Text>
-                                                            <Text
-                                                                style={{
-                                                                    color: 'black',
-                                                                    fontSize: '16px',
-                                                                    fontWeight: 500
-                                                                }}
-                                                            >
-                                                                {' '}
-                                                                {flightAwayDetail?.sourceAirport?.airportCode}{' '}
-                                                                <img src={vietjet} />{' '}
-                                                                {flightAwayDetail?.destinationAirport?.airportCode}
-                                                            </Text>
-                                                            <Row className='details'>
-                                                                <Col span={12}>
-                                                                    <Text className='title-price'>
-                                                                        {' '}
-                                                                        {getText('TicketPrice')}
-                                                                    </Text>
-                                                                </Col>
-                                                                <Col span={12} className='col-details-price'>
-                                                                    <Text className='title-price'>
-                                                                        {formatCurrency(index?.seatPrice)}
-                                                                    </Text>
-                                                                </Col>
-                                                            </Row>
-                                                            <Row className='details'>
-                                                                <Col span={12}>
-                                                                    <Text> {getText('Ticket')}</Text>
-                                                                </Col>
-                                                                <Col span={12} className='col-details-price'>
-                                                                    <Text> {formatCurrency(index?.seatPrice)}</Text>
-                                                                </Col>
-                                                            </Row>
-                                                            <Row className='details'>
-                                                                <Col span={12}>
-                                                                    <Text> {getText('VAT')}</Text>
-                                                                </Col>
-                                                                <Col span={12} className='col-details-price'>
-                                                                    <Text> {formatCurrency(index?.seatPrice)}</Text>
-                                                                </Col>
-                                                            </Row>
-                                                            <Row className='details'>
-                                                                <Col span={12}>
-                                                                    <Text className='title-price'>
-                                                                        {getText('TaxesAndFees')}
-                                                                    </Text>
-                                                                </Col>
-                                                                <Col span={12} className='col-details-price'>
-                                                                    <Text className='title-price'>
-                                                                        {formatCurrency(index?.taxService?.totalFee)}
-                                                                    </Text>
-                                                                </Col>
-                                                            </Row>
-                                                            <Row className='details'>
-                                                                <Col span={12}>
-                                                                    <Text>{getText('System_service_surcharge')}</Text>
-                                                                </Col>
-                                                                <Col span={12} className='col-details-price'>
-                                                                    <Text>
-                                                                        {formatCurrency(
-                                                                            index?.taxService
-                                                                                ?.systemAdministrationSurcharge
-                                                                        )}
-                                                                    </Text>
-                                                                </Col>
-                                                            </Row>
-                                                            <Row className='details'>
-                                                                <Col span={12}>
-                                                                    <Text>{getText('Security_screening_fee')}</Text>
-                                                                </Col>
-                                                                <Col span={12} className='col-details-price'>
-                                                                    <Text>
-                                                                        {formatCurrency(
-                                                                            index?.taxService?.securityScreeningFee
-                                                                        )}
-                                                                    </Text>
-                                                                </Col>
-                                                            </Row>
-                                                            <Row className='details'>
-                                                                <Col span={12}>
-                                                                    <Text>{getText('Domestic_airport_fees')}</Text>
-                                                                </Col>
-                                                                <Col span={12} className='col-details-price'>
-                                                                    <Text>
-                                                                        {formatCurrency(index?.taxService?.airportFee)}
-                                                                    </Text>
-                                                                </Col>
-                                                            </Row>
-                                                            <Row className='details'>
-                                                                <Col span={12}>
-                                                                    <Text>
-                                                                        {getText('System_administration_surcharge')}
-                                                                    </Text>
-                                                                </Col>
-                                                                <Col span={12} className='col-details-price'>
-                                                                    <Text>
-                                                                        {formatCurrency(
-                                                                            index?.taxService?.systemServiceSurcharge
-                                                                        )}
-                                                                    </Text>
-                                                                </Col>
-                                                            </Row>
-                                                            <Row className='details'>
-                                                                <Col span={12}>
-                                                                    <Text>{getText('VAT')}</Text>
-                                                                </Col>
-                                                                <Col span={12} className='col-details-price'>
-                                                                    <Text>
-                                                                        {' '}
-                                                                        {formatCurrency(index?.taxService?.VATTax)}
-                                                                    </Text>
-                                                                </Col>
-                                                            </Row>
-                                                            <Row className='details'>
-                                                                <Col span={12}>
-                                                                    <Text className='title-price'>
-                                                                        {getText('service')}
-                                                                    </Text>
-                                                                </Col>
-                                                                <Col span={12} className='col-details-price'>
-                                                                    <Text className='title-price'>
-                                                                        {formatCurrency(
-                                                                            totalOptionbaggagePrice +
-                                                                                totalOptionMealPrice
-                                                                        )}
-                                                                    </Text>
-                                                                </Col>
-                                                            </Row>
-                                                            <Row className='details'>
-                                                                <Col span={12}>
-                                                                    <Text>{getText('signed_luggage')}</Text>
-                                                                </Col>
-                                                                <Col span={12} className='col-details-price'>
-                                                                    <Text>
-                                                                        {formatCurrency(totalOptionbaggagePrice)}
-                                                                    </Text>
-                                                                </Col>
-                                                            </Row>
-                                                            <Row className='details'>
-                                                                <Col span={12}>
-                                                                    <Text>{getText('Hot_Meal')} </Text>
-                                                                </Col>
-                                                                <Col span={12} className='col-details-price'>
-                                                                    <Text>{formatCurrency(totalOptionMealPrice)}</Text>
-                                                                </Col>
-                                                            </Row>
-                                                            <Row className='details'>
-                                                                <Col span={12}>
-                                                                    <Text
-                                                                        style={{
-                                                                            color: 'red',
-                                                                            fontSize: '18px',
-                                                                            fontWeight: 700
-                                                                        }}
-                                                                    >
-                                                                        {getText('Total')}
-                                                                    </Text>
-                                                                </Col>
-                                                                <Col span={12} className='col-details-price'>
-                                                                    <Text
-                                                                        style={{
-                                                                            color: 'red',
-                                                                            fontSize: '18px',
-                                                                            fontWeight: 700
-                                                                        }}
-                                                                    >
-                                                                        {formatCurrency(
-                                                                            totalOptionbaggagePrice +
-                                                                                totalOptionMealPrice +
-                                                                                index?.taxService?.totalFee +
-                                                                                index?.seatPrice
-                                                                        )}
-                                                                    </Text>
-                                                                </Col>
-                                                            </Row>
-                                                        </Col>
-                                                        {index?.return === undefined ? (
-                                                            ''
-                                                        ) : (
-                                                            <Col span={12}>
-                                                                <Text
-                                                                    style={{
-                                                                        color: 'green',
-                                                                        fontSize: '16px',
-                                                                        fontWeight: 500
-                                                                    }}
-                                                                >
-                                                                    {getText('Return_trip_details')}:{' '}
-                                                                </Text>
-                                                                <Text
-                                                                    style={{
-                                                                        color: 'black',
-                                                                        fontSize: '16px',
-                                                                        fontWeight: 500
-                                                                    }}
-                                                                >
-                                                                    {flightReturnDetail?.sourceAirport?.airportCode}{' '}
-                                                                    <img src={vietjet} />{' '}
-                                                                    {
-                                                                        flightReturnDetail?.destinationAirport
-                                                                            ?.airportCode
-                                                                    }
-                                                                </Text>
-                                                                <Row className='details'>
-                                                                    <Col span={12}>
-                                                                        <Text className='title-price'>
-                                                                            {getText('TicketPrice')}
-                                                                        </Text>
-                                                                    </Col>
-                                                                    <Col span={12} className='col-details-price'>
-                                                                        <Text className='title-price'>
-                                                                            {fightReturn?.seatPrice !== undefined
-                                                                                ? formatCurrency(fightReturn?.seatPrice)
-                                                                                : formatCurrency(0)}
-                                                                        </Text>
-                                                                    </Col>
-                                                                </Row>
-                                                                <Row className='details'>
-                                                                    <Col span={12}>
-                                                                        <Text> {getText('Price')}</Text>
-                                                                    </Col>
-                                                                    <Col span={12} className='col-details-price'>
-                                                                        <Text>
-                                                                            {' '}
-                                                                            {fightReturn?.seatPrice !== undefined
-                                                                                ? formatCurrency(fightReturn?.seatPrice)
-                                                                                : formatCurrency(0)}
-                                                                        </Text>
-                                                                    </Col>
-                                                                </Row>
-                                                                <Row className='details'>
-                                                                    <Col span={12}>
-                                                                        <Text>{getText('VAT')}</Text>
-                                                                    </Col>
-                                                                    <Col span={12} className='col-details-price'>
-                                                                        <Text>
-                                                                            {fightReturn?.seatPrice !== undefined
-                                                                                ? formatCurrency(fightReturn?.seatPrice)
-                                                                                : formatCurrency(0)}
-                                                                        </Text>
-                                                                    </Col>
-                                                                </Row>
-                                                                <Row className='details'>
-                                                                    <Col span={12}>
-                                                                        <Text className='title-price'>
-                                                                            {getText('TaxesAndFees')}
-                                                                        </Text>
-                                                                    </Col>
-                                                                    <Col span={12} className='col-details-price'>
-                                                                        <Text className='title-price'>
-                                                                            {fightReturn?.taxService?.totalFee !==
-                                                                            undefined
-                                                                                ? formatCurrency(
-                                                                                      fightReturn?.taxService?.totalFee
-                                                                                  )
-                                                                                : formatCurrency(0)}
-                                                                        </Text>
-                                                                    </Col>
-                                                                </Row>
-                                                                <Row className='details'>
-                                                                    <Col span={12}>
-                                                                        <Text>
-                                                                            {getText('System_service_surcharge')}
-                                                                        </Text>
-                                                                    </Col>
-                                                                    <Col span={12} className='col-details-price'>
-                                                                        <Text>
-                                                                            {fightReturn?.taxService
-                                                                                ?.systemAdministrationSurcharge !==
-                                                                            undefined
-                                                                                ? formatCurrency(
-                                                                                      fightReturn?.taxService
-                                                                                          ?.systemAdministrationSurcharge
-                                                                                  )
-                                                                                : formatCurrency(0)}
-                                                                        </Text>
-                                                                    </Col>
-                                                                </Row>
-                                                                <Row className='details'>
-                                                                    <Col span={12}>
-                                                                        <Text>{getText('Security_screening_fee')}</Text>
-                                                                    </Col>
-                                                                    <Col span={12} className='col-details-price'>
-                                                                        <Text>
-                                                                            {fightReturn?.taxService
-                                                                                ?.securityScreeningFee !== undefined
-                                                                                ? formatCurrency(
-                                                                                      fightReturn?.taxService
-                                                                                          ?.securityScreeningFee
-                                                                                  )
-                                                                                : formatCurrency(0)}
-                                                                        </Text>
-                                                                    </Col>
-                                                                </Row>
-                                                                <Row className='details'>
-                                                                    <Col span={12}>
-                                                                        <Text>{getText('Domestic_airport_fees')}</Text>
-                                                                    </Col>
-                                                                    <Col span={12} className='col-details-price'>
-                                                                        <Text>
-                                                                            {fightReturn?.taxService?.airportFee !==
-                                                                            undefined
-                                                                                ? formatCurrency(
-                                                                                      fightReturn?.taxService
-                                                                                          ?.airportFee
-                                                                                  )
-                                                                                : formatCurrency(0)}
-                                                                        </Text>
-                                                                    </Col>
-                                                                </Row>
-                                                                <Row className='details'>
-                                                                    <Col span={12}>
-                                                                        <Text>
-                                                                            {getText('System_administration_surcharge')}
-                                                                        </Text>
-                                                                    </Col>
-                                                                    <Col span={12} className='col-details-price'>
-                                                                        <Text>
-                                                                            {fightReturn?.taxService
-                                                                                ?.systemServiceSurcharge !== undefined
-                                                                                ? formatCurrency(
-                                                                                      fightReturn?.taxService
-                                                                                          ?.systemServiceSurcharge
-                                                                                  )
-                                                                                : formatCurrency(0)}
-                                                                        </Text>
-                                                                    </Col>
-                                                                </Row>
-                                                                <Row className='details'>
-                                                                    <Col span={12}>
-                                                                        <Text>{getText('VAT')}</Text>
-                                                                    </Col>
-                                                                    <Col span={12} className='col-details-price'>
-                                                                        <Text>
-                                                                            {' '}
-                                                                            {fightReturn?.taxService?.VATTax !==
-                                                                            undefined
-                                                                                ? formatCurrency(
-                                                                                      fightReturn?.taxService?.VATTax
-                                                                                  )
-                                                                                : formatCurrency(0)}
-                                                                        </Text>
-                                                                    </Col>
-                                                                </Row>
-                                                                <Row className='details'>
-                                                                    <Col span={12}>
-                                                                        <Text className='title-price'>
-                                                                            {getText('service')}
-                                                                        </Text>
-                                                                    </Col>
-                                                                    <Col span={12} className='col-details-price'>
-                                                                        <Text className='title-price'>
-                                                                            {formatCurrency(
-                                                                                totalOptionbaggagePriceReturn +
-                                                                                    totalOptionMealPriceReturn
-                                                                            )}
-                                                                        </Text>
-                                                                    </Col>
-                                                                </Row>
-                                                                <Row className='details'>
-                                                                    <Col span={12}>
-                                                                        <Text>{getText('signed_luggage')}</Text>
-                                                                    </Col>
-                                                                    <Col span={12} className='col-details-price'>
-                                                                        <Text>
-                                                                            {formatCurrency(
-                                                                                totalOptionbaggagePriceReturn
-                                                                            )}
-                                                                        </Text>
-                                                                    </Col>
-                                                                </Row>
-                                                                <Row className='details'>
-                                                                    <Col span={12}>
-                                                                        <Text>{getText('Hot_Meal')} </Text>
-                                                                    </Col>
-                                                                    <Col span={12} className='col-details-price'>
-                                                                        <Text>
-                                                                            {formatCurrency(totalOptionMealPriceReturn)}
-                                                                        </Text>
-                                                                    </Col>
-                                                                </Row>
-                                                                <Row className='details'>
-                                                                    <Col span={12}>
-                                                                        <Text
-                                                                            style={{
-                                                                                color: 'red',
-                                                                                fontSize: '18px',
-                                                                                fontWeight: 700
-                                                                            }}
-                                                                        >
-                                                                            {getText('Total')}
-                                                                        </Text>
-                                                                    </Col>
-                                                                    <Col span={12} className='col-details-price'>
-                                                                        <Text
-                                                                            style={{
-                                                                                color: 'red',
-                                                                                fontSize: '18px',
-                                                                                fontWeight: 700
-                                                                            }}
-                                                                        >
-                                                                            {formatCurrency(
-                                                                                totalOptionbaggagePriceReturn +
-                                                                                    totalOptionMealPriceReturn +
-                                                                                    fightReturn?.taxService?.totalFee +
-                                                                                    fightReturn?.seatPrice
-                                                                            )}
-                                                                        </Text>
-                                                                    </Col>
-                                                                </Row>
-                                                            </Col>
-                                                        )}
-                                                    </Row>
-                                                </div>
-                                            )
-                                        }
-                                    ]}
-                                    expandIconPosition='end'
-                                    expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
-                                    style={{
-                                        backgroundColor: '#F1F1F1',
-                                        marginTop: '10px'
-                                    }}
-                                />
-                            </div>
-                        )
-                    })}
-                    {updatedInfants.map((index) => {
-                        const serviceOption = index?.serviceOpts
-                        const fightReturn = index?.return
-                        const serviceOptionReturn = fightReturn?.serviceOpts
-                        const baggageOptions = serviceOption.filter(
-                            (item) => item.bookingService.serviceOption.optionType === 'BAGGAGE_OPT'
-                        )
-                        const mealOptions = serviceOption.filter(
-                            (item) => item.bookingService.serviceOption.optionType === 'MEAL_OPT'
-                        )
-                        const totalOptionbaggagePrice = baggageOptions.reduce(
-                            (total, item) => total + item.bookingService.serviceOption.optionPrice,
-                            0
-                        )
-                        const totalOptionMealPrice = mealOptions.reduce(
-                            (total, item) => total + item.bookingService.serviceOption.optionPrice,
-                            0
-                        )
-                        //Return
-                        let totalOptionbaggagePriceReturn = 0
-                        let totalOptionMealPriceReturn = 0
-                        if (index?.return !== undefined) {
-                            const baggageOptionsReturn = serviceOptionReturn.filter(
-                                (item) => item.bookingService.serviceOption.optionType === 'BAGGAGE_OPT'
-                            )
-                            const mealOptionsReturn = serviceOptionReturn.filter(
-                                (item) => item.bookingService.serviceOption.optionType === 'MEAL_OPT'
-                            )
-                            totalOptionbaggagePriceReturn = baggageOptionsReturn.reduce(
-                                (total, item) => total + item.bookingService.serviceOption.optionPrice,
-                                0
-                            )
-                            totalOptionMealPriceReturn = mealOptionsReturn.reduce(
-                                (total, item) => total + item.bookingService.serviceOption.optionPrice,
-                                0
-                            )
-                        }
-                        return (
-                            <div key={index}>
-                                <Collapse
-                                    size='large'
-                                    items={[
-                                        {
-                                            key: 'index',
-                                            label: (
-                                                <div style={{ fontSize: '18px', fontWeight: 600 }}>
-                                                    {getText('adult')}: {convertGender(index?.gender, language)}{' '}
+                                                    {getText('baby')}: {convertGender(index?.gender, language)}{' '}
                                                     {index?.lastName} {index?.firstName}
                                                 </div>
                                             ),
@@ -1279,7 +842,8 @@ const BookingDetail = () => {
                                                                     <Text className='title-price'>
                                                                         {formatCurrency(
                                                                             totalOptionbaggagePrice +
-                                                                                totalOptionMealPrice
+                                                                                totalOptionMealPrice +
+                                                                                index?.seatServicePrice
                                                                         )}
                                                                     </Text>
                                                                 </Col>
@@ -1291,6 +855,18 @@ const BookingDetail = () => {
                                                                 <Col span={12} className='col-details-price'>
                                                                     <Text>
                                                                         {formatCurrency(totalOptionbaggagePrice)}
+                                                                    </Text>
+                                                                </Col>
+                                                            </Row>
+                                                            <Row className='details'>
+                                                                <Col span={12}>
+                                                                    <Text>ghế</Text>
+                                                                </Col>
+                                                                <Col span={12} className='col-details-price'>
+                                                                    <Text>
+                                                                        {index?.seatServicePrice !== undefined
+                                                                            ? formatCurrency(index?.seatServicePrice)
+                                                                            : formatCurrency(0)}
                                                                     </Text>
                                                                 </Col>
                                                             </Row>
@@ -1325,6 +901,7 @@ const BookingDetail = () => {
                                                                         {formatCurrency(
                                                                             totalOptionbaggagePrice +
                                                                                 totalOptionMealPrice +
+                                                                                index?.seatServicePrice +
                                                                                 index?.seatPrice
                                                                         )}
                                                                     </Text>
@@ -1396,7 +973,20 @@ const BookingDetail = () => {
                                                                         <Text className='title-price'>
                                                                             {formatCurrency(
                                                                                 totalOptionbaggagePriceReturn +
-                                                                                    totalOptionMealPriceReturn
+                                                                                    totalOptionMealPriceReturn +
+                                                                                    fightReturn?.seatServicePrice
+                                                                            )}
+                                                                        </Text>
+                                                                    </Col>
+                                                                </Row>
+                                                                <Row className='details'>
+                                                                    <Col span={12}>
+                                                                        <Text>ghế</Text>
+                                                                    </Col>
+                                                                    <Col span={12} className='col-details-price'>
+                                                                        <Text>
+                                                                            {formatCurrency(
+                                                                                fightReturn?.seatServicePrice
                                                                             )}
                                                                         </Text>
                                                                     </Col>
@@ -1446,6 +1036,7 @@ const BookingDetail = () => {
                                                                             {formatCurrency(
                                                                                 totalOptionbaggagePriceReturn +
                                                                                     totalOptionMealPriceReturn +
+                                                                                    fightReturn?.seatServicePrice +
                                                                                     fightReturn?.seatPrice
                                                                             )}
                                                                         </Text>
@@ -1467,7 +1058,7 @@ const BookingDetail = () => {
                                 />
                             </div>
                         )
-                    })}
+                    })} */}
                 </div>
             </div>
             <div>
@@ -1637,7 +1228,10 @@ const BookingDetail = () => {
                             <h2>{getText('VerificationCode')}</h2>
                             <div className='form-text'>
                                 <Text className='text-information'>
-                                    {getText('textVerificationCode')} {inputNumberPhone}
+                                    {getText('textVerificationCode')}{' '}
+                                    <Text style={{ color: 'red', fontSize: 15, fontWeight: 500 }}>
+                                        {inputNumberPhone}
+                                    </Text>
                                 </Text>
                             </div>
                             <div className='form-text'>
@@ -1659,8 +1253,11 @@ const BookingDetail = () => {
                                 <div className='form-text'>
                                     <Text className='text-not'>
                                         {getText('HaveCode')} {getText('Press')}{' '}
-                                        <u className='text-sendTo'>{getText('SendTo')}</u> {getText('after')}{' '}
-                                        <Text style={{ color: 'red' }}>{timeLeft}</Text> {getText('second')}
+                                        <u className='text-sendTo' onClick={() => hanldeSentOTP()}>
+                                            {getText('SendTo')}
+                                        </u>{' '}
+                                        {getText('after')} <Text style={{ color: 'red' }}>{timeLeft}</Text>{' '}
+                                        {getText('second')}
                                     </Text>
                                 </div>
                                 <Form.Item noStyle>

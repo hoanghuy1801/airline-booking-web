@@ -47,4 +47,24 @@ function convertGender(gender, language) {
         return ''
     }
 }
-export { generateRandomID, calculateAge, convertGender }
+function changeStatus(status, language) {
+    const statusTexts = {
+        en: {
+            ACT: 'Paid',
+            PEN: 'Request Sent',
+            DEL: 'Refunded'
+        },
+        vi: {
+            ACT: 'Đã thanh toán',
+            PEN: 'Đã gửi yêu cầu',
+            DEL: 'Đã hoàn tiền'
+        }
+    }
+
+    if (statusTexts[language] && statusTexts[language][status]) {
+        return statusTexts[language][status]
+    }
+
+    return status // Giữ nguyên trạng thái nếu không tìm thấy phiên bản ngôn ngữ
+}
+export { generateRandomID, calculateAge, convertGender, changeStatus }

@@ -2,17 +2,19 @@ import { useState, useEffect } from 'react'
 import { Button, Form, Typography } from 'antd'
 import { InputOTP } from 'antd-input-otp'
 import { useNavigate } from 'react-router-dom'
-import './Otp.css'
-import { postSendOTP, postVerifyOTP } from '../../services/apiAuth'
-import { convertString } from '../../utils/format'
-import { showErrorModal, showSuccessModal, showWaringModal } from '../../utils/modalError'
-import { openNotification } from '../../utils/Notification'
+import './OtpChange.css'
+import { postSendPhoneOTP, postVerifyPhoneOTP } from '../../../services/apiAuth'
+import { convertString } from '../../../utils/format'
+import { showErrorModal, showSuccessModal, showWaringModal } from '../../../utils/modalError'
 import { useSelector } from 'react-redux'
-import { useLanguage } from '../../LanguageProvider/LanguageProvider'
+import { useLanguage } from '../../../LanguageProvider/LanguageProvider'
 const { Text } = Typography
 const Otp = () => {
     const { getText } = useLanguage()
-    const InfoRegister = useSelector((state) => state.Auth.InfoRegister)
+    const bookingDetails = useSelector((state) => state.myFlight.bookingDetails?.bookingDetail)
+    const passengerAwaysDetail = useSelector(
+        (state) => state.myFlight?.bookingDetails?.flightAwayDetail?.passengerAwaysDetail
+    )
     const [timeLeft, setTimeLeft] = useState(120)
     const [form] = Form.useForm()
     const navigate = useNavigate()
@@ -25,17 +27,16 @@ const Otp = () => {
                     errors: [`${getText('NotValidOTP')}`]
                 }
             ])
-        let res = await postVerifyOTP(convertString(otp))
-        if (res.data.status == 400) {
+        try {
+            await postVerifyPhoneOTP(bookingDetails?.id, convertString(otp))
+            navigate('/payment-change-methods')
+        } catch (error) {
             showErrorModal(`${getText('Notification')}`, `${getText('NotOTP')}`, `${getText('Close')}`)
-        } else {
-            openNotification('success', `${getText('Notification')}`, `${getText('SuccessRegister')}`)
-            navigate('/')
         }
     }
     const hanldeSentOTP = async () => {
         if (timeLeft == 0) {
-            await postSendOTP()
+            await postSendPhoneOTP(bookingDetails?.id, passengerAwaysDetail[0].phoneNumber)
             showSuccessModal(`${getText('Notification')}`, `${getText('AgainOTP')}`, `${getText('Close')}`)
         } else {
             showWaringModal(
@@ -65,7 +66,7 @@ const Otp = () => {
                     <Text className='text-information'>{getText('textVerificationCode')}</Text>
                 </div>
                 <div className='form-text'>
-                    <Text className='text-email'>{InfoRegister.phoneNumber}</Text>
+                    <Text className='text-email'>{passengerAwaysDetail[0]?.phoneNumber}</Text>
                 </div>
                 <Form form={form} onFinish={handleFinish}>
                     <Form.Item
@@ -90,7 +91,7 @@ const Otp = () => {
                         </Button>
                     </Form.Item>
                     <div className='form-text'>
-                        <Text className='text-back' onClick={() => navigate('/register')}>
+                        <Text className='text-back' onClick={() => navigate('/my/select-flight-change')}>
                             {getText('Back')}
                         </Text>
                     </div>

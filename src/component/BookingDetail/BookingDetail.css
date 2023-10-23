@@ -7,7 +7,12 @@
     height: 65px;
     background-color: white;
 }
-
+.text-sendTo {
+    cursor: pointer;
+}
+.form-text {
+    padding-bottom: 15px;
+}
 .code-booking {
     padding-right: 3%;
     padding-top: 1%;

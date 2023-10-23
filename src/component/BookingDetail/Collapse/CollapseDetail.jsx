@@ -159,7 +159,7 @@ const CollapseDetail = () => {
                                 key: 'index',
                                 label: (
                                     <div>
-                                        <Text className='roundTrip-booking'>{getText('Trip')}</Text>
+                                        <Text className='roundTrip-booking'>{getText('TripReturn')}</Text>
                                         <br />
                                         <Text className='date-fly'>
                                             {getText('Date')}: {formatDateString(flightReturnDetail?.arrivalTime)}

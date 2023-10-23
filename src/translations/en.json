@@ -199,5 +199,6 @@
     "PhoneOTP": "Phone number to receive OTP",
     "Reason": "Reason",
     "Send_require": "Send require",
-    "NotPhoneRefund": "The phone number does not initially belong to the customer purchasing the ticket"
+    "NotPhoneRefund": "The phone number does not initially belong to the customer purchasing the ticket",
+    "SendRefundSuccess": "Submitted a refund request successfully"
 }
