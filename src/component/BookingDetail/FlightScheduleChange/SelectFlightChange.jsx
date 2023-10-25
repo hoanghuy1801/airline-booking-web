@@ -9,7 +9,7 @@ import { formatCurrency, formatDate } from '../../../utils/format'
 import { useNavigate } from 'react-router-dom'
 import { postSendPhoneOTP } from '../../../services/apiAuth'
 import { showWaringModal } from '../../../utils/modalError'
-import { setSelectedFlyChange, setTotalChange } from '../../../redux/reducers/myFlight'
+import { setChangeService, setSelectedFlyChange, setTotalChange } from '../../../redux/reducers/myFlight'
 const { Text } = Typography
 const SelectFlightChange = () => {
     const navigate = useNavigate()
@@ -157,6 +157,7 @@ const SelectFlightChange = () => {
         }
         dispath(setSelectedFlyChange(flightSelect))
         dispath(setTotalChange(total))
+        dispath(setChangeService(false))
         navigate('/my/opt-change')
     }
     return (

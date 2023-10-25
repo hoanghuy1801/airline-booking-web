@@ -17,7 +17,7 @@ import {
 import { useLanguage } from '../../LanguageProvider/LanguageProvider'
 import { InputOTP } from 'antd-input-otp'
 import { showErrorModal, showSuccessModal, showWaringModal } from '../../utils/modalError'
-import { postSendPhoneOTP, postVerifyPhoneOTP } from '../../services/apiAuth'
+import { postSendPhoneOTP, postVerifyPhoneOTPCancel } from '../../services/apiAuth'
 import { openNotification } from '../../utils/Notification'
 import { patchBooking } from '../../services/apiBooking'
 const { TextArea } = Input
@@ -93,7 +93,7 @@ const BookingDetail = () => {
                 }
             ])
         try {
-            await postVerifyPhoneOTP(bookingDetails.id, convertString(otp))
+            await postVerifyPhoneOTPCancel(bookingDetails.id, convertString(otp))
             let dataCancel = {
                 bookingId: bookingDetails.id,
                 note: reason
