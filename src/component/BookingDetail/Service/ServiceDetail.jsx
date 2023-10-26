@@ -4,17 +4,28 @@ import './ServiceDetail.css'
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 
-import Service from '../../SelectService/Service/Service'
 import TotalService from './TotalService'
 import { getServiceAirline } from '../../../services/apiBooking'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import ServiceFly from './ServiceFly/ServiceFly'
+import {
+    setChangeService,
+    setDataPassengersService,
+    setDataPassengersServiceReturn,
+    setTotalChange
+} from '../../../redux/reducers/myFlight'
+import { formatCurrency } from '../../../utils/format'
+import { showWaringModal } from '../../../utils/modalError'
+import { useLanguage } from '../../../LanguageProvider/LanguageProvider'
+import { changeStatus } from '../../../utils/utils'
 
 const ServiceDetail = () => {
     useEffect(() => {
         feachListService()
     }, [])
+    const dispath = useDispatch()
     const navigate = useNavigate()
+    const { getText } = useLanguage()
     const [baggageOptions, setBaggageOptions] = useState([])
     const [mealOptions, setMealOptions] = useState([])
     const [totalBaggage, setTotalBaggage] = useState(0)
@@ -23,6 +34,8 @@ const ServiceDetail = () => {
     const [totalBaggageReturn, setTotalBaggageReturn] = useState(0)
     const [totalMealReturn, setTotalMealReturn] = useState(0)
     const [totalSeatReturn, setTotalSeatReturn] = useState(0)
+    let total = totalBaggage + totalMeal + totalSeat + totalBaggageReturn + totalMealReturn + totalSeatReturn
+    const bookingDetail = useSelector((state) => state.myFlight.bookingDetails?.bookingDetail)
     const [defaultBaggageOptions, setDefaultBaggageOptions] = useState([])
     const [defaultMealOptions, setDefaultMealOptions] = useState([])
     const [seatOptions, setSeatOptions] = useState({
@@ -48,12 +61,13 @@ const ServiceDetail = () => {
         }
     })
     const flightAwayDetail = useSelector((state) => state.myFlight.bookingDetails?.flightAwayDetail)
+    const language = useSelector((state) => state.language.language)
     const feachListService = async () => {
         try {
             let res = await getServiceAirline(
                 flightAwayDetail?.id,
                 '826b4d34-fe05-48b7-b78b-9a83083a38af',
-                '94773356-7b49-4dd6-9ba9-0d8ac3f545fd'
+                flightAwayDetail?.passengerAwaysDetail[0]?.seat?.id
             )
             setBaggageOptions(res.data.baggageOptions)
             setMealOptions(res.data.mealOptions)
@@ -64,19 +78,39 @@ const ServiceDetail = () => {
             console.log(error)
         }
     }
+    const handleBack = () => {
+        dispath(setDataPassengersService(null))
+        dispath(setDataPassengersServiceReturn(null))
+        navigate('/my/select-fly-service')
+    }
+    const handleContinue = async () => {
+        if (total === 0) {
+            showWaringModal(`${getText('HeyFriend')}`, 'bạn chưa mua dịch vụ', `${getText('Close')}`)
+            return
+        }
+        dispath(setTotalChange(total))
+        dispath(setChangeService(true))
+        navigate('/payment-change-methods')
+    }
     return (
         <div className='service-detail'>
             <div className='nav-service-detail'>
                 <Row>
                     <Col span={8} className='code-booking'>
                         <p>
-                            Mã đặt chỗ : <span style={{ color: 'red', fontSize: '20px', fontWeight: 700 }}>RQTDND</span>
+                            Mã đặt chỗ :{' '}
+                            <span style={{ color: 'red', fontSize: '20px', fontWeight: 700 }}>
+                                {bookingDetail?.bookingCode}
+                            </span>
                         </p>
                     </Col>
                     <Col span={16} className='code-booking-status'>
                         <p>
                             Trạng thái:{' '}
-                            <span style={{ color: 'green', fontSize: '20px', fontWeight: 700 }}>Đã thanh toán</span>
+                            <span style={{ color: 'green', fontSize: '20px', fontWeight: 700 }}>
+                                {' '}
+                                {changeStatus(bookingDetail?.status, language)}
+                            </span>
                         </p>
                     </Col>
                 </Row>
@@ -106,7 +140,7 @@ const ServiceDetail = () => {
                         />
                     </Col>
                     <Col span={9}>
-                        <TotalService />
+                        <TotalService total={total} />
                     </Col>
                 </Row>
             </div>
@@ -116,9 +150,10 @@ const ServiceDetail = () => {
                     <Col span={4}>
                         <Button
                             className='footer-back'
-                            onClick={() => {
-                                navigate('/my/booking-detail')
-                            }}
+                            onClick={
+                                () => handleBack()
+                                // navigate('my/select-fly-service')
+                            }
                         >
                             Quay lại
                         </Button>
@@ -129,18 +164,12 @@ const ServiceDetail = () => {
                                 Tổng tiền:
                             </Col>
                             <Col span={6} className='footer-price'>
-                                <i>1,000,000 </i>
-                                <span> VND</span>{' '}
+                                {formatCurrency(total)}
                             </Col>
                         </Row>
                     </Col>
                     <Col span={6}>
-                        <Button
-                            className='footer-continue'
-                            onClick={() => {
-                                navigate('/my/sevice-detail')
-                            }}
-                        >
+                        <Button className='footer-continue-info' onClick={() => handleContinue()}>
                             Tiếp tục
                         </Button>
                     </Col>

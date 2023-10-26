@@ -4,7 +4,10 @@ const initialState = {
     selectChangeFly: null,
     dataChangeFly: null,
     selectedFlyChange: null,
-    totalChange: 0
+    totalChange: 0,
+    dataPassengersService: null,
+    dataPassengersServiceReturn: null,
+    changeService: false
 }
 const myFlight = createSlice({
     name: 'myFlight',
@@ -24,11 +27,28 @@ const myFlight = createSlice({
         },
         setTotalChange: (state, action) => {
             state.totalChange = action.payload
+        },
+        setDataPassengersService: (state, action) => {
+            state.dataPassengersService = action.payload
+        },
+        setDataPassengersServiceReturn: (state, action) => {
+            state.dataPassengersServiceReturn = action.payload
+        },
+        setChangeService: (state, action) => {
+            state.changeService = action.payload
         }
     }
 })
 
-export const { setBookingDetail, setSelectChangeFly, setDataChangeFly, setTotalChange, setSelectedFlyChange } =
-    myFlight.actions
+export const {
+    setBookingDetail,
+    setSelectChangeFly,
+    setDataChangeFly,
+    setTotalChange,
+    setSelectedFlyChange,
+    setDataPassengersService,
+    setDataPassengersServiceReturn,
+    setChangeService
+} = myFlight.actions
 // Export reducer
 export default myFlight.reducer

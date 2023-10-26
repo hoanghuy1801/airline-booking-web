@@ -14,6 +14,7 @@ import { useLanguage } from '../../../LanguageProvider/LanguageProvider'
 import { setInfoPassengers } from '../../../redux/reducers/booking'
 import { formatCurrency } from '../../../utils/format'
 import { getServiceAirline } from '../../../services/apiBooking'
+import { showWaringModal } from '../../../utils/modalError'
 const { Option } = Select
 const { Text } = Typography
 const Service = (props) => {
@@ -154,9 +155,11 @@ const Service = (props) => {
                 seatPrice: priceSeat
             }
             const updatedPassengers = dataPassengers.map((dataPassengers) => {
-                if (dataPassengers.seat.seatCode != null) {
-                    return dataPassengers
-                } else if (dataPassengers.id === selectPassengers) {
+                if (dataPassengers.id === selectPassengers) {
+                    if (dataPassengers.seat.seatCode != null) {
+                        showWaringModal(`${getText('HeyFriend')}`, 'bạn đã chọn ghế', `${getText('Close')}`)
+                        return dataPassengers
+                    }
                     if (selectedSeats.includes(selectedSeat)) {
                         return
                     }
@@ -178,9 +181,11 @@ const Service = (props) => {
                 seatPrice: priceSeat
             }
             const updatedPassengers = dataPassengers.map((dataPassengers) => {
-                if (dataPassengers.seatsReturn.seatCode != null) {
-                    return dataPassengers
-                } else if (dataPassengers.id === selectPassengers) {
+                if (dataPassengers.id === selectPassengers) {
+                    if (dataPassengers.seatsReturn.seatCode != null) {
+                        showWaringModal(`${getText('HeyFriend')}`, 'bạn đã chọn ghế', `${getText('Close')}`)
+                        return dataPassengers
+                    }
                     if (selectedSeats.includes(selectedSeat)) {
                         return
                     }
@@ -191,7 +196,6 @@ const Service = (props) => {
 
                 return dataPassengers
             })
-            console.log('chuyến về', updatedPassengers)
             dispath(setInfoPassengers(updatedPassengers))
             handleTotalReturn(updatedPassengers)
         }
@@ -340,6 +344,7 @@ const Service = (props) => {
         }
     }
     const hanldeCancelMeal = () => {
+        // eslint-disable-next-line no-unused-vars
         const selectedMealsArray = Object.keys(selectedMeals).map((optionName) => ({
             serviceOptId: '',
             flightId: '',

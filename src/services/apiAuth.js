@@ -21,8 +21,11 @@ const getInforUser = () => {
 const postSendPhoneOTP = (id, phone) => {
     return axios.post(`api/v1/auth/send-opt-booking?bookingId=${id}&phoneNumber=${phone}`)
 }
-const postVerifyPhoneOTP = (id, otp) => {
-    return axios.post(`api/v1/auth/verify-opt-booking?bookingId=${id}&otp=${otp}`)
+const postVerifyPhoneOTPUpdate = (id, otp) => {
+    return axios.post(`api/v1/auth/verify-opt-booking/update?bookingId=${id}&otp=${otp}`)
+}
+const postVerifyPhoneOTPCancel = (id, otp) => {
+    return axios.post(`api/v1/auth/verify-opt-booking/cancel?bookingId=${id}&otp=${otp}`)
 }
 
 export {
@@ -32,6 +35,7 @@ export {
     postSendOTP,
     postLogin,
     getInforUser,
-    postVerifyPhoneOTP,
+    postVerifyPhoneOTPUpdate,
+    postVerifyPhoneOTPCancel,
     postSendPhoneOTP
 }

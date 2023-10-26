@@ -1,4 +1,4 @@
-import { Row, Col, Button, Checkbox, Typography } from 'antd'
+import { Row, Col, Button, Typography, Radio } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import './Change.css'
 import { useDispatch, useSelector } from 'react-redux'
@@ -6,24 +6,18 @@ import { calculateTimeDifference, formatDateString, formatTime } from '../../../
 import { useState } from 'react'
 import { setSelectChangeFly } from '../../../redux/reducers/myFlight'
 const { Text } = Typography
-// eslint-disable-next-line react/prop-types
-const CustomCheckbox = ({ id, onChange }) => {
-    return <Checkbox onChange={(e) => onChange(id, e.target.checked)}></Checkbox>
-}
+
 const SelectFlyChange = () => {
     const navigate = useNavigate()
     const dispath = useDispatch()
-    const [checkedItems, setCheckedItems] = useState()
+    const [selectedValue, setSelectedValue] = useState(null)
     const flightAwayDetail = useSelector((state) => state.myFlight.bookingDetails?.flightAwayDetail)
     const flightReturnDetail = useSelector((state) => state.myFlight.bookingDetails?.flightReturnDetail)
     const bookingDetails = useSelector((state) => state.myFlight.bookingDetails?.bookingDetail)
     const language = useSelector((state) => state.language.language)
-    const handleCheckboxChange = (id) => {
-        setCheckedItems(id)
-    }
 
     const handleContinue = () => {
-        if (flightAwayDetail?.id === checkedItems) {
+        if (flightAwayDetail?.id === selectedValue) {
             const dataChange = {
                 flightAwayDetail: flightAwayDetail,
                 flightReturnDetail: null,
@@ -31,7 +25,7 @@ const SelectFlyChange = () => {
             }
 
             dispath(setSelectChangeFly(dataChange))
-        } else if (flightReturnDetail?.id === checkedItems) {
+        } else if (flightReturnDetail?.id === selectedValue) {
             const dataChange = {
                 flightAwayDetail: null,
                 flightReturnDetail: flightReturnDetail,
@@ -40,6 +34,10 @@ const SelectFlyChange = () => {
             dispath(setSelectChangeFly(dataChange))
         }
         navigate('/my/search-flight-change')
+    }
+
+    const handleRadioChange = (e) => {
+        setSelectedValue(e.target.value)
     }
     return (
         <div className='search-detail'>
@@ -64,7 +62,11 @@ const SelectFlyChange = () => {
                                 <Text style={{ fontSize: '18px', fontWeight: 500, color: 'white' }}>Chuyến đi</Text>
                             </Col>
                             <Col span={2}>
-                                <CustomCheckbox id={flightAwayDetail?.id} onChange={handleCheckboxChange} />
+                                <Radio
+                                    value={flightAwayDetail?.id}
+                                    onChange={handleRadioChange}
+                                    checked={selectedValue === flightAwayDetail?.id}
+                                />
                             </Col>
                         </Row>
                     </div>
@@ -112,7 +114,11 @@ const SelectFlyChange = () => {
                                 <Text style={{ fontSize: '18px', fontWeight: 500, color: 'white' }}>Chuyến về</Text>
                             </Col>
                             <Col span={2}>
-                                <CustomCheckbox id={flightReturnDetail?.id} onChange={handleCheckboxChange} />
+                                <Radio
+                                    value={flightReturnDetail?.id}
+                                    onChange={handleRadioChange}
+                                    checked={selectedValue === flightReturnDetail?.id}
+                                />
                             </Col>
                         </Row>
                     </div>

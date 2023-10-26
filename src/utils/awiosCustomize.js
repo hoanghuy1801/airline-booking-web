@@ -8,7 +8,7 @@ import jwt from './jwt'
 //})
 
 const instance = axios.create({
-    baseURL: 'http://localhost:8008/'
+    baseURL: 'https://airline-booking-api.onrender.com'
 })
 
 instance.interceptors.request.use((config) => {

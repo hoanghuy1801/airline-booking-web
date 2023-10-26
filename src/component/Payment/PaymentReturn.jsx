@@ -40,10 +40,13 @@ const PaymentReturn = () => {
                             if (seat?.seatId !== '') {
                                 seats = [seat]
                             }
-                            if (meal?.serviceOptId !== '') {
-                                serviceOpts = [...meal, baggage]
-                            }
 
+                            if (meal?.serviceOptId !== '') {
+                                serviceOpts = [...meal]
+                            }
+                            if (baggage?.serviceOptId !== '') {
+                                serviceOpts.push(baggage)
+                            }
                             return {
                                 ...passengers,
                                 seats,
@@ -56,6 +59,7 @@ const PaymentReturn = () => {
                             flightReturnId: null,
                             amountTotal: totalFlight,
                             seatTotal: 1,
+                            seatId: data?.seatId,
                             journeyType: 'ONE_AWAY',
                             passengers
                         }
@@ -72,7 +76,10 @@ const PaymentReturn = () => {
                             if (meal?.serviceOptId !== '' || mealReturn?.serviceOptId !== '') {
                                 serviceOpts = [...meal, ...mealReturn, baggage, baggageReturn]
                             }
-
+                            if (baggage?.serviceOptId !== '' || mealReturn?.serviceOptId !== '') {
+                                serviceOpts.push(baggage)
+                                serviceOpts.push(baggageReturn)
+                            }
                             return {
                                 ...passengers,
                                 seats,
@@ -84,6 +91,7 @@ const PaymentReturn = () => {
                             flightAwayId: flightSelect?.id,
                             flightReturnId: flightSelectReturn?.id,
                             amountTotal: totalFlight,
+                            seatId: data?.seatId,
                             seatTotal: 1,
                             journeyType: 'RETURN',
                             passengers

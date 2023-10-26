@@ -9,7 +9,7 @@ import { formatCurrency, formatDate } from '../../../utils/format'
 import { useNavigate } from 'react-router-dom'
 import { postSendPhoneOTP } from '../../../services/apiAuth'
 import { showWaringModal } from '../../../utils/modalError'
-import { setSelectedFlyChange, setTotalChange } from '../../../redux/reducers/myFlight'
+import { setChangeService, setSelectedFlyChange, setTotalChange } from '../../../redux/reducers/myFlight'
 const { Text } = Typography
 const SelectFlightChange = () => {
     const navigate = useNavigate()
@@ -18,6 +18,7 @@ const SelectFlightChange = () => {
         feachListFlight()
     }, [])
     const [loading, setLoading] = useState(true)
+    const [totalAll, setTotalAll] = useState(0)
     const bookingDetails = useSelector((state) => state.myFlight.bookingDetails?.bookingDetail)
     const dispath = useDispatch()
     const [flightSelect, setFlightSelect] = useState({
@@ -88,8 +89,6 @@ const SelectFlightChange = () => {
     const dataChangeFly = useSelector((state) => state.myFlight?.dataChangeFly)
     const selectChangeFly = useSelector((state) => state.myFlight?.selectChangeFly)
     const [listFlight, setListFlight] = useState([])
-    console.log('flightAwayDetail', flightAwayDetail)
-    console.log('selectFlyChange?', selectChangeFly)
     const feachListFlight = async () => {
         try {
             setLoading(true) // Bắt đầu hiển thị Spinner
@@ -98,7 +97,7 @@ const SelectFlightChange = () => {
                     flightAwayDetail?.destinationAirport?.id,
                     flightAwayDetail?.sourceAirport?.id,
                     formatDate(dataChangeFly?.date),
-                    '94773356-7b49-4dd6-9ba9-0d8ac3f545fd',
+                    flightAwayDetail?.passengerAwaysDetail[0]?.seat?.id,
                     dataChangeFly?.aduls,
                     dataChangeFly?.childs,
                     dataChangeFly?.infants
@@ -109,7 +108,7 @@ const SelectFlightChange = () => {
                     flightAwayDetail?.sourceAirport?.id,
                     flightAwayDetail?.destinationAirport?.id,
                     formatDate(dataChangeFly?.date),
-                    '94773356-7b49-4dd6-9ba9-0d8ac3f545fd',
+                    flightAwayDetail?.passengerAwaysDetail[0]?.seat?.id,
                     dataChangeFly?.aduls,
                     dataChangeFly?.childs,
                     dataChangeFly?.infants
@@ -124,11 +123,6 @@ const SelectFlightChange = () => {
             setLoading(false) // Dừng hiển thị Spinner khi API hoàn thành
         }
     }
-    let feeChange = 300000
-    const totalPeople = dataChangeFly?.aduls + dataChangeFly?.childs
-    let totalFeeChange = feeChange * totalPeople
-
-    const huy = 17500 * totalPeople
     let passengerDetail = {}
     if (selectChangeFly?.return) {
         // eslint-disable-next-line no-unused-vars
@@ -137,14 +131,7 @@ const SelectFlightChange = () => {
         // eslint-disable-next-line no-unused-vars
         passengerDetail = selectChangeFly?.flightAwayDetail?.passengerAwaysDetail
     }
-    let deduct = passengerDetail.reduce((total, item) => total + item.seatPrice, 0)
-    const total =
-        (flightSelect?.flightSeatPrice?.adultPrice + flightSelect?.flightSeatPrice?.taxPrice) * dataChangeFly?.aduls +
-        (flightSelect?.flightSeatPrice?.childrenPrice + flightSelect?.flightSeatPrice?.taxPrice) *
-            dataChangeFly?.childs +
-        flightSelect?.flightSeatPrice?.infantPrice * dataChangeFly?.infants +
-        totalFeeChange -
-        (deduct + huy)
+
     const handleContinue = async () => {
         if (flightSelect.flightSeatPrice.adultPrice == '') {
             showWaringModal(`${getText('HeyFriend')}`, `${getText('NotSelectFlight')}`, `${getText('Close')}`)
@@ -156,7 +143,8 @@ const SelectFlightChange = () => {
             showWaringModal('ADMIN', 'API ERROR', `${getText('Close')}`)
         }
         dispath(setSelectedFlyChange(flightSelect))
-        dispath(setTotalChange(total))
+        dispath(setTotalChange(totalAll))
+        dispath(setChangeService(false))
         navigate('/my/opt-change')
     }
     return (
@@ -197,7 +185,12 @@ const SelectFlightChange = () => {
                         </Col>
                     )}
                     <Col xs={24} sm={24} md={24} lg={24} xl={9}>
-                        <SelectInfoFlyChange flightSelect={flightSelect} />
+                        <SelectInfoFlyChange
+                            flightSelect={flightSelect}
+                            flightAwayDetail={flightAwayDetail}
+                            setTotalAll={setTotalAll}
+                            totalAll={totalAll}
+                        />
                     </Col>
                 </Row>
             </div>
@@ -210,7 +203,7 @@ const SelectFlightChange = () => {
                                 {getText('Total')}:
                             </Col>
                             <Col span={8} className='footer-price'>
-                                {formatCurrency(total)}
+                                {formatCurrency(totalAll)}
                             </Col>
                         </Row>
                     </Col>

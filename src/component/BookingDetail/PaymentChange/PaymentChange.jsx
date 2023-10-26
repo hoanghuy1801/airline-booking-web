@@ -1,7 +1,6 @@
 import { Row, Col } from 'antd'
 import { useSelector } from 'react-redux'
 
-import { useLanguage } from '../../../LanguageProvider/LanguageProvider'
 import './PaymentChange.css'
 import PaymentChangeMethods from './PaymentChangeMethods'
 const PaymentChange = () => {

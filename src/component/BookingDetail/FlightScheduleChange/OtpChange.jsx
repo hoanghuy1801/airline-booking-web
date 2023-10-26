@@ -3,7 +3,7 @@ import { Button, Form, Typography } from 'antd'
 import { InputOTP } from 'antd-input-otp'
 import { useNavigate } from 'react-router-dom'
 import './OtpChange.css'
-import { postSendPhoneOTP, postVerifyPhoneOTP } from '../../../services/apiAuth'
+import { postSendPhoneOTP, postVerifyPhoneOTPUpdate } from '../../../services/apiAuth'
 import { convertString } from '../../../utils/format'
 import { showErrorModal, showSuccessModal, showWaringModal } from '../../../utils/modalError'
 import { useSelector } from 'react-redux'
@@ -28,7 +28,7 @@ const Otp = () => {
                 }
             ])
         try {
-            await postVerifyPhoneOTP(bookingDetails?.id, convertString(otp))
+            await postVerifyPhoneOTPUpdate(bookingDetails?.id, convertString(otp))
             navigate('/payment-change-methods')
         } catch (error) {
             showErrorModal(`${getText('Notification')}`, `${getText('NotOTP')}`, `${getText('Close')}`)
@@ -91,7 +91,7 @@ const Otp = () => {
                         </Button>
                     </Form.Item>
                     <div className='form-text'>
-                        <Text className='text-back' onClick={() => navigate('/my/select-flight-change')}>
+                        <Text className='text-back' onClick={() => navigate('/my/booking-detail')}>
                             {getText('Back')}
                         </Text>
                     </div>
