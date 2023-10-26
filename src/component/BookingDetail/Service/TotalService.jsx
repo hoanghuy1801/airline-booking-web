@@ -1,7 +1,4 @@
 import { Row, Col, Form } from 'antd'
-import { IconPlane } from '@tabler/icons-react'
-import React from 'react'
-import { useSelector } from 'react-redux'
 import './TotalService.css'
 import { formatCurrency } from '../../../utils/format'
 

@@ -83,6 +83,15 @@ const FormSearch = (props) => {
     const onChangeDatePicker = (dates, dateStrings) => {
         setDepartureDate(dateStrings)
     }
+    let dataFlyChange = null
+    let setClass
+    if (selectChangeFly?.return) {
+        dataFlyChange = selectChangeFly?.flightReturnDetail
+        setClass = dataFlyChange?.passengerReturnsDetail[0]?.seat?.seatName
+    } else {
+        dataFlyChange = selectChangeFly?.flightAwayDetail
+        setClass = dataFlyChange?.passengerAwaysDetail[0]?.seat?.seatName
+    }
 
     return (
         <>
@@ -109,7 +118,7 @@ const FormSearch = (props) => {
                                     (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                                 }
                                 disabled
-                                defaultValue={selectChangeFly?.sourceAirport?.airportName}
+                                defaultValue={dataFlyChange?.sourceAirport?.airportName}
                             >
                                 {listAirports.map((item) => (
                                     <Option key={item.id} value={item.id} label={item.city.cityName}>
@@ -140,7 +149,7 @@ const FormSearch = (props) => {
                                     (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                                 }
                                 disabled
-                                defaultValue={selectChangeFly?.destinationAirport?.airportName}
+                                defaultValue={dataFlyChange?.destinationAirport?.airportName}
                             >
                                 {listAirports.map((item) => (
                                     <Option key={item.id} value={item.id} label={item.city.cityName}>
@@ -185,7 +194,7 @@ const FormSearch = (props) => {
                                     (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
                                 }
                                 disabled
-                                defaultOpen={selectChangeFly?.sourceAirport?.airportName}
+                                defaultValue={setClass}
                             >
                                 {listSeats.map((item) => (
                                     <Option key={item.id} value={item.id} label={item.seatClass}>

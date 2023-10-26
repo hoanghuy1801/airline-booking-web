@@ -13,9 +13,10 @@ const { Text } = Typography
 const PaymentChangeReturn = () => {
     const navigate = useNavigate()
     const location = useLocation()
-    const [success, setSuccess] = useState(true)
+    const [success, setSuccess] = useState(false)
     const { getText } = useLanguage()
     const [amount, setAmount] = useState()
+    // eslint-disable-next-line no-unused-vars
     const [bookingCode, setBookingCode] = useState('')
     const bookingDetails = useSelector((state) => state.myFlight.bookingDetails?.bookingDetail)
     const selectChangeFly = useSelector((state) => state.myFlight?.selectChangeFly)
@@ -24,6 +25,7 @@ const PaymentChangeReturn = () => {
     const dataPassengers = useSelector((state) => state.myFlight?.dataPassengersService)
     const dataPassengersReturn = useSelector((state) => state.myFlight?.dataPassengersServiceReturn)
     const changeService = useSelector((state) => state.myFlight.changeService)
+    console.log('changeService', changeService)
     useEffect(() => {
         if (location.search) {
             const searchParams = new URLSearchParams(location.search)
@@ -32,6 +34,7 @@ const PaymentChangeReturn = () => {
                     setAmount(searchParams.get('vnp_Amount'))
                     setBookingCode(searchParams.get('vnp_TxnRef'))
                     if (changeService) {
+                        setSuccess(true)
                         const passenger = dataPassengers.map((data) => {
                             const { baggage, meal, seat, ...passenger } = data
                             let serviceOpts = []
@@ -39,13 +42,11 @@ const PaymentChangeReturn = () => {
                             if (seat?.seatId !== '') {
                                 seats = [seat]
                             }
-                            if (baggage?.serviceOptId === '') {
+                            if (meal?.serviceOptId !== '') {
                                 serviceOpts = [...meal]
                             }
-                            if (meal?.serviceOptId === '') {
-                                serviceOpts = [baggage]
-                            } else {
-                                serviceOpts = [...meal, baggage]
+                            if (baggage?.serviceOptId !== '') {
+                                serviceOpts.push(baggage)
                             }
                             return {
                                 ...passenger,
@@ -61,13 +62,12 @@ const PaymentChangeReturn = () => {
                             if (seatsReturn?.seatId !== '') {
                                 seats = [seatsReturn]
                             }
-                            if (baggageReturn?.serviceOptId === '') {
+
+                            if (mealReturn?.serviceOptId !== '') {
                                 serviceOpts = [...mealReturn]
                             }
-                            if (mealReturn?.serviceOptId === '') {
-                                serviceOpts = [baggageReturn]
-                            } else {
-                                serviceOpts = [...mealReturn, baggageReturn]
+                            if (baggageReturn?.serviceOptId !== '') {
+                                serviceOpts.push(baggageReturn)
                             }
                             return {
                                 ...passengersReturn,
@@ -130,6 +130,7 @@ const PaymentChangeReturn = () => {
                         }
                         await postAddService(data)
                     } else {
+                        setSuccess(true)
                         let total = bookingDetails?.amountTotal + totalChange
                         let data = {
                             bookingId: bookingDetails?.id,

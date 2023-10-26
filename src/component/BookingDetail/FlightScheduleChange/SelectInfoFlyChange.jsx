@@ -1,13 +1,19 @@
 import { Row, Col, Form, Typography } from 'antd'
-import { IconPlane } from '@tabler/icons-react'
 import { useSelector } from 'react-redux'
 import './Change.css'
 import { formatCurrency } from '../../../utils/format'
 const { Text } = Typography
 const SelectInfoFlyChange = (props) => {
     // eslint-disable-next-line react/prop-types
-    const { flightSelect } = props
-    let feeChange = 300000
+    const { flightSelect, flightAwayDetail, setTotalAll, totalAll } = props
+    let feeChange = 0
+    // eslint-disable-next-line react/prop-types
+    if (flightAwayDetail?.passengerAwaysDetail[0]?.seat?.seatClass === 'ECONOMY') {
+        feeChange = 325000
+        // eslint-disable-next-line react/prop-types
+    } else if (flightAwayDetail?.passengerAwaysDetail[0]?.seat?.seatClass === 'PREMIUM_ECONOMY') {
+        feeChange = 280000
+    }
 
     const dataChangeFly = useSelector((state) => state.myFlight?.dataChangeFly)
 
@@ -36,9 +42,22 @@ const SelectInfoFlyChange = (props) => {
         // eslint-disable-next-line no-unused-vars
         passengerDetail = selectChangeFly?.flightAwayDetail?.passengerAwaysDetail
     }
-    const huy = 17500 * totalPeople
-    let deduct = passengerDetail.reduce((total, item) => total + item.seatPrice, 0)
-    const total = totalAdultPrice + totalChildrenPrice + totalInfantPrice + totalFeeChange - (deduct + huy)
+    console.log('huy', passengerDetail)
+
+    let deduct = passengerDetail.reduce((total, item) => total + item?.seat?.seatPrice, 0)
+    let deductFee = passengerDetail.reduce((total, item) => total + item?.seat?.taxPrice, 0)
+    let priceChange = totalAdultPrice + totalChildrenPrice + totalInfantPrice
+    let total = 0
+    let deductAll = 0
+    if (deduct + deductFee >= priceChange) {
+        total = totalFeeChange
+        deductAll = 0
+        setTotalAll(total)
+    } else {
+        total = totalAdultPrice + totalChildrenPrice + totalInfantPrice + totalFeeChange - (deduct + deductFee)
+        deductAll = deduct + deductFee
+        setTotalAll(total)
+    }
     return (
         <>
             <Form className='infor-user-select'>
@@ -72,37 +91,7 @@ const SelectInfoFlyChange = (props) => {
                             Chuyến đi
                         </Text>
                     </div>
-                    <Text
-                        style={{
-                            color: 'black',
-                            fontSize: 18,
-                            fontWeight: 500,
-                            paddingLeft: 20
-                        }}
-                    >
-                        ({selectChangeFly?.sourceAirport?.airportCode})
-                    </Text>
-                    <Text
-                        style={{
-                            color: 'black',
-                            fontSize: 18,
-                            fontWeight: 500,
-                            paddingLeft: 20
-                        }}
-                    >
-                        {' '}
-                        <IconPlane style={{ width: 25, height: 25, marginRight: 15, paddingTop: 6 }} />{' '}
-                    </Text>
-                    <Text
-                        style={{
-                            color: 'black',
-                            fontSize: 18,
-                            fontWeight: 500,
-                            paddingLeft: 20
-                        }}
-                    >
-                        ({selectChangeFly?.destinationAirport?.airportCode})
-                    </Text>
+
                     <div className='title-infor'>
                         <Row>
                             <Col span={8}>
@@ -328,7 +317,7 @@ const SelectInfoFlyChange = (props) => {
                                         paddingRight: 20
                                     }}
                                 >
-                                    {formatCurrency(deduct + huy)}
+                                    {formatCurrency(deductAll)}
                                 </Text>
                             </Col>
                         </Row>
@@ -360,7 +349,7 @@ const SelectInfoFlyChange = (props) => {
                                     paddingRight: 20
                                 }}
                             >
-                                {formatCurrency(total)}
+                                {formatCurrency(totalAll)}
                             </Text>
                         </Col>
                     </Row>

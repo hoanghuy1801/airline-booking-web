@@ -57,7 +57,9 @@ const ServiceFly = (props) => {
 
     const [valueRadio, setValueRadio] = useState('')
     const dataPassengers = useSelector((state) => state.myFlight?.dataPassengersService)
+    console.log('dataPassengers', dataPassengers)
     const dataPassengersReturn = useSelector((state) => state.myFlight?.dataPassengersServiceReturn)
+
     const [selectPassengers, setSelectPassengers] = useState(dataPassengers[0]?.id)
     const [selectPassengersBaggage, setSelectPassengersBaggage] = useState(dataPassengers[0]?.id)
     const [selectPassengersMeal, setSelectPassengersMeal] = useState(dataPassengers[0]?.id)
@@ -127,7 +129,7 @@ const ServiceFly = (props) => {
             let res = await getServiceAirline(
                 flightSelectReturn?.id,
                 '826b4d34-fe05-48b7-b78b-9a83083a38af',
-                '94773356-7b49-4dd6-9ba9-0d8ac3f545fd'
+                flightSelectReturn?.passengerReturnsDetail[0]?.seat?.id
             )
             setSeatOptions(res.data.seatOptions)
         }
@@ -135,7 +137,7 @@ const ServiceFly = (props) => {
             let res = await getServiceAirline(
                 flightSelect?.id,
                 '826b4d34-fe05-48b7-b78b-9a83083a38af',
-                '94773356-7b49-4dd6-9ba9-0d8ac3f545fd'
+                flightSelect?.passengerAwaysDetail[0]?.seat?.id
             )
             setSeatOptions(res.data.seatOptions)
         }
@@ -155,45 +157,53 @@ const ServiceFly = (props) => {
     }
 
     const [selectedSeats, setSelectedSeats] = useState([])
-
     const hanldeConfirm = () => {
         if (selectTripPassengers === 'false') {
             const newSeat = {
-                seatId: '94773356-7b49-4dd6-9ba9-0d8ac3f545fd',
+                seatId: flightSelect?.passengerAwaysDetail[0]?.seat?.id,
                 flightId: flightSelect?.id,
                 seatCode: selectedSeat,
-                seatClass: 'ECONOMY',
+                seatClass: flightSelect?.passengerAwaysDetail[0]?.seat?.seatClass,
                 seatPrice: priceSeat
             }
             const updatedPassengers = dataPassengers.map((dataPassengers) => {
-                if (dataPassengers?.seatServicePrice) {
-                    showWaringModal(`${getText('HeyFriend')}`, 'bạn đã chọn ghế', `${getText('Close')}`)
-                    return dataPassengers
-                } else if (dataPassengers.id === selectPassengers) {
+                if (dataPassengers?.id === selectPassengers) {
+                    if (dataPassengers?.seatServicePrice) {
+                        showWaringModal(`${getText('HeyFriend')}`, 'bạn đã chọn ghế', `${getText('Close')}`)
+                        return dataPassengers
+                    }
+                    if (dataPassengers?.seat?.seatCode) {
+                        showWaringModal(`${getText('HeyFriend')}`, 'bạn đã chọn ghế', `${getText('Close')}`)
+                        return dataPassengers
+                    }
                     if (selectedSeats.includes(selectedSeat)) {
                         return
                     }
                     setSelectedSeats([...selectedSeats, selectedSeat])
                     return { ...dataPassengers, seat: newSeat }
                 }
-
                 return dataPassengers
             })
             dispath(setDataPassengersService(updatedPassengers))
             handleTotal(updatedPassengers)
         } else {
             const newSeat = {
-                seatId: '94773356-7b49-4dd6-9ba9-0d8ac3f545fd',
+                seatId: flightSelect?.passengerAwaysDetail[0]?.seat?.id,
                 flightId: flightSelectReturn.id,
                 seatCode: selectedSeat,
-                seatClass: 'ECONOMY',
+                seatClass: flightSelect?.passengerAwaysDetail[0]?.seat?.seatClass,
                 seatPrice: priceSeat
             }
             const updatedPassengers = dataPassengersReturn.map((dataPassengers) => {
-                if (dataPassengers?.seatServicePrice) {
-                    showWaringModal(`${getText('HeyFriend')}`, 'bạn đã chọn ghế', `${getText('Close')}`)
-                    return dataPassengers
-                } else if (dataPassengers?.id === selectPassengers) {
+                if (dataPassengers?.id === selectPassengers) {
+                    if (dataPassengers?.seatServicePrice) {
+                        showWaringModal(`${getText('HeyFriend')}`, 'bạn đã chọn ghế', `${getText('Close')}`)
+                        return dataPassengers
+                    }
+                    if (dataPassengers?.seatsReturn?.seatCode) {
+                        showWaringModal(`${getText('HeyFriend')}`, 'bạn đã chọn ghế', `${getText('Close')}`)
+                        return dataPassengers
+                    }
                     if (selectedSeats.includes(selectedSeat)) {
                         return
                     }
@@ -347,6 +357,7 @@ const ServiceFly = (props) => {
         }
     }
     const hanldeCancelMeal = () => {
+        // eslint-disable-next-line no-unused-vars
         const selectedMealsArray = Object.keys(selectedMeals).map((optionName) => ({
             serviceOptId: '',
             flightId: '',

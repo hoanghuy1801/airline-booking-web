@@ -9,6 +9,7 @@ import {
     setDataPassengersServiceReturn,
     setSelectChangeFly
 } from '../../../redux/reducers/myFlight'
+import { changeStatus } from '../../../utils/utils'
 const { Text } = Typography
 
 const SelectFlyService = () => {
@@ -28,17 +29,45 @@ const SelectFlyService = () => {
                 flightAwayDetail: flightAwayDetail,
                 flightReturnDetail: flightReturnDetail
             }
+            const passengersReturn = dataPassengersReturn.map((item) => {
+                // Tạo một bản sao của đối tượng hiện tại để không làm thay đổi dữ liệu gốc
+                const newItem = { ...item }
+                // Loại bỏ các biến không mong muốn
+                delete newItem.seat
+                return newItem
+            })
+            const passengers = dataPassengers.map((item) => {
+                // Tạo một bản sao của đối tượng hiện tại để không làm thay đổi dữ liệu gốc
+                const newItem = { ...item }
+                // Loại bỏ các biến không mong muốn
+                delete newItem.seat
+                return newItem
+            })
             dispath(setSelectChangeFly(dataChange))
-            dispath(setDataPassengersService(dataPassengers))
-            dispath(setDataPassengersServiceReturn(dataPassengersReturn))
+            dispath(setDataPassengersService(passengers))
+            dispath(setDataPassengersServiceReturn(passengersReturn))
         } else {
             const dataChange = {
                 flightAwayDetail: flightAwayDetail,
                 flightReturnDetail: null
             }
+            const passengersReturn = dataPassengersReturn.map((item) => {
+                // Tạo một bản sao của đối tượng hiện tại để không làm thay đổi dữ liệu gốc
+                const newItem = { ...item }
+                // Loại bỏ các biến không mong muốn
+                delete newItem.seat
+                return newItem
+            })
+            const passengers = dataPassengers.map((item) => {
+                // Tạo một bản sao của đối tượng hiện tại để không làm thay đổi dữ liệu gốc
+                const newItem = { ...item }
+                // Loại bỏ các biến không mong muốn
+                delete newItem.seat
+                return newItem
+            })
             dispath(setSelectChangeFly(dataChange))
-            dispath(setDataPassengersService(dataPassengers))
-            dispath(setDataPassengersServiceReturn(dataPassengersReturn))
+            dispath(setDataPassengersService(passengers))
+            dispath(setDataPassengersServiceReturn(passengersReturn))
         }
         navigate('/my/sevice-detail')
     }
@@ -58,7 +87,10 @@ const SelectFlyService = () => {
                     <Col span={16} className='code-booking-status'>
                         <p>
                             Trạng thái:{' '}
-                            <span style={{ color: 'green', fontSize: '20px', fontWeight: 700 }}>Đã thanh toán</span>
+                            <span style={{ color: 'green', fontSize: '20px', fontWeight: 700 }}>
+                                {' '}
+                                {changeStatus(bookingDetails?.status, language)}
+                            </span>
                         </p>
                     </Col>
                 </Row>

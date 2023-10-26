@@ -17,7 +17,7 @@ import {
 import { formatCurrency } from '../../../utils/format'
 import { showWaringModal } from '../../../utils/modalError'
 import { useLanguage } from '../../../LanguageProvider/LanguageProvider'
-import { postSendPhoneOTP } from '../../../services/apiAuth'
+import { changeStatus } from '../../../utils/utils'
 
 const ServiceDetail = () => {
     useEffect(() => {
@@ -35,10 +35,7 @@ const ServiceDetail = () => {
     const [totalMealReturn, setTotalMealReturn] = useState(0)
     const [totalSeatReturn, setTotalSeatReturn] = useState(0)
     let total = totalBaggage + totalMeal + totalSeat + totalBaggageReturn + totalMealReturn + totalSeatReturn
-    const bookingDetails = useSelector((state) => state.myFlight.bookingDetails?.bookingDetail)
-    const passengerAwaysDetail = useSelector(
-        (state) => state.myFlight?.bookingDetails?.flightAwayDetail?.passengerAwaysDetail
-    )
+    const bookingDetail = useSelector((state) => state.myFlight.bookingDetails?.bookingDetail)
     const [defaultBaggageOptions, setDefaultBaggageOptions] = useState([])
     const [defaultMealOptions, setDefaultMealOptions] = useState([])
     const [seatOptions, setSeatOptions] = useState({
@@ -64,12 +61,13 @@ const ServiceDetail = () => {
         }
     })
     const flightAwayDetail = useSelector((state) => state.myFlight.bookingDetails?.flightAwayDetail)
+    const language = useSelector((state) => state.language.language)
     const feachListService = async () => {
         try {
             let res = await getServiceAirline(
                 flightAwayDetail?.id,
                 '826b4d34-fe05-48b7-b78b-9a83083a38af',
-                '94773356-7b49-4dd6-9ba9-0d8ac3f545fd'
+                flightAwayDetail?.passengerAwaysDetail[0]?.seat?.id
             )
             setBaggageOptions(res.data.baggageOptions)
             setMealOptions(res.data.mealOptions)
@@ -100,13 +98,19 @@ const ServiceDetail = () => {
                 <Row>
                     <Col span={8} className='code-booking'>
                         <p>
-                            Mã đặt chỗ : <span style={{ color: 'red', fontSize: '20px', fontWeight: 700 }}>RQTDND</span>
+                            Mã đặt chỗ :{' '}
+                            <span style={{ color: 'red', fontSize: '20px', fontWeight: 700 }}>
+                                {bookingDetail?.bookingCode}
+                            </span>
                         </p>
                     </Col>
                     <Col span={16} className='code-booking-status'>
                         <p>
                             Trạng thái:{' '}
-                            <span style={{ color: 'green', fontSize: '20px', fontWeight: 700 }}>Đã thanh toán</span>
+                            <span style={{ color: 'green', fontSize: '20px', fontWeight: 700 }}>
+                                {' '}
+                                {changeStatus(bookingDetail?.status, language)}
+                            </span>
                         </p>
                     </Col>
                 </Row>
