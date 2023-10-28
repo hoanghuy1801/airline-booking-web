@@ -151,22 +151,50 @@ const SelectFlight = () => {
         }
     })
     const data = useSelector((state) => state.homePage.homePageInfor)
-    const totalPeople = data.children + data.adult
+    const totalPeople = data?.children + data?.adult
+    const totalAdultPrice =
+        (flightSelect?.flightSeatPrice?.adultPrice + flightSelect?.flightSeatPrice?.adultTaxPrice) * data?.adult
+
+    const adultPriceFomat = isNaN(totalAdultPrice) ? 0 : totalAdultPrice
+
+    const totalChildrenPrice =
+        (flightSelect?.flightSeatPrice?.childrenPrice + flightSelect?.flightSeatPrice?.childrenTaxPrice) *
+        data?.children
+    const childrenPriceFomat = isNaN(totalChildrenPrice) ? 0 : totalChildrenPrice
+
+    const totalInfantPrice = flightSelect?.flightSeatPrice?.infantPrice * data?.baby
+    const infantPriceFomat = isNaN(totalInfantPrice) ? 0 : totalInfantPrice
+
+    const totalFee = flightSelect?.flightSeatPrice?.taxService?.totalFee * totalPeople
+    const totalFeeFomat = isNaN(totalFee) ? 0 : totalFee
+
+    const totalAdultPriceReturn =
+        (flightSelectReturn?.flightSeatPrice?.adultPrice + flightSelectReturn?.flightSeatPrice?.adultTaxPrice) *
+        data?.adult
+    const adultPriceFomatReturn = isNaN(totalAdultPriceReturn) ? 0 : totalAdultPriceReturn
+
+    const totalChildrenPriceReturn =
+        (flightSelectReturn?.flightSeatPrice?.childrenPrice + flightSelectReturn?.flightSeatPrice?.childrenTaxPrice) *
+        data?.children
+    const childrenPriceFomatReturn = isNaN(totalChildrenPriceReturn) ? 0 : totalChildrenPriceReturn
+
+    const totalInfantPriceReturn = flightSelectReturn?.flightSeatPrice?.infantPrice * data?.baby
+    const infantPriceFomatReturn = isNaN(totalInfantPriceReturn) ? 0 : totalInfantPriceReturn
+
+    const totalFeeReturn = flightSelectReturn?.flightSeatPrice?.taxService?.totalFee * totalPeople
+    const totalFeeReturnFomat = isNaN(totalFeeReturn) ? 0 : totalFeeReturn
+
     const total =
-        (flightSelect?.flightSeatPrice?.adultPrice + flightSelect?.flightSeatPrice?.taxPrice) * data?.adult +
-        (flightSelect?.flightSeatPrice?.childrenPrice + flightSelect?.flightSeatPrice?.taxPrice) * data?.children +
-        flightSelect.flightSeatPrice.infantPrice * data.baby +
-        flightSelect.flightSeatPrice.taxService.totalFee * totalPeople +
+        adultPriceFomat +
+        childrenPriceFomat +
+        infantPriceFomat +
+        totalFeeFomat +
         totalService +
         totalServiceReturn +
-        (flightSelectReturn?.flightSeatPrice?.adultPrice + flightSelectReturn?.flightSeatPrice?.taxPrice) *
-            data?.adult +
-        (flightSelectReturn?.flightSeatPrice?.childrenPrice + flightSelectReturn?.flightSeatPrice?.taxPrice) *
-            data?.children +
-        flightSelectReturn.flightSeatPrice.infantPrice * data.baby +
-        flightSelectReturn.flightSeatPrice.taxService.totalFee * totalPeople
-    const totalFomat = formatCurrency(Number(total))
-
+        adultPriceFomatReturn +
+        childrenPriceFomatReturn +
+        infantPriceFomatReturn +
+        totalFeeReturnFomat
     const feachListFlight = async () => {
         try {
             setLoading(true) // Bắt đầu hiển thị Spinner
@@ -350,7 +378,7 @@ const SelectFlight = () => {
                                 {getText('Total')}:
                             </Col>
                             <Col span={8} className='footer-price'>
-                                {totalFomat}
+                                {formatCurrency(total)}
                             </Col>
                         </Row>
                     </Col>

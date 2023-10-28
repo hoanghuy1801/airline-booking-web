@@ -21,6 +21,7 @@ const SelectService = () => {
     const data = useSelector((state) => state.homePage.homePageInfor)
     const flightSelect = useSelector((state) => state.flightSelect.flightSelect)
     const flightSelectReturn = useSelector((state) => state.flightSelect.flightSelectReturn)
+    const totalflight = useSelector((state) => state.flightSelect.totalflight)
     const dispath = useDispatch()
 
     const [totalBaggage, setTotalBaggage] = useState(0)
@@ -33,19 +34,8 @@ const SelectService = () => {
     const totalService = totalBaggage + totalMeal + totalSeat
     const totalServiceReturn = totalBaggageReturn + totalMealReturn + totalSeatReturn
     const totalPeople = data.children + data.adult
-    const total =
-        (flightSelect?.flightSeatPrice?.adultPrice + flightSelect?.flightSeatPrice?.taxPrice) * data?.adult +
-        (flightSelect?.flightSeatPrice?.childrenPrice + flightSelect?.flightSeatPrice?.taxPrice) * data?.children +
-        flightSelect.flightSeatPrice.infantPrice * data.baby +
-        flightSelect.flightSeatPrice.taxService.totalFee * totalPeople +
-        totalService +
-        totalServiceReturn +
-        (flightSelectReturn?.flightSeatPrice?.adultPrice + flightSelectReturn?.flightSeatPrice?.taxPrice) *
-            data?.adult +
-        (flightSelectReturn?.flightSeatPrice?.childrenPrice + flightSelectReturn?.flightSeatPrice?.taxPrice) *
-            data?.children +
-        flightSelectReturn.flightSeatPrice.infantPrice * data.baby +
-        flightSelectReturn.flightSeatPrice.taxService.totalFee * totalPeople
+    const total = totalflight + totalService + totalServiceReturn
+
     const totalFomat = formatCurrency(Number(total))
     const myLanguage = useSelector((state) => state.language.language)
     const sourceAirportCity = removeDiacritics(data.sourceAirportCity, myLanguage)
