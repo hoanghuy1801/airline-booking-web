@@ -51,13 +51,6 @@ const SelectFlyService = () => {
                 flightAwayDetail: flightAwayDetail,
                 flightReturnDetail: null
             }
-            const passengersReturn = dataPassengersReturn.map((item) => {
-                // Tạo một bản sao của đối tượng hiện tại để không làm thay đổi dữ liệu gốc
-                const newItem = { ...item }
-                // Loại bỏ các biến không mong muốn
-                delete newItem.seat
-                return newItem
-            })
             const passengers = dataPassengers.map((item) => {
                 // Tạo một bản sao của đối tượng hiện tại để không làm thay đổi dữ liệu gốc
                 const newItem = { ...item }
@@ -67,7 +60,7 @@ const SelectFlyService = () => {
             })
             dispath(setSelectChangeFly(dataChange))
             dispath(setDataPassengersService(passengers))
-            dispath(setDataPassengersServiceReturn(passengersReturn))
+            dispath(setDataPassengersServiceReturn(null))
         }
         navigate('/my/sevice-detail')
     }

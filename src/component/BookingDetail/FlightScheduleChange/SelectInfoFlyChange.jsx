@@ -21,17 +21,19 @@ const SelectInfoFlyChange = (props) => {
     let totalFeeChange = feeChange * totalPeople
     const totalAdultPrice =
         // eslint-disable-next-line react/prop-types
-        (flightSelect?.flightSeatPrice?.adultPrice + flightSelect?.flightSeatPrice?.taxPrice) * dataChangeFly?.aduls
-    const adultPriceFomat = formatCurrency(totalAdultPrice)
+        (flightSelect?.flightSeatPrice?.adultPrice + flightSelect?.flightSeatPrice?.adultTaxPrice) *
+        dataChangeFly?.aduls
+    const adultPriceFomat = isNaN(totalAdultPrice) ? 0 : totalAdultPrice
 
     const totalChildrenPrice =
         // eslint-disable-next-line react/prop-types
-        (flightSelect?.flightSeatPrice?.childrenPrice + flightSelect?.flightSeatPrice?.taxPrice) * dataChangeFly?.childs
-    const childrenPriceFomat = formatCurrency(totalChildrenPrice)
+        (flightSelect?.flightSeatPrice?.childrenPrice + flightSelect?.flightSeatPrice?.childrenTaxPrice) *
+        dataChangeFly?.childs
+    const childrenPriceFomat = isNaN(totalChildrenPrice) ? 0 : totalChildrenPrice
 
     // eslint-disable-next-line react/prop-types
     const totalInfantPrice = flightSelect?.flightSeatPrice?.infantPrice * dataChangeFly?.infants
-    const infantPriceFomat = formatCurrency(totalInfantPrice)
+    const infantPriceFomat = isNaN(totalInfantPrice) ? 0 : totalInfantPrice
 
     let passengerDetail = {}
     const selectChangeFly = useSelector((state) => state.myFlight?.selectChangeFly)
@@ -42,11 +44,9 @@ const SelectInfoFlyChange = (props) => {
         // eslint-disable-next-line no-unused-vars
         passengerDetail = selectChangeFly?.flightAwayDetail?.passengerAwaysDetail
     }
-    console.log('huy', passengerDetail)
-
     let deduct = passengerDetail.reduce((total, item) => total + item?.seat?.seatPrice, 0)
     let deductFee = passengerDetail.reduce((total, item) => total + item?.seat?.taxPrice, 0)
-    let priceChange = totalAdultPrice + totalChildrenPrice + totalInfantPrice
+    let priceChange = adultPriceFomat + childrenPriceFomat + infantPriceFomat
     let total = 0
     let deductAll = 0
     if (deduct + deductFee >= priceChange) {
@@ -54,7 +54,7 @@ const SelectInfoFlyChange = (props) => {
         deductAll = 0
         setTotalAll(total)
     } else {
-        total = totalAdultPrice + totalChildrenPrice + totalInfantPrice + totalFeeChange - (deduct + deductFee)
+        total = adultPriceFomat + childrenPriceFomat + infantPriceFomat + totalFeeChange - (deduct + deductFee)
         deductAll = deduct + deductFee
         setTotalAll(total)
     }
@@ -133,103 +133,112 @@ const SelectInfoFlyChange = (props) => {
                                         paddingRight: 20
                                     }}
                                 >
-                                    {adultPriceFomat}
+                                    {formatCurrency(adultPriceFomat)}
                                 </Text>
                             </Col>
                         </Row>
                     </div>
-                    <div className='title-infor'>
-                        <Row>
-                            <Col span={8}>
-                                <Text
-                                    style={{
-                                        color: 'black',
-                                        fontSize: 18,
-                                        fontWeight: 600,
-                                        paddingLeft: 20
-                                    }}
-                                >
-                                    Giá vé trẻ em
-                                </Text>
-                            </Col>
-                            <Col span={6}>
-                                <Text
-                                    style={{
-                                        color: 'black',
-                                        fontSize: 18,
-                                        fontWeight: 600,
-                                        justifyContent: 'flex-end',
-                                        display: 'flex',
-                                        alignItems: 'flex-end',
-                                        paddingRight: 20
-                                    }}
-                                >
-                                    x{dataChangeFly?.childs}
-                                </Text>
-                            </Col>
-                            <Col span={10}>
-                                <Text
-                                    style={{
-                                        color: 'black',
-                                        fontSize: 18,
-                                        fontWeight: 600,
-                                        justifyContent: 'flex-end',
-                                        display: 'flex',
-                                        alignItems: 'flex-end',
-                                        paddingRight: 20
-                                    }}
-                                >
-                                    {childrenPriceFomat}
-                                </Text>
-                            </Col>
-                        </Row>
-                    </div>
-                    <div className='title-infor'>
-                        <Row>
-                            <Col span={8}>
-                                <Text
-                                    style={{
-                                        color: 'black',
-                                        fontSize: 18,
-                                        fontWeight: 600,
-                                        paddingLeft: 20
-                                    }}
-                                >
-                                    Giá vé em bé
-                                </Text>
-                            </Col>
-                            <Col span={6}>
-                                <Text
-                                    style={{
-                                        color: 'black',
-                                        fontSize: 18,
-                                        fontWeight: 600,
-                                        justifyContent: 'flex-end',
-                                        display: 'flex',
-                                        alignItems: 'flex-end',
-                                        paddingRight: 20
-                                    }}
-                                >
-                                    x{dataChangeFly?.infants}{' '}
-                                </Text>
-                            </Col>
-                            <Col span={10}>
-                                <Text
-                                    style={{
-                                        color: 'black',
-                                        fontSize: 18,
-                                        fontWeight: 600,
-                                        justifyContent: 'flex-end',
-                                        display: 'flex',
-                                        alignItems: 'flex-end',
-                                        paddingRight: 20
-                                    }}
-                                >
-                                    {infantPriceFomat}
-                                </Text>
-                            </Col>
-                        </Row>
-                    </div>
+                    {dataChangeFly?.childs !== 0 ? (
+                        <div className='title-infor'>
+                            <Row>
+                                <Col span={8}>
+                                    <Text
+                                        style={{
+                                            color: 'black',
+                                            fontSize: 18,
+                                            fontWeight: 600,
+                                            paddingLeft: 20
+                                        }}
+                                    >
+                                        Giá vé trẻ em
+                                    </Text>
+                                </Col>
+                                <Col span={6}>
+                                    <Text
+                                        style={{
+                                            color: 'black',
+                                            fontSize: 18,
+                                            fontWeight: 600,
+                                            justifyContent: 'flex-end',
+                                            display: 'flex',
+                                            alignItems: 'flex-end',
+                                            paddingRight: 20
+                                        }}
+                                    >
+                                        x{dataChangeFly?.childs}
+                                    </Text>
+                                </Col>
+                                <Col span={10}>
+                                    <Text
+                                        style={{
+                                            color: 'black',
+                                            fontSize: 18,
+                                            fontWeight: 600,
+                                            justifyContent: 'flex-end',
+                                            display: 'flex',
+                                            alignItems: 'flex-end',
+                                            paddingRight: 20
+                                        }}
+                                    >
+                                        {formatCurrency(childrenPriceFomat)}
+                                    </Text>
+                                </Col>
+                            </Row>
+                        </div>
+                    ) : (
+                        ''
+                    )}
+
+                    {dataChangeFly?.infants !== 0 ? (
+                        <div className='title-infor'>
+                            <Row>
+                                <Col span={8}>
+                                    <Text
+                                        style={{
+                                            color: 'black',
+                                            fontSize: 18,
+                                            fontWeight: 600,
+                                            paddingLeft: 20
+                                        }}
+                                    >
+                                        Giá vé em bé
+                                    </Text>
+                                </Col>
+                                <Col span={6}>
+                                    <Text
+                                        style={{
+                                            color: 'black',
+                                            fontSize: 18,
+                                            fontWeight: 600,
+                                            justifyContent: 'flex-end',
+                                            display: 'flex',
+                                            alignItems: 'flex-end',
+                                            paddingRight: 20
+                                        }}
+                                    >
+                                        x{dataChangeFly?.infants}{' '}
+                                    </Text>
+                                </Col>
+                                <Col span={10}>
+                                    <Text
+                                        style={{
+                                            color: 'black',
+                                            fontSize: 18,
+                                            fontWeight: 600,
+                                            justifyContent: 'flex-end',
+                                            display: 'flex',
+                                            alignItems: 'flex-end',
+                                            paddingRight: 20
+                                        }}
+                                    >
+                                        {formatCurrency(infantPriceFomat)}
+                                    </Text>
+                                </Col>
+                            </Row>
+                        </div>
+                    ) : (
+                        ''
+                    )}
 
                     <div className='title-infor'>
                         <Row>
