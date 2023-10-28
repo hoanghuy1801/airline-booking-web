@@ -15,53 +15,57 @@ const SelectInfoFly = (props) => {
 
     const totalAdultPrice =
         // eslint-disable-next-line react/prop-types
-        (flightSelect?.flightSeatPrice?.adultPrice + flightSelect?.flightSeatPrice?.taxPrice) * data?.adult
-    const adultPriceFomat = formatCurrency(totalAdultPrice)
+        (flightSelect?.flightSeatPrice?.adultPrice + flightSelect?.flightSeatPrice?.adultTaxPrice) * data?.adult
+
+    const adultPriceFomat = isNaN(totalAdultPrice) ? 0 : totalAdultPrice
 
     const totalChildrenPrice =
         // eslint-disable-next-line react/prop-types
-        (flightSelect?.flightSeatPrice?.childrenPrice + flightSelect?.flightSeatPrice?.taxPrice) * data?.children
-    const childrenPriceFomat = formatCurrency(totalChildrenPrice)
+        (flightSelect?.flightSeatPrice?.childrenPrice + flightSelect?.flightSeatPrice?.childrenTaxPrice) *
+        data?.children
+    const childrenPriceFomat = isNaN(totalChildrenPrice) ? 0 : totalChildrenPrice
 
     // eslint-disable-next-line react/prop-types
     const totalInfantPrice = flightSelect?.flightSeatPrice?.infantPrice * data?.baby
-    const infantPriceFomat = formatCurrency(totalInfantPrice)
+    const infantPriceFomat = isNaN(totalInfantPrice) ? 0 : totalInfantPrice
 
     // eslint-disable-next-line react/prop-types
     const totalFee = flightSelect?.flightSeatPrice?.taxService?.totalFee * totalPeople
-    const totalFeeFomat = formatCurrency(totalFee)
+    const totalFeeFomat = isNaN(totalFee) ? 0 : totalFee
 
     const totalAdultPriceReturn =
         // eslint-disable-next-line react/prop-types
-        (flightSelectReturn?.flightSeatPrice?.adultPrice + flightSelectReturn?.flightSeatPrice?.taxPrice) * data?.adult
-    const adultPriceFomatReturn = formatCurrency(totalAdultPriceReturn)
+        (flightSelectReturn?.flightSeatPrice?.adultPrice + flightSelectReturn?.flightSeatPrice?.adultTaxPrice) *
+        data?.adult
+    const adultPriceFomatReturn = isNaN(totalAdultPriceReturn) ? 0 : totalAdultPriceReturn
 
     const totalChildrenPriceReturn =
         // eslint-disable-next-line react/prop-types
-        (flightSelectReturn?.flightSeatPrice?.childrenPrice + flightSelectReturn?.flightSeatPrice?.taxPrice) *
+        (flightSelectReturn?.flightSeatPrice?.childrenPrice + flightSelectReturn?.flightSeatPrice?.childrenTaxPrice) *
         data?.children
-    const childrenPriceFomatReturn = formatCurrency(totalChildrenPriceReturn)
+    const childrenPriceFomatReturn = isNaN(totalChildrenPriceReturn) ? 0 : totalChildrenPriceReturn
 
     // eslint-disable-next-line react/prop-types
     const totalInfantPriceReturn = flightSelectReturn?.flightSeatPrice?.infantPrice * data?.baby
-    const infantPriceFomatReturn = formatCurrency(totalInfantPriceReturn)
+    const infantPriceFomatReturn = isNaN(totalInfantPriceReturn) ? 0 : totalInfantPriceReturn
 
     // eslint-disable-next-line react/prop-types
     const totalFeeReturn = flightSelectReturn?.flightSeatPrice?.taxService?.totalFee * totalPeople
-    const totalFeeReturnFomat = formatCurrency(totalFeeReturn)
+    const totalFeeReturnFomat = isNaN(totalFeeReturn) ? 0 : totalFeeReturn
 
     const total =
-        totalAdultPrice +
-        totalChildrenPrice +
-        totalInfantPrice +
-        totalFee +
+        adultPriceFomat +
+        childrenPriceFomat +
+        infantPriceFomat +
+        totalFeeFomat +
         totalService +
         totalServiceReturn +
-        totalAdultPriceReturn +
-        totalChildrenPriceReturn +
-        totalInfantPriceReturn +
-        totalFeeReturn
-    const totalFomat = formatCurrency(Number(total))
+        adultPriceFomatReturn +
+        childrenPriceFomatReturn +
+        infantPriceFomatReturn +
+        totalFeeReturnFomat
+
+    const totalFomat = isNaN(total) ? formatCurrency(0) : formatCurrency(Number(total))
 
     const myLanguage = useSelector((state) => state?.language?.language)
     const sourceAirportCity = removeDiacritics(data?.sourceAirportCity, myLanguage)
@@ -184,7 +188,7 @@ const SelectInfoFly = (props) => {
                                         paddingRight: 20
                                     }}
                                 >
-                                    {adultPriceFomat}
+                                    {formatCurrency(adultPriceFomat)}
                                 </Text>
                             </Col>
                         </Row>
@@ -233,7 +237,7 @@ const SelectInfoFly = (props) => {
                                             paddingRight: 20
                                         }}
                                     >
-                                        {childrenPriceFomat}
+                                        {formatCurrency(childrenPriceFomat)}
                                     </Text>
                                 </Col>
                             </Row>
@@ -285,7 +289,7 @@ const SelectInfoFly = (props) => {
                                             paddingRight: 20
                                         }}
                                     >
-                                        {infantPriceFomat}
+                                        {formatCurrency(infantPriceFomat)}
                                     </Text>
                                 </Col>
                             </Row>
@@ -336,7 +340,7 @@ const SelectInfoFly = (props) => {
                                     }}
                                 >
                                     {' '}
-                                    {totalFeeFomat}
+                                    {formatCurrency(totalFeeFomat)}
                                 </Text>
                             </Col>
                         </Row>
@@ -472,7 +476,7 @@ const SelectInfoFly = (props) => {
                                                 paddingRight: 20
                                             }}
                                         >
-                                            {adultPriceFomatReturn}
+                                            {formatCurrency(adultPriceFomatReturn)}
                                         </Text>
                                     </Col>
                                 </Row>
@@ -521,7 +525,7 @@ const SelectInfoFly = (props) => {
                                                     paddingRight: 20
                                                 }}
                                             >
-                                                {childrenPriceFomatReturn}
+                                                {formatCurrency(childrenPriceFomatReturn)}
                                             </Text>
                                         </Col>
                                     </Row>
@@ -573,7 +577,7 @@ const SelectInfoFly = (props) => {
                                                     paddingRight: 20
                                                 }}
                                             >
-                                                {infantPriceFomatReturn}
+                                                {formatCurrency(infantPriceFomatReturn)}
                                             </Text>
                                         </Col>
                                     </Row>
@@ -624,7 +628,7 @@ const SelectInfoFly = (props) => {
                                                 paddingRight: 20
                                             }}
                                         >
-                                            {totalFeeReturnFomat}
+                                            {formatCurrency(totalFeeReturnFomat)}
                                         </Text>
                                     </Col>
                                 </Row>
