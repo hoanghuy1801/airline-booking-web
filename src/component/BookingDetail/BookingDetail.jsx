@@ -170,7 +170,7 @@ const BookingDetail = () => {
         }
     }
     return (
-        <div className='booking-detail' style={{ paddingBottom: '100px' }}>
+        <div className='booking-detail' style={{ paddingBottom: '257px' }}>
             <div className='info-booking-detail'>
                 <Row>
                     <Col xs={8} sm={8} md={8} lg={8} xl={8} className='code-booking'>
@@ -1301,7 +1301,6 @@ const BookingDetail = () => {
                             </div>
                         )
                     })}
-
                     {updatedInfants.map((index) => {
                         const serviceOption = index?.serviceOpts
                         const fightReturn = index?.return

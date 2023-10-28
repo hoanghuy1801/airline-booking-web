@@ -1,9 +1,4 @@
-import { Row, Col, Checkbox, Button } from 'antd'
-import { IconPlane, IconUserCircle, IconCurrencyDollar, IconShoppingCart } from '@tabler/icons-react'
-import { useNavigate } from 'react-router-dom'
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
-import { CaretRightOutlined } from '@ant-design/icons'
+import { Row, Col, Checkbox } from 'antd'
 const FormSelectFlyService = () => {
     return (
         <>

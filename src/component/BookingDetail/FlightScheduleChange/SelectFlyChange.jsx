@@ -107,58 +107,62 @@ const SelectFlyChange = () => {
                         </Col>
                     </Row>
                 </div>
-                <div className='form-select-fly-service' style={{ marginTop: 30 }}>
-                    <div className='date-select-fly'>
+                {bookingDetails?.journeyType === 'RETURN' ? (
+                    <div className='form-select-fly-service' style={{ marginTop: 30 }}>
+                        <div className='date-select-fly'>
+                            <Row>
+                                <Col span={22}>
+                                    <Text style={{ fontSize: '18px', fontWeight: 500, color: 'white' }}>Chuyến về</Text>
+                                </Col>
+                                <Col span={2}>
+                                    <Radio
+                                        value={flightReturnDetail?.id}
+                                        onChange={handleRadioChange}
+                                        checked={selectedValue === flightReturnDetail?.id}
+                                    />
+                                </Col>
+                            </Row>
+                        </div>
+                        <Text className='date-fly'>Ngày: {formatDateString(flightReturnDetail?.arrivalTime)}</Text>
                         <Row>
-                            <Col span={22}>
-                                <Text style={{ fontSize: '18px', fontWeight: 500, color: 'white' }}>Chuyến về</Text>
+                            <Col span={5} className='info-fly'>
+                                <Text className='location'>{flightReturnDetail?.sourceAirport?.airportCode}</Text>
                             </Col>
-                            <Col span={2}>
-                                <Radio
-                                    value={flightReturnDetail?.id}
-                                    onChange={handleRadioChange}
-                                    checked={selectedValue === flightReturnDetail?.id}
-                                />
+                            <Col span={7} className='info-fly'>
+                                <Text className='time-fly'>
+                                    {' '}
+                                    {calculateTimeDifference(
+                                        formatTime(flightReturnDetail?.departureTime),
+                                        formatTime(flightReturnDetail?.arrivalTime),
+                                        language
+                                    )}
+                                </Text>
+                            </Col>
+                            <Col span={5} className='info-fly'>
+                                <Text className='location'>{flightReturnDetail?.destinationAirport?.airportCode}</Text>
+                            </Col>
+                            <Col span={7}>
+                                <Text className='name-fly'>Hãng khai thác:</Text>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col span={5} className='info-fly'>
+                                <Text className='time'>{formatTime(flightReturnDetail?.departureTime)}</Text>
+                            </Col>
+                            <Col span={7} className='info-fly'>
+                                <Text className='time-fly'>Bay thẳng</Text>
+                            </Col>
+                            <Col span={5} className='info-fly'>
+                                <Text className='time'>{formatTime(flightReturnDetail?.arrivalTime)}</Text>
+                            </Col>
+                            <Col span={7}>
+                                <Text className='name-fly'>VietNam Airline</Text>
                             </Col>
                         </Row>
                     </div>
-                    <Text className='date-fly'>Ngày: {formatDateString(flightReturnDetail?.arrivalTime)}</Text>
-                    <Row>
-                        <Col span={5} className='info-fly'>
-                            <Text className='location'>{flightReturnDetail?.sourceAirport?.airportCode}</Text>
-                        </Col>
-                        <Col span={7} className='info-fly'>
-                            <Text className='time-fly'>
-                                {' '}
-                                {calculateTimeDifference(
-                                    formatTime(flightReturnDetail?.departureTime),
-                                    formatTime(flightReturnDetail?.arrivalTime),
-                                    language
-                                )}
-                            </Text>
-                        </Col>
-                        <Col span={5} className='info-fly'>
-                            <Text className='location'>{flightReturnDetail?.destinationAirport?.airportCode}</Text>
-                        </Col>
-                        <Col span={7}>
-                            <Text className='name-fly'>Hãng khai thác:</Text>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col span={5} className='info-fly'>
-                            <Text className='time'>{formatTime(flightReturnDetail?.departureTime)}</Text>
-                        </Col>
-                        <Col span={7} className='info-fly'>
-                            <Text className='time-fly'>Bay thẳng</Text>
-                        </Col>
-                        <Col span={5} className='info-fly'>
-                            <Text className='time'>{formatTime(flightReturnDetail?.arrivalTime)}</Text>
-                        </Col>
-                        <Col span={7}>
-                            <Text className='name-fly'>VietNam Airline</Text>
-                        </Col>
-                    </Row>
-                </div>
+                ) : (
+                    ''
+                )}
             </div>
             <div className='footer'>
                 <Row>
