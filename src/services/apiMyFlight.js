@@ -6,5 +6,8 @@ const getBookingDetails = (bookingCode, firstName, lastName) => {
 const postAddService = (data) => {
     return axios.post('/api/v1/booking/add-service', data)
 }
+const posstCheckIn = (data) => {
+    return axios.post('/api/v1/check-in', data)
+}
 
-export { getBookingDetails, postAddService }
+export { getBookingDetails, postAddService, posstCheckIn }

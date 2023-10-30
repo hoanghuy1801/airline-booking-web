@@ -57,7 +57,6 @@ const ServiceFly = (props) => {
 
     const [valueRadio, setValueRadio] = useState('')
     const dataPassengers = useSelector((state) => state.myFlight?.dataPassengersService)
-    console.log('dataPassengers', dataPassengers)
     const dataPassengersReturn = useSelector((state) => state.myFlight?.dataPassengersServiceReturn)
 
     const [selectPassengers, setSelectPassengers] = useState(dataPassengers[0]?.id)
@@ -168,6 +167,7 @@ const ServiceFly = (props) => {
             }
             const updatedPassengers = dataPassengers.map((dataPassengers) => {
                 if (dataPassengers?.id === selectPassengers) {
+                    console.log('dataPassengers', dataPassengers)
                     if (dataPassengers?.seatServicePrice) {
                         showWaringModal(`${getText('HeyFriend')}`, 'bạn đã chọn ghế', `${getText('Close')}`)
                         return dataPassengers

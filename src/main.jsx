@@ -42,6 +42,7 @@ import SelectFlyService from './component/BookingDetail/Service/SelectFlyService
 import ServiceDetail from './component/BookingDetail/Service/ServiceDetail.jsx'
 import FlyCancel from './component/Admin/FlyCancel/FlyCancel.jsx'
 import ListFlight from './component/Admin/ListFlight/ListFlight.jsx'
+import SelectPassengers from './component/CheckIn/SelectPassengers/SelectPassengers.jsx'
 ReactDOM.createRoot(document.getElementById('root')).render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
@@ -65,6 +66,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                             <Route path='/checkin' element={<CheckIn />} />
                             <Route path='/my/search-booking' element={<SearchBookingMy />} />
                             <Route path='/my/select-fight' element={<SelectFight />} />
+                            <Route path='/my/select-passengers' element={<SelectPassengers />} />
                             <Route path='/my/select-seat' element={<SelectSeat />} />
                             <Route path='/my/restricted-baggage' element={<RestrictedBaggage />} />
                             <Route path='/my/success' element={<Success />} />

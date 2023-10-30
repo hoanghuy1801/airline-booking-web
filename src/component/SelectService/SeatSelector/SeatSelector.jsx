@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react'
+/* eslint-disable react/prop-types */
+import { useState } from 'react'
 import seatBUSINESS from '../../../assets/service/favorite-seat_red.svg'
 import seatPREMIUM_ECONOMY from '../../../assets/service/favorite-seat_green.svg'
 import seatECONOMY from '../../../assets/service/favorite-seat_blue.svg'
 import selectedSeatIcon from '../../../assets/service/favorite-seat_yellow.svg'
 import disabledSeatIcon from '../../../assets/service/favorite-seat_grey.svg'
 import './SeatSelector.css'
-import { Row, Col } from 'antd'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
-const SeatBUSINESS = ({ seatNumber, selectedSeat, onSelect, disabledSeats, seatClass, selectedSeats, reload }) => {
+const SeatBUSINESS = ({ seatNumber, selectedSeat, onSelect, disabledSeats, seatClass, selectedSeats }) => {
     const [isSelected, setIsSelected] = useState(false)
     const data = useSelector((state) => state.homePage.homePageInfor)
     const handleClick = () => {
@@ -29,7 +29,8 @@ const SeatBUSINESS = ({ seatNumber, selectedSeat, onSelect, disabledSeats, seatC
                 src={
                     seatClass !== data.seatClass
                         ? disabledSeatIcon
-                        : selectedSeats.includes(seatNumber)
+                        : // eslint-disable-next-line react/prop-types
+                        selectedSeats.includes(seatNumber)
                         ? disabledSeatIcon
                         : selectedSeat === seatNumber
                         ? selectedSeatIcon
@@ -42,15 +43,7 @@ const SeatBUSINESS = ({ seatNumber, selectedSeat, onSelect, disabledSeats, seatC
         </div>
     )
 }
-const SeatPREMIUM_ECONOMY = ({
-    seatNumber,
-    selectedSeat,
-    onSelect,
-    disabledSeats,
-    seatClass,
-    selectedSeats,
-    reload
-}) => {
+const SeatPREMIUM_ECONOMY = ({ seatNumber, selectedSeat, onSelect, disabledSeats, seatClass, selectedSeats }) => {
     const [isSelected, setIsSelected] = useState(false)
     const data = useSelector((state) => state.homePage.homePageInfor)
     const handleClick = () => {
@@ -84,7 +77,7 @@ const SeatPREMIUM_ECONOMY = ({
         </div>
     )
 }
-const SeatECONOMY = ({ seatNumber, selectedSeat, onSelect, disabledSeats, seatClass, selectedSeats, reload }) => {
+const SeatECONOMY = ({ seatNumber, selectedSeat, onSelect, disabledSeats, seatClass, selectedSeats }) => {
     const [isSelected, setIsSelected] = useState(false)
     const data = useSelector((state) => state.homePage.homePageInfor)
     const handleClick = () => {

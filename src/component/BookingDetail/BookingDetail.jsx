@@ -206,6 +206,7 @@ const BookingDetail = () => {
                 <Text className='title-booking'>{getText('Ticket_price_details')}</Text>
                 <div className='detail-booking-passengers'>
                     {updatedAduls.map((index) => {
+                        console.log('index', index)
                         const serviceOption = index?.serviceOpts
                         const fightReturn = index?.return
                         const serviceOptionReturn = fightReturn?.serviceOpts
@@ -401,9 +402,7 @@ const BookingDetail = () => {
                                                                         {formatCurrency(
                                                                             totalOptionbaggagePrice +
                                                                                 totalOptionMealPrice +
-                                                                                (index?.seatServicePrice !== undefined
-                                                                                    ? index?.seatServicePrice
-                                                                                    : 0)
+                                                                                index?.seat?.servicePrice
                                                                         )}
                                                                     </Text>
                                                                 </Col>
@@ -414,9 +413,7 @@ const BookingDetail = () => {
                                                                 </Col>
                                                                 <Col span={12} className='col-details-price'>
                                                                     <Text>
-                                                                        {index?.seatServicePrice !== undefined
-                                                                            ? formatCurrency(index?.seatServicePrice)
-                                                                            : formatCurrency(0)}
+                                                                        {formatCurrency(index?.seat?.servicePrice)}
                                                                     </Text>
                                                                 </Col>
                                                             </Row>
@@ -461,9 +458,7 @@ const BookingDetail = () => {
                                                                         {formatCurrency(
                                                                             totalOptionbaggagePrice +
                                                                                 totalOptionMealPrice +
-                                                                                (index?.seatServicePrice !== undefined
-                                                                                    ? index?.seatServicePrice
-                                                                                    : 0) +
+                                                                                index?.seat?.servicePrice +
                                                                                 index?.taxService?.totalFee +
                                                                                 index?.seat?.seatPrice +
                                                                                 index?.seat?.taxPrice
@@ -658,10 +653,7 @@ const BookingDetail = () => {
                                                                             {formatCurrency(
                                                                                 totalOptionbaggagePriceReturn +
                                                                                     totalOptionMealPriceReturn +
-                                                                                    (fightReturn?.seatServicePrice !==
-                                                                                    undefined
-                                                                                        ? fightReturn?.seatServicePrice
-                                                                                        : 0)
+                                                                                    fightReturn?.seat?.servicePrice
                                                                             )}
                                                                         </Text>
                                                                     </Col>
@@ -672,11 +664,9 @@ const BookingDetail = () => {
                                                                     </Col>
                                                                     <Col span={12} className='col-details-price'>
                                                                         <Text>
-                                                                            {fightReturn?.seatServicePrice !== undefined
-                                                                                ? formatCurrency(
-                                                                                      fightReturn?.seatServicePrice
-                                                                                  )
-                                                                                : formatCurrency(0)}
+                                                                            {formatCurrency(
+                                                                                fightReturn?.seat?.servicePrice
+                                                                            )}
                                                                         </Text>
                                                                     </Col>
                                                                 </Row>
@@ -725,10 +715,7 @@ const BookingDetail = () => {
                                                                             {formatCurrency(
                                                                                 totalOptionbaggagePriceReturn +
                                                                                     totalOptionMealPriceReturn +
-                                                                                    (fightReturn?.seatServicePrice !==
-                                                                                    undefined
-                                                                                        ? fightReturn?.seatServicePrice
-                                                                                        : 0) +
+                                                                                    fightReturn?.seat?.servicePrice +
                                                                                     fightReturn?.taxService?.totalFee +
                                                                                     fightReturn?.seat?.seatPrice +
                                                                                     fightReturn?.seat?.taxPrice
@@ -754,6 +741,7 @@ const BookingDetail = () => {
                         )
                     })}
                     {updatedChilds.map((index) => {
+                        console.log('index', index)
                         const serviceOption = index?.serviceOpts
                         const fightReturn = index?.return
                         const serviceOptionReturn = fightReturn?.serviceOpts
@@ -799,7 +787,7 @@ const BookingDetail = () => {
                                             key: 'index',
                                             label: (
                                                 <div style={{ fontSize: '18px', fontWeight: 600 }}>
-                                                    {getText('children')}: {convertGender(index?.gender, language)}{' '}
+                                                    {getText('adult')}: {convertGender(index?.gender, language)}{' '}
                                                     {index?.lastName} {index?.firstName}
                                                 </div>
                                             ),
@@ -949,9 +937,7 @@ const BookingDetail = () => {
                                                                         {formatCurrency(
                                                                             totalOptionbaggagePrice +
                                                                                 totalOptionMealPrice +
-                                                                                (index?.seatServicePrice !== undefined
-                                                                                    ? index?.seatServicePrice
-                                                                                    : 0)
+                                                                                index?.seat?.servicePrice
                                                                         )}
                                                                     </Text>
                                                                 </Col>
@@ -962,9 +948,7 @@ const BookingDetail = () => {
                                                                 </Col>
                                                                 <Col span={12} className='col-details-price'>
                                                                     <Text>
-                                                                        {index?.seatServicePrice !== undefined
-                                                                            ? formatCurrency(index?.seatServicePrice)
-                                                                            : formatCurrency(0)}
+                                                                        {formatCurrency(index?.seat?.servicePrice)}
                                                                     </Text>
                                                                 </Col>
                                                             </Row>
@@ -1009,9 +993,7 @@ const BookingDetail = () => {
                                                                         {formatCurrency(
                                                                             totalOptionbaggagePrice +
                                                                                 totalOptionMealPrice +
-                                                                                (index?.seatServicePrice !== undefined
-                                                                                    ? index?.seatServicePrice
-                                                                                    : 0) +
+                                                                                index?.seat?.servicePrice +
                                                                                 index?.taxService?.totalFee +
                                                                                 index?.seat?.seatPrice +
                                                                                 index?.seat?.taxPrice
@@ -1206,10 +1188,7 @@ const BookingDetail = () => {
                                                                             {formatCurrency(
                                                                                 totalOptionbaggagePriceReturn +
                                                                                     totalOptionMealPriceReturn +
-                                                                                    (fightReturn?.seatServicePrice !==
-                                                                                    undefined
-                                                                                        ? fightReturn?.seatServicePrice
-                                                                                        : 0)
+                                                                                    fightReturn?.seat?.servicePrice
                                                                             )}
                                                                         </Text>
                                                                     </Col>
@@ -1220,11 +1199,9 @@ const BookingDetail = () => {
                                                                     </Col>
                                                                     <Col span={12} className='col-details-price'>
                                                                         <Text>
-                                                                            {fightReturn?.seatServicePrice !== undefined
-                                                                                ? formatCurrency(
-                                                                                      fightReturn?.seatServicePrice
-                                                                                  )
-                                                                                : formatCurrency(0)}
+                                                                            {formatCurrency(
+                                                                                fightReturn?.seat?.servicePrice
+                                                                            )}
                                                                         </Text>
                                                                     </Col>
                                                                 </Row>
@@ -1273,10 +1250,7 @@ const BookingDetail = () => {
                                                                             {formatCurrency(
                                                                                 totalOptionbaggagePriceReturn +
                                                                                     totalOptionMealPriceReturn +
-                                                                                    (fightReturn?.seatServicePrice !==
-                                                                                    undefined
-                                                                                        ? fightReturn?.seatServicePrice
-                                                                                        : 0) +
+                                                                                    fightReturn?.seat?.servicePrice +
                                                                                     fightReturn?.taxService?.totalFee +
                                                                                     fightReturn?.seat?.seatPrice +
                                                                                     fightReturn?.seat?.taxPrice
@@ -1411,9 +1385,7 @@ const BookingDetail = () => {
                                                                         {formatCurrency(
                                                                             totalOptionbaggagePrice +
                                                                                 totalOptionMealPrice +
-                                                                                (index?.seatServicePrice !== undefined
-                                                                                    ? index?.seatServicePrice
-                                                                                    : 0)
+                                                                                index?.seat?.servicePrice
                                                                         )}
                                                                     </Text>
                                                                 </Col>
@@ -1424,9 +1396,7 @@ const BookingDetail = () => {
                                                                 </Col>
                                                                 <Col span={12} className='col-details-price'>
                                                                     <Text>
-                                                                        {index?.seatServicePrice !== undefined
-                                                                            ? formatCurrency(index?.seatServicePrice)
-                                                                            : formatCurrency(0)}
+                                                                        {formatCurrency(index?.seat?.servicePrice)}
                                                                     </Text>
                                                                 </Col>
                                                             </Row>
@@ -1472,9 +1442,7 @@ const BookingDetail = () => {
                                                                         {formatCurrency(
                                                                             totalOptionbaggagePrice +
                                                                                 totalOptionMealPrice +
-                                                                                (index?.seatServicePrice !== undefined
-                                                                                    ? index?.seatServicePrice
-                                                                                    : 0) +
+                                                                                index?.seat?.servicePrice +
                                                                                 index?.seat?.seatPrice
                                                                         )}
                                                                     </Text>
@@ -1551,10 +1519,7 @@ const BookingDetail = () => {
                                                                             {formatCurrency(
                                                                                 totalOptionbaggagePriceReturn +
                                                                                     totalOptionMealPriceReturn +
-                                                                                    (fightReturn?.seatServicePrice !==
-                                                                                    undefined
-                                                                                        ? fightReturn?.seatServicePrice
-                                                                                        : 0)
+                                                                                    fightReturn?.seat?.servicePrice
                                                                             )}
                                                                         </Text>
                                                                     </Col>
@@ -1565,11 +1530,9 @@ const BookingDetail = () => {
                                                                     </Col>
                                                                     <Col span={12} className='col-details-price'>
                                                                         <Text>
-                                                                            {fightReturn?.seatServicePrice !== undefined
-                                                                                ? formatCurrency(
-                                                                                      fightReturn?.seatServicePrice
-                                                                                  )
-                                                                                : formatCurrency(0)}
+                                                                            {formatCurrency(
+                                                                                fightReturn?.seat?.servicePrice
+                                                                            )}
                                                                         </Text>
                                                                     </Col>
                                                                 </Row>
@@ -1618,10 +1581,7 @@ const BookingDetail = () => {
                                                                             {formatCurrency(
                                                                                 totalOptionbaggagePriceReturn +
                                                                                     totalOptionMealPriceReturn +
-                                                                                    (fightReturn?.seatServicePrice !==
-                                                                                    undefined
-                                                                                        ? fightReturn?.seatServicePrice
-                                                                                        : 0) +
+                                                                                    fightReturn?.seat?.servicePrice +
                                                                                     fightReturn?.seat?.seatPrice
                                                                             )}
                                                                         </Text>
