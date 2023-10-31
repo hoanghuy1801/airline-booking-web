@@ -2,8 +2,10 @@ import { Row, Col, Form, Typography } from 'antd'
 import { useSelector } from 'react-redux'
 import './Change.css'
 import { formatCurrency } from '../../../utils/format'
+import { useLanguage } from '../../../LanguageProvider/LanguageProvider'
 const { Text } = Typography
 const SelectInfoFlyChange = (props) => {
+    const { getText } = useLanguage()
     // eslint-disable-next-line react/prop-types
     const { flightSelect, flightAwayDetail, setTotalAll, totalAll } = props
     let feeChange = 0
@@ -63,7 +65,7 @@ const SelectInfoFlyChange = (props) => {
             <Form className='infor-user-select'>
                 <div className='title-select'>
                     <Text style={{ color: 'white', fontSize: 20, fontWeight: 600, paddingRight: 10 }}>
-                        THÔNG TIN ĐẶT CHỖ{' '}
+                        {getText('RESERVATION-INFO')}{' '}
                     </Text>
                 </div>
                 <Form.Item>
@@ -76,7 +78,7 @@ const SelectInfoFlyChange = (props) => {
                                 paddingLeft: 20
                             }}
                         >
-                            Thông tin hành khách{' '}
+                            {getText('PassengerInformation')}{' '}
                         </Text>
                     </div>
                     <div style={{ backgroundColor: 'rgb(201, 239, 255)' }}>
@@ -88,7 +90,7 @@ const SelectInfoFlyChange = (props) => {
                                 paddingLeft: 20
                             }}
                         >
-                            Chuyến đi
+                            {getText('Trip')}
                         </Text>
                     </div>
 
@@ -103,7 +105,7 @@ const SelectInfoFlyChange = (props) => {
                                         paddingLeft: 20
                                     }}
                                 >
-                                    Giá vé{' '}
+                                    {getText('Price')}{' '}
                                 </Text>
                             </Col>
                             <Col span={6}>
@@ -150,7 +152,7 @@ const SelectInfoFlyChange = (props) => {
                                             paddingLeft: 20
                                         }}
                                     >
-                                        Giá vé trẻ em
+                                        {getText('Price-Children')}
                                     </Text>
                                 </Col>
                                 <Col span={6}>
@@ -201,7 +203,7 @@ const SelectInfoFlyChange = (props) => {
                                             paddingLeft: 20
                                         }}
                                     >
-                                        Giá vé em bé
+                                        {getText('Price-Baby')}
                                     </Text>
                                 </Col>
                                 <Col span={6}>
@@ -251,7 +253,8 @@ const SelectInfoFlyChange = (props) => {
                                         paddingLeft: 20
                                     }}
                                 >
-                                    Phí thay đổi{' '}
+                                    {' '}
+                                    {getText('ChangeFee')}{' '}
                                 </Text>
                             </Col>
                             <Col span={6}>
@@ -298,7 +301,7 @@ const SelectInfoFlyChange = (props) => {
                                         paddingLeft: 20
                                     }}
                                 >
-                                    Khấu trừ{' '}
+                                    {getText('deduct')}{' '}
                                 </Text>
                             </Col>
                             <Col span={6}>
@@ -343,7 +346,7 @@ const SelectInfoFlyChange = (props) => {
                                     paddingLeft: 20
                                 }}
                             >
-                                Tổng tiền
+                                {getText('Total')}
                             </Text>
                         </Col>
                         <Col span={16}>

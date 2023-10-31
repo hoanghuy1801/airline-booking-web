@@ -168,11 +168,11 @@ const ServiceFly = (props) => {
             const updatedPassengers = dataPassengers.map((dataPassengers) => {
                 if (dataPassengers?.id === selectPassengers) {
                     if (dataPassengers?.seat?.seatCode) {
-                        showWaringModal(`${getText('HeyFriend')}`, 'bạn đã chọn ghế', `${getText('Close')}`)
+                        showWaringModal(`${getText('HeyFriend')}`, `${getText('YouHaveSeat')}`, `${getText('Close')}`)
                         return dataPassengers
                     }
                     if (selectedSeat === null) {
-                        showWaringModal(`${getText('HeyFriend')}`, 'bạn chưa chọn ghế', `${getText('Close')}`)
+                        showWaringModal(`${getText('HeyFriend')}`, `${getText('YouNotSeat')}`, `${getText('Close')}`)
                         return dataPassengers
                     }
 
@@ -197,11 +197,11 @@ const ServiceFly = (props) => {
             const updatedPassengers = dataPassengersReturn.map((dataPassengers) => {
                 if (dataPassengers?.id === selectPassengers) {
                     if (dataPassengers?.seat?.seatCode) {
-                        showWaringModal(`${getText('HeyFriend')}`, 'bạn đã chọn ghế', `${getText('Close')}`)
+                        showWaringModal(`${getText('HeyFriend')}`, `${getText('YouHaveSeat')}`, `${getText('Close')}`)
                         return dataPassengers
                     }
                     if (selectedSeat === null) {
-                        showWaringModal(`${getText('HeyFriend')}`, 'bạn chưa chọn ghế', `${getText('Close')}`)
+                        showWaringModal(`${getText('HeyFriend')}`, `${getText('YouNotSeat')}`, `${getText('Close')}`)
                         return dataPassengers
                     }
                     if (selectedSeats.includes(selectedSeat)) {
@@ -397,7 +397,6 @@ const ServiceFly = (props) => {
         })
     }
     const handleTotal = (updatedPassengers) => {
-        console.log('updatedPassengers', updatedPassengers)
         let newTotal = 0
         let newTotalBaggage = 0
         let newTotalMeal = 0
@@ -498,7 +497,7 @@ const ServiceFly = (props) => {
             </Row>
             <Drawer
                 className='service-favorite'
-                title='Chọn chỗ ngồi yêu thích'
+                title={getText('SelectSeat')}
                 placement='right'
                 open={openFavorite}
                 onClose={() => {
@@ -649,7 +648,7 @@ const ServiceFly = (props) => {
             </Drawer>
             <Drawer
                 className='service-luggage'
-                title='Chọn hành lý'
+                title={getText('SelectBaggage')}
                 placement='right'
                 open={openLuggage}
                 onClose={() => {
@@ -813,7 +812,7 @@ const ServiceFly = (props) => {
             </Drawer>
             <Drawer
                 className='service-food'
-                title='Chọn suất ăn'
+                title={getText('SelectMeal')}
                 placement='right'
                 open={openFood}
                 onClose={() => {

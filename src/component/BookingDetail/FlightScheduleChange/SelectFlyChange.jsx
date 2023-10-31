@@ -5,11 +5,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { calculateTimeDifference, formatDateString, formatTime } from '../../../utils/format'
 import { useState } from 'react'
 import { setSelectChangeFly } from '../../../redux/reducers/myFlight'
+import { useLanguage } from '../../../LanguageProvider/LanguageProvider'
+import { showWaringModal } from '../../../utils/modalError'
 const { Text } = Typography
 
 const SelectFlyChange = () => {
     const navigate = useNavigate()
     const dispath = useDispatch()
+    const { getText } = useLanguage()
     const [selectedValue, setSelectedValue] = useState(null)
     const flightAwayDetail = useSelector((state) => state.myFlight.bookingDetails?.flightAwayDetail)
     const flightReturnDetail = useSelector((state) => state.myFlight.bookingDetails?.flightReturnDetail)
@@ -17,6 +20,10 @@ const SelectFlyChange = () => {
     const language = useSelector((state) => state.language.language)
 
     const handleContinue = () => {
+        if (selectedValue === null) {
+            showWaringModal(`${getText('Notification')}`, `${getText('NotSelectFlight')}`, `${getText('Close')}`)
+            return
+        }
         if (flightAwayDetail?.id === selectedValue) {
             const dataChange = {
                 flightAwayDetail: flightAwayDetail,
@@ -45,7 +52,7 @@ const SelectFlyChange = () => {
                 <Row>
                     <Col span={24} className='code-booking-change'>
                         <p>
-                            Mã đặt chỗ :{' '}
+                            {getText('BOOKING_CODE')} :{' '}
                             <span style={{ color: 'red', fontSize: '20px', fontWeight: 700 }}>
                                 {bookingDetails?.bookingCode}
                             </span>
@@ -54,12 +61,14 @@ const SelectFlyChange = () => {
                 </Row>
             </div>
             <div className='main-service-detail'>
-                <Text className='title-services'>Chọn chuyến bay để thay đổi lịch</Text>
+                <Text className='title-services'>{getText('SelectFligtChange')}</Text>
                 <div className='form-select-fly-service'>
                     <div className='date-select-fly'>
                         <Row>
                             <Col span={22}>
-                                <Text style={{ fontSize: '18px', fontWeight: 500, color: 'white' }}>Chuyến đi</Text>
+                                <Text style={{ fontSize: '18px', fontWeight: 500, color: 'white' }}>
+                                    {getText('Trip')}
+                                </Text>
                             </Col>
                             <Col span={2}>
                                 <Radio
@@ -70,7 +79,10 @@ const SelectFlyChange = () => {
                             </Col>
                         </Row>
                     </div>
-                    <Text className='date-fly'>Ngày: {formatDateString(flightAwayDetail?.arrivalTime)}</Text>
+                    <Text className='date-fly'>
+                        {' '}
+                        {getText('Date')}: {formatDateString(flightAwayDetail?.arrivalTime)}
+                    </Text>
                     <Row>
                         <Col span={5} className='info-fly'>
                             <Text className='location'>{flightAwayDetail?.sourceAirport?.airportCode}</Text>
@@ -88,22 +100,16 @@ const SelectFlyChange = () => {
                         <Col span={5} className='info-fly'>
                             <Text className='location'>{flightAwayDetail?.destinationAirport?.airportCode}</Text>
                         </Col>
-                        <Col span={7}>
-                            <Text className='name-fly'>Hãng khai thác:</Text>
-                        </Col>
                     </Row>
                     <Row>
                         <Col span={5} className='info-fly'>
                             <Text className='time'>{formatTime(flightAwayDetail?.departureTime)}</Text>
                         </Col>
                         <Col span={7} className='info-fly'>
-                            <Text className='time-fly'>Bay thẳng</Text>
+                            <Text className='time-fly'> {getText('Direct-Flight')}</Text>
                         </Col>
                         <Col span={5} className='info-fly'>
                             <Text className='time'>{formatTime(flightAwayDetail?.arrivalTime)}</Text>
-                        </Col>
-                        <Col span={7}>
-                            <Text className='name-fly'>VietNam Airline</Text>
                         </Col>
                     </Row>
                 </div>
@@ -112,7 +118,9 @@ const SelectFlyChange = () => {
                         <div className='date-select-fly'>
                             <Row>
                                 <Col span={22}>
-                                    <Text style={{ fontSize: '18px', fontWeight: 500, color: 'white' }}>Chuyến về</Text>
+                                    <Text style={{ fontSize: '18px', fontWeight: 500, color: 'white' }}>
+                                        {getText('TripReturn')}
+                                    </Text>
                                 </Col>
                                 <Col span={2}>
                                     <Radio
@@ -123,7 +131,9 @@ const SelectFlyChange = () => {
                                 </Col>
                             </Row>
                         </div>
-                        <Text className='date-fly'>Ngày: {formatDateString(flightReturnDetail?.arrivalTime)}</Text>
+                        <Text className='date-fly'>
+                            {getText('Date')}: {formatDateString(flightReturnDetail?.arrivalTime)}
+                        </Text>
                         <Row>
                             <Col span={5} className='info-fly'>
                                 <Text className='location'>{flightReturnDetail?.sourceAirport?.airportCode}</Text>
@@ -141,22 +151,16 @@ const SelectFlyChange = () => {
                             <Col span={5} className='info-fly'>
                                 <Text className='location'>{flightReturnDetail?.destinationAirport?.airportCode}</Text>
                             </Col>
-                            <Col span={7}>
-                                <Text className='name-fly'>Hãng khai thác:</Text>
-                            </Col>
                         </Row>
                         <Row>
                             <Col span={5} className='info-fly'>
                                 <Text className='time'>{formatTime(flightReturnDetail?.departureTime)}</Text>
                             </Col>
                             <Col span={7} className='info-fly'>
-                                <Text className='time-fly'>Bay thẳng</Text>
+                                <Text className='time-fly'> {getText('Direct-Flight')}</Text>
                             </Col>
                             <Col span={5} className='info-fly'>
                                 <Text className='time'>{formatTime(flightReturnDetail?.arrivalTime)}</Text>
-                            </Col>
-                            <Col span={7}>
-                                <Text className='name-fly'>VietNam Airline</Text>
                             </Col>
                         </Row>
                     </div>
@@ -174,13 +178,13 @@ const SelectFlyChange = () => {
                                 navigate('/my/booking-detail')
                             }}
                         >
-                            Quay lại
+                            {getText('Back')}
                         </Button>
                     </Col>
                     <Col span={10}></Col>
                     <Col span={8}>
                         <Button className='footer-continue-info' onClick={() => handleContinue()}>
-                            Tiếp tục
+                            {getText('Continue')}
                         </Button>
                     </Col>
                 </Row>

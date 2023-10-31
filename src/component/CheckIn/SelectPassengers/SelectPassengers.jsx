@@ -36,7 +36,11 @@ const SelectPassengers = () => {
 
     const handleContinue = () => {
         if (selectedValue === null) {
-            showWaringModal(`${getText('HeyFriend')}`, 'bạn chưa chọn hành khách để làm thủ tục', `${getText('Close')}`)
+            showWaringModal(
+                `${getText('HeyFriend')}`,
+                `${getText('NotselectPassengersCheckIn')}`,
+                `${getText('Close')}`
+            )
             return
         }
         dispath(setSelectPassengers(selectedValue))
@@ -48,7 +52,7 @@ const SelectPassengers = () => {
                 <Row>
                     <Col span={8} className='code-booking'>
                         <p>
-                            Mã đặt chỗ :{' '}
+                            {getText('BOOKING_CODE')} :{' '}
                             <span style={{ color: 'red', fontSize: '20px', fontWeight: 700 }}>
                                 {bookingDetails?.bookingCode}
                             </span>
@@ -65,7 +69,7 @@ const SelectPassengers = () => {
                 </Row>
             </div>
             <div className='main-service-detail'>
-                <Text className='title-services'>Chọn hành khách để làm thủ tục</Text>
+                <Text className='title-services'> {getText('selectPassengersCheckIn')}</Text>
                 {aduls.map((index) => (
                     <div className='form-select-fly-service' key={index} style={{ marginBottom: 20 }}>
                         <div className='date-select-fly'>
@@ -146,13 +150,13 @@ const SelectPassengers = () => {
                                 navigate('/my/select-fight')
                             }}
                         >
-                            Quay lại
+                            {getText('Back')}
                         </Button>
                     </Col>
                     <Col span={10}></Col>
                     <Col span={8}>
                         <Button className='footer-continue-info' onClick={() => handleContinue()}>
-                            Tiếp tục
+                            {getText('Continue')}
                         </Button>
                     </Col>
                 </Row>
