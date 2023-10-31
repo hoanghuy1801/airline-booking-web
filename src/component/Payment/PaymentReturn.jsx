@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import axios from '../../utils/awiosCustomize'
 import { useEffect, useState } from 'react'
 import { IconPlane, IconUserCircle, IconCurrencyDollar, IconShoppingCart } from '@tabler/icons-react'
@@ -70,14 +71,22 @@ const PaymentReturn = () => {
                                 data
                             let serviceOpts = []
                             let seats = []
-                            if (seat?.seatId !== '' || seatsReturn?.seatId !== '') {
-                                seats = [seat, seatsReturn]
+                            if (seat?.seatId !== '') {
+                                seats.push(seat)
                             }
-                            if (meal?.serviceOptId !== '' || mealReturn?.serviceOptId !== '') {
-                                serviceOpts = [...meal, ...mealReturn, baggage, baggageReturn]
+                            if (seatsReturn?.seatId !== '') {
+                                seats.push(seatsReturn)
                             }
-                            if (baggage?.serviceOptId !== '' || mealReturn?.serviceOptId !== '') {
+                            if (meal?.serviceOptId !== '') {
+                                serviceOpts.push(...meal)
+                            }
+                            if (mealReturn?.serviceOptId !== '') {
+                                serviceOpts.push(...mealReturn)
+                            }
+                            if (baggage?.serviceOptId !== '') {
                                 serviceOpts.push(baggage)
+                            }
+                            if (baggageReturn?.serviceOptId !== '') {
                                 serviceOpts.push(baggageReturn)
                             }
                             return {

@@ -25,7 +25,6 @@ const PaymentChangeReturn = () => {
     const dataPassengers = useSelector((state) => state.myFlight?.dataPassengersService)
     const dataPassengersReturn = useSelector((state) => state.myFlight?.dataPassengersServiceReturn)
     const changeService = useSelector((state) => state.myFlight.changeService)
-    console.log('changeService', changeService)
     useEffect(() => {
         if (location.search) {
             const searchParams = new URLSearchParams(location.search)
@@ -36,16 +35,16 @@ const PaymentChangeReturn = () => {
                     if (changeService) {
                         setSuccess(true)
                         const passenger = dataPassengers.map((data) => {
-                            const { baggage, meal, seat, ...passenger } = data
+                            const { baggage, meal, seatAdd, ...passenger } = data
                             let serviceOpts = []
                             let seats = []
-                            if (seat?.seatId !== '') {
-                                seats = [seat]
+                            if (seatAdd !== undefined) {
+                                seats = [seatAdd]
                             }
-                            if (meal?.serviceOptId !== '') {
-                                serviceOpts = [...meal]
+                            if (meal !== undefined) {
+                                serviceOpts.push(...meal)
                             }
-                            if (baggage?.serviceOptId !== '') {
+                            if (baggage !== undefined) {
                                 serviceOpts.push(baggage)
                             }
                             return {
@@ -56,17 +55,17 @@ const PaymentChangeReturn = () => {
                         })
 
                         const passengersReturn = dataPassengersReturn.map((data) => {
-                            const { baggageReturn, mealReturn, seatsReturn, ...passengersReturn } = data
+                            const { baggageReturn, mealReturn, seatsReturnAdd, ...passengersReturn } = data
                             let serviceOpts = []
                             let seats = []
-                            if (seatsReturn?.seatId !== '') {
-                                seats = [seatsReturn]
+                            if (seatsReturnAdd !== undefined) {
+                                seats = [seatsReturnAdd]
                             }
 
-                            if (mealReturn?.serviceOptId !== '') {
-                                serviceOpts = [...mealReturn]
+                            if (mealReturn !== undefined) {
+                                serviceOpts.push(...mealReturn)
                             }
-                            if (baggageReturn?.serviceOptId !== '') {
+                            if (baggageReturn !== undefined) {
                                 serviceOpts.push(baggageReturn)
                             }
                             return {
@@ -122,9 +121,10 @@ const PaymentChangeReturn = () => {
                             delete newItem.updatedAt
                             return newItem
                         })
+                        let total = bookingDetails?.amountTotal + totalChange
                         let data = {
                             bookingId: bookingDetails?.id,
-                            amountTotal: totalChange,
+                            amountTotal: total,
                             seatTotal: 1,
                             passengers
                         }

@@ -23,43 +23,25 @@ const SelectFlyService = () => {
     const dataPassengersReturn = useSelector(
         (state) => state.myFlight.bookingDetails?.flightReturnDetail?.passengerReturnsDetail
     )
+    const test = useSelector((state) => state.myFlight?.bookingDetails)
+
+    console.log('bookingDetails', test)
     const handleContinue = () => {
         if (bookingDetails?.journeyType === 'RETURN') {
             const dataChange = {
                 flightAwayDetail: flightAwayDetail,
                 flightReturnDetail: flightReturnDetail
             }
-            const passengersReturn = dataPassengersReturn.map((item) => {
-                // Tạo một bản sao của đối tượng hiện tại để không làm thay đổi dữ liệu gốc
-                const newItem = { ...item }
-                // Loại bỏ các biến không mong muốn
-                delete newItem.seat
-                return newItem
-            })
-            const passengers = dataPassengers.map((item) => {
-                // Tạo một bản sao của đối tượng hiện tại để không làm thay đổi dữ liệu gốc
-                const newItem = { ...item }
-                // Loại bỏ các biến không mong muốn
-                delete newItem.seat
-                return newItem
-            })
             dispath(setSelectChangeFly(dataChange))
-            dispath(setDataPassengersService(passengers))
-            dispath(setDataPassengersServiceReturn(passengersReturn))
+            dispath(setDataPassengersService(dataPassengers))
+            dispath(setDataPassengersServiceReturn(dataPassengersReturn))
         } else {
             const dataChange = {
                 flightAwayDetail: flightAwayDetail,
                 flightReturnDetail: null
             }
-            const passengers = dataPassengers.map((item) => {
-                // Tạo một bản sao của đối tượng hiện tại để không làm thay đổi dữ liệu gốc
-                const newItem = { ...item }
-                // Loại bỏ các biến không mong muốn
-                delete newItem.seat
-                return newItem
-            })
             dispath(setSelectChangeFly(dataChange))
-            dispath(setDataPassengersService(passengers))
+            dispath(setDataPassengersService(dataPassengers))
             dispath(setDataPassengersServiceReturn(null))
         }
         navigate('/my/sevice-detail')

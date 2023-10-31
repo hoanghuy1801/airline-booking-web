@@ -4,6 +4,7 @@ import languageRducer from './reducers/languageSlice'
 import booking from './reducers/booking'
 import Auth from './reducers/Auth'
 import myFlight from './reducers/myFlight'
+import checkIn from './reducers/checkIn'
 
 // Store
 const rootReducer = combineReducers({
@@ -11,7 +12,8 @@ const rootReducer = combineReducers({
     language: languageRducer,
     flightSelect: booking,
     Auth: Auth,
-    myFlight: myFlight
+    myFlight: myFlight,
+    checkIn: checkIn
 })
 
 // Export

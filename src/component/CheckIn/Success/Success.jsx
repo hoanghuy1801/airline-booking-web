@@ -1,25 +1,42 @@
-import { Row, Col, Collapse, Button, Radio } from 'antd';
-import { IconPlane, IconUserCheck, IconChecklist, IconLocationCheck, IconLuggage, IconPlaneDeparture } from '@tabler/icons-react';
+import { Row, Col, Button } from 'antd'
+import {
+    IconPlane,
+    IconUserCheck,
+    IconChecklist,
+    IconLocationCheck,
+    IconLuggage,
+    IconPlaneDeparture
+} from '@tabler/icons-react'
 import vietjet from '../../../assets/vietjet.svg'
-import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { CaretRightOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import './Success.css'
-import BoardingPass from './BoardingPass';
-
+import BoardingPass from './BoardingPass'
+import { calculateTimeDifference, formatDateString, formatTime } from '../../../utils/format'
+import { useLanguage } from '../../../LanguageProvider/LanguageProvider'
 
 const Success = () => {
-    const navigate = useNavigate();
+    const { getText } = useLanguage()
+    const navigate = useNavigate()
+    const bookingDetails = useSelector((state) => state.myFlight.bookingDetails?.bookingDetail)
+    const selectFlightCheckIn = useSelector((state) => state.checkIn.selectFlightCheckIn?.selectFlight)
+    console.log('selectFlightCheckIn', selectFlightCheckIn)
+    const language = useSelector((state) => state.language.language)
     return (
-        <div className="booking-detail" >
-            <div className="info-booking-detail">
+        <div className='booking-detail'>
+            <div className='info-booking-detail'>
                 <Row>
                     <Col span={8} className='code-booking'>
-                        <p>Mã đặt chỗ : <span style={{ color: 'red', fontSize: '20px', fontWeight: 700 }}>RQTDND</span></p>
+                        <p>
+                            Mã đặt chỗ :{' '}
+                            <span style={{ color: 'red', fontSize: '20px', fontWeight: 700 }}>
+                                {' '}
+                                {bookingDetails?.bookingCode}
+                            </span>
+                        </p>
                     </Col>
                     <Col span={16} className='icon-select'>
-                        <Row >
+                        <Row>
                             <IconPlane style={{ color: '#006885', width: 30, height: 30, marginRight: 15 }} />
                             <IconUserCheck style={{ color: '#006885', width: 30, height: 30, marginRight: 15 }} />
                             <IconChecklist style={{ color: '#006885', width: 30, height: 30, marginRight: 15 }} />
@@ -30,49 +47,61 @@ const Success = () => {
             </div>
             <div className='main-success'>
                 <div className='container'>
-                    <Row >
-                        <Col xs={24} sm={24} md={24} lg={15} xl={15} >
+                    <Row>
+                        <Col xs={24} sm={24} md={24} lg={15} xl={15}>
                             <p className='title-success'>Thông tin chuyến bay</p>
-                            <Row >
+                            <Row>
                                 <Col span={5} className='info-fly'>
-                                    <p className='location'>SGN</p>
+                                    <p className='location'>{selectFlightCheckIn?.sourceAirport?.airportCode}</p>
                                 </Col>
                                 <Col span={7} className='info-fly'>
-                                    <p className='time-fly'>1 giờ 25 phút</p>
+                                    <p className='time-fly'>
+                                        {' '}
+                                        {calculateTimeDifference(
+                                            formatTime(selectFlightCheckIn?.departureTime),
+                                            formatTime(selectFlightCheckIn?.arrivalTime),
+                                            language
+                                        )}
+                                    </p>
                                 </Col>
                                 <Col span={5} className='info-fly'>
-                                    <p className='location' >HAN</p>
+                                    <p className='location'>{selectFlightCheckIn?.destinationAirport?.airportCode}</p>
                                 </Col>
                             </Row>
-                            <Row >
+                            <Row>
                                 <Col span={5} className='info-fly'>
-                                    <p className='time'>22:30</p>
+                                    <p className='time'>{formatTime(selectFlightCheckIn?.departureTime)}</p>
                                 </Col>
                                 <Col span={7} className='info-fly'>
                                     <p className='time-fly'>Bay thẳng</p>
                                 </Col>
                                 <Col span={5} className='info-fly'>
-                                    <p className='time'>22:30</p>
+                                    <p className='time'>{formatTime(selectFlightCheckIn?.arrivalTime)}</p>
                                 </Col>
-
                             </Row>
                             <Row style={{ paddingTop: '20px' }}>
-                                <p className='code-fly'><img src={vietjet} /> Số hiệu chuyến bay: VJ313</p>
+                                <p className='code-fly'>
+                                    <img src={vietjet} /> Số hiệu chuyến bay: {selectFlightCheckIn?.flightName}
+                                </p>
                             </Row>
                             <Row>
                                 <Col span={4}>
-                                    <p className='from'>Khởi hành
-                                        :</p>
+                                    <p className='from'>Khởi hành :</p>
                                 </Col>
                                 <Col span={20}>
-                                    <p className='time-flys'>22:30, 03/08/2023 (Giờ địa phương)</p>
+                                    <p className='time-flys'>
+                                        {formatTime(selectFlightCheckIn?.departureTime)},{' '}
+                                        {formatDateString(selectFlightCheckIn?.departureTime)} (
+                                        {getText('Local-time-at-airport')})
+                                    </p>
                                 </Col>
                             </Row>
                             <Row>
-                                <Col span={4}>
-                                </Col>
+                                <Col span={4}></Col>
                                 <Col span={20}>
-                                    <p className='time-flys' style={{ paddingBottom: '20px' }}>Huế - Sân bay Phú Bài</p>
+                                    <p className='time-flys' style={{ paddingBottom: '20px' }}>
+                                        {selectFlightCheckIn?.sourceAirport?.airportName}
+                                    </p>
                                 </Col>
                             </Row>
                             <Row>
@@ -80,34 +109,39 @@ const Success = () => {
                                     <p className='to'>Đến:</p>
                                 </Col>
                                 <Col span={20}>
-                                    <p className='time-flys'>23:55, 03/08/2023 (Giờ địa phương)</p>
+                                    <p className='time-flys'>
+                                        {formatTime(selectFlightCheckIn?.arrivalTime)},{' '}
+                                        {formatDateString(selectFlightCheckIn?.arrivalTime)} (
+                                        {getText('Local-time-at-airport')})
+                                    </p>
                                 </Col>
                             </Row>
                             <Row>
-                                <Col span={4}>
-
-                                </Col>
+                                <Col span={4}></Col>
                                 <Col span={20}>
-                                    <p className='time-flys'>Tp. Hồ Chí Minh - Sân bay Tân Sơn Nhất</p>
+                                    <p className='time-flys'> {selectFlightCheckIn?.destinationAirport?.airportName}</p>
                                 </Col>
                             </Row>
                             <Row className='form-info-fly'>
-                                <Col span={4}>
-                                </Col>
-                                <Col span={20} >
+                                <Col span={4}></Col>
+                                <Col span={20}>
                                     <p className='time-flys' style={{ paddingTop: '20px' }}>
-                                        Thời gian: <span style={{ color: 'red' }}>1 giờ 25 phút  </span>
-                                        Airbus:  <span style={{ color: 'red' }}>A321  </span>
-                                        Khai thác bởi: <span style={{ color: 'red' }}>Vietjet  </span>
+                                        Thời gian:{' '}
+                                        <span style={{ color: 'red' }}>
+                                            {' '}
+                                            {calculateTimeDifference(
+                                                formatTime(selectFlightCheckIn?.departureTime),
+                                                formatTime(selectFlightCheckIn?.arrivalTime),
+                                                language
+                                            )}{' '}
+                                        </span>
                                     </p>
                                 </Col>
                             </Row>
                             <p className='title-instruction'>Hướng dẫn di chuyển tiếp theo</p>
                             <Row>
                                 <Col span={6} className='step-1'>
-                                    <Row className='form-title-step'>
-                                        Bước 1
-                                    </Row>
+                                    <Row className='form-title-step'>Bước 1</Row>
                                     <Row className='form-icon-step'>
                                         <IconLuggage className='icon-step' />
                                     </Row>
@@ -115,25 +149,17 @@ const Success = () => {
                                         Ký gửi hành lý(nếu có) tại Quầy check-in. Tối thiểu trước 60 phút giờ bay
                                     </Row>
                                 </Col>
-                                <Col span={3}>
-                                </Col>
+                                <Col span={3}></Col>
                                 <Col span={6} className='step-1'>
-                                    <Row className='form-title-step'>
-                                        Bước 2
-                                    </Row>
+                                    <Row className='form-title-step'>Bước 2</Row>
                                     <Row className='form-icon-step'>
                                         <IconUserCheck className='icon-step' />
                                     </Row>
-                                    <Row className='form-text-step'>
-                                        Kiểm tra an ninh
-                                    </Row>
+                                    <Row className='form-text-step'>Kiểm tra an ninh</Row>
                                 </Col>
-                                <Col span={3}>
-                                </Col>
+                                <Col span={3}></Col>
                                 <Col span={6} className='step-1'>
-                                    <Row className='form-title-step'>
-                                        Bước 1
-                                    </Row>
+                                    <Row className='form-title-step'>Bước 1</Row>
                                     <Row className='form-icon-step'>
                                         <IconPlaneDeparture className='icon-step' />
                                     </Row>
@@ -149,10 +175,12 @@ const Success = () => {
                     </Row>
                 </div>
                 <div className='btn'>
-                    <Button className='btn-continue' onClick={() => navigate('/')}>Hoàn tất</Button>
+                    <Button className='btn-continue' onClick={() => navigate('/')}>
+                        Hoàn tất
+                    </Button>
                 </div>
             </div>
-        </div >
+        </div>
     )
 }
-export default Success;
+export default Success
