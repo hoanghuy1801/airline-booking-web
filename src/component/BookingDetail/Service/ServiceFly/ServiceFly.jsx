@@ -167,20 +167,20 @@ const ServiceFly = (props) => {
             }
             const updatedPassengers = dataPassengers.map((dataPassengers) => {
                 if (dataPassengers?.id === selectPassengers) {
-                    console.log('dataPassengers', dataPassengers)
-                    if (dataPassengers?.seatServicePrice) {
-                        showWaringModal(`${getText('HeyFriend')}`, 'bạn đã chọn ghế', `${getText('Close')}`)
-                        return dataPassengers
-                    }
                     if (dataPassengers?.seat?.seatCode) {
                         showWaringModal(`${getText('HeyFriend')}`, 'bạn đã chọn ghế', `${getText('Close')}`)
                         return dataPassengers
                     }
+                    if (selectedSeat === null) {
+                        showWaringModal(`${getText('HeyFriend')}`, 'bạn chưa chọn ghế', `${getText('Close')}`)
+                        return dataPassengers
+                    }
+
                     if (selectedSeats.includes(selectedSeat)) {
-                        return
+                        return dataPassengers
                     }
                     setSelectedSeats([...selectedSeats, selectedSeat])
-                    return { ...dataPassengers, seat: newSeat }
+                    return { ...dataPassengers, seatAdd: newSeat }
                 }
                 return dataPassengers
             })
@@ -196,19 +196,19 @@ const ServiceFly = (props) => {
             }
             const updatedPassengers = dataPassengersReturn.map((dataPassengers) => {
                 if (dataPassengers?.id === selectPassengers) {
-                    if (dataPassengers?.seatServicePrice) {
+                    if (dataPassengers?.seat?.seatCode) {
                         showWaringModal(`${getText('HeyFriend')}`, 'bạn đã chọn ghế', `${getText('Close')}`)
                         return dataPassengers
                     }
-                    if (dataPassengers?.seatsReturn?.seatCode) {
-                        showWaringModal(`${getText('HeyFriend')}`, 'bạn đã chọn ghế', `${getText('Close')}`)
+                    if (selectedSeat === null) {
+                        showWaringModal(`${getText('HeyFriend')}`, 'bạn chưa chọn ghế', `${getText('Close')}`)
                         return dataPassengers
                     }
                     if (selectedSeats.includes(selectedSeat)) {
-                        return
+                        return dataPassengers
                     }
                     setSelectedSeats([...selectedSeats, selectedSeat])
-                    return { ...dataPassengers, seatsReturn: newSeat }
+                    return { ...dataPassengers, seatsReturnAdd: newSeat }
                 }
                 return dataPassengers
             })
@@ -230,7 +230,7 @@ const ServiceFly = (props) => {
             const updatedPassengers = dataPassengers.map((dataPassengers) => {
                 if (dataPassengers?.seat?.seatCode) {
                     setSelectedSeats(selectedSeats.filter((item) => item !== dataPassengers?.seat?.seatCode))
-                    return { ...dataPassengers, seat: newSeat }
+                    return { ...dataPassengers, seatAdd: newSeat }
                 }
                 return dataPassengers
             })
@@ -240,7 +240,7 @@ const ServiceFly = (props) => {
             const updatedPassengers = dataPassengersReturn.map((dataPassengers) => {
                 if (dataPassengers?.seatsReturn) {
                     setSelectedSeats(selectedSeats.filter((item) => item !== dataPassengers?.seatsReturn?.seatCode))
-                    return { ...dataPassengers, seatsReturn: newSeat }
+                    return { ...dataPassengers, seatsReturnAdd: newSeat }
                 }
                 return dataPassengers
             })
@@ -397,12 +397,13 @@ const ServiceFly = (props) => {
         })
     }
     const handleTotal = (updatedPassengers) => {
+        console.log('updatedPassengers', updatedPassengers)
         let newTotal = 0
         let newTotalBaggage = 0
         let newTotalMeal = 0
         for (let i = 0; i < updatedPassengers.length; i++) {
-            if (updatedPassengers[i]?.seat?.seatPrice) {
-                newTotal += Number(updatedPassengers[i]?.seat?.seatPrice)
+            if (updatedPassengers[i]?.seatAdd?.seatPrice) {
+                newTotal += Number(updatedPassengers[i]?.seatAdd?.seatPrice)
             }
         }
         setTotalSeat(newTotal)
@@ -423,13 +424,13 @@ const ServiceFly = (props) => {
         setTotalMeal(Number(newTotalMeal))
     }
     const handleTotalReturn = (updatedPassengers) => {
-        console.log('huy')
+        console.log('updatedPassengers', updatedPassengers)
         let newTotal = 0
         let newTotalBaggage = 0
         let newTotalMeal = 0
         for (let i = 0; i < updatedPassengers.length; i++) {
-            if (updatedPassengers[i]?.seatsReturn?.seatPrice) {
-                newTotal += Number(updatedPassengers[i]?.seatsReturn?.seatPrice)
+            if (updatedPassengers[i]?.seatsReturnAdd?.seatPrice) {
+                newTotal += Number(updatedPassengers[i]?.seatsReturnAdd?.seatPrice)
             }
         }
         setTotalSeatReturn(newTotal)

@@ -48,7 +48,6 @@ const SelectSeat = () => {
     const dispath = useDispatch()
     const bookingDetails = useSelector((state) => state.myFlight.bookingDetails?.bookingDetail)
     const language = useSelector((state) => state.language.language)
-    const flightAwayDetail = useSelector((state) => state.myFlight.bookingDetails?.flightAwayDetail)
     const flightReturnDetail = useSelector((state) => state.myFlight.bookingDetails?.flightReturnDetail)
     const selectFlightCheckIn = useSelector((state) => state.checkIn.selectFlightCheckIn?.selectFlight)
     const passengerId = useSelector((state) => state.checkIn?.selectPassengers)
@@ -64,22 +63,14 @@ const SelectSeat = () => {
     let passenger = newData?.passenger
 
     let passengers = passenger.filter((passenger) => passenger.id === passengerId)
+    console.log('selectFlightCheckIn', selectFlightCheckIn)
     const feachListService = async () => {
-        if (selectFlightCheckIn?.return) {
-            let res = await getServiceAirline(
-                flightReturnDetail.id,
-                '826b4d34-fe05-48b7-b78b-9a83083a38af',
-                flightReturnDetail?.passengerReturnsDetail[0]?.seat?.id
-            )
-            setSeatOptions(res.data.seatOptions)
-        } else {
-            let res = await getServiceAirline(
-                flightAwayDetail.id,
-                '826b4d34-fe05-48b7-b78b-9a83083a38af',
-                flightAwayDetail?.passengerAwaysDetail[0]?.seat?.id
-            )
-            setSeatOptions(res.data.seatOptions)
-        }
+        let res = await getServiceAirline(
+            selectFlightCheckIn.id,
+            '826b4d34-fe05-48b7-b78b-9a83083a38af',
+            flightReturnDetail?.passengerReturnsDetail[0]?.seat?.id
+        )
+        setSeatOptions(res.data.seatOptions)
     }
     const navigate = useNavigate()
     const handleContinue = () => {

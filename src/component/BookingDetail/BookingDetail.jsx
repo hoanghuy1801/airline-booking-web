@@ -741,7 +741,6 @@ const BookingDetail = () => {
                         )
                     })}
                     {updatedChilds.map((index) => {
-                        console.log('index', index)
                         const serviceOption = index?.serviceOpts
                         const fightReturn = index?.return
                         const serviceOptionReturn = fightReturn?.serviceOpts

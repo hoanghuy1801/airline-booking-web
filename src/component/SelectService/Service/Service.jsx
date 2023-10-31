@@ -156,12 +156,16 @@ const Service = (props) => {
             }
             const updatedPassengers = dataPassengers.map((dataPassengers) => {
                 if (dataPassengers.id === selectPassengers) {
-                    if (dataPassengers.seat.seatCode != null) {
+                    if (dataPassengers.seat.seatCode !== null) {
                         showWaringModal(`${getText('HeyFriend')}`, 'bạn đã chọn ghế', `${getText('Close')}`)
                         return dataPassengers
                     }
+                    if (selectedSeat === null) {
+                        showWaringModal(`${getText('HeyFriend')}`, 'bạn chưa chọn ghế', `${getText('Close')}`)
+                        return dataPassengers
+                    }
                     if (selectedSeats.includes(selectedSeat)) {
-                        return
+                        return dataPassengers
                     }
 
                     setSelectedSeats([...selectedSeats, selectedSeat])
@@ -186,8 +190,12 @@ const Service = (props) => {
                         showWaringModal(`${getText('HeyFriend')}`, 'bạn đã chọn ghế', `${getText('Close')}`)
                         return dataPassengers
                     }
+                    if (selectedSeat === null) {
+                        showWaringModal(`${getText('HeyFriend')}`, 'bạn chưa chọn ghế', `${getText('Close')}`)
+                        return dataPassengers
+                    }
                     if (selectedSeats.includes(selectedSeat)) {
-                        return
+                        return dataPassengers
                     }
 
                     setSelectedSeats([...selectedSeats, selectedSeat])
@@ -201,6 +209,7 @@ const Service = (props) => {
         }
     }
     const hanldeCancel = () => {
+        setSelectedSeat(null)
         const newSeat = {
             seatId: '',
             flightId: '',
