@@ -1,5 +1,4 @@
-import React from 'react'
-import { Button, Form, Input, Typography, Divider, message, Row, Col } from 'antd'
+import { Button, Form, Input, Typography, Divider, Row, Col } from 'antd'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
@@ -8,11 +7,10 @@ import { GoogleOutlined, FacebookFilled, RollbackOutlined } from '@ant-design/ic
 import { getInforUser, postLogin } from '../../services/apiAuth'
 import { useLanguage } from '../../LanguageProvider/LanguageProvider'
 import jwt from '../../utils/jwt'
-import { openNotification } from '../../utils/Notification'
 import { setInforUser, setIsAuthenticated } from '../../redux/reducers/Auth'
 import { showWaringModal } from '../../utils/modalError'
 
-const { Title, Text } = Typography
+const { Text } = Typography
 const Login = () => {
     const { getText } = useLanguage()
     const [phoneNumber, setphoneNumber] = useState('')
@@ -29,6 +27,7 @@ const Login = () => {
             .toLowerCase()
             .match(/^\d{10}$/)
     }
+    console.log('res.data.access_token', jwt.getToken())
     const handleLogin = async () => {
         const isValiPhone = validatePhone(phoneNumber)
         if (!isValiPhone) {
@@ -98,8 +97,8 @@ const Login = () => {
                 </div>
                 <Divider style={{ borderColor: 'black' }}>Hoặc đăng nhập bằng</Divider>
                 <div className='socialLogin'>
-                    <GoogleOutlined className='socialIcon' onClick={() => LoginOr()} style={{ color: 'red' }} />
-                    <FacebookFilled className='socialIcon' onClick={() => LoginOr()} style={{ color: 'blue' }} />
+                    <GoogleOutlined className='socialIcon' style={{ color: 'red' }} />
+                    <FacebookFilled className='socialIcon' style={{ color: 'blue' }} />
                 </div>
                 <div>
                     <span
