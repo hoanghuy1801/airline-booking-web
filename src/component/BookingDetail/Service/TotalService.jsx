@@ -1,8 +1,10 @@
 import { Row, Col, Form } from 'antd'
 import './TotalService.css'
 import { formatCurrency } from '../../../utils/format'
+import { useLanguage } from '../../../LanguageProvider/LanguageProvider'
 
 const TotalService = (props) => {
+    const { getText } = useLanguage()
     const {
         // eslint-disable-next-line react/prop-types
         total
@@ -12,7 +14,7 @@ const TotalService = (props) => {
             <Form className='infor-user-select'>
                 <div className='title-select'>
                     <span style={{ color: 'white', fontSize: 20, fontWeight: 600, paddingRight: 10 }}>
-                        THÔNG TIN ĐẶT DỊCH VỤ{' '}
+                        {getText('InfoServiceBooking')}{' '}
                     </span>
                 </div>
                 <Form.Item>
@@ -27,7 +29,7 @@ const TotalService = (props) => {
                                         paddingLeft: 20
                                     }}
                                 >
-                                    Dịch vụ{' '}
+                                    {getText('service')}{' '}
                                 </span>
                             </Col>
                             <Col span={16}>
@@ -59,7 +61,7 @@ const TotalService = (props) => {
                                     paddingLeft: 20
                                 }}
                             >
-                                Tổng tiền
+                                {getText('Total')}
                             </span>
                         </Col>
                         <Col span={16}>

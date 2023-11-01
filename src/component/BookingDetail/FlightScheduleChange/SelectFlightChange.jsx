@@ -123,14 +123,6 @@ const SelectFlightChange = () => {
             setLoading(false) // Dừng hiển thị Spinner khi API hoàn thành
         }
     }
-    let passengerDetail = {}
-    if (selectChangeFly?.return) {
-        // eslint-disable-next-line no-unused-vars
-        passengerDetail = selectChangeFly?.flightReturnDetail?.passengerReturnsDetail
-    } else {
-        // eslint-disable-next-line no-unused-vars
-        passengerDetail = selectChangeFly?.flightAwayDetail?.passengerAwaysDetail
-    }
 
     const handleContinue = async () => {
         if (flightSelect.flightSeatPrice.adultPrice == '') {
@@ -153,7 +145,7 @@ const SelectFlightChange = () => {
                 <Row>
                     <Col span={8} className='code-booking'>
                         <p>
-                            Mã đặt chỗ :{' '}
+                            {getText('BOOKING_CODE')} :{' '}
                             <span style={{ color: 'red', fontSize: '20px', fontWeight: 700 }}>
                                 {' '}
                                 {bookingDetails?.bookingCode}

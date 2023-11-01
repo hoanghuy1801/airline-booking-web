@@ -79,7 +79,7 @@ const SelectSeat = () => {
             navigate('/my/restricted-baggage')
         } else {
             if (chooseSeat === undefined) {
-                showWaringModal(`${getText('HeyFriend')}`, 'bạn chưa chọn ghế ngồi', `${getText('Close')}`)
+                showWaringModal(`${getText('HeyFriend')}`, `${getText('YouNotSeat')}`, `${getText('Close')}`)
                 return
             }
             dispath(setSeatCheckin(selectedSeat))
@@ -88,7 +88,7 @@ const SelectSeat = () => {
     }
     const handleConfirm = () => {
         if (passengers[0]?.seat?.seatCode) {
-            showWaringModal(`${getText('HeyFriend')}`, 'bạn đã đặt ghế trước đó', `${getText('Close')}`)
+            showWaringModal(`${getText('HeyFriend')}`, `${getText('YouHaveSeat')}`, `${getText('Close')}`)
             return
         } else {
             seatChooseSeat(selectedSeat)
@@ -103,7 +103,7 @@ const SelectSeat = () => {
                 <Row>
                     <Col span={8} className='code-booking'>
                         <p>
-                            Mã đặt chỗ :{' '}
+                            {getText('BOOKING_CODE')} :{' '}
                             <span style={{ color: 'red', fontSize: '20px', fontWeight: 700 }}>
                                 {' '}
                                 {bookingDetails?.bookingCode}
@@ -123,7 +123,7 @@ const SelectSeat = () => {
             <div className='main-container-seat'>
                 <Row>
                     <Col span={9}>
-                        <p className='text-title'>Chọn ghế để làm thủ tục</p>
+                        <p className='text-title'>{getText('SelectSeatCHECKIN')}</p>
                         <div className='info-user-form'>
                             <div className='info-user'>
                                 <p className='text-name'>
@@ -131,40 +131,40 @@ const SelectSeat = () => {
                                     {passengers[0]?.firstName}
                                 </p>
                                 <p className='text-seat'>
-                                    Seat: {passengers[0]?.seat?.seatCode}
+                                    {getText('seat')}: {passengers[0]?.seat?.seatCode}
                                     {chooseSeat}
                                 </p>
                             </div>
                         </div>
                         <div className='btn'>
                             <Button className='btn-back' onClick={() => navigate('/my/select-passengers')}>
-                                Trở lại
+                                {getText('Back')}
                             </Button>
                             <Button
                                 className='btn-continue'
                                 //onClick={() => }
                                 onClick={() => handleContinue()}
                             >
-                                Đi tiếp
+                                {getText('Continue')}
                             </Button>
                         </div>
                     </Col>
                     <Col span={15} className='view-select-seat'>
                         <div className='title-seats'>
-                            <p>Chọn chỗ ngồi</p>
+                            <p> {getText('SelectSeat')}</p>
                         </div>
                         <div className='info-seat'>
                             <Row>
                                 <Col span={5} style={{ display: 'flex' }}>
                                     <div style={{ backgroundColor: 'red' }} className='information-seat-color'></div>
-                                    <span>Ghế thương gia</span>
+                                    <span>{getText('BUSINESS')}</span>
                                 </Col>
                                 <Col span={6} style={{ display: 'flex' }}>
                                     <div
                                         style={{ backgroundColor: '#25A006' }}
                                         className='information-seat-color'
                                     ></div>
-                                    <span>Ghế phổ thông đặc biệt</span>
+                                    <span>{getText('PREMIUM_ECONOMY')}</span>
                                 </Col>
 
                                 <Col span={4} style={{ display: 'flex' }}>
@@ -172,14 +172,14 @@ const SelectSeat = () => {
                                         style={{ backgroundColor: ' #208AEC' }}
                                         className='information-seat-color'
                                     ></div>
-                                    <span>Ghế phổ thông</span>
+                                    <span>{getText('ECONOMY')}</span>
                                 </Col>
                                 <Col span={4} style={{ display: 'flex' }}>
                                     <div
                                         style={{ backgroundColor: '#FBB612 ' }}
                                         className='information-seat-color'
                                     ></div>
-                                    <span>Ghế đang chọn</span>
+                                    <span>{getText('SEAT_IS_SELECTED')}</span>
                                 </Col>
 
                                 <Col span={5} style={{ display: 'flex' }}>
@@ -187,7 +187,7 @@ const SelectSeat = () => {
                                         style={{ backgroundColor: ' #D1D3D4' }}
                                         className='information-seat-color'
                                     ></div>
-                                    <span>Đã có người</span>
+                                    <span>{getText('SEAT_SELECTED')}</span>
                                 </Col>
                             </Row>
                         </div>
@@ -202,10 +202,10 @@ const SelectSeat = () => {
                         </div>
                         <div className='btn'>
                             <Button className='btn-back' onClick={() => handleCancel()}>
-                                Hủy chọn
+                                {getText('No_Thank')}
                             </Button>
                             <Button className='btn-continue' onClick={() => handleConfirm()}>
-                                Xác nhận
+                                {getText('Confirm')}
                             </Button>
                         </div>
                     </Col>

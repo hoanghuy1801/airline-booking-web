@@ -3,7 +3,9 @@ import { useSelector } from 'react-redux'
 
 import './PaymentChange.css'
 import PaymentChangeMethods from './PaymentChangeMethods'
+import { useLanguage } from '../../../LanguageProvider/LanguageProvider'
 const PaymentChange = () => {
+    const { getText } = useLanguage()
     const bookingDetails = useSelector((state) => state.myFlight.bookingDetails?.bookingDetail)
     return (
         <div className='select-flight'>
@@ -11,7 +13,7 @@ const PaymentChange = () => {
                 <Row>
                     <Col span={24} className='code-booking-change'>
                         <p>
-                            Mã đặt chỗ :{' '}
+                            {getText('BOOKING_CODE')} :{' '}
                             <span style={{ color: 'red', fontSize: '20px', fontWeight: 700 }}>
                                 {bookingDetails?.bookingCode}
                             </span>

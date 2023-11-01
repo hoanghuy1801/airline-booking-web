@@ -28,7 +28,7 @@ const Success = () => {
                 <Row>
                     <Col span={8} className='code-booking'>
                         <p>
-                            Mã đặt chỗ :{' '}
+                            {getText('BOOKING_CODE')} :{' '}
                             <span style={{ color: 'red', fontSize: '20px', fontWeight: 700 }}>
                                 {' '}
                                 {bookingDetails?.bookingCode}
@@ -49,7 +49,7 @@ const Success = () => {
                 <div className='container'>
                     <Row>
                         <Col xs={24} sm={24} md={24} lg={15} xl={15}>
-                            <p className='title-success'>Thông tin chuyến bay</p>
+                            <p className='title-success'> {getText('Flight-Information')}</p>
                             <Row>
                                 <Col span={5} className='info-fly'>
                                     <p className='location'>{selectFlightCheckIn?.sourceAirport?.airportCode}</p>
@@ -73,7 +73,7 @@ const Success = () => {
                                     <p className='time'>{formatTime(selectFlightCheckIn?.departureTime)}</p>
                                 </Col>
                                 <Col span={7} className='info-fly'>
-                                    <p className='time-fly'>Bay thẳng</p>
+                                    <p className='time-fly'>{getText('Direct-Flight')}</p>
                                 </Col>
                                 <Col span={5} className='info-fly'>
                                     <p className='time'>{formatTime(selectFlightCheckIn?.arrivalTime)}</p>
@@ -81,12 +81,12 @@ const Success = () => {
                             </Row>
                             <Row style={{ paddingTop: '20px' }}>
                                 <p className='code-fly'>
-                                    <img src={vietjet} /> Số hiệu chuyến bay: {selectFlightCheckIn?.flightName}
+                                    <img src={vietjet} /> {getText('Flight_Number')}: {selectFlightCheckIn?.flightName}
                                 </p>
                             </Row>
                             <Row>
                                 <Col span={4}>
-                                    <p className='from'>Khởi hành :</p>
+                                    <p className='from'>{getText('From')}:</p>
                                 </Col>
                                 <Col span={20}>
                                     <p className='time-flys'>
@@ -106,7 +106,7 @@ const Success = () => {
                             </Row>
                             <Row>
                                 <Col span={4}>
-                                    <p className='to'>Đến:</p>
+                                    <p className='to'>{getText('To')}:</p>
                                 </Col>
                                 <Col span={20}>
                                     <p className='time-flys'>
@@ -126,7 +126,7 @@ const Success = () => {
                                 <Col span={4}></Col>
                                 <Col span={20}>
                                     <p className='time-flys' style={{ paddingTop: '20px' }}>
-                                        Thời gian:{' '}
+                                        {getText('Time')}:{' '}
                                         <span style={{ color: 'red' }}>
                                             {' '}
                                             {calculateTimeDifference(
@@ -138,34 +138,30 @@ const Success = () => {
                                     </p>
                                 </Col>
                             </Row>
-                            <p className='title-instruction'>Hướng dẫn di chuyển tiếp theo</p>
+                            <p className='title-instruction'>{getText('textSuccessCheckIn')}</p>
                             <Row>
                                 <Col span={6} className='step-1'>
-                                    <Row className='form-title-step'>Bước 1</Row>
+                                    <Row className='form-title-step'>{getText('step')} 1</Row>
                                     <Row className='form-icon-step'>
                                         <IconLuggage className='icon-step' />
                                     </Row>
-                                    <Row className='form-text-step'>
-                                        Ký gửi hành lý(nếu có) tại Quầy check-in. Tối thiểu trước 60 phút giờ bay
-                                    </Row>
+                                    <Row className='form-text-step'>{getText('textSuccessCheckIn1')}</Row>
                                 </Col>
                                 <Col span={3}></Col>
                                 <Col span={6} className='step-1'>
-                                    <Row className='form-title-step'>Bước 2</Row>
+                                    <Row className='form-title-step'>{getText('step')} 2</Row>
                                     <Row className='form-icon-step'>
                                         <IconUserCheck className='icon-step' />
                                     </Row>
-                                    <Row className='form-text-step'>Kiểm tra an ninh</Row>
+                                    <Row className='form-text-step'> {getText('textSuccessCheckIn2')}</Row>
                                 </Col>
                                 <Col span={3}></Col>
                                 <Col span={6} className='step-1'>
-                                    <Row className='form-title-step'>Bước 1</Row>
+                                    <Row className='form-title-step'>{getText('step')} 1</Row>
                                     <Row className='form-icon-step'>
                                         <IconPlaneDeparture className='icon-step' />
                                     </Row>
-                                    <Row className='form-text-step'>
-                                        Đến đúng cửa khởi hành. Tối thiểu 30 phút trước giờ bay
-                                    </Row>
+                                    <Row className='form-text-step'>{getText('textSuccessCheckIn3')}</Row>
                                 </Col>
                             </Row>
                         </Col>
@@ -175,8 +171,8 @@ const Success = () => {
                     </Row>
                 </div>
                 <div className='btn'>
-                    <Button className='btn-continue' onClick={() => navigate('/')}>
-                        Hoàn tất
+                    <Button className='btn-continue' onClick={() => navigate('/')} style={{ width: 'auto' }}>
+                        {getText('BackHome')}
                     </Button>
                 </div>
             </div>

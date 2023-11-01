@@ -5,8 +5,10 @@ import QRCode from 'qrcode.react'
 import imgplane from '../../../assets/plane-icon_yellow.png'
 import { useSelector } from 'react-redux'
 import { formatDateString, formatTime } from '../../../utils/format'
+import { useLanguage } from '../../../LanguageProvider/LanguageProvider'
 
 const BoardingPass = () => {
+    const { getText } = useLanguage()
     const handleImageDownload = () => {
         const captureElement = document.getElementById('boardingpass')
         html2canvas(captureElement).then((canvas) => {
@@ -27,7 +29,7 @@ const BoardingPass = () => {
                 </div>
                 <div className='content-main'>
                     <Row className='title'>
-                        <p>Thẻ lên tàu bay</p>
+                        <p>{getText('Boarding_pass')}</p>
                     </Row>
                     <Row className='title'>
                         <Col span={10}>
@@ -59,7 +61,7 @@ const BoardingPass = () => {
                     <Row>
                         <Col span={24}>
                             <Row className='city'>
-                                <p>KHÁCH HÀNG</p>
+                                <p>{getText('passenger')}</p>
                             </Row>
                             <Row className='name-user'>
                                 <p>
@@ -70,40 +72,40 @@ const BoardingPass = () => {
                     </Row>
                     <Row>
                         <Col span={8}>
-                            <p className='row-1'>NGÀY</p>
+                            <p className='row-1'>{getText('Date')}</p>
                             <p className='row-2'> {formatDateString(dataCheckIn?.flight?.arrivalTime)}</p>
                         </Col>
                         <Col span={8}>
-                            <p className='row-1'>CHUYẾN BAY</p>
+                            <p className='row-1'>{getText('flight')}</p>
                             <p className='row-2'>{dataCheckIn?.flight?.flightName}</p>
                         </Col>
                         <Col span={8}>
-                            <p className='row-1'>MÃ ĐẶT CHỖ</p>
+                            <p className='row-1'>{getText('BOOKING_CODE')}</p>
                             <p className='row-2'>{dataCheckIn?.booking?.bookingCode}</p>
                         </Col>
                     </Row>
                     <Row>
                         <Col span={4}>
-                            <p className='row-1'>CỬA</p>
+                            <p className='row-1'>{getText('door')}</p>
                             <p className='row-2'>{dataCheckIn?.doorNumber}</p>
                         </Col>
                         <Col span={8}>
-                            <p className='row-1'>GIỜ RA TÀU BAY</p>
+                            <p className='row-1'>{getText('TimeToBoardTheAir')}</p>
                             <p className='row-2'> {formatTime(dataCheckIn?.doorTime)}</p>
                         </Col>
                         <Col span={6}>
-                            <p className='row-1'>SỐ GHẾ</p>
+                            <p className='row-1'>{getText('seat')}</p>
                             <p className='row-2'>{dataCheckIn?.seatCode}</p>
                         </Col>
                         <Col span={6}>
-                            <p className='row-1'>MÃ VÉ</p>
+                            <p className='row-1'>{getText('ticketCode')}</p>
                             <p className='row-2'>{dataCheckIn?.ticketCode}</p>
                         </Col>
                     </Row>
 
                     <div className='attention'>
-                        <p> Lưu ý: Cửa khời hành sẽ đóng 15 phút trước giờ khởi hành.</p>
-                        <p> Hành khách sẽ không được phép lên tàu bay khi cửa khởi hành đóng.</p>
+                        <p>{getText('SuccessText1')} </p>
+                        <p>{getText('SuccessText2')}</p>
                     </div>
                     <div className='code-qr'>
                         <QRCode value={qrData} />
@@ -112,7 +114,7 @@ const BoardingPass = () => {
             </div>
             <div className='btn-downs'>
                 <Button onClick={handleImageDownload} className='btn-down'>
-                    Tải ảnh
+                    {getText('dowImg')}
                 </Button>
             </div>
         </>

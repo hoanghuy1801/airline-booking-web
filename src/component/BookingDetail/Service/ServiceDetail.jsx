@@ -85,7 +85,7 @@ const ServiceDetail = () => {
     }
     const handleContinue = async () => {
         if (total === 0) {
-            showWaringModal(`${getText('HeyFriend')}`, 'bạn chưa mua dịch vụ', `${getText('Close')}`)
+            showWaringModal(`${getText('HeyFriend')}`, `${getText('YouNotService')}`, `${getText('Close')}`)
             return
         }
         dispath(setTotalChange(total))
@@ -155,13 +155,13 @@ const ServiceDetail = () => {
                                 // navigate('my/select-fly-service')
                             }
                         >
-                            Quay lại
+                            {getText('Back')}
                         </Button>
                     </Col>
                     <Col span={12}>
                         <Row>
                             <Col span={18} className='footer-price'>
-                                Tổng tiền:
+                                {getText('Total')}
                             </Col>
                             <Col span={6} className='footer-price'>
                                 {formatCurrency(total)}
@@ -170,7 +170,7 @@ const ServiceDetail = () => {
                     </Col>
                     <Col span={6}>
                         <Button className='footer-continue-info' onClick={() => handleContinue()}>
-                            Tiếp tục
+                            {getText('Continue')}
                         </Button>
                     </Col>
                 </Row>

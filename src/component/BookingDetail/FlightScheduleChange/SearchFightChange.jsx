@@ -5,8 +5,10 @@ import { getAirports, getTickets } from '../../../services/apiHomePage'
 import './Change.css'
 import FormSearchChangeFly from '../FormSearchChangeFly/FormSearchChangeFly'
 import { useSelector } from 'react-redux'
+import { useLanguage } from '../../../LanguageProvider/LanguageProvider'
 
 const SearchFightChange = () => {
+    const { getText } = useLanguage()
     const [listAirports, setListAirports] = useState([])
     const [listSeats, setListSeats] = useState([])
     const bookingDetails = useSelector((state) => state.myFlight.bookingDetails?.bookingDetail)
@@ -33,7 +35,7 @@ const SearchFightChange = () => {
                 <Row>
                     <Col span={24} className='code-booking-change'>
                         <p>
-                            Mã đặt chỗ :{' '}
+                            {getText('BOOKING_CODE')} :{' '}
                             <span style={{ color: 'red', fontSize: '20px', fontWeight: 700 }}>
                                 {bookingDetails?.bookingCode}
                             </span>
