@@ -1,11 +1,11 @@
-.profile-history-header{
-    background-color:white ;
+.profile-history-header {
+    background-color: white;
     padding: 2% 0% 2% 2%;
     border-top-right-radius: 5px;
     border-top-left-radius: 5px;
     margin-left: 20px;
 }
-.text-profile-history{
+.text-profile-history {
     display: flex;
     justify-content: end;
     padding-right: 20px;
@@ -13,34 +13,33 @@
     font-weight: 600;
     color: red;
 }
-.profile-history-content{
-    background-color:#F1F1F1 ;
+.profile-history-content {
+    background-color: #f1f1f1;
     padding: 2% 0% 2% 2%;
     margin-left: 20px;
 }
-.icon-history{
+.icon-history {
     width: 30px;
     height: 30px;
-    color:#006885 ;
-    
+    color: #006885;
 }
-.text-history{
+.text-history {
     font-size: 18px;
     font-weight: 600;
     padding: 0 2% 0 2%;
 }
-.history{
+.history {
     display: flex;
     align-items: center;
 }
-.profile-history-footer{
-    background-color:white ;
+.profile-history-footer {
+    background-color: white;
     padding: 2% 0% 2% 2%;
     margin-left: 20px;
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
 }
-.text-check-transaction{
+.text-check-transaction {
     background-color: rgb(5, 165, 105);
     padding: 5px;
     border-radius: 10px;
@@ -48,55 +47,81 @@
     font-size: 15px;
     font-weight: 500;
 }
-.text-detail{
+.text-detail {
     display: flex;
     justify-content: end;
     padding-right: 20px;
-    color: #0980EE;
+    color: #0980ee;
     font-size: 18px;
     font-weight: 500;
     cursor: pointer;
 }
-@media (max-width:1500px){
-    .main-profile{
+.btn-search-transaction-history {
+    background-color: #006885;
+    border: none;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    height: auto;
+    margin-top: 20px;
+    &:hover {
+        color: white !important;
+    }
+}
+.input-codeBooking {
+    margin-top: 20px;
+    margin-left: 100px;
+}
+.form-btn-search {
+    display: flex;
+    justify-content: end;
+    padding-right: 20px;
+}
+.pagination {
+    display: flex;
+    justify-content: end;
+    padding-top: 20px;
+}
+@media (max-width: 1500px) {
+    .main-profile {
         padding: 5% 15% 2% 15%;
     }
 }
-@media (max-width:1200px){
-    .main-profile{
+@media (max-width: 1200px) {
+    .main-profile {
         padding: 5% 10% 2% 10%;
     }
 }
-@media (max-width:992px){
-    .main-profile{
+@media (max-width: 992px) {
+    .main-profile {
         padding: 5% 5% 2% 5%;
     }
 }
-@media (max-width:768px){
-    .main-profile{
+@media (max-width: 768px) {
+    .main-profile {
         padding: 5% 1% 2% 1%;
     }
-    .profile-acount-header{
+    .profile-acount-header {
         margin-top: 20px;
         margin-left: 0px;
     }
-    .profile-acount-content{
+    .profile-acount-content {
         margin-left: 0px;
     }
-    .change-personal-content{
+    .change-personal-content {
         margin-left: 0px;
     }
-    .profile-personal-content{
+    .profile-personal-content {
         margin-left: 0px;
     }
-    .profile-history-header{
+    .profile-history-header {
         margin-top: 20px;
         margin-left: 0px;
     }
-    .profile-history-content{
+    .profile-history-content {
         margin-left: 0px;
     }
-    .profile-history-footer{
+    .profile-history-footer {
         margin-left: 0px;
     }
 }

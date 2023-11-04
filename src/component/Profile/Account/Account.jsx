@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Col, Row, Typography, Input, Button, Avatar } from 'antd'
+import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons'
 import './Account.css'
 import { useNavigate } from 'react-router-dom'
-import { UserOutlined } from '@ant-design/icons'
 import { useDispatch, useSelector } from 'react-redux'
 import {
     IconUserSquareRounded,
@@ -13,21 +13,49 @@ import {
     IconLock
 } from '@tabler/icons-react'
 import { setInforUser, setIsAuthenticated } from '../../../redux/reducers/Auth'
+import { postChangePassword } from '../../../services/apiAuth'
+import { showWaringModal } from '../../../utils/modalError'
+import { useLanguage } from '../../../LanguageProvider/LanguageProvider'
+import { openNotification } from '../../../utils/Notification'
+import { getAcronym } from '../../../utils/utils'
 const { Text } = Typography
 
 const Account = () => {
+    const { getText } = useLanguage()
     const navigate = useNavigate()
     const dispastch = useDispatch()
     const [onChangePassword, setonChangePassword] = useState(false)
+    const [oldPassword, setOldPassword] = useState()
+    const [newPassword, setNewPassword] = useState()
+    const [newRePassword, setNewRePassword] = useState()
     const handleChangePassword = () => {
         setonChangePassword(true)
     }
     const InforUser = useSelector((state) => state.Auth.InforUser)
+    const data = {
+        currentPassword: oldPassword,
+        newPassword: newPassword,
+        confirmNewPassword: newRePassword
+    }
+
+    const handleConfirm = async () => {
+        if (newPassword !== newRePassword) {
+            showWaringModal(`${getText('HeyFriend')}`, 'mk nhập lại không đúng', `${getText('Close')}`)
+            return
+        }
+        try {
+            await postChangePassword(data)
+            openNotification('success', `${getText('Notification')}`, 'đỏi mk thành công')
+        } catch (error) {
+            showWaringModal(`${getText('HeyFriend')}`, error.response.data.error.message, `${getText('Close')}`)
+        }
+    }
     const hanldeLogOut = () => {
         dispastch(setInforUser(''))
         dispastch(setIsAuthenticated(false))
         navigate('/')
     }
+    console.log('InforUser', InforUser)
     return (
         <>
             <div className='profile-account'>
@@ -40,7 +68,16 @@ const Account = () => {
                             >
                                 <Row>
                                     <Col span={24} className='col-profile-account'>
-                                        <Avatar size={64} style={{ marginLeft: 20 }} icon={<UserOutlined />} />
+                                        <Avatar
+                                            size={60}
+                                            style={{
+                                                backgroundColor: `${InforUser?.color}`,
+                                                marginLeft: 20
+                                            }}
+                                        >
+                                            {getAcronym(InforUser.lastName)}
+                                            {getAcronym(InforUser.firstName)}
+                                        </Avatar>
                                         <Text className='text-li' style={{ paddingLeft: 20 }}>
                                             {InforUser.lastName} {InforUser.firstName}
                                         </Text>
@@ -141,9 +178,13 @@ const Account = () => {
                                             <Text className='text-account'>Mật Khẩu</Text>
                                         </Col>
                                         <Col span={17}>
-                                            <Input
-                                                placeholder='Nhập mật khẩu hiện tại'
-                                                className='change-password-account'
+                                            <Input.Password
+                                                style={{ width: '50%' }}
+                                                placeholder='Nhập mật khẩu cũ'
+                                                iconRender={(visible) =>
+                                                    visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+                                                }
+                                                onChange={(e) => setOldPassword(e.target.value)}
                                             />
                                         </Col>
                                     </Row>
@@ -151,9 +192,13 @@ const Account = () => {
                                         <Col span={2}></Col>
                                         <Col span={4}></Col>
                                         <Col span={17}>
-                                            <Input
+                                            <Input.Password
+                                                style={{ width: '50%' }}
                                                 placeholder='Nhập mật khẩu mới'
-                                                className='change-password-account'
+                                                iconRender={(visible) =>
+                                                    visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+                                                }
+                                                onChange={(e) => setNewPassword(e.target.value)}
                                             />
                                         </Col>
                                     </Row>
@@ -161,9 +206,13 @@ const Account = () => {
                                         <Col span={2}></Col>
                                         <Col span={4}></Col>
                                         <Col span={17}>
-                                            <Input
+                                            <Input.Password
+                                                style={{ width: '50%' }}
                                                 placeholder='Nhập lại mật khẩu mới'
-                                                className='change-password-account'
+                                                iconRender={(visible) =>
+                                                    visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
+                                                }
+                                                onChange={(e) => setNewRePassword(e.target.value)}
                                             />
                                         </Col>
                                     </Row>
@@ -176,7 +225,9 @@ const Account = () => {
                                                 {' '}
                                                 Hủy bỏ
                                             </Button>
-                                            <Button className='btn-confirm-change'>Xác nhận</Button>
+                                            <Button className='btn-confirm-change' onClick={() => handleConfirm()}>
+                                                Xác nhận
+                                            </Button>
                                         </Col>
                                     </Row>
                                 </div>

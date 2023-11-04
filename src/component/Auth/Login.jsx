@@ -6,8 +6,7 @@ import '../Auth/Login.css'
 import { GoogleOutlined, FacebookFilled, RollbackOutlined } from '@ant-design/icons'
 import { getInforUser, postLogin } from '../../services/apiAuth'
 import { useLanguage } from '../../LanguageProvider/LanguageProvider'
-import jwt from '../../utils/jwt'
-import { setInforUser, setIsAuthenticated } from '../../redux/reducers/Auth'
+import { setInforUser, setIsAuthenticated, setToken } from '../../redux/reducers/Auth'
 import { showWaringModal } from '../../utils/modalError'
 
 const { Text } = Typography
@@ -27,7 +26,6 @@ const Login = () => {
             .toLowerCase()
             .match(/^\d{10}$/)
     }
-    console.log('res.data.access_token', jwt.getToken())
     const handleLogin = async () => {
         const isValiPhone = validatePhone(phoneNumber)
         if (!isValiPhone) {
@@ -40,7 +38,7 @@ const Login = () => {
         try {
             let res = await postLogin(dataLogin)
             if (res.status == 200) {
-                jwt.setToken(res.data.access_token)
+                dispastch(setToken(res.data.access_token))
                 let ress = await getInforUser()
                 dispastch(setInforUser(ress.data))
                 dispastch(setIsAuthenticated(true))

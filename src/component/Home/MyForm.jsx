@@ -1,32 +1,36 @@
-import React, { useState } from 'react'
-import { Button, Modal } from 'antd'
+import { useState } from 'react'
+import axios from 'axios'
 
-const MyForm = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false)
+function MyForm() {
+    const [image, setImage] = (useState < File) | (null > null)
 
-    const showModal = () => {
-        setIsModalOpen(true)
-    }
+    const handleImageUpload = async () => {
+        if (!image) {
+            console.error('No file selected')
+            return
+        }
 
-    const handleCancel = () => {
-        setIsModalOpen(false)
+        const formData = new FormData()
+        formData.append('image', image)
+
+        try {
+            const response = await axios.patch('http://localhost:8008/api/v1/passenger/upload-avatar', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+            console.log('Upload response:', response.data)
+        } catch (error) {
+            console.error('Upload error:', error)
+        }
     }
 
     return (
-        <>
-            <Button type='primary' onClick={showModal}>
-                Open Modal
-            </Button>
-            <Modal
-                title='Your Modal Title'
-                visible={isModalOpen}
-                onOk={handleCancel} // Gán hàm handleCancel cho sự kiện "OK"
-                onCancel={handleCancel} // Gán hàm handleCancel cho sự kiện "Cancel"
-                footer={null} // Bỏ footer
-            >
-                Some contents... Some contents... Some contents...
-            </Modal>
-        </>
+        <div>
+            <h1>Cloudinary Image Upload</h1>
+            <input type='file' onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)} />
+            <button onClick={handleImageUpload}>Upload Image</button>
+        </div>
     )
 }
 

@@ -27,6 +27,9 @@ const postVerifyPhoneOTPUpdate = (id, otp) => {
 const postVerifyPhoneOTPCancel = (id, otp) => {
     return axios.post(`api/v1/auth/verify-opt-booking/cancel?bookingId=${id}&otp=${otp}`)
 }
+const postChangePassword = (data) => {
+    return axios.post('api/v1/auth/change-password', data)
+}
 
 export {
     getCountries,
@@ -37,5 +40,6 @@ export {
     getInforUser,
     postVerifyPhoneOTPUpdate,
     postVerifyPhoneOTPCancel,
-    postSendPhoneOTP
+    postSendPhoneOTP,
+    postChangePassword
 }

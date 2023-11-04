@@ -67,4 +67,15 @@ function changeStatus(status, language) {
 
     return status // Giữ nguyên trạng thái nếu không tìm thấy phiên bản ngôn ngữ
 }
-export { generateRandomID, calculateAge, convertGender, changeStatus }
+const getAcronym = (name) => {
+    if (name) {
+        const acronym = name
+            .split(/\s/)
+            .reduce((response, word) => (response += word.slice(0, 1)), '')
+            .toUpperCase()
+
+        return acronym.slice(0, name.length)
+    }
+    return ''
+}
+export { generateRandomID, calculateAge, convertGender, changeStatus, getAcronym }

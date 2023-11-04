@@ -38,7 +38,6 @@ const HomePage = () => {
             setListSeats(res.data)
         }
     }
-
     return (
         <div className='main-homepage'>
             <div className='homePage'>
