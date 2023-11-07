@@ -46,11 +46,27 @@ const FlyCancel = () => {
     const columns = [
         {
             title: 'Mã đặt vé',
-            dataIndex: 'code'
+            dataIndex: 'code',
+            sorter: {
+                compare: (a, b) => a.code - b.code,
+                multiple: 1
+            }
         },
         {
             title: 'Lý do',
-            dataIndex: 'address'
+            dataIndex: 'address',
+            sorter: {
+                compare: (a, b) => a.address - b.address,
+                multiple: 1
+            }
+        },
+        {
+            title: 'Trạng thái',
+            dataIndex: 'address',
+            sorter: {
+                compare: (a, b) => a.address - b.address,
+                multiple: 1
+            }
         }
     ]
 

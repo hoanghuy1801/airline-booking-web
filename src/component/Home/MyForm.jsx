@@ -1,35 +1,37 @@
 import { useState } from 'react'
-import axios from 'axios'
+import numeral from 'numeral'
+import { Input } from 'antd'
 
-function MyForm() {
-    const [image, setImage] = (useState < File) | (null > null)
+const MyForm = () => {
+    const [price, setPrice] = useState(0)
 
-    const handleImageUpload = async () => {
-        if (!image) {
-            console.error('No file selected')
-            return
+    // Hàm xử lý khi người dùng thay đổi giá tiền trong input
+    const handlePriceChange = (event) => {
+        const inputValue = event.target.value
+
+        // Kiểm tra xem người dùng đã nhập một số hợp lệ
+        if (/^\d*\.?\d*$/.test(inputValue)) {
+            setPrice(inputValue)
         }
+    }
 
-        const formData = new FormData()
-        formData.append('image', image)
+    // Định dạng giá tiền thành VND
+    const formattedPrice = numeral(price).format('0,0 VND')
 
-        try {
-            const response = await axios.patch('http://localhost:8008/api/v1/passenger/upload-avatar', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
-            console.log('Upload response:', response.data)
-        } catch (error) {
-            console.error('Upload error:', error)
-        }
+    // Hàm xử lý khi người dùng muốn sửa giá tiền đã định dạng
+    const handleEditPrice = () => {
+        // Chuyển đổi giá tiền đã định dạng thành giá trị số
+        const numericPrice = numeral(price).value()
+        setPrice(numericPrice)
     }
 
     return (
         <div>
-            <h1>Cloudinary Image Upload</h1>
-            <input type='file' onChange={(e) => setImage(e.target.files ? e.target.files[0] : null)} />
-            <button onClick={handleImageUpload}>Upload Image</button>
+            <div>
+                <label>Giá tiền:</label>
+                <Input type='text' value={formattedPrice} onChange={handlePriceChange} />
+                <button onClick={handleEditPrice}>Sửa</button>
+            </div>
         </div>
     )
 }

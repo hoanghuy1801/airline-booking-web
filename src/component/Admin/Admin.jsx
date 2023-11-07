@@ -4,10 +4,9 @@ import {
     MenuUnfoldOutlined,
     UserOutlined,
     PieChartOutlined,
-    MailOutlined,
     RollbackOutlined
 } from '@ant-design/icons'
-import { IconUserCog, IconUser } from '@tabler/icons-react'
+import { IconUserCog, IconUser, IconPlaneTilt } from '@tabler/icons-react'
 import { Layout, Menu, Button, theme, Row, Avatar, Col } from 'antd'
 import '../Admin/Admin.css'
 import { Outlet, useNavigate } from 'react-router-dom'
@@ -25,11 +24,10 @@ function getItem(label, key, icon, children, type) {
 const items = [
     getItem('Tài khoản', 'customer-info', <IconUser />),
     getItem('Quản lý nhân viên', 'employee', <IconUserCog />),
-    getItem('Chuyến bay', 'sub1', <MailOutlined />, [
+    getItem('Chuyến bay', 'sub1', <IconPlaneTilt />, [
         getItem('Danh sách', 'listflight'),
         getItem('Hủy/ Hoàn Tiền', 'flyCancel')
     ]),
-    getItem('Thống kê', 'ss', <PieChartOutlined />),
     getItem('Trở về', 'backgoHomePage', <RollbackOutlined />)
 ]
 
@@ -49,7 +47,7 @@ const Admin = () => {
         } else if (info.key === 'flyCancel') {
             navigate('/admins/flyCancel')
         } else if (info.key === 'listflight') {
-            navigate('/admins/listflight')
+            navigate('/admins/flight/listflight')
         } else if (info.key === 'customer-info') {
             navigate('/admins/customer-info')
         }

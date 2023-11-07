@@ -44,6 +44,8 @@ import FlyCancel from './component/Admin/FlyCancel/FlyCancel.jsx'
 import ListFlight from './component/Admin/ListFlight/ListFlight.jsx'
 import SelectPassengers from './component/CheckIn/SelectPassengers/SelectPassengers.jsx'
 import CustomerInfo from './component/Admin/Customer-info/CustomerInfo.jsx'
+import CreateFlight from './component/Admin/ListFlight/CreateFlight.jsx'
+import EditFlight from './component/Admin/ListFlight/EditFlight.jsx'
 ReactDOM.createRoot(document.getElementById('root')).render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
@@ -87,7 +89,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                             <Route path='/admins/employee/create' element={<CreateAdmin />} />
                             <Route path='/admins/employee/edit' element={<EditAdmin />} />
                             <Route path='/admins/flyCancel' element={<FlyCancel />} />
-                            <Route path='/admins/listflight' element={<ListFlight />} />
+                            <Route path='/admins/flight/listflight' element={<ListFlight />} />
+                            <Route path='/admins/flight/create' element={<CreateFlight />} />
+                            <Route path='/admins/flight/edit' element={<EditFlight />} />
                             <Route path='/admins/customer-info' element={<CustomerInfo />} />
                         </Route>
                     </Routes>
