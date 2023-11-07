@@ -121,15 +121,6 @@ const Header = () => {
                                 >
                                     CHECKIN-ONLINE
                                 </Button>
-                                <Button
-                                    className='service-child'
-                                    type='link'
-                                    onClick={() => {
-                                        navigate('/admins')
-                                    }}
-                                >
-                                    Admin
-                                </Button>
                             </div>
                         </Col>
                         <Col span={8}>

@@ -1,12 +1,11 @@
-import { Avatar, Button, Col, DatePicker, Form, Input, Radio, Row, Select, Typography } from 'antd'
+import { Avatar, Button, Col, DatePicker, Drawer, Form, Input, Row, Select, Typography } from 'antd'
 import { useEffect, useState } from 'react'
 import { UserOutlined } from '@ant-design/icons'
 import { getCountries } from '../../../services/apiAuth'
-import { useNavigate } from 'react-router-dom'
-
+import './CustomerInfo.css'
 const { Text } = Typography
 
-const EditAdmin = () => {
+const CustomerInfo = () => {
     useEffect(() => {
         fechListCountries()
     }, [])
@@ -19,18 +18,18 @@ const EditAdmin = () => {
     const [listCountries, setListCountries] = useState([])
 
     const [form] = Form.useForm()
-    const [value, setValue] = useState(1)
-    const onChange = (e) => {
-        setValue(e.target.value)
+    const [open, setOpen] = useState(false)
+    const showDrawer = () => {
+        setOpen(true)
     }
-    const navigate = useNavigate()
+    const onClose = () => {
+        setOpen(false)
+    }
     return (
         <>
             <Text className='title-admin'>Thông tin cá nhân</Text>
             <Row className='form-btn'>
-                <Button className='btn-cancel' onClick={() => navigate('/admins/employee')}>
-                    Hủy
-                </Button>
+                <Button className='btn-cancel'>Hủy</Button>
                 <Button className='btn-save'>Lưu</Button>
             </Row>
             <Row>
@@ -89,24 +88,6 @@ const EditAdmin = () => {
                                 }}
                             />
                         </Form.Item>
-                        <Form.Item name='status' label='Trạng thái:'>
-                            <Select
-                                defaultValue='ACT'
-                                style={{
-                                    width: '90%'
-                                }}
-                                options={[
-                                    {
-                                        value: 'ACT',
-                                        label: 'Hoạt động'
-                                    },
-                                    {
-                                        value: 'PEN',
-                                        label: 'Tạm dừng'
-                                    }
-                                ]}
-                            />
-                        </Form.Item>
                     </Form>
                 </Col>
                 <Col span={8}>
@@ -154,26 +135,55 @@ const EditAdmin = () => {
                             </Select>
                         </Form.Item>
                     </Form>
+                    <Text
+                        style={{
+                            display: 'flex',
+                            justifyContent: 'end',
+                            paddingRight: 50,
+                            fontSize: 18
+                        }}
+                    >
+                        <a>
+                            <i>
+                                <u onClick={showDrawer}> Đổi mật khẩu</u>
+                            </i>
+                        </a>
+                    </Text>
                 </Col>
             </Row>
-            <Row style={{ paddingTop: 20 }}>
-                <Col span={8}>
-                    <Text className='title-admin'>Phân Quyền</Text>{' '}
-                </Col>{' '}
-                <Col span={8}>
-                    {' '}
-                    <Radio.Group onChange={onChange} value={value}>
-                        <Radio value='MANAGER' style={{ fontSize: 18 }}>
-                            Quản trị viên
-                        </Radio>
-                        <Radio value='EMPLOYEE' style={{ fontSize: 18 }}>
-                            Nhân viên
-                        </Radio>
-                    </Radio.Group>
-                </Col>
-            </Row>
+            <Drawer title='Đổi mật khẩu' placement='right' onClose={onClose} open={open}>
+                <Form form={form} layout='vertical'>
+                    <Form.Item name='password' label='Mật khẩu cũ:'>
+                        <Input
+                            style={{
+                                width: '90%'
+                            }}
+                        />
+                    </Form.Item>
+                    <Form.Item name='newpassword' label='Mật khẩu mới:'>
+                        <Input
+                            style={{
+                                width: '90%'
+                            }}
+                        />
+                    </Form.Item>
+                    <Form.Item name='isnewpassword' label='xác nhận lại mật khẩu:'>
+                        <Input
+                            style={{
+                                width: '90%'
+                            }}
+                        />
+                    </Form.Item>
+                </Form>
+                <Row className='form-btn'>
+                    <Button className='btn-cancel' onClick={() => setOpen(false)}>
+                        Hủy
+                    </Button>
+                    <Button className='btn-save'>Lưu</Button>
+                </Row>
+            </Drawer>
         </>
     )
 }
 
-export default EditAdmin
+export default CustomerInfo

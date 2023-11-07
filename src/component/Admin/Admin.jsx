@@ -1,18 +1,16 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
-    ContainerOutlined,
     UserOutlined,
     PieChartOutlined,
-    DesktopOutlined,
     MailOutlined,
     RollbackOutlined
 } from '@ant-design/icons'
+import { IconUserCog, IconUser } from '@tabler/icons-react'
 import { Layout, Menu, Button, theme, Row, Avatar, Col } from 'antd'
 import '../Admin/Admin.css'
 import { Outlet, useNavigate } from 'react-router-dom'
-import ManagerAdmin from './ManagerAdmin/ManagerAdmin'
 
 const { Header, Sider, Content } = Layout
 function getItem(label, key, icon, children, type) {
@@ -25,7 +23,8 @@ function getItem(label, key, icon, children, type) {
     }
 }
 const items = [
-    getItem('Nhân Viên', 'admin', <PieChartOutlined />),
+    getItem('Tài khoản', 'customer-info', <IconUser />),
+    getItem('Quản lý nhân viên', 'employee', <IconUserCog />),
     getItem('Chuyến bay', 'sub1', <MailOutlined />, [
         getItem('Danh sách', 'listflight'),
         getItem('Hủy/ Hoàn Tiền', 'flyCancel')
@@ -45,15 +44,14 @@ const Admin = () => {
     const handleMenu = (info) => {
         if (info.key === 'backgoHomePage') {
             navigate('/')
-        }
-        if (info.key === 'admin') {
-            navigate('/admins/manager-admin')
-        }
-        if (info.key === 'flyCancel') {
+        } else if (info.key === 'employee') {
+            navigate('/admins/employee')
+        } else if (info.key === 'flyCancel') {
             navigate('/admins/flyCancel')
-        }
-        if (info.key === 'listflight') {
+        } else if (info.key === 'listflight') {
             navigate('/admins/listflight')
+        } else if (info.key === 'customer-info') {
+            navigate('/admins/customer-info')
         }
     }
     return (
@@ -104,6 +102,7 @@ const Admin = () => {
                         minHeight: 280,
                         background: colorBgContainer
                     }}
+                    className='main-admins'
                 >
                     <Outlet />
                 </Content>

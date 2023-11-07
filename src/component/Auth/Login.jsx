@@ -40,10 +40,15 @@ const Login = () => {
             let res = await postLogin(dataLogin)
             if (res.status == 200) {
                 jwt.setToken(res.data.access_token)
-                let ress = await getInforUser()
-                dispastch(setInforUser(ress.data))
-                dispastch(setIsAuthenticated(true))
-                navigate('/')
+
+                if (jwt.getUserRole === 'CUSTOMER') {
+                    navigate('/')
+                    let ress = await getInforUser()
+                    dispastch(setInforUser(ress.data))
+                    dispastch(setIsAuthenticated(true))
+                } else {
+                    navigate('/admins')
+                }
             }
         } catch (e) {
             showWaringModal(`${getText('HeyFriend')}`, e.response.data.error.message, `${getText('Close')}`)

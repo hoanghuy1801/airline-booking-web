@@ -43,6 +43,7 @@ import ServiceDetail from './component/BookingDetail/Service/ServiceDetail.jsx'
 import FlyCancel from './component/Admin/FlyCancel/FlyCancel.jsx'
 import ListFlight from './component/Admin/ListFlight/ListFlight.jsx'
 import SelectPassengers from './component/CheckIn/SelectPassengers/SelectPassengers.jsx'
+import CustomerInfo from './component/Admin/Customer-info/CustomerInfo.jsx'
 ReactDOM.createRoot(document.getElementById('root')).render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
@@ -82,11 +83,12 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                             <Route path='/test' element={<MyForm />} />
                         </Route>
                         <Route path='/admins' element={<Admin />}>
-                            <Route path='/admins/manager-admin' element={<ManagerAdmin />} />
-                            <Route path='/admins/manager-admin/create' element={<CreateAdmin />} />
-                            <Route path='/admins/manager-admin/edit' element={<EditAdmin />} />
+                            <Route path='/admins/employee' element={<ManagerAdmin />} />
+                            <Route path='/admins/employee/create' element={<CreateAdmin />} />
+                            <Route path='/admins/employee/edit' element={<EditAdmin />} />
                             <Route path='/admins/flyCancel' element={<FlyCancel />} />
                             <Route path='/admins/listflight' element={<ListFlight />} />
+                            <Route path='/admins/customer-info' element={<CustomerInfo />} />
                         </Route>
                     </Routes>
                 </LanguageProvider>

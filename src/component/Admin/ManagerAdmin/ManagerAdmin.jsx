@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react'
 import { Table, Space, Input, Row, Col, Button } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
@@ -14,7 +15,7 @@ const ManagerAdmin = () => {
     const navigate = useNavigate()
     const columns = [
         {
-            title: 'Id',
+            title: 'STT',
             dataIndex: 'id',
             sorter: {
                 compare: (a, b) => a.Id - b.Id,
@@ -22,11 +23,11 @@ const ManagerAdmin = () => {
             }
         },
         {
-            title: 'Email',
-            dataIndex: 'email',
+            title: 'Mã nhân viên',
+            dataIndex: 'codeName',
             sorter: {
-                compare: (a, b) => a.email - b.email,
-                multiple: 3
+                compare: (a, b) => a.fullname - b.fullname,
+                multiple: 2
             }
         },
         {
@@ -39,37 +40,45 @@ const ManagerAdmin = () => {
         },
         {
             title: 'Số điện thoại',
-            dataIndex: 'phone',
-            sorter: {
-                compare: (a, b) => a.phone - b.phone,
-                multiple: 1
-            }
+            dataIndex: 'phone'
         },
         {
-            title: 'Ngày sinh',
-            dataIndex: 'DateUser',
+            title: 'Email',
+            dataIndex: 'email'
+        },
+        {
+            title: 'Chức vụ',
+            dataIndex: 'fullname',
             sorter: {
-                compare: (a, b) => a.phone - b.phone,
-                multiple: 1
+                compare: (a, b) => a.fullname - b.fullname,
+                multiple: 2
             }
         },
         {
             title: 'Ngày tạo',
-            dataIndex: 'dataCreate',
+            dataIndex: 'status',
             sorter: {
                 compare: (a, b) => a.phone - b.phone,
                 multiple: 1
             }
         },
         {
-            title: 'Action',
+            title: 'Trạng thái',
+            dataIndex: 'status',
+            sorter: {
+                compare: (a, b) => a.phone - b.phone,
+                multiple: 1
+            }
+        },
+        {
+            title: 'Xử lý',
             key: 'action',
             render: (_, record) => (
                 <Space size='middle'>
                     <Button
                         icon={<EditOutlined className='icon' />}
                         className='btn-edit'
-                        onClick={() => navigate('/admins/manager-admin/edit')}
+                        onClick={() => navigate('/admins/employee/edit')}
                     />
                     <Button type='primary' danger icon={<DeleteOutlined />} className='btn-delete' />
                 </Space>
@@ -84,27 +93,20 @@ const ManagerAdmin = () => {
             fullname: 'Phạm Hoàng Huy',
             phone: '0964505517',
             DateUser: '10/01/2023',
-            dataCreate: '10/01/2023'
+            status: 'ACT'
         }
     ]
     return (
         <>
-            <p className='title-admin'>Thông tin nhân viên</p>
+            <p className='title-admin'>Quản lý nhân viên</p>
             <Row>
                 <Col span={18}>
-                    <Button className='btn-create' onClick={() => navigate('/admins/manager-admin/create')}>
+                    <Button className='btn-create' onClick={() => navigate('/admins/employee/create')}>
                         Thêm
                     </Button>
                 </Col>
                 <Col span={6}>
-                    <Search
-                        placeholder='input search text'
-                        allowClear
-                        enterButton='Tìm'
-                        size='large'
-                        onSearch={onSearch}
-                        className='input-search'
-                    />
+                    <Search allowClear enterButton='Tìm' size='large' onSearch={onSearch} className='input-search' />
                 </Col>
             </Row>
             <div className='table'>

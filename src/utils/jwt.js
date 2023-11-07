@@ -1,15 +1,17 @@
+import jwtDecode from 'jwt-decode'
+
 const JWTManager = () => {
     let inMemoryToken = null
-    let userId = ''
+    let userRole = ''
 
     const getToken = () => inMemoryToken
-    const getUserId = () => userId
+    const getUserRole = () => userRole
 
     const setToken = (accessToken) => {
         inMemoryToken = accessToken
         // decode and set countdown to refresh
-        // const decoded = jwtDecode(accessToken)
-        // userId = decoded._id
+        const decoded = jwtDecode(accessToken)
+        userRole = decoded.role
         // //  setRefreshTokenTimeOut(Number(decoded.exp) - Number(decoded.iat));
         localStorage.setItem('accessToken', inMemoryToken)
     }
@@ -21,7 +23,7 @@ const JWTManager = () => {
         localStorage.removeItem('accessToken') // Th
     }
 
-    return { getToken, setToken, getUserId, deleteToken }
+    return { getToken, setToken, getUserRole, deleteToken }
 }
 
 export default JWTManager()
