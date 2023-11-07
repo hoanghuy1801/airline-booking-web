@@ -11,7 +11,11 @@ import {
 } from '@tabler/icons-react'
 import { getAcronym } from '../../../utils/utils'
 import { useSelector } from 'react-redux'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { getMyBooking } from '../../../services/apiMyFlight'
+import { showWaringModal } from '../../../utils/modalError'
+import { useLanguage } from '../../../LanguageProvider/LanguageProvider'
+import { formatCurrency, formatDate, formatDateString } from '../../../utils/format'
 const { Text } = Typography
 
 const { RangePicker } = DatePicker
@@ -22,7 +26,7 @@ const items = [
     },
     {
         label: 'Chờ hủy',
-        key: 'wait'
+        key: 'pen'
     },
     {
         label: 'Hoàn thành',
@@ -30,16 +34,78 @@ const items = [
     },
     {
         label: 'Đã hủy',
-        key: 'cancelled'
+        key: 'del'
     }
 ]
 const TransactionHistory = () => {
+    const { getText } = useLanguage()
     const navigate = useNavigate()
     const InforUser = useSelector((state) => state.Auth.InforUser)
     const [current, setCurrent] = useState(1)
+    const [currents, setCurrents] = useState('all')
+    const [listMyBooking, setListMyBooking] = useState([])
+    const [selectedDateRange, setSelectedDateRange] = useState([])
+    const [codeBooking, setcodeBooking] = useState('')
+    useEffect(() => {
+        fech()
+    }, [])
+    const fech = async () => {
+        try {
+            let status = 'all'
+            let data = {
+                page: 1,
+                size: 10,
+                bookingCode: ''
+            }
+            let res = await getMyBooking(status, data)
+            setListMyBooking(res.data.items)
+        } catch (error) {
+            showWaringModal(`${getText('HeyFriend')}`, error.response.data.error.message, `${getText('Close')}`)
+        }
+    }
+    const onClick = async (e) => {
+        setCurrents(e.key)
+        let data = {
+            page: 1,
+            size: 10
+        }
+        if (e.key === 'all') {
+            let res = await getMyBooking('all', data)
+            setListMyBooking(res.data.items)
+        } else if (e.key === 'pen') {
+            let res = await getMyBooking('pen', data)
+            setListMyBooking(res.data.items)
+        } else if (e.key === 'complete') {
+            let res = await getMyBooking('complete', data)
+            setListMyBooking(res.data.items)
+        } else if (e.key === 'del') {
+            let res = await getMyBooking('del', data)
+            setListMyBooking(res.data.items)
+        }
+    }
     const onChange = (page) => {
-        console.log(page)
         setCurrent(page)
+    }
+    const handleSearch = async () => {
+        try {
+            let data = {
+                page: 1,
+                size: 10,
+                bookingCode: codeBooking.toUpperCase(),
+                fromDate:
+                    formatDate(formatDateString(selectedDateRange[0]?.$d)) === 'Invalid date'
+                        ? ''
+                        : formatDate(formatDateString(selectedDateRange[0]?.$d)),
+                toDate:
+                    formatDate(formatDateString(selectedDateRange[1]?.$d)) === 'Invalid date'
+                        ? ''
+                        : formatDate(formatDateString(selectedDateRange[1]?.$d))
+            }
+            let res = await getMyBooking(currents, data)
+            setListMyBooking(res.data.items)
+        } catch (error) {
+            showWaringModal(`${getText('HeyFriend')}`, error.response.data.error.message, `${getText('Close')}`)
+        }
     }
     return (
         <>
@@ -64,7 +130,7 @@ const TransactionHistory = () => {
                                             {getAcronym(InforUser.firstName)}
                                         </Avatar>
                                         <Text className='text-li' style={{ paddingLeft: 20 }}>
-                                            PHAM HOANG HUY
+                                            {InforUser.lastName} {InforUser.firstName}
                                         </Text>
                                     </Col>
                                 </Row>
@@ -128,55 +194,87 @@ const TransactionHistory = () => {
                     </Col>
                     <Col xs={24} sm={24} md={16} lg={16} xl={16}>
                         <div className='profile-history-header' style={{ paddingTop: 10, marginBottom: 15 }}>
-                            <Menu mode='horizontal' items={items} />
+                            <Menu mode='horizontal' items={items} onClick={onClick} selectedKeys={[currents]} />
                             <Row>
                                 <Col span={8}>
                                     {' '}
-                                    <RangePicker style={{ marginTop: 20 }} />
+                                    <RangePicker
+                                        style={{ marginTop: 20 }}
+                                        onChange={(dates) => setSelectedDateRange(dates)}
+                                    />
                                 </Col>
                                 <Col span={6}>
-                                    <Input className='input-codeBooking' placeholder='Nhập mã vé' />
+                                    <Input
+                                        className='input-codeBooking'
+                                        placeholder='Nhập mã vé'
+                                        onChange={(e) => setcodeBooking(e.target.value)}
+                                    />
                                 </Col>
                                 <Col span={10} className='form-btn-search'>
-                                    <Button className='btn-search-transaction-history'>Tìm kiếm</Button>
+                                    <Button className='btn-search-transaction-history' onClick={() => handleSearch()}>
+                                        Tìm kiếm
+                                    </Button>
                                 </Col>
                             </Row>
                         </div>
-                        <div className='profile-history-header'>
-                            <Row className=''>
-                                <Col span={12}>
-                                    <Text className='title-profile'>Mã đặt chỗ: 1049442633</Text>
-                                </Col>
-                                <Col span={12}>
-                                    <Text className='text-profile-history'>806.112 VND</Text>
-                                </Col>
-                            </Row>
-                        </div>
-                        <div className='profile-history-content'>
-                            <Row className='history'>
-                                <Col span={2}>
-                                    <IconPlaneInflight className='icon-history' />
-                                </Col>
-                                <Col span={22}>
-                                    <Text className='text-history'>Huế</Text>
-                                    <IconArrowRight style={{ paddingTop: 10 }} />
-                                    <Text className='text-history'>TP HCM</Text>
-                                </Col>
-                            </Row>
-                        </div>
-                        <div className='profile-history-footer'>
-                            <Row className=''>
-                                <Col span={12}>
-                                    <Text className='text-check-transaction'>Giao dịch thành công</Text>
-                                </Col>
-                                <Col span={12}>
-                                    <Text className='text-detail'> Xem chi tiết </Text>
-                                </Col>
-                            </Row>
-                        </div>
+                        {listMyBooking.map((item) => {
+                            return (
+                                <div key={item.id}>
+                                    <div className='profile-history-header'>
+                                        <Row className=''>
+                                            <Col span={12}>
+                                                <Text className='title-profile'>
+                                                    Mã đặt chỗ:{' '}
+                                                    <Text style={{ color: 'red', fontSize: 20, fontWeight: 600 }}>
+                                                        {item.bookingCode}
+                                                    </Text>
+                                                </Text>
+                                            </Col>
+                                            <Col span={12}>
+                                                <Text className='text-profile-history'>
+                                                    {formatCurrency(item.amountTotal)}
+                                                </Text>
+                                            </Col>
+                                        </Row>
+                                    </div>
+                                    <div className='profile-history-content'>
+                                        <Row className='history'>
+                                            <Col span={2}>
+                                                <IconPlaneInflight className='icon-history' />
+                                            </Col>
+                                            <Col span={22}>
+                                                <Text className='text-history'>
+                                                    {item.flightAway.sourceAirport.airportName}
+                                                </Text>
+                                                <IconArrowRight style={{ paddingTop: 10 }} />
+                                                <Text className='text-history'>
+                                                    {' '}
+                                                    {item.flightAway.destinationAirport.airportName}
+                                                </Text>
+                                            </Col>
+                                        </Row>
+                                    </div>
+                                    <div className='profile-history-footer' style={{ marginBottom: 20 }}>
+                                        <Row className=''>
+                                            <Col span={12}>
+                                                {item.status === 'ACT' ? (
+                                                    <Text className='text-check-transaction'>Giao dịch thành công</Text>
+                                                ) : item.status === 'PEN' ? (
+                                                    <Text className='text-check-transaction'>Giao dịch chờ hủy</Text>
+                                                ) : item.status === 'DEL' ? (
+                                                    <Text className='text-check-transaction'>Giao dịch đã hủy</Text>
+                                                ) : (
+                                                    <Text className='text-check-transaction'>Giao dịch thành công</Text>
+                                                )}
+                                            </Col>
+                                        </Row>
+                                    </div>
+                                </div>
+                            )
+                        })}
                         <div className='pagination'>
                             {' '}
-                            <Pagination current={current} onChange={onChange} total={40} />
+                            <Pagination current={current} onChange={onChange} />
                         </div>
                     </Col>
                 </Row>

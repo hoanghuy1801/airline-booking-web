@@ -6,8 +6,9 @@ import '../Auth/Login.css'
 import { GoogleOutlined, FacebookFilled, RollbackOutlined } from '@ant-design/icons'
 import { getInforUser, postLogin } from '../../services/apiAuth'
 import { useLanguage } from '../../LanguageProvider/LanguageProvider'
-import { setInforUser, setIsAuthenticated, setToken } from '../../redux/reducers/Auth'
+import { setInforUser, setIsAuthenticated } from '../../redux/reducers/Auth'
 import { showWaringModal } from '../../utils/modalError'
+import jwt from '../../utils/jwt'
 
 const { Text } = Typography
 const Login = () => {
@@ -38,7 +39,7 @@ const Login = () => {
         try {
             let res = await postLogin(dataLogin)
             if (res.status == 200) {
-                dispastch(setToken(res.data.access_token))
+                jwt.setToken(res.data.access_token)
                 let ress = await getInforUser()
                 dispastch(setInforUser(ress.data))
                 dispastch(setIsAuthenticated(true))

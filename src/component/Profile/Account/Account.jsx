@@ -18,6 +18,7 @@ import { showWaringModal } from '../../../utils/modalError'
 import { useLanguage } from '../../../LanguageProvider/LanguageProvider'
 import { openNotification } from '../../../utils/Notification'
 import { getAcronym } from '../../../utils/utils'
+import jwt from '../../../utils/jwt'
 const { Text } = Typography
 
 const Account = () => {
@@ -53,9 +54,9 @@ const Account = () => {
     const hanldeLogOut = () => {
         dispastch(setInforUser(''))
         dispastch(setIsAuthenticated(false))
+        jwt.deleteToken()
         navigate('/')
     }
-    console.log('InforUser', InforUser)
     return (
         <>
             <div className='profile-account'>

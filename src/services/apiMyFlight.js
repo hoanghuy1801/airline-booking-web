@@ -9,5 +9,9 @@ const postAddService = (data) => {
 const posstCheckIn = (data) => {
     return axios.post('/api/v1/check-in', data)
 }
-
-export { getBookingDetails, postAddService, posstCheckIn }
+const getMyBooking = (status, data) => {
+    return axios.get(`api/v1/booking/my-booking/${status}`, {
+        params: data
+    })
+}
+export { getBookingDetails, postAddService, posstCheckIn, getMyBooking }

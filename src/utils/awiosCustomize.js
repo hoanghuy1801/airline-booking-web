@@ -1,5 +1,4 @@
 import axios from 'axios'
-import jwt from './jwt'
 
 // NProgress.configure({
 //     showSpinner: false,
@@ -14,7 +13,7 @@ const instance = axios.create({
 instance.interceptors.request.use((config) => {
     // Lấy ngôn ngữ từ localStorage hoặc từ ngôn ngữ mặc định
     const language = localStorage.getItem('language') || 'vi'
-
+    const accessToken = localStorage.getItem('accessToken')
     // Thêm header 'Accept-Language'
     config.headers['Accept-Language'] = language
 
@@ -24,8 +23,8 @@ instance.interceptors.request.use((config) => {
     config.headers['X-Request-Source'] = 'web' // Thay 'your-source-value' bằng giá trị thích hợp
 
     // Thêm header "Authorization"
-    if (jwt.getToken()) {
-        config.headers['Authorization'] = `Bearer ${jwt.getToken()}`
+    if (accessToken) {
+        config.headers['Authorization'] = `Bearer ${accessToken}`
     }
 
     return config
