@@ -82,7 +82,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                             <Route path='/my/sevice-detail' element={<ServiceDetail />} />
                             <Route path='/my/select-flight-change' element={<SelectFlightChange />} />
                             <Route path='/my/search-flight-change' element={<SearchFightChange />} />
-                            <Route path='/test' element={<MyForm />} />
                         </Route>
                         <Route path='/admins' element={<Admin />}>
                             <Route path='/admins/employee' element={<ManagerAdmin />} />
