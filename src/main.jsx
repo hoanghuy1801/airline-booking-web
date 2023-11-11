@@ -31,7 +31,6 @@ import Personal from './component/Profile/Personal/Personal.jsx'
 import TransactionHistory from './component/Profile/TransactionHistory/TransactionHistory.jsx'
 import { LanguageProvider } from './LanguageProvider/LanguageProvider.jsx'
 import { PersistGate } from 'redux-persist/integration/react'
-import MyForm from './component/Home/MyForm.jsx'
 import Otp from './component/Auth/Otp.jsx'
 import Payment from './component/Payment/Payment.jsx'
 import PaymentChange from './component/BookingDetail/PaymentChange/PaymentChange.jsx'
@@ -46,6 +45,7 @@ import SelectPassengers from './component/CheckIn/SelectPassengers/SelectPasseng
 import CustomerInfo from './component/Admin/Customer-info/CustomerInfo.jsx'
 import CreateFlight from './component/Admin/ListFlight/CreateFlight.jsx'
 import EditFlight from './component/Admin/ListFlight/EditFlight.jsx'
+import MyForm from './component/Home/MyForm.jsx'
 ReactDOM.createRoot(document.getElementById('root')).render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
@@ -82,6 +82,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                             <Route path='/my/sevice-detail' element={<ServiceDetail />} />
                             <Route path='/my/select-flight-change' element={<SelectFlightChange />} />
                             <Route path='/my/search-flight-change' element={<SearchFightChange />} />
+                            <Route path='/test' element={<MyForm />} />
                         </Route>
                         <Route path='/admins' element={<Admin />}>
                             <Route path='/admins/employee' element={<ManagerAdmin />} />

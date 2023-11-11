@@ -60,6 +60,9 @@ function convertString(array) {
 
     return newString
 }
+const formatTimeHHMM = (time) => {
+    return moment(time).format('HH:mm DD/MM/YYYY')
+}
 
 export {
     formatCurrency,
@@ -69,5 +72,6 @@ export {
     convertString,
     formatDateString,
     formatTime,
-    calculateTimeDifference
+    calculateTimeDifference,
+    formatTimeHHMM
 }

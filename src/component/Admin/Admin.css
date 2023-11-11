@@ -1,5 +1,5 @@
 .menu-dashboard {
-    height: 100vb;
+    height: 965px;
 }
 .ant-btn-text.ant-btn-icon-only {
     width: 50px !important;
@@ -8,7 +8,7 @@
 }
 .ant-layout-sider-children {
     background-image: url('../../assets/BackroudMenu.jpg');
-    padding-top: 17% !important;
+    padding-top: 20% !important;
 }
 .ant-menu-title-content {
     color: rgb(0, 0, 0);
@@ -16,4 +16,7 @@
 }
 .main-admins {
     border-radius: 10px;
+}
+main.ant-layout-content.main-admins.css-dev-only-do-not-override-18iikkb {
+    padding: 24px 24px 13px 24px !important;
 }

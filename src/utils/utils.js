@@ -67,6 +67,21 @@ function changeStatus(status, language) {
 
     return status // Giữ nguyên trạng thái nếu không tìm thấy phiên bản ngôn ngữ
 }
+function changeStatusAdmin(status, vi) {
+    const statusTexts = {
+        vi: {
+            ACT: 'Hoạt động',
+            PEN: 'Tạm ngưng',
+            DEL: 'Đã xóa'
+        }
+    }
+
+    if (statusTexts[vi] && statusTexts[vi][status]) {
+        return statusTexts[vi][status]
+    }
+
+    return status // Giữ nguyên trạng thái nếu không tìm thấy phiên bản ngôn ngữ
+}
 const getAcronym = (name) => {
     if (name) {
         const acronym = name
@@ -78,4 +93,4 @@ const getAcronym = (name) => {
     }
     return ''
 }
-export { generateRandomID, calculateAge, convertGender, changeStatus, getAcronym }
+export { generateRandomID, calculateAge, convertGender, changeStatus, getAcronym, changeStatusAdmin }

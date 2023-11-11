@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react'
 import { UserOutlined } from '@ant-design/icons'
 import { getCountries } from '../../../services/apiAuth'
 import { useNavigate } from 'react-router-dom'
+import { createEmpolyee } from '../../../services/apiAdmin'
+import { openNotification } from '../../../utils/Notification'
 
 const { Text } = Typography
 
@@ -17,21 +19,76 @@ const CreateAdmin = () => {
         }
     }
     const [listCountries, setListCountries] = useState([])
+    const [name, setName] = useState('')
+    const [dateOfBirth, setDateOfBirth] = useState('')
+    const [gender, setGender] = useState('MALE')
+    const [idCard, setIdCard] = useState('')
+    const [phoneNumber, setPhoneNumber] = useState('')
+    const [email, setEmail] = useState('')
+    const [userType, setUserType] = useState('EMPLOYEE')
+    const [address, setAddress] = useState('')
+    const [password, setPassword] = useState('')
+    const [country, setCountry] = useState('')
 
     const [form] = Form.useForm()
-    const [value, setValue] = useState(1)
     const onChange = (e) => {
-        setValue(e.target.value)
+        setUserType(e.target.value)
     }
     const navigate = useNavigate()
+    const onChangeGender = (value) => {
+        setGender(value)
+    }
+    const onChangeDatePicker = (dates, dateStrings) => {
+        setDateOfBirth(dateStrings)
+    }
+    const onChangecountries = (value) => {
+        setCountry(value)
+    }
+    const handleContinue = async () => {
+        const data = {
+            name: name,
+            dateOfBirth: dateOfBirth,
+            gender: gender,
+            idCard: idCard,
+            phoneNumber: phoneNumber,
+            email: email,
+            userType: userType,
+            address: address,
+            password: password,
+            country: country
+        }
+        try {
+            if (
+                name === '' ||
+                dateOfBirth === '' ||
+                idCard === '' ||
+                phoneNumber === '' ||
+                email === '' ||
+                address === '' ||
+                password === '' ||
+                country === ''
+            ) {
+                openNotification('warning', 'Thông báo', 'Bạn chưa nhập đủ thông tin')
+                return
+            }
+            await createEmpolyee(data)
+            openNotification('success', 'Thông báo', 'Thêm nhân viên thành công')
+            navigate('/admins/employee')
+        } catch (e) {
+            openNotification('error', 'Thông báo', e.response.data.error.message)
+        }
+    }
+
     return (
         <>
-            <Text className='title-admin'>Thông tin cá nhân</Text>
+            <Text className='title-admin'>Thông Tin Cá Nhân</Text>
             <Row className='form-btn'>
                 <Button className='btn-cancel' onClick={() => navigate('/admins/employee')}>
                     Hủy
                 </Button>
-                <Button className='btn-save'>Lưu</Button>
+                <Button className='btn-save' onClick={() => handleContinue()}>
+                    Lưu
+                </Button>
             </Row>
             <Row>
                 <Col span={8}>
@@ -49,7 +106,7 @@ const CreateAdmin = () => {
 
                 <Col span={8}>
                     <Form form={form} layout='vertical'>
-                        <Form.Item name='fullName' label='Họ& Tên:'>
+                        <Form.Item name='fullName' label='Họ& Tên:' onChange={(event) => setName(event.target.value)}>
                             <Input
                                 style={{
                                     width: '90%'
@@ -59,9 +116,11 @@ const CreateAdmin = () => {
                         <Form.Item name='DateOfBirth' label='Ngày sinh:'>
                             <DatePicker
                                 placeholder=''
+                                format='DD/MM/YYYY'
                                 style={{
                                     width: '90%'
                                 }}
+                                onChange={onChangeDatePicker}
                             />
                         </Form.Item>
                         <Form.Item name='gender' label='Giới Tính:'>
@@ -70,6 +129,7 @@ const CreateAdmin = () => {
                                 style={{
                                     width: '90%'
                                 }}
+                                onChange={onChangeGender}
                                 options={[
                                     {
                                         value: 'MALE',
@@ -82,29 +142,22 @@ const CreateAdmin = () => {
                                 ]}
                             />
                         </Form.Item>
-                        <Form.Item name='phoneNumber' label=' Số điện thoại:'>
+                        <Form.Item
+                            name='phoneNumber'
+                            label=' Số điện thoại:'
+                            onChange={(event) => setPhoneNumber(event.target.value)}
+                        >
                             <Input
                                 style={{
                                     width: '90%'
                                 }}
                             />
                         </Form.Item>
-                        <Form.Item name='status' label='Trạng thái:'>
-                            <Select
-                                defaultValue='ACT'
+                        <Form.Item label='Mật khẩu:' onChange={(event) => setPassword(event.target.value)}>
+                            <Input.Password
                                 style={{
                                     width: '90%'
                                 }}
-                                options={[
-                                    {
-                                        value: 'ACT',
-                                        label: 'Hoạt động'
-                                    },
-                                    {
-                                        value: 'PEN',
-                                        label: 'Tạm dừng'
-                                    }
-                                ]}
                             />
                         </Form.Item>
                     </Form>
@@ -112,21 +165,25 @@ const CreateAdmin = () => {
                 <Col span={8}>
                     {' '}
                     <Form form={form} layout='vertical'>
-                        <Form.Item name='url' label='Số CMND/CCCD/Hộ Chiếu:'>
+                        <Form.Item
+                            name='url'
+                            label='Số CMND/CCCD/Hộ Chiếu:'
+                            onChange={(event) => setIdCard(event.target.value)}
+                        >
                             <Input
                                 style={{
                                     width: '90%'
                                 }}
                             />
                         </Form.Item>
-                        <Form.Item name='email' label='Email:'>
+                        <Form.Item name='email' label='Email:' onChange={(event) => setEmail(event.target.value)}>
                             <Input
                                 style={{
                                     width: '90%'
                                 }}
                             />
                         </Form.Item>
-                        <Form.Item name='address' label='Địa chỉ:'>
+                        <Form.Item name='address' label='Địa chỉ:' onChange={(event) => setAddress(event.target.value)}>
                             <Input
                                 style={{
                                     width: '90%'
@@ -139,6 +196,7 @@ const CreateAdmin = () => {
                                 style={{ width: '90%', fontSize: 16, fontWeight: 500 }}
                                 optionFilterProp='children'
                                 filterOption={(input, option) => (option?.label ?? '').includes(input)}
+                                onChange={onChangecountries}
                                 filterSort={(optionA, optionB) =>
                                     (optionA?.label ?? '')
                                         .toLowerCase()
@@ -162,7 +220,7 @@ const CreateAdmin = () => {
                 </Col>{' '}
                 <Col span={8}>
                     {' '}
-                    <Radio.Group onChange={onChange} value={value}>
+                    <Radio.Group onChange={onChange} value={userType}>
                         <Radio value='MANAGER' style={{ fontSize: 18 }}>
                             Quản trị viên
                         </Radio>

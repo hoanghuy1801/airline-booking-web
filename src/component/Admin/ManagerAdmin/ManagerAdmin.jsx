@@ -1,104 +1,270 @@
 /* eslint-disable no-unused-vars */
-import React from 'react'
-import { Table, Space, Input, Row, Col, Button } from 'antd'
+import React, { useEffect, useMemo, useState } from 'react'
+import { Table, Space, Input, Row, Col, Button, Mentions, Menu, Tag, Dropdown } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import './ManagerAdmin.css'
 import { useNavigate } from 'react-router-dom'
-
+import { actEmployee, getEmployeeId, getListEmployee, penEmployee } from '../../../services/apiAdmin'
+import { openNotification } from '../../../utils/Notification'
+import { changeStatusAdmin } from '../../../utils/utils'
+import { formatDateString } from '../../../utils/format'
+import { IconDotsVertical } from '@tabler/icons-react'
+import { useDispatch } from 'react-redux'
+import { setEmployeeById } from '../../../redux/reducers/Admin'
 const { Search } = Input
+const itemss = [
+    {
+        label: 'Hoạt động',
+        key: 'act'
+    },
+    {
+        type: 'divider'
+    },
+    {
+        label: 'Tạm ngưng',
+        key: 'pen'
+    },
+    {
+        type: 'divider'
+    },
+    {
+        label: 'Chỉnh sửa',
+        key: 'edit'
+    }
+]
+const items = [
+    {
+        label: 'Tất cả',
+        key: 'all'
+    },
+    {
+        label: 'Hoạt động',
+        key: 'act'
+    },
+    {
+        label: 'Tạm ngưng',
+        key: 'pen'
+    }
+]
 
-const onChange = (pagination, filters, sorter, extra) => {
-    console.log('params', pagination, filters, sorter, extra)
-}
-const onSearch = (value) => console.log(value)
 const ManagerAdmin = () => {
+    const [listEmployee, setListEmployee] = useState([])
+    const [currentPage, setCurrentPage] = useState(1)
+    const [textSearch, setTextSearch] = useState('')
+    const [totalCount, SetTotalCount] = useState(0)
+    const [totalPages, setTotalPages] = useState(0)
+    const [status, setStatus] = useState('')
+    const dispastch = useDispatch()
+    const dataSource = listEmployee.map((item, index) => ({
+        ...item,
+        stt: index + currentPage * 10 - 9
+    }))
+    const dataSources = dataSource.map((item, index) => ({
+        ...item,
+        key: item.id // Sử dụng ID của nhân viên làm giá trị key
+    }))
+    useEffect(() => {
+        fechListEmpoyee()
+    }, [currentPage, status, textSearch])
+    const fechListEmpoyee = async () => {
+        const data = {
+            page: currentPage,
+            size: 10,
+            status: status,
+            searchText: textSearch
+        }
+        try {
+            let res = await getListEmployee(data)
+            setListEmployee(res.data.items)
+            SetTotalCount(res.data.totalCount)
+        } catch (e) {
+            openNotification('error', 'Thông báo', e.response.data.error.message)
+        }
+    }
     const navigate = useNavigate()
     const columns = [
         {
             title: 'STT',
-            dataIndex: 'id',
-            sorter: {
-                compare: (a, b) => a.Id - b.Id,
-                multiple: 3
-            }
+            dataIndex: 'stt',
+            width: 70
         },
         {
-            title: 'Mã nhân viên',
-            dataIndex: 'codeName',
-            sorter: {
-                compare: (a, b) => a.fullname - b.fullname,
-                multiple: 2
-            }
+            title: 'MÃ NHÂN VIÊN',
+            dataIndex: 'employeeCode',
+            sorter: (a, b) => {
+                return a.employeeCode.localeCompare(b.employeeCode)
+            },
+            width: 170
         },
         {
-            title: 'Họ và tên',
-            dataIndex: 'fullname',
-            sorter: {
-                compare: (a, b) => a.fullname - b.fullname,
-                multiple: 2
-            }
+            title: 'HỌ TÊN',
+            dataIndex: 'name',
+            sorter: (a, b) => {
+                return a.name.localeCompare(b.name)
+            },
+            width: 230
         },
         {
-            title: 'Số điện thoại',
-            dataIndex: 'phone'
+            title: 'SỐ ĐIỆN THOẠI',
+            dataIndex: 'phoneNumber',
+            sorter: (a, b) => {
+                return a.phoneNumber.localeCompare(b.phoneNumber)
+            },
+            width: 170
         },
         {
-            title: 'Email',
-            dataIndex: 'email'
+            title: 'CCCD',
+            dataIndex: 'idCard',
+            sorter: (a, b) => {
+                return a.email.localeCompare(b.email)
+            },
+            width: 170
         },
         {
-            title: 'Chức vụ',
-            dataIndex: 'fullname',
-            sorter: {
-                compare: (a, b) => a.fullname - b.fullname,
-                multiple: 2
-            }
+            title: 'EMAIL',
+            dataIndex: 'email',
+            sorter: (a, b) => {
+                return a.email.localeCompare(b.email)
+            },
+            width: 200
         },
         {
-            title: 'Ngày tạo',
+            title: 'CHỨC VỤ',
+            dataIndex: 'user?.userType',
+            render: (value, _record) => {
+                let userType = null
+                if (!_record.user) {
+                    return 'Không xác định'
+                }
+                if (_record.user.userType === 'MANAGER') {
+                    userType = 'Quản lý'
+                } else {
+                    userType = 'Nhân viên'
+                }
+                return userType
+            },
+
+            width: 150
+        },
+        {
+            title: 'NGÀY TẠO',
+            dataIndex: 'createdAt',
+            sorter: (a, b) => {
+                return a.createdAt.localeCompare(b.createdAt)
+            },
+            render: (value, _record) => {
+                return formatDateString(value)
+            },
+            width: 200
+        },
+        {
+            title: 'TRẠNG THÁI',
+            key: 'status',
             dataIndex: 'status',
-            sorter: {
-                compare: (a, b) => a.phone - b.phone,
-                multiple: 1
-            }
+            render: (_, { status }) => {
+                const color = status === 'ACT' ? 'green' : status === 'PEN' ? 'orange' : 'orange' // Determine color based on tag value
+                return (
+                    <Tag color={color} key={status}>
+                        {changeStatusAdmin(status, 'vi')}
+                    </Tag>
+                )
+            },
+            width: 150
         },
         {
-            title: 'Trạng thái',
-            dataIndex: 'status',
-            sorter: {
-                compare: (a, b) => a.phone - b.phone,
-                multiple: 1
-            }
-        },
-        {
-            title: 'Xử lý',
-            key: 'action',
-            render: (_, record) => (
-                <Space size='middle'>
-                    <Button
-                        icon={<EditOutlined className='icon' />}
-                        className='btn-edit'
-                        onClick={() => navigate('/admins/employee/edit')}
-                    />
-                    <Button type='primary' danger icon={<DeleteOutlined />} className='btn-delete' />
-                </Space>
+            title: 'XỬ LÝ',
+            key: 'id',
+            render: (value, record) => (
+                <Dropdown
+                    menu={{
+                        items: itemss.map((item, index) => ({
+                            ...item,
+                            key: item.key || index.toString()
+                        })),
+
+                        onClick: (e) => handleClickMe(record.id, record.employeeCode, e)
+                    }}
+                    trigger={['click']}
+                >
+                    <a onClick={(e) => e.preventDefault()}>
+                        <Space
+                            style={{
+                                paddingLeft: 10,
+                                fontSize: 15,
+                                fontWeight: 500,
+                                color: '#006885'
+                            }}
+                        >
+                            <IconDotsVertical />
+                        </Space>
+                    </a>
+                </Dropdown>
             )
         }
     ]
-    const data = [
-        {
-            key: '1',
-            id: 1,
-            email: 'huy@gmail.com',
-            fullname: 'Phạm Hoàng Huy',
-            phone: '0964505517',
-            DateUser: '10/01/2023',
-            status: 'ACT'
+    const [current, setCurrent] = useState('all')
+    const onClick = async (e) => {
+        setCurrent(e.key)
+        if (e.key === 'all') {
+            setStatus('')
+            setCurrentPage(1)
+        } else if (e.key === 'act') {
+            setStatus('ACT')
+            setCurrentPage(1)
+        } else if (e.key === 'pen') {
+            setStatus('PEN')
+            setCurrentPage(1)
         }
-    ]
+    }
+    const onChange = async (pagination, filters, sorter, extra) => {
+        setCurrentPage(pagination.current)
+    }
+    const onSearch = (value, _e, info) => {
+        setTextSearch(value)
+    }
+    const handleClickMe = async (id, code, e) => {
+        const data = {
+            page: currentPage,
+            size: 10,
+            status: status,
+            searchText: textSearch
+        }
+        if (e.key === 'act') {
+            try {
+                const result = await actEmployee(id).then(async () => {
+                    let res = await getListEmployee(data)
+                    setListEmployee(res.data.items)
+                    openNotification('success', 'Thông báo', `Đã Hoạt Động Nhân Viên ${code}`)
+                })
+            } catch (e) {
+                openNotification('error', 'Thông báo', e.response.data.error.message)
+            }
+        } else if (e.key === 'pen') {
+            try {
+                const result = await penEmployee(id).then(async () => {
+                    let res = await getListEmployee(data)
+                    setListEmployee(res.data.items)
+                    openNotification('success', 'Thông báo', `Đã Tạm Ngưng Nhân Viên ${code}`)
+                })
+            } catch (e) {
+                openNotification('error', 'Thông báo', e.response.data.error.message)
+            }
+        } else if (e.key === 'edit') {
+            let res = await getEmployeeId(id)
+            dispastch(setEmployeeById(res.data))
+            navigate('/admins/employee/edit')
+        }
+    }
     return (
         <>
-            <p className='title-admin'>Quản lý nhân viên</p>
+            <p className='title-admin'>Quản Lý Nhân Viên</p>
+            <Menu
+                onClick={onClick}
+                selectedKeys={[current]}
+                mode='horizontal'
+                items={items}
+                style={{ paddingTop: 10 }}
+            />
             <Row>
                 <Col span={18}>
                     <Button className='btn-create' onClick={() => navigate('/admins/employee/create')}>
@@ -106,11 +272,31 @@ const ManagerAdmin = () => {
                     </Button>
                 </Col>
                 <Col span={6}>
-                    <Search allowClear enterButton='Tìm' size='large' onSearch={onSearch} className='input-search' />
+                    <Search
+                        allowClear
+                        placeholder='Nhập Mã hoặc Tên Nhân Viên'
+                        enterButton='Tìm'
+                        size='large'
+                        className='input-search'
+                        onSearch={onSearch}
+                    />
                 </Col>
             </Row>
             <div className='table'>
-                <Table columns={columns} dataSource={data} onChange={onChange} />
+                <Table
+                    columns={columns}
+                    dataSource={dataSources}
+                    pagination={{
+                        current: currentPage,
+                        pageSize: 10,
+                        total: totalCount,
+                        onChange: onChange
+                    }}
+                    scroll={{
+                        y: 540
+                    }}
+                    onChange={onChange}
+                />
             </div>
         </>
     )
