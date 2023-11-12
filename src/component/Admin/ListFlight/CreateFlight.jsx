@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-no-undef */
 import { Button, Col, DatePicker, Form, Input, Row, Select, Typography } from 'antd'
 import { useEffect, useState } from 'react'
-import imgcreateFlight from '../../../assets/admin/createFlight.jpg'
+import imgcreateFlight from '../../../assets/admin/createFlight.png'
 import { useNavigate } from 'react-router-dom'
 import { getAirports } from '../../../services/apiHomePage'
 import { useLanguage } from '../../../LanguageProvider/LanguageProvider'

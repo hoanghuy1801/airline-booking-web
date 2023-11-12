@@ -37,9 +37,16 @@ const getEmployeeId = (id) => {
     return axios.get(`/api/v1/employee/${id}`)
 }
 const editEmployee = (id, data) => {
-    return axios.put(`/api/v1/employee/${id}`, {
-        params: data
-    })
+    return axios.put(`/api/v1/employee/${id}`, data)
+}
+const changeStatusFlight = (id, status) => {
+    return axios.patch(`/api/v1/flight/${id}?status=${status}`)
+}
+const getFlightId = (id) => {
+    return axios.get(`/api/v1/flight/id/${id}`)
+}
+const editFlight = (id, data) => {
+    return axios.put(`/api/v1/flight/${id}`, data)
 }
 
 export {
@@ -53,5 +60,8 @@ export {
     penEmployee,
     delEmployee,
     getEmployeeId,
-    editEmployee
+    editEmployee,
+    changeStatusFlight,
+    getFlightId,
+    editFlight
 }

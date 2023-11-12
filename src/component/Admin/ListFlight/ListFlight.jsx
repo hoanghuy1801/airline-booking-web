@@ -1,22 +1,41 @@
-/* eslint-disable react/jsx-no-undef */
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react'
-import { Table, Space, Input, Row, Col, Button, DatePicker, Menu, Tag, Select } from 'antd'
-import { DeleteOutlined, EditOutlined, DownOutlined } from '@ant-design/icons'
+import { useEffect, useState } from 'react'
+import { Table, Space, Input, Row, Col, Button, DatePicker, Menu, Tag, Select, Dropdown } from 'antd'
 import { IconFilterFilled } from '@tabler/icons-react'
 import './ListFlight.css'
 import { useNavigate } from 'react-router-dom'
 import { openNotification } from '../../../utils/Notification'
-import { getListFlight } from '../../../services/apiAdmin'
+import { changeStatusFlight, getFlightId, getListFlight } from '../../../services/apiAdmin'
 import { changeStatusAdmin } from '../../../utils/utils'
-import { formatDate, formatTimeHHMM } from '../../../utils/format'
+import { formatDate, formatDateString, formatTimeHHMM } from '../../../utils/format'
 import { getAirports } from '../../../services/apiHomePage'
 import locale from 'antd/locale/vi_VN'
 import 'dayjs/locale/vi'
 import LocaleProvider from 'antd/es/locale'
-const { RangePicker } = DatePicker
-const { Search } = Input
+import { IconDotsVertical } from '@tabler/icons-react'
+import { useDispatch } from 'react-redux'
+import { setFlightById } from '../../../redux/reducers/Admin'
 
+const { Search } = Input
+const itemss = [
+    {
+        label: 'Hoạt động',
+        key: 'act'
+    },
+    {
+        type: 'divider'
+    },
+    {
+        label: 'Tạm ngưng',
+        key: 'pen'
+    },
+    {
+        type: 'divider'
+    },
+    {
+        label: 'Chỉnh sửa',
+        key: 'edit'
+    }
+]
 const items = [
     {
         label: 'Tất cả',
@@ -37,13 +56,14 @@ const ListFlight = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [textSearch, setTextSearch] = useState('')
     const [totalCount, setTotalCount] = useState(0)
-    const [totalPages, setTotalPages] = useState(0)
     const [status, setStatus] = useState('all')
     const [sourceAirportId, setSourceAirportId] = useState(0)
     const [destinationAirportId, setDestinationAirportId] = useState(0)
     const [hidenSearch, setHidenSearch] = useState(false)
     const [departureDate, setDepartureDate] = useState('')
     const [arrivalDate, setArrivalDate] = useState('')
+    const dispastch = useDispatch()
+    // eslint-disable-next-line no-unused-vars
     const onChange = (pagination, filters, sorter, extra) => {
         setCurrentPage(pagination.current)
     }
@@ -61,10 +81,12 @@ const ListFlight = () => {
             setListAirports(res.data)
         }
     }
+    // eslint-disable-next-line no-unused-vars
     const onChangeSourceAirport = (value, label) => {
         setSourceAirportId(value)
     }
 
+    // eslint-disable-next-line no-unused-vars
     const onDestinationAirport = (value, label) => {
         setDestinationAirportId(value)
     }
@@ -105,7 +127,8 @@ const ListFlight = () => {
             dataIndex: 'flightCode',
             sorter: (a, b) => {
                 return a.flightCode.localeCompare(b.flightCode)
-            }
+            },
+            width: 180
         },
         {
             title: 'ĐIỂM ĐI',
@@ -115,7 +138,8 @@ const ListFlight = () => {
             },
             sorter: (a, b) => {
                 return a.sourceAirport?.city?.cityName.localeCompare(b.sourceAirport?.city?.cityName)
-            }
+            },
+            width: 200
         },
         {
             title: 'ĐIỂM ĐẾN',
@@ -125,7 +149,8 @@ const ListFlight = () => {
             },
             sorter: (a, b) => {
                 return a.destinationAirport?.city?.cityName.localeCompare(b.destinationAirport?.city?.cityName)
-            }
+            },
+            width: 200
         },
         {
             title: 'NGÀY CẤT CÁNH',
@@ -133,9 +158,11 @@ const ListFlight = () => {
             sorter: (a, b) => {
                 return a.departureTime.localeCompare(b.departureTime)
             },
+            // eslint-disable-next-line no-unused-vars
             render: (value, _record) => {
                 return formatTimeHHMM(value)
-            }
+            },
+            width: 200
         },
         {
             title: 'NGÀY HẠ CÁCH',
@@ -143,9 +170,23 @@ const ListFlight = () => {
             sorter: (a, b) => {
                 return a.arrivalTime.localeCompare(b.arrivalTime)
             },
+            // eslint-disable-next-line no-unused-vars
             render: (value, _record) => {
                 return formatTimeHHMM(value)
-            }
+            },
+            width: 200
+        },
+        {
+            title: 'NGÀY TẠO',
+            dataIndex: 'createdAt',
+            sorter: (a, b) => {
+                return a.createdAt.localeCompare(b.createdAt)
+            },
+            // eslint-disable-next-line no-unused-vars
+            render: (value, _record) => {
+                return formatDateString(value)
+            },
+            width: 170
         },
         {
             title: 'LOẠI',
@@ -153,9 +194,11 @@ const ListFlight = () => {
             sorter: (a, b) => {
                 return a.flightType.localeCompare(b.flightType)
             },
+            // eslint-disable-next-line no-unused-vars
             render: (value, _record) => {
                 return value === 'DOMESTIC' ? 'Nội địa' : 'Quốc tế'
-            }
+            },
+            width: 120
         },
 
         {
@@ -169,20 +212,36 @@ const ListFlight = () => {
                     </Tag>
                 )
             },
-            width: 170
+            width: 150
         },
         {
             title: 'XỬ LÝ',
-            key: 'action',
-            render: (_, record) => (
-                <Space size='middle'>
-                    <Button
-                        icon={<EditOutlined className='icon' />}
-                        className='btn-edit'
-                        onClick={() => navigate('/admins/flight/edit')}
-                    />
-                    <Button type='primary' danger icon={<DeleteOutlined />} className='btn-delete' />
-                </Space>
+            key: 'id',
+            render: (value, record) => (
+                <Dropdown
+                    menu={{
+                        items: itemss.map((item, index) => ({
+                            ...item,
+                            key: item.key || index.toString()
+                        })),
+
+                        onClick: (e) => handleClickMe(record.id, record.flightCode, e)
+                    }}
+                    trigger={['click']}
+                >
+                    <a onClick={(e) => e.preventDefault()}>
+                        <Space
+                            style={{
+                                paddingLeft: 10,
+                                fontSize: 15,
+                                fontWeight: 500,
+                                color: '#006885'
+                            }}
+                        >
+                            <IconDotsVertical />
+                        </Space>
+                    </a>
+                </Dropdown>
             )
         }
     ]
@@ -202,6 +261,7 @@ const ListFlight = () => {
             setCurrentPage(1)
         }
     }
+    // eslint-disable-next-line no-unused-vars
     const onSearch = (value, _e, info) => {
         setTextSearch(value)
     }
@@ -214,7 +274,33 @@ const ListFlight = () => {
     const hanldeApply = () => {
         fechListFight()
     }
-
+    const handleClickMe = async (id, code, e) => {
+        if (e.key === 'act') {
+            try {
+                await changeStatusFlight(id, 'ACT')
+                fechListFight()
+                openNotification('success', 'Thông báo', `Đã Hoạt Động Chuyến bay ${code}`)
+            } catch (e) {
+                openNotification('error', 'Thông báo', e.response.data.error.message)
+            }
+        } else if (e.key === 'pen') {
+            try {
+                await changeStatusFlight(id, 'PEN')
+                fechListFight()
+                openNotification('success', 'Thông báo', `Đã Tạm Ngưng Chuyến bay ${code}`)
+            } catch (e) {
+                openNotification('error', 'Thông báo', e.response.data.error.message)
+            }
+        } else if (e.key === 'edit') {
+            try {
+                let res = await getFlightId(id)
+                dispastch(setFlightById(res.data))
+                navigate('/admins/flight/edit')
+            } catch (error) {
+                openNotification('error', 'Thông báo', e.response.data.error.message)
+            }
+        }
+    }
     return (
         <>
             <p className='title-admin'>Danh Sách Chuyến Bay</p>
@@ -261,6 +347,7 @@ const ListFlight = () => {
                             }
                         >
                             {listAirports.map((item) => (
+                                // eslint-disable-next-line react/jsx-no-undef
                                 <Option key={item.id} value={item.id} label={item?.city?.cityName}>
                                     <>
                                         <Row className='text-cityname'>
@@ -288,6 +375,7 @@ const ListFlight = () => {
                             }
                         >
                             {listAirports.map((item) => (
+                                // eslint-disable-next-line react/jsx-no-undef
                                 <Option key={item.id} value={item.id} label={item?.city?.cityName}>
                                     <>
                                         <Row className='text-cityname'>

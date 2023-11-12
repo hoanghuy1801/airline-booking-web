@@ -52,7 +52,6 @@ const ManagerAdmin = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [textSearch, setTextSearch] = useState('')
     const [totalCount, SetTotalCount] = useState(0)
-    const [totalPages, setTotalPages] = useState(0)
     const [status, setStatus] = useState('')
     const dispastch = useDispatch()
     const dataSource = listEmployee.map((item, index) => ({
@@ -66,6 +65,7 @@ const ManagerAdmin = () => {
     useEffect(() => {
         fechListEmpoyee()
     }, [currentPage, status, textSearch])
+
     const fechListEmpoyee = async () => {
         const data = {
             page: currentPage,
@@ -223,27 +223,18 @@ const ManagerAdmin = () => {
         setTextSearch(value)
     }
     const handleClickMe = async (id, code, e) => {
-        const data = {
-            page: currentPage,
-            size: 10,
-            status: status,
-            searchText: textSearch
-        }
         if (e.key === 'act') {
             try {
-                const result = await actEmployee(id).then(async () => {
-                    let res = await getListEmployee(data)
-                    setListEmployee(res.data.items)
-                    openNotification('success', 'Thông báo', `Đã Hoạt Động Nhân Viên ${code}`)
-                })
+                await actEmployee(id)
+                fechListEmpoyee()
+                openNotification('success', 'Thông báo', `Đã Hoạt Động Nhân Viên ${code}`)
             } catch (e) {
                 openNotification('error', 'Thông báo', e.response.data.error.message)
             }
         } else if (e.key === 'pen') {
             try {
-                const result = await penEmployee(id).then(async () => {
-                    let res = await getListEmployee(data)
-                    setListEmployee(res.data.items)
+                await penEmployee(id).then(async () => {
+                    fechListEmpoyee()
                     openNotification('success', 'Thông báo', `Đã Tạm Ngưng Nhân Viên ${code}`)
                 })
             } catch (e) {
