@@ -3,7 +3,6 @@ import App from './App.jsx'
 import './index.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import HomePage from './component/Home/HomePage'
-import Admin from './component/Admin/Admin'
 import Login from './component/Auth/Login.jsx'
 import { store, persistor } from './redux/store'
 import { Provider } from 'react-redux'
@@ -23,9 +22,6 @@ import OtpChange from './component/BookingDetail/FlightScheduleChange/OtpChange.
 import SelectFlyChange from './component/BookingDetail/FlightScheduleChange/SelectFlyChange.jsx'
 import SelectFlightChange from './component/BookingDetail/FlightScheduleChange/SelectFlightChange.jsx'
 import SearchFightChange from './component/BookingDetail/FlightScheduleChange/SearchFightChange.jsx'
-import ManagerAdmin from './component/Admin/ManagerAdmin/ManagerAdmin.jsx'
-import CreateAdmin from './component/Admin/ManagerAdmin/CreateAdmin.jsx'
-import EditAdmin from './component/Admin/ManagerAdmin/EditAdmin.jsx'
 import Account from './component/Profile/Account/Account.jsx'
 import Personal from './component/Profile/Personal/Personal.jsx'
 import TransactionHistory from './component/Profile/TransactionHistory/TransactionHistory.jsx'
@@ -34,17 +30,12 @@ import { PersistGate } from 'redux-persist/integration/react'
 import Otp from './component/Auth/Otp.jsx'
 import Payment from './component/Payment/Payment.jsx'
 import PaymentChange from './component/BookingDetail/PaymentChange/PaymentChange.jsx'
-
 import PaymentReturn from './component/Payment/PaymentReturn.jsx'
 import PaymentChangeReturn from './component/BookingDetail/PaymentChange/PaymentChangeReturn.jsx'
 import SelectFlyService from './component/BookingDetail/Service/SelectFlyService.jsx'
 import ServiceDetail from './component/BookingDetail/Service/ServiceDetail.jsx'
-import FlyCancel from './component/Admin/FlyCancel/FlyCancel.jsx'
-import ListFlight from './component/Admin/ListFlight/ListFlight.jsx'
 import SelectPassengers from './component/CheckIn/SelectPassengers/SelectPassengers.jsx'
-import CustomerInfo from './component/Admin/Customer-info/CustomerInfo.jsx'
-import CreateFlight from './component/Admin/ListFlight/CreateFlight.jsx'
-import EditFlight from './component/Admin/ListFlight/EditFlight.jsx'
+
 import MyForm from './component/Home/MyForm.jsx'
 ReactDOM.createRoot(document.getElementById('root')).render(
     <Provider store={store}>
@@ -83,16 +74,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                             <Route path='/my/select-flight-change' element={<SelectFlightChange />} />
                             <Route path='/my/search-flight-change' element={<SearchFightChange />} />
                             <Route path='/test' element={<MyForm />} />
-                        </Route>
-                        <Route path='/admins' element={<Admin />}>
-                            <Route path='/admins/employee' element={<ManagerAdmin />} />
-                            <Route path='/admins/employee/create' element={<CreateAdmin />} />
-                            <Route path='/admins/employee/edit' element={<EditAdmin />} />
-                            <Route path='/admins/flyCancel' element={<FlyCancel />} />
-                            <Route path='/admins/flight/listflight' element={<ListFlight />} />
-                            <Route path='/admins/flight/create' element={<CreateFlight />} />
-                            <Route path='/admins/flight/edit' element={<EditFlight />} />
-                            <Route path='/admins/customer-info' element={<CustomerInfo />} />
                         </Route>
                     </Routes>
                 </LanguageProvider>

@@ -5,7 +5,6 @@ import booking from './reducers/booking'
 import Auth from './reducers/Auth'
 import myFlight from './reducers/myFlight'
 import checkIn from './reducers/checkIn'
-import Admin from './reducers/Admin'
 
 // Store
 const rootReducer = combineReducers({
@@ -14,8 +13,7 @@ const rootReducer = combineReducers({
     flightSelect: booking,
     Auth: Auth,
     myFlight: myFlight,
-    checkIn: checkIn,
-    Admin: Admin
+    checkIn: checkIn
 })
 
 // Export

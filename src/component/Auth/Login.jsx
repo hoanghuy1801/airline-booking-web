@@ -9,8 +9,6 @@ import { useLanguage } from '../../LanguageProvider/LanguageProvider'
 import { setInforUser, setIsAuthenticated } from '../../redux/reducers/Auth'
 import { showWaringModal } from '../../utils/modalError'
 import jwt from '../../utils/jwt'
-import { getInforEmployee } from '../../services/apiAdmin'
-import { setInforEmployee, setIsAuthenticatedEmployee } from '../../redux/reducers/Admin'
 
 const { Text } = Typography
 const Login = () => {
@@ -42,17 +40,12 @@ const Login = () => {
             let res = await postLogin(dataLogin)
             if (res.status == 200) {
                 jwt.setToken(res.data.access_token)
-                console.log('test', jwt.getUserRole())
+
                 if (jwt.getUserRole() === 'CUSTOMER') {
                     let ress = await getInforUser()
                     dispastch(setInforUser(ress.data))
                     dispastch(setIsAuthenticated(true))
                     navigate('/')
-                } else {
-                    let ress = await getInforEmployee()
-                    dispastch(setInforEmployee(ress.data))
-                    dispastch(setIsAuthenticatedEmployee(true))
-                    navigate('/admins')
                 }
             }
         } catch (e) {
