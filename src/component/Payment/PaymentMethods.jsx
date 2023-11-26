@@ -10,7 +10,7 @@ const { Text } = Typography
 const PaymentMethods = () => {
     const origin = window.location.origin
     const totalFlight = useSelector((state) => state.flightSelect.totalflight)
-    const [selectedPayment, setSelectedPayment] = useState(null)
+    const [selectedPayment, setSelectedPayment] = useState('vnpay')
     const priceBenefit = 0
     const navigate = useNavigate()
     const handlePaymentClick = (paymentMethod) => {
@@ -38,26 +38,6 @@ const PaymentMethods = () => {
                 </Row>
                 <div className='form-payment'>
                     <Row className='form-payment'>
-                        <div
-                            className={`img-payment ${selectedPayment === 'momo' ? 'selected' : ''}`}
-                            onClick={() => handlePaymentClick('momo')}
-                        >
-                            <img
-                                src='https://vj-prod-website-cms.s3.ap-southeast-1.amazonaws.com/momonew-1664036377132.png'
-                                width='80'
-                                height='80'
-                            />
-                        </div>
-                        <div
-                            className={`img-payment ${selectedPayment === 'zalopay' ? 'selected' : ''}`}
-                            onClick={() => handlePaymentClick('zalopay')}
-                        >
-                            <img
-                                src='https://vj-prod-website-cms.s3.ap-southeast-1.amazonaws.com/zalopaypayment-1679149526539.png'
-                                width='80'
-                                height='50'
-                            />
-                        </div>
                         <div
                             className={`img-payment ${selectedPayment === 'vnpay' ? 'selected' : ''}`}
                             onClick={() => handlePaymentClick('vnpay')}

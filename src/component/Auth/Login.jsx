@@ -1,9 +1,9 @@
-import { Button, Form, Input, Typography, Divider, Row, Col } from 'antd'
+import { Button, Form, Input, Typography, Row, Col } from 'antd'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import '../Auth/Login.css'
-import { GoogleOutlined, FacebookFilled, RollbackOutlined } from '@ant-design/icons'
+import { RollbackOutlined } from '@ant-design/icons'
 import { getInforUser, postLogin } from '../../services/apiAuth'
 import { useLanguage } from '../../LanguageProvider/LanguageProvider'
 import { setInforUser, setIsAuthenticated } from '../../redux/reducers/Auth'
@@ -97,12 +97,7 @@ const Login = () => {
                         </a>
                     </span>
                 </div>
-                <Divider style={{ borderColor: 'black' }}>Hoặc đăng nhập bằng</Divider>
-                <div className='socialLogin'>
-                    <GoogleOutlined className='socialIcon' style={{ color: 'red' }} />
-                    <FacebookFilled className='socialIcon' style={{ color: 'blue' }} />
-                </div>
-                <div>
+                <div style={{ paddingTop: 20 }}>
                     <span
                         className='back-home'
                         onClick={() => {

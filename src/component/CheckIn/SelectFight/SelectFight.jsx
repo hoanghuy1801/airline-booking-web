@@ -85,7 +85,7 @@ const SelectFight = () => {
                     </div>
                     <Text className='date-fly'>
                         {' '}
-                        {getText('Date')}: {formatDateString(flightAwayDetail?.arrivalTime)}
+                        {getText('Date')}: {formatDateString(flightAwayDetail?.departureTime)}
                     </Text>
                     <Row>
                         <Col span={5} className='info-fly'>
@@ -95,8 +95,8 @@ const SelectFight = () => {
                             <Text className='time-fly'>
                                 {' '}
                                 {calculateTimeDifference(
-                                    formatTime(flightAwayDetail?.departureTime),
-                                    formatTime(flightAwayDetail?.arrivalTime),
+                                    flightAwayDetail?.departureTime,
+                                    flightAwayDetail?.arrivalTime,
                                     language
                                 )}
                             </Text>
@@ -137,7 +137,7 @@ const SelectFight = () => {
                             </Row>
                         </div>
                         <Text className='date-fly'>
-                            {getText('Date')}: {formatDateString(flightReturnDetail?.arrivalTime)}
+                            {getText('Date')}: {formatDateString(flightReturnDetail?.departureTime)}
                         </Text>
                         <Row>
                             <Col span={5} className='info-fly'>
@@ -147,8 +147,8 @@ const SelectFight = () => {
                                 <Text className='time-fly'>
                                     {' '}
                                     {calculateTimeDifference(
-                                        formatTime(flightReturnDetail?.departureTime),
-                                        formatTime(flightReturnDetail?.arrivalTime),
+                                        flightReturnDetail?.departureTime,
+                                        flightReturnDetail?.arrivalTime,
                                         language
                                     )}
                                 </Text>

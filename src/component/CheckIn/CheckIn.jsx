@@ -37,10 +37,23 @@ const CheckIn = () => {
             showWaringModal(`${getText('HeyFriend')}`, `${getText('NotInfo')}`, `${getText('Close')}`)
             return
         }
+        let data = {
+            bookingCode: inputCode,
+            firstName: inputFirstName,
+            lastName: inputLastName
+        }
         try {
             setLoading(true)
-            let res = await getBookingDetails(inputCode, inputFirstName, inputLastName)
+            let res = await getBookingDetails(data)
             if (res.status === 200) {
+                if (res.data?.bookingDetail?.status !== 'ACT') {
+                    showWaringModal(
+                        `${getText('Notification')}`,
+                        'Mã đặt vé của ban đang không hoạt động hãy liện hệ với nơi bán vé',
+                        `${getText('Close')}`
+                    )
+                }
+
                 dispastch(setBookingDetail(res.data))
                 navigate('/my/select-fight')
             }

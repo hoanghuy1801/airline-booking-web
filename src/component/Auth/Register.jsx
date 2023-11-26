@@ -1,9 +1,9 @@
-import { Button, DatePicker, Form, Input, Row, Col, Typography, Divider, Select } from 'antd'
+import { Button, DatePicker, Form, Input, Row, Col, Typography, Select } from 'antd'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import '../Auth/Register.css'
-import { GoogleOutlined, FacebookFilled, RollbackOutlined } from '@ant-design/icons'
+import { RollbackOutlined } from '@ant-design/icons'
 import { getCountries, postRegister } from '../../services/apiAuth'
 import { formatDate } from '../../utils/format'
 import { showWaringModal } from '../../utils/modalError'
@@ -37,11 +37,6 @@ const Register = () => {
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
     const dispastch = useDispatch()
-
-    const RegisterOr = () => {
-        // eslint-disable-next-line no-undef
-        message.success('Register oke nha')
-    }
 
     const fechListCountries = async () => {
         let res = await getCountries()
@@ -139,7 +134,7 @@ const Register = () => {
                                 className='text-input'
                                 placeholder={getText('Surname')}
                                 style={{ width: '90%' }}
-                                onChange={(e) => setFirstName(e.target.value)}
+                                onChange={(e) => setLastName(e.target.value)}
                             />
                         </Row>
                     </Col>
@@ -149,7 +144,7 @@ const Register = () => {
                                 className='text-input'
                                 placeholder={getText('Middle-name&first-name')}
                                 style={{ width: '100%' }}
-                                onChange={(e) => setLastName(e.target.value)}
+                                onChange={(e) => setFirstName(e.target.value)}
                             />
                         </Row>
                     </Col>
@@ -271,12 +266,8 @@ const Register = () => {
                         </a>
                     </span>
                 </div>
-                <Divider style={{ borderColor: 'black' }}>Hoặc đăng ký bằng</Divider>
-                <div className='socialRegister'>
-                    <GoogleOutlined className='socialIcon' onClick={() => RegisterOr()} style={{ color: 'red' }} />
-                    <FacebookFilled className='socialIcon' onClick={() => RegisterOr()} style={{ color: 'blue' }} />
-                </div>
-                <div>
+
+                <div style={{ paddingTop: 20 }}>
                     <span
                         className='back-home'
                         onClick={() => {

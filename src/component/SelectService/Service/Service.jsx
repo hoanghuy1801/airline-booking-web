@@ -217,6 +217,7 @@ const Service = (props) => {
             seatClass: '',
             seatPrice: ''
         }
+
         if (selectTripPassengers === 'false') {
             const updatedPassengers = dataPassengers.map((dataPassengers) => {
                 if (dataPassengers.id === selectPassengers) {
@@ -278,6 +279,7 @@ const Service = (props) => {
             flightId: '',
             servicePrice: 0
         }
+        setPriceBaggage(0)
         if (selectTripPassengersBaggage === 'false') {
             const updatedPassengers = dataPassengers.map((dataPassengers) => {
                 if (dataPassengers.id === selectPassengersBaggage) {
@@ -360,6 +362,7 @@ const Service = (props) => {
             quantity: '',
             servicePrice: ''
         }))
+        setTotalPriceMeal(0)
         if (selectTripPassengersMeal === 'false') {
             const updatedPassengers = dataPassengers.map((dataPassengers) => {
                 if (dataPassengers.id === selectPassengersMeal) {
@@ -536,11 +539,10 @@ const Service = (props) => {
                                     <Option
                                         key={item?.id}
                                         value={item?.id}
-                                        label={`${item?.firstName} ${item?.lastName}`}
+                                        label={`${item?.firstName}  ${'   '} ${item?.lastName}`}
                                     >
-                                        <Row>
-                                            {item?.lastName} {item?.firstName}
-                                        </Row>
+                                        {item?.lastName} {'  '}
+                                        {item?.firstName}
                                     </Option>
                                 ))}
                             </Select>
@@ -687,10 +689,11 @@ const Service = (props) => {
                                     <Option
                                         key={item?.id}
                                         value={item?.id}
-                                        label={`${item?.firstName} ${item?.lastName}`}
+                                        label={`${item?.firstName}  ${''} ${item?.lastName}`}
                                     >
                                         <Row>
-                                            {item?.lastName} {item?.firstName}
+                                            {item?.lastName}
+                                            {''} {item?.firstName}
                                         </Row>
                                     </Option>
                                 ))}
@@ -844,10 +847,11 @@ const Service = (props) => {
                                     <Option
                                         key={item?.id}
                                         value={item?.id}
-                                        label={`${item?.firstName} ${item?.lastName}`}
+                                        label={`${item?.firstName}  ${''} ${item?.lastName}`}
                                     >
                                         <Row>
-                                            {item?.lastName} {item?.firstName}
+                                            {item?.lastName}
+                                            {''} {item?.firstName}
                                         </Row>
                                     </Option>
                                 ))}

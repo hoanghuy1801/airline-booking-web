@@ -34,6 +34,7 @@ const PaymentChangeReturn = () => {
                     setBookingCode(searchParams.get('vnp_TxnRef'))
                     if (changeService) {
                         setSuccess(true)
+
                         const passenger = dataPassengers.map((data) => {
                             const { baggage, meal, seatAdd, ...passenger } = data
                             let serviceOpts = []
@@ -53,82 +54,117 @@ const PaymentChangeReturn = () => {
                                 serviceOpts
                             }
                         })
-
-                        const passengersReturn = dataPassengersReturn.map((data) => {
-                            const { baggageReturn, mealReturn, seatsReturnAdd, ...passengersReturn } = data
-                            let serviceOpts = []
-                            let seats = []
-                            if (seatsReturnAdd !== undefined) {
-                                seats = [seatsReturnAdd]
-                            }
-
-                            if (mealReturn !== undefined) {
-                                serviceOpts.push(...mealReturn)
-                            }
-                            if (baggageReturn !== undefined) {
-                                serviceOpts.push(baggageReturn)
-                            }
-                            return {
-                                ...passengersReturn,
-                                seats,
-                                serviceOpts
-                            }
-                        })
-
-                        const mergedData = passenger.map((item1) => {
-                            const matchingItem = passengersReturn.find((item2) => item2.id === item1.id)
-                            if (matchingItem) {
-                                // Nếu tìm thấy ID giống nhau, gộp thông tin từ cả hai mảng
-                                return {
-                                    ...item1,
-                                    seats: [...item1.seats, ...matchingItem.seats],
-                                    serviceOpts: [...item1.serviceOpts, ...matchingItem.serviceOpts]
+                        if (bookingDetails?.journeyType !== 'ONE_AWAY') {
+                            const passengersReturn = dataPassengersReturn.map((data) => {
+                                const { baggageReturn, mealReturn, seatsReturnAdd, ...passengersReturn } = data
+                                let serviceOpts = []
+                                let seats = []
+                                if (seatsReturnAdd !== undefined) {
+                                    seats = [seatsReturnAdd]
                                 }
-                            }
-                            return item1
-                        })
 
-                        // Thêm các đối tượng không có trong data1 vào mảng gộp
-                        passengersReturn.forEach((item2) => {
-                            const found = passenger.find((item1) => item1.id === item2.id)
-                            if (!found) {
-                                mergedData.push(item2)
+                                if (mealReturn !== undefined) {
+                                    serviceOpts.push(...mealReturn)
+                                }
+                                if (baggageReturn !== undefined) {
+                                    serviceOpts.push(baggageReturn)
+                                }
+                                return {
+                                    ...passengersReturn,
+                                    seats,
+                                    serviceOpts
+                                }
+                            })
+                            const mergedData = passenger.map((item1) => {
+                                const matchingItem = passengersReturn.find((item2) => item2.id === item1.id)
+                                if (matchingItem) {
+                                    // Nếu tìm thấy ID giống nhau, gộp thông tin từ cả hai mảng
+                                    return {
+                                        ...item1,
+                                        seats: [...item1.seats, ...matchingItem.seats],
+                                        serviceOpts: [...item1.serviceOpts, ...matchingItem.serviceOpts]
+                                    }
+                                }
+                                return item1
+                            })
+
+                            // Thêm các đối tượng không có trong data1 vào mảng gộp
+                            passengersReturn.forEach((item2) => {
+                                const found = passenger.find((item1) => item1.id === item2.id)
+                                if (!found) {
+                                    mergedData.push(item2)
+                                }
+                            })
+                            const passengers = mergedData.map((item) => {
+                                // Tạo một bản sao của đối tượng hiện tại để không làm thay đổi dữ liệu gốc
+                                const newItem = { ...item }
+                                // Loại bỏ các biến không mong muốn
+                                newItem.passengerId = newItem.id // Đổi tên biến "id" thành "passengerId"
+                                delete newItem.id
+                                delete newItem.address
+                                delete newItem.color
+                                delete newItem.country
+                                delete newItem.createdAt
+                                delete newItem.dateOfBirth
+                                delete newItem.email
+                                delete newItem.firstName
+                                delete newItem.gender
+                                delete newItem.imageUrl
+                                delete newItem.isPasserby
+                                delete newItem.lastName
+                                delete newItem.passengerCode
+                                delete newItem.passengerType
+                                delete newItem.phoneNumber
+                                delete newItem.seatPrice
+                                delete newItem.status
+                                delete newItem.taxService
+                                delete newItem.updatedAt
+                                return newItem
+                            })
+                            let total = bookingDetails?.amountTotal + totalChange
+                            let data = {
+                                bookingId: bookingDetails?.id,
+                                amountTotal: total,
+                                seatTotal: 1,
+                                passengers
                             }
-                        })
-                        const passengers = mergedData.map((item) => {
-                            // Tạo một bản sao của đối tượng hiện tại để không làm thay đổi dữ liệu gốc
-                            const newItem = { ...item }
-                            // Loại bỏ các biến không mong muốn
-                            newItem.passengerId = newItem.id // Đổi tên biến "id" thành "passengerId"
-                            delete newItem.id
-                            delete newItem.address
-                            delete newItem.color
-                            delete newItem.country
-                            delete newItem.createdAt
-                            delete newItem.dateOfBirth
-                            delete newItem.email
-                            delete newItem.firstName
-                            delete newItem.gender
-                            delete newItem.imageUrl
-                            delete newItem.isPasserby
-                            delete newItem.lastName
-                            delete newItem.passengerCode
-                            delete newItem.passengerType
-                            delete newItem.phoneNumber
-                            delete newItem.seatPrice
-                            delete newItem.status
-                            delete newItem.taxService
-                            delete newItem.updatedAt
-                            return newItem
-                        })
-                        let total = bookingDetails?.amountTotal + totalChange
-                        let data = {
-                            bookingId: bookingDetails?.id,
-                            amountTotal: total,
-                            seatTotal: 1,
-                            passengers
+                            await postAddService(data)
+                        } else {
+                            const passengers = passenger.map((item) => {
+                                // Tạo một bản sao của đối tượng hiện tại để không làm thay đổi dữ liệu gốc
+                                const newItem = { ...item }
+                                // Loại bỏ các biến không mong muốn
+                                newItem.passengerId = newItem.id // Đổi tên biến "id" thành "passengerId"
+                                delete newItem.id
+                                delete newItem.address
+                                delete newItem.color
+                                delete newItem.country
+                                delete newItem.createdAt
+                                delete newItem.dateOfBirth
+                                delete newItem.email
+                                delete newItem.firstName
+                                delete newItem.gender
+                                delete newItem.imageUrl
+                                delete newItem.isPasserby
+                                delete newItem.lastName
+                                delete newItem.passengerCode
+                                delete newItem.passengerType
+                                delete newItem.phoneNumber
+                                delete newItem.seatPrice
+                                delete newItem.status
+                                delete newItem.taxService
+                                delete newItem.updatedAt
+                                return newItem
+                            })
+                            let total = bookingDetails?.amountTotal + totalChange
+                            let data = {
+                                bookingId: bookingDetails?.id,
+                                amountTotal: total,
+                                seatTotal: 1,
+                                passengers
+                            }
+                            await postAddService(data)
                         }
-                        await postAddService(data)
                     } else {
                         setSuccess(true)
                         let total = bookingDetails?.amountTotal + totalChange

@@ -33,7 +33,7 @@ const SelectService = () => {
 
     const totalService = totalBaggage + totalMeal + totalSeat
     const totalServiceReturn = totalBaggageReturn + totalMealReturn + totalSeatReturn
-    const totalPeople = data.children + data.adult
+
     const total = totalflight + totalService + totalServiceReturn
 
     const totalFomat = formatCurrency(Number(total))

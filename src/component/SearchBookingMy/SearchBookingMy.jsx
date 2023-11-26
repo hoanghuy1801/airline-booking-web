@@ -38,9 +38,14 @@ const SearchBookingMy = () => {
             showWaringModal(`${getText('HeyFriend')}`, `${getText('NotInfo')}`, `${getText('Close')}`)
             return
         }
+        let data = {
+            bookingCode: inputCode,
+            firstName: inputFirstName,
+            lastName: inputLastName
+        }
         try {
             setLoading(true)
-            let res = await getBookingDetails(inputCode, inputFirstName, inputLastName)
+            let res = await getBookingDetails(data)
             if (res.status === 200) {
                 dispath(setBookingDetail(res.data))
                 navigate('/my/booking-detail')

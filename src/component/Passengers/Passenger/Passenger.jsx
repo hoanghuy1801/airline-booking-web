@@ -12,12 +12,15 @@ const { Text } = Typography
 const { Option } = Select
 import locale from 'antd/locale/vi_VN'
 import 'dayjs/locale/vi'
+import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
 import LocaleProvider from 'antd/es/locale'
 import { showWaringModal } from '../../../utils/modalError'
+dayjs.extend(customParseFormat)
+const { RangePicker } = DatePicker
 const Passenger = (props) => {
     const { formData, setFormData, formDataChildren, setFormDataChildren, formDataBaby, setFormDataBaby } = props
     const { getText } = useLanguage()
-
     const [listCountries, setListCountries] = useState([])
     useEffect(() => {
         fechListCountries()
@@ -28,26 +31,44 @@ const Passenger = (props) => {
             setListCountries(res.data)
         }
     }
-
+    const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY', 'DD-MM-YYYY', 'DD-MM-YY']
     const data = useSelector((state) => state.homePage.homePageInfor)
 
     const handleFormChange = (field, value, index) => {
         const newFormData = [...formData]
-        newFormData[index][field] = value
-        newFormData[index]['id'] = generateRandomID(8)
-        setFormData(newFormData)
+        if (field === 'lastName' || field === 'firstName') {
+            newFormData[index][field] = value.toUpperCase()
+            newFormData[index]['id'] = generateRandomID(8)
+            setFormData(newFormData)
+        } else {
+            newFormData[index][field] = value
+            newFormData[index]['id'] = generateRandomID(8)
+            setFormData(newFormData)
+        }
     }
     const handleFormChangeChildren = (field, value, index) => {
         const newFormData = [...formDataChildren]
-        newFormData[index][field] = value
-        newFormData[index]['id'] = generateRandomID(8)
-        setFormDataChildren(newFormData)
+        if (field === 'lastName' || field === 'firstName') {
+            newFormData[index][field] = value.toUpperCase()
+            newFormData[index]['id'] = generateRandomID(8)
+            setFormDataChildren(newFormData)
+        } else {
+            newFormData[index][field] = value
+            newFormData[index]['id'] = generateRandomID(8)
+            setFormDataChildren(newFormData)
+        }
     }
     const handleFormChangeBaby = (field, value, index) => {
         const newFormData = [...formDataBaby]
-        newFormData[index][field] = value
-        newFormData[index]['id'] = generateRandomID(8)
-        setFormDataBaby(newFormData)
+        if (field === 'lastName' || field === 'firstName') {
+            newFormData[index][field] = value.toUpperCase()
+            newFormData[index]['id'] = generateRandomID(8)
+            setFormDataBaby(newFormData)
+        } else {
+            newFormData[index][field] = value
+            newFormData[index]['id'] = generateRandomID(8)
+            setFormDataBaby(newFormData)
+        }
     }
     const handleDateChange = (date, index) => {
         const currentDate = new Date()
@@ -69,6 +90,7 @@ const Passenger = (props) => {
         let age = calculateAge(formattedDate, currentDateFomat)
         if (age < 2 || age > 12) {
             showWaringModal(`${getText('HeyFriend')}`, `${getText('Notification_Childrens')}`, `${getText('Close')}`)
+
             return
         }
         const newFormData = [...formDataChildren]
@@ -82,6 +104,7 @@ const Passenger = (props) => {
         let age = calculateAge(formattedDate, currentDateFomat)
         if (age > 2) {
             showWaringModal(`${getText('HeyFriend')}`, `${getText('Notification_Infants')}`, `${getText('Close')}`)
+
             return
         }
         const newFormData = [...formDataBaby]
@@ -156,10 +179,10 @@ const Passenger = (props) => {
                                                 <Row>
                                                     <LocaleProvider locale={locale}>
                                                         <DatePicker
+                                                            format={dateFormatList}
                                                             style={{ width: '90%' }}
                                                             placeholder=''
                                                             onChange={(date) => handleDateChange(date, index)}
-                                                            format='DD/MM/YYYY'
                                                         />
                                                     </LocaleProvider>
                                                 </Row>

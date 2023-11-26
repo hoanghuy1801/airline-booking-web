@@ -21,6 +21,7 @@ const SelectFlight = () => {
     useEffect(() => {
         feachListFlight()
     }, [])
+
     const navigate = useNavigate()
     const dispath = useDispatch()
     const { getText } = useLanguage()

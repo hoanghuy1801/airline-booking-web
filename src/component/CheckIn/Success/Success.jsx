@@ -20,7 +20,6 @@ const Success = () => {
     const navigate = useNavigate()
     const bookingDetails = useSelector((state) => state.myFlight.bookingDetails?.bookingDetail)
     const selectFlightCheckIn = useSelector((state) => state.checkIn.selectFlightCheckIn?.selectFlight)
-    console.log('selectFlightCheckIn', selectFlightCheckIn)
     const language = useSelector((state) => state.language.language)
     return (
         <div className='booking-detail'>
@@ -58,8 +57,8 @@ const Success = () => {
                                     <p className='time-fly'>
                                         {' '}
                                         {calculateTimeDifference(
-                                            formatTime(selectFlightCheckIn?.departureTime),
-                                            formatTime(selectFlightCheckIn?.arrivalTime),
+                                            selectFlightCheckIn?.departureTime,
+                                            selectFlightCheckIn?.arrivalTime,
                                             language
                                         )}
                                     </p>
@@ -130,8 +129,8 @@ const Success = () => {
                                         <span style={{ color: 'red' }}>
                                             {' '}
                                             {calculateTimeDifference(
-                                                formatTime(selectFlightCheckIn?.departureTime),
-                                                formatTime(selectFlightCheckIn?.arrivalTime),
+                                                selectFlightCheckIn?.departureTime,
+                                                selectFlightCheckIn?.arrivalTime,
                                                 language
                                             )}{' '}
                                         </span>

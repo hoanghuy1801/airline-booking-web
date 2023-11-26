@@ -25,19 +25,17 @@ function formatTime(dateString) {
 
     return formattedTime
 }
-function calculateTimeDifference(time1, time2, lang) {
-    const [hours1, minutes1] = time1.split(':').map(Number)
-    const [hours2, minutes2] = time2.split(':').map(Number)
+const calculateTimeDifference = (arrivalTime, departureTime, lang) => {
+    const arrivalMoment = moment(arrivalTime)
+    const departureMoment = moment(departureTime)
 
-    const totalMinutes1 = hours1 * 60 + minutes1
-    const totalMinutes2 = hours2 * 60 + minutes2
+    const duration = moment.duration(departureMoment.diff(arrivalMoment))
 
-    const differenceMinutes = totalMinutes2 - totalMinutes1
+    const hours = Math.floor(duration.asHours())
+    const minutes = duration.minutes()
 
-    const hours = Math.floor(differenceMinutes / 60)
-    const minutes = differenceMinutes % 60
     if (lang === 'en') {
-        return `${hours} hour ${minutes} minute`
+        return `${hours} giờ ${minutes} phút`
     } else {
         return `${hours} giờ ${minutes} phút`
     }

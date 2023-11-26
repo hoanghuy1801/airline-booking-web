@@ -2,21 +2,16 @@ import { Row, Col, Typography } from 'antd'
 import './CheckInfoFly.css'
 import { useSelector } from 'react-redux'
 import { useLanguage } from '../../../LanguageProvider/LanguageProvider'
+import { calculateTimeDifference, formatTime } from '../../../utils/format'
 
 const { Text } = Typography
 const CheckInfoFly = () => {
+    const language = useSelector((state) => state.language.language)
     const { getText } = useLanguage()
     const data_homepage = useSelector((state) => state.homePage.homePageInfor)
     const dataSelect = useSelector((state) => state.flightSelect.flightSelect)
     const dataSelectReturn = useSelector((state) => state.flightSelect.flightSelectReturn)
     const dateObjectdepartureTime = new Date(dataSelect.departureTime)
-    const hourdepartureTime = dateObjectdepartureTime.getHours()
-    const minutedepartureTime = dateObjectdepartureTime.getMinutes()
-    const dateObjectarrivalTime = new Date(dataSelect.arrivalTime)
-    const hourarrivalTime = dateObjectarrivalTime.getHours()
-    const minutearrivalTime = dateObjectarrivalTime.getMinutes()
-    const hourflight = hourarrivalTime - hourdepartureTime
-    const minuteflight = minutearrivalTime - minutedepartureTime
 
     const daydepartureTime = dateObjectdepartureTime.getDate()
     const monthdepartureTime = dateObjectdepartureTime.getMonth() + 1
@@ -24,13 +19,6 @@ const CheckInfoFly = () => {
 
     //return
     const dateObjectdepartureTimeReturn = new Date(dataSelectReturn.departureTime)
-    const hourdepartureTimeReturn = dateObjectdepartureTimeReturn.getHours()
-    const minutedepartureTimeReturn = dateObjectdepartureTimeReturn.getMinutes()
-    const dateObjectarrivalTimeReturn = new Date(dataSelectReturn.arrivalTime)
-    const hourarrivalTimeReturn = dateObjectarrivalTimeReturn.getHours()
-    const minutearrivalTimeReturn = dateObjectarrivalTimeReturn.getMinutes()
-    const hourflightReturn = hourarrivalTimeReturn - hourdepartureTimeReturn
-    const minuteflightReturn = minutedepartureTimeReturn - minutearrivalTimeReturn
 
     const daydepartureTimeReturn = dateObjectdepartureTimeReturn.getDate()
     const monthdepartureTimeReturn = dateObjectdepartureTimeReturn.getMonth() + 1
@@ -79,9 +67,7 @@ const CheckInfoFly = () => {
                         </Row>
                         <Row>
                             <Col span={24}>
-                                <Text className='time-start'>
-                                    {hourdepartureTime}:{minutedepartureTime}
-                                </Text>
+                                <Text className='time-start'>{formatTime(dataSelect?.departureTime)}</Text>
                             </Col>
                         </Row>
                     </Col>
@@ -89,7 +75,11 @@ const CheckInfoFly = () => {
                         <Row>
                             <Col span={24}>
                                 <Text className='flight-time'>
-                                    {hourflight} {getText('Hour')} {minuteflight} {getText('Minute')}
+                                    {calculateTimeDifference(
+                                        dataSelect?.departureTime,
+                                        dataSelect?.arrivalTime,
+                                        language
+                                    )}
                                 </Text>
                             </Col>
                         </Row>
@@ -107,9 +97,7 @@ const CheckInfoFly = () => {
                         </Row>
                         <Row>
                             <Col span={24}>
-                                <Text className='time-start'>
-                                    {hourarrivalTime}:{minutearrivalTime}
-                                </Text>
+                                <Text className='time-start'>{formatTime(dataSelect?.arrivalTime)}</Text>
                             </Col>
                         </Row>
                     </Col>
@@ -179,7 +167,7 @@ const CheckInfoFly = () => {
                                 <Row>
                                     <Col span={24}>
                                         <Text className='time-start'>
-                                            {hourdepartureTimeReturn}:{minutedepartureTimeReturn}
+                                            {formatTime(dataSelectReturn?.departureTime)}
                                         </Text>
                                     </Col>
                                 </Row>
@@ -188,8 +176,11 @@ const CheckInfoFly = () => {
                                 <Row>
                                     <Col span={24}>
                                         <Text className='flight-time'>
-                                            {hourflightReturn} {getText('Hour')} {minuteflightReturn}{' '}
-                                            {getText('Minute')}
+                                            {calculateTimeDifference(
+                                                dataSelectReturn?.departureTime,
+                                                dataSelectReturn?.arrivalTime,
+                                                language
+                                            )}
                                         </Text>
                                     </Col>
                                 </Row>
@@ -209,9 +200,7 @@ const CheckInfoFly = () => {
                                 </Row>
                                 <Row>
                                     <Col span={24}>
-                                        <Text className='time-start'>
-                                            {hourarrivalTimeReturn}:{minutearrivalTimeReturn}
-                                        </Text>
+                                        <Text className='time-start'>{formatTime(dataSelectReturn?.arrivalTime)}</Text>
                                     </Col>
                                 </Row>
                             </Col>

@@ -167,12 +167,16 @@ const ServiceFly = (props) => {
             }
             const updatedPassengers = dataPassengers.map((dataPassengers) => {
                 if (dataPassengers?.id === selectPassengers) {
+                    if (selectedSeat === null) {
+                        showWaringModal(`${getText('HeyFriend')}`, `${getText('YouNotSeat')}`, `${getText('Close')}`)
+                        return dataPassengers
+                    }
                     if (dataPassengers?.seat?.seatCode) {
                         showWaringModal(`${getText('HeyFriend')}`, `${getText('YouHaveSeat')}`, `${getText('Close')}`)
                         return dataPassengers
                     }
-                    if (selectedSeat === null) {
-                        showWaringModal(`${getText('HeyFriend')}`, `${getText('YouNotSeat')}`, `${getText('Close')}`)
+                    if (dataPassengers?.seatAdd?.seatCode) {
+                        showWaringModal(`${getText('HeyFriend')}`, `${getText('YouHaveSeat')}`, `${getText('Close')}`)
                         return dataPassengers
                     }
 
@@ -225,11 +229,11 @@ const ServiceFly = (props) => {
             seatClass: '',
             seatPrice: ''
         }
-
         if (selectTripPassengers === 'false') {
+            console.log
             const updatedPassengers = dataPassengers.map((dataPassengers) => {
-                if (dataPassengers?.seat?.seatCode) {
-                    setSelectedSeats(selectedSeats.filter((item) => item !== dataPassengers?.seat?.seatCode))
+                if (dataPassengers?.seatAdd?.seatCode) {
+                    setSelectedSeats(selectedSeats.filter((item) => item !== dataPassengers?.seatAdd?.seatCode))
                     return { ...dataPassengers, seatAdd: newSeat }
                 }
                 return dataPassengers
@@ -238,8 +242,8 @@ const ServiceFly = (props) => {
             handleTotal(updatedPassengers)
         } else {
             const updatedPassengers = dataPassengersReturn.map((dataPassengers) => {
-                if (dataPassengers?.seatsReturn) {
-                    setSelectedSeats(selectedSeats.filter((item) => item !== dataPassengers?.seatsReturn?.seatCode))
+                if (dataPassengers?.seatsReturnAdd?.seatCode) {
+                    setSelectedSeats(selectedSeats.filter((item) => item !== dataPassengers?.seatsReturnAdd?.seatCode))
                     return { ...dataPassengers, seatsReturnAdd: newSeat }
                 }
                 return dataPassengers
@@ -285,6 +289,7 @@ const ServiceFly = (props) => {
             flightId: '',
             servicePrice: 0
         }
+        setPriceBaggage(0)
         if (selectTripPassengersBaggage === 'false') {
             const updatedPassengers = dataPassengers.map((dataPassengers) => {
                 if (dataPassengers?.id === selectPassengersBaggage) {
@@ -364,6 +369,7 @@ const ServiceFly = (props) => {
             quantity: '',
             servicePrice: ''
         }))
+        setTotalPriceMeal(0)
         if (selectTripPassengersMeal === 'false') {
             const updatedPassengers = dataPassengers.map((dataPassengers) => {
                 if (dataPassengers?.id === selectPassengersMeal) {
@@ -397,6 +403,7 @@ const ServiceFly = (props) => {
         })
     }
     const handleTotal = (updatedPassengers) => {
+        console.log('updatedPassengers', updatedPassengers)
         let newTotal = 0
         let newTotalBaggage = 0
         let newTotalMeal = 0
@@ -405,6 +412,7 @@ const ServiceFly = (props) => {
                 newTotal += Number(updatedPassengers[i]?.seatAdd?.seatPrice)
             }
         }
+
         setTotalSeat(newTotal)
         for (let i = 0; i < updatedPassengers.length; i++) {
             if (updatedPassengers[i]?.baggage?.servicePrice) {
@@ -423,7 +431,6 @@ const ServiceFly = (props) => {
         setTotalMeal(Number(newTotalMeal))
     }
     const handleTotalReturn = (updatedPassengers) => {
-        console.log('updatedPassengers', updatedPassengers)
         let newTotal = 0
         let newTotalBaggage = 0
         let newTotalMeal = 0

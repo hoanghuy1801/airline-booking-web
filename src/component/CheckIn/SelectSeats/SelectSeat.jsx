@@ -48,7 +48,6 @@ const SelectSeat = () => {
     const dispath = useDispatch()
     const bookingDetails = useSelector((state) => state.myFlight.bookingDetails?.bookingDetail)
     const language = useSelector((state) => state.language.language)
-    const flightReturnDetail = useSelector((state) => state.myFlight.bookingDetails?.flightReturnDetail)
     const selectFlightCheckIn = useSelector((state) => state.checkIn.selectFlightCheckIn?.selectFlight)
     const passengerId = useSelector((state) => state.checkIn?.selectPassengers)
     const selectFlightReturn = useSelector((state) => state.checkIn.selectFlightCheckIn?.return)
@@ -63,12 +62,11 @@ const SelectSeat = () => {
     let passenger = newData?.passenger
 
     let passengers = passenger.filter((passenger) => passenger.id === passengerId)
-    console.log('selectFlightCheckIn', selectFlightCheckIn)
     const feachListService = async () => {
         let res = await getServiceAirline(
             selectFlightCheckIn.id,
             '826b4d34-fe05-48b7-b78b-9a83083a38af',
-            flightReturnDetail?.passengerReturnsDetail[0]?.seat?.id
+            passengers[0]?.seat?.id
         )
         setSeatOptions(res.data.seatOptions)
     }
@@ -95,7 +93,7 @@ const SelectSeat = () => {
         }
     }
     const handleCancel = () => {
-        seatChooseSeat(null)
+        seatChooseSeat(undefined)
     }
     return (
         <div className='booking-detail'>

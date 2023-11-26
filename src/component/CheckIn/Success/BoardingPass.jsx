@@ -21,6 +21,7 @@ const BoardingPass = () => {
     }
     const dataCheckIn = useSelector((state) => state.checkIn?.dataCheckIn)
     const qrData = dataCheckIn?.ticketCode
+    console.log(dataCheckIn)
     return (
         <>
             <div className='main-boardingpass' id='boardingpass'>
@@ -77,7 +78,7 @@ const BoardingPass = () => {
                         </Col>
                         <Col span={8}>
                             <p className='row-1'>{getText('flight')}</p>
-                            <p className='row-2'>{dataCheckIn?.flight?.flightName}</p>
+                            <p className='row-2'>{dataCheckIn?.flight?.flightCode}</p>
                         </Col>
                         <Col span={8}>
                             <p className='row-1'>{getText('BOOKING_CODE')}</p>

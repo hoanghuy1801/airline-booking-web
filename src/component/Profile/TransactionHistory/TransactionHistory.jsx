@@ -10,12 +10,13 @@ import {
     IconPlaneInflight
 } from '@tabler/icons-react'
 import { getAcronym } from '../../../utils/utils'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
-import { getMyBooking } from '../../../services/apiMyFlight'
+import { getBookingDetails, getMyBooking } from '../../../services/apiMyFlight'
 import { showWaringModal } from '../../../utils/modalError'
 import { useLanguage } from '../../../LanguageProvider/LanguageProvider'
 import { formatCurrency, formatDate, formatDateString } from '../../../utils/format'
+import { setBookingDetail } from '../../../redux/reducers/myFlight'
 const { Text } = Typography
 
 const { RangePicker } = DatePicker
@@ -29,10 +30,6 @@ const items = [
         key: 'pen'
     },
     {
-        label: 'Hoàn thành',
-        key: 'complete'
-    },
-    {
         label: 'Đã hủy',
         key: 'del'
     }
@@ -44,25 +41,13 @@ const TransactionHistory = () => {
     const [current, setCurrent] = useState(1)
     const [currents, setCurrents] = useState('all')
     const [listMyBooking, setListMyBooking] = useState([])
-    const [selectedDateRange, setSelectedDateRange] = useState([])
+    const [selectedDateRange, setSelectedDateRange] = useState(null)
     const [codeBooking, setcodeBooking] = useState('')
+    const dispath = useDispatch()
     useEffect(() => {
-        fech()
+        handleSearch()
     }, [])
-    const fech = async () => {
-        try {
-            let status = 'all'
-            let data = {
-                page: 1,
-                size: 10,
-                bookingCode: ''
-            }
-            let res = await getMyBooking(status, data)
-            setListMyBooking(res.data.items)
-        } catch (error) {
-            showWaringModal(`${getText('HeyFriend')}`, error.response.data.error.message, `${getText('Close')}`)
-        }
-    }
+
     const onClick = async (e) => {
         setCurrents(e.key)
         let data = {
@@ -75,9 +60,6 @@ const TransactionHistory = () => {
         } else if (e.key === 'pen') {
             let res = await getMyBooking('pen', data)
             setListMyBooking(res.data.items)
-        } else if (e.key === 'complete') {
-            let res = await getMyBooking('complete', data)
-            setListMyBooking(res.data.items)
         } else if (e.key === 'del') {
             let res = await getMyBooking('del', data)
             setListMyBooking(res.data.items)
@@ -86,25 +68,58 @@ const TransactionHistory = () => {
     const onChange = (page) => {
         setCurrent(page)
     }
+
     const handleSearch = async () => {
-        try {
-            let data = {
-                page: 1,
-                size: 10,
-                bookingCode: codeBooking.toUpperCase(),
-                fromDate:
-                    formatDate(formatDateString(selectedDateRange[0]?.$d)) === 'Invalid date'
-                        ? ''
-                        : formatDate(formatDateString(selectedDateRange[0]?.$d)),
-                toDate:
-                    formatDate(formatDateString(selectedDateRange[1]?.$d)) === 'Invalid date'
-                        ? ''
-                        : formatDate(formatDateString(selectedDateRange[1]?.$d))
+        if (selectedDateRange === null) {
+            try {
+                let data = {
+                    page: 1,
+                    size: 10,
+                    bookingCode: codeBooking.toUpperCase(),
+                    fromDate: '',
+                    toDate: ''
+                }
+                let res = await getMyBooking(currents, data)
+                setListMyBooking(res.data.items)
+            } catch (error) {
+                console.log(error)
+                showWaringModal(`${getText('HeyFriend')}`, error.response.data.error.message, `${getText('Close')}`)
             }
-            let res = await getMyBooking(currents, data)
-            setListMyBooking(res.data.items)
+        } else {
+            try {
+                let data = {
+                    page: 1,
+                    size: 10,
+                    bookingCode: codeBooking.toUpperCase(),
+                    fromDate:
+                        formatDate(formatDateString(selectedDateRange[0]?.$d)) === 'Invalid date'
+                            ? ''
+                            : formatDate(formatDateString(selectedDateRange[0]?.$d)),
+                    toDate:
+                        formatDate(formatDateString(selectedDateRange[1]?.$d)) === 'Invalid date'
+                            ? ''
+                            : formatDate(formatDateString(selectedDateRange[1]?.$d))
+                }
+                let res = await getMyBooking(currents, data)
+                setListMyBooking(res.data.items)
+            } catch (error) {
+                console.log(error)
+                showWaringModal(`${getText('HeyFriend')}`, error.response.data.error.message, `${getText('Close')}`)
+            }
+        }
+    }
+    const handleDetail = async (id) => {
+        let data = {
+            bookingId: id
+        }
+        try {
+            let res = await getBookingDetails(data)
+            if (res.status === 200) {
+                dispath(setBookingDetail(res.data))
+                navigate('/my/booking-detail')
+            }
         } catch (error) {
-            showWaringModal(`${getText('HeyFriend')}`, error.response.data.error.message, `${getText('Close')}`)
+            showWaringModal(`${getText('Notification')}`, error.response.data.error.message, `${getText('Close')}`)
         }
     }
     return (
@@ -199,6 +214,7 @@ const TransactionHistory = () => {
                                 <Col span={8}>
                                     {' '}
                                     <RangePicker
+                                        placeholder={['Ngày đi', 'Ngày về']}
                                         style={{ marginTop: 20 }}
                                         onChange={(dates) => setSelectedDateRange(dates)}
                                     />
@@ -218,6 +234,7 @@ const TransactionHistory = () => {
                             </Row>
                         </div>
                         {listMyBooking.map((item) => {
+                            console.log('huy', item)
                             return (
                                 <div key={item.id}>
                                     <div className='profile-history-header'>
@@ -266,6 +283,21 @@ const TransactionHistory = () => {
                                                 ) : (
                                                     <Text className='text-check-transaction'>Giao dịch thành công</Text>
                                                 )}
+                                            </Col>
+                                            <Col
+                                                span={12}
+                                                style={{
+                                                    color: 'red',
+                                                    fontSize: 17,
+                                                    fontWeight: 600,
+                                                    display: 'flex',
+                                                    justifyContent: 'end',
+                                                    paddingRight: 30,
+                                                    cursor: 'pointer'
+                                                }}
+                                                onClick={() => handleDetail(item?.id)}
+                                            >
+                                                Xem chi tiết
                                             </Col>
                                         </Row>
                                     </div>

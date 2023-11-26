@@ -40,26 +40,6 @@ const PaymentChangeMethods = () => {
                 <div className='form-payment'>
                     <Row className='form-payment'>
                         <div
-                            className={`img-payment ${selectedPayment === 'momo' ? 'selected' : ''}`}
-                            onClick={() => handlePaymentClick('momo')}
-                        >
-                            <img
-                                src='https://vj-prod-website-cms.s3.ap-southeast-1.amazonaws.com/momonew-1664036377132.png'
-                                width='80'
-                                height='80'
-                            />
-                        </div>
-                        <div
-                            className={`img-payment ${selectedPayment === 'zalopay' ? 'selected' : ''}`}
-                            onClick={() => handlePaymentClick('zalopay')}
-                        >
-                            <img
-                                src='https://vj-prod-website-cms.s3.ap-southeast-1.amazonaws.com/zalopaypayment-1679149526539.png'
-                                width='80'
-                                height='50'
-                            />
-                        </div>
-                        <div
                             className={`img-payment ${selectedPayment === 'vnpay' ? 'selected' : ''}`}
                             onClick={() => handlePaymentClick('vnpay')}
                         >
@@ -106,7 +86,7 @@ const PaymentChangeMethods = () => {
                     <Button
                         className='btn-payment'
                         style={{ marginRight: 20 }}
-                        onClick={() => navigate('/select-service')}
+                        onClick={() => navigate('/my/sevice-detail')}
                     >
                         {getText('Back')}
                     </Button>

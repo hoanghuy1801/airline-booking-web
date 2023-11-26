@@ -14,8 +14,11 @@ import { openNotification } from '../../../utils/Notification'
 import { setInforUser } from '../../../redux/reducers/Auth'
 import { getAcronym } from '../../../utils/utils'
 const { Text } = Typography
-
+import dayjs from 'dayjs'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+dayjs.extend(customParseFormat)
 const Personal = () => {
+    const InforUser = useSelector((state) => state.Auth.InforUser)
     const dispastch = useDispatch()
     const { getText } = useLanguage()
     const navigate = useNavigate()
@@ -24,13 +27,13 @@ const Personal = () => {
     useEffect(() => {
         fechListCountries()
     }, [])
-    const [dateOfBirth, setDateOfBirth] = useState('')
-    const [firstName, setFirstName] = useState('')
-    const [idCard, setIdCard] = useState('')
-    const [lastName, setLastName] = useState('')
-    const [gender, setGender] = useState('MALE')
-    const [country, setCountry] = useState('')
-    const [email, setEmail] = useState('')
+    const [dateOfBirth, setDateOfBirth] = useState(InforUser?.dateOfBirth)
+    const [firstName, setFirstName] = useState(InforUser?.firstName)
+    const [idCard, setIdCard] = useState(InforUser?.idCard)
+    const [lastName, setLastName] = useState(InforUser?.lastName)
+    const [gender, setGender] = useState(InforUser?.gender)
+    const [country, setCountry] = useState(InforUser?.country)
+    const [email, setEmail] = useState(InforUser?.email)
     const data = {
         firstName: firstName,
         lastName: lastName,
@@ -55,8 +58,9 @@ const Personal = () => {
     const onChange = (e) => {
         setGender(e.target.value)
     }
-    const InforUser = useSelector((state) => state.Auth.InforUser)
+
     const formattedDate = moment(InforUser.dateOfBirth).format('DD/MM/YYYY')
+
     const onChangeDatePicker = (dates, dateStrings) => {
         setDateOfBirth(dateStrings)
     }
@@ -70,6 +74,7 @@ const Personal = () => {
             showWaringModal(`${getText('HeyFriend')}`, error.response.data.error.message, `${getText('Close')}`)
         }
     }
+    const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY', 'DD-MM-YYYY', 'DD-MM-YY']
     return (
         <>
             <div className='profile-account'>
@@ -191,6 +196,7 @@ const Personal = () => {
                                             </Col>
                                             <Col span={20}>
                                                 <Input
+                                                    value={lastName}
                                                     className='change-personal'
                                                     onChange={(e) => setLastName(e.target.value)}
                                                 />
@@ -206,6 +212,7 @@ const Personal = () => {
                                             </Col>
                                             <Col span={20}>
                                                 <Input
+                                                    value={firstName}
                                                     className='change-personal'
                                                     onChange={(e) => setFirstName(e.target.value)}
                                                 />
@@ -221,6 +228,7 @@ const Personal = () => {
                                             </Col>
                                             <Col span={20}>
                                                 <Input
+                                                    value={idCard}
                                                     className='change-personal'
                                                     onChange={(e) => setIdCard(e.target.value)}
                                                 />
@@ -236,6 +244,7 @@ const Personal = () => {
                                             </Col>
                                             <Col span={20}>
                                                 <Input
+                                                    value={email}
                                                     className='change-personal'
                                                     onChange={(e) => setEmail(e.target.value)}
                                                 />
@@ -251,10 +260,11 @@ const Personal = () => {
                                             </Col>
                                             <Col span={20}>
                                                 <DatePicker
+                                                    defaultValue={dayjs(formattedDate, dateFormatList[0])}
+                                                    format={dateFormatList}
                                                     style={{ width: '25%' }}
                                                     className='text-input'
                                                     placeholder='--/--/----'
-                                                    format='DD/MM/YYYY'
                                                     onChange={onChangeDatePicker}
                                                 />
                                             </Col>
@@ -277,6 +287,7 @@ const Personal = () => {
                                                     filterOption={(input, option) =>
                                                         (option?.label ?? '').includes(input)
                                                     }
+                                                    defaultValue={country}
                                                     filterSort={(optionA, optionB) =>
                                                         (optionA?.label ?? '')
                                                             .toLowerCase()
@@ -357,7 +368,7 @@ const Personal = () => {
                                     <Col span={24}>
                                         <Text className='text-personal'>Số hộ chiếu/CMND:</Text>
                                         <Text className='text-personal' style={{ color: 'black', paddingLeft: 10 }}>
-                                            00000000
+                                            {InforUser?.idCard}
                                         </Text>
                                     </Col>
                                 </Row>
@@ -365,7 +376,7 @@ const Personal = () => {
                                     <Col span={24}>
                                         <Text className='text-personal'>Quốc tịch:</Text>
                                         <Text className='text-personal' style={{ color: 'black', paddingLeft: 10 }}>
-                                            {InforUser.country}
+                                            {InforUser?.country}
                                         </Text>
                                     </Col>
                                 </Row>

@@ -17,6 +17,7 @@ const CollapseDetail = () => {
     let aduls = passengerAwaysDetail.filter((passengerAwaysDetail) => passengerAwaysDetail.passengerType === 'ADULT')
     let childs = passengerAwaysDetail.filter((passengerAwaysDetail) => passengerAwaysDetail.passengerType === 'CHILD')
     let infants = passengerAwaysDetail.filter((passengerAwaysDetail) => passengerAwaysDetail.passengerType === 'INFANT')
+    console.log('flightAwayDetail', flightAwayDetail?.arrivalTime)
     return (
         <>
             <Collapse
@@ -30,7 +31,7 @@ const CollapseDetail = () => {
                                 <Text className='roundTrip-booking'>{getText('Trip')}</Text>
                                 <br />
                                 <Text className='date-fly'>
-                                    {getText('Date')}: {formatDateString(flightAwayDetail?.arrivalTime)}
+                                    {getText('Date')}: {formatDateString(flightAwayDetail?.departureTime)}
                                 </Text>
 
                                 <Row>
@@ -40,8 +41,8 @@ const CollapseDetail = () => {
                                     <Col span={7} className='info-fly'>
                                         <Text className='time-fly'>
                                             {calculateTimeDifference(
-                                                formatTime(flightAwayDetail?.departureTime),
-                                                formatTime(flightAwayDetail?.arrivalTime),
+                                                flightAwayDetail?.departureTime,
+                                                flightAwayDetail?.arrivalTime,
                                                 language
                                             )}
                                         </Text>
@@ -127,8 +128,8 @@ const CollapseDetail = () => {
                                             <span style={{ color: 'red' }}>
                                                 {' '}
                                                 {calculateTimeDifference(
-                                                    formatTime(flightAwayDetail?.departureTime),
-                                                    formatTime(flightAwayDetail?.arrivalTime),
+                                                    flightAwayDetail?.departureTime,
+                                                    flightAwayDetail?.arrivalTime,
                                                     language
                                                 )}{' '}
                                             </span>
@@ -174,8 +175,8 @@ const CollapseDetail = () => {
                                             <Col span={7} className='info-fly'>
                                                 <Text className='time-fly'>
                                                     {calculateTimeDifference(
-                                                        formatTime(flightReturnDetail?.departureTime),
-                                                        formatTime(flightReturnDetail?.arrivalTime),
+                                                        flightReturnDetail?.departureTime,
+                                                        flightReturnDetail?.arrivalTime,
                                                         language
                                                     )}
                                                 </Text>
@@ -266,8 +267,8 @@ const CollapseDetail = () => {
                                                     <span style={{ color: 'red' }}>
                                                         {' '}
                                                         {calculateTimeDifference(
-                                                            formatTime(flightReturnDetail?.departureTime),
-                                                            formatTime(flightReturnDetail?.arrivalTime),
+                                                            flightReturnDetail?.departureTime,
+                                                            flightReturnDetail?.arrivalTime,
                                                             language
                                                         )}{' '}
                                                     </span>

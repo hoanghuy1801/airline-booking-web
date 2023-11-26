@@ -12,14 +12,15 @@ const InfoFlyReturn = (props) => {
     const { getText } = useLanguage()
     const { listFlightReturn, setFlightSelectReturn } = props
     const language = useSelector((state) => state.language.language)
-    const [disabledButtonIds, setDisabledButtonIds] = useState([])
+    const [selectedButtonId, setSelectedButtonId] = useState(null)
     const isButtonDisabled = (id) => {
-        return disabledButtonIds.includes(id)
+        return id === selectedButtonId
     }
+
     const handleSelect = (id) => {
         const selectedItem = listFlightReturn.find((item) => item.id === id)
         setFlightSelectReturn(selectedItem)
-        setDisabledButtonIds([...disabledButtonIds, id])
+        setSelectedButtonId(id)
     }
 
     return (
@@ -70,8 +71,8 @@ const InfoFlyReturn = (props) => {
                                             <Row>
                                                 <Text className='time-to-fly'>
                                                     {calculateTimeDifference(
-                                                        formatTime(item?.departureTime),
-                                                        formatTime(item?.arrivalTime),
+                                                        item?.departureTime,
+                                                        item?.arrivalTime,
                                                         language
                                                     )}
                                                 </Text>

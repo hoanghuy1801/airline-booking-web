@@ -1663,8 +1663,8 @@ const BookingDetail = () => {
                                 <Text className='time-fly'>
                                     {' '}
                                     {calculateTimeDifference(
-                                        formatTime(flightAwayDetail?.departureTime),
-                                        formatTime(flightAwayDetail?.arrivalTime),
+                                        flightAwayDetail?.departureTime,
+                                        flightAwayDetail?.arrivalTime,
                                         language
                                     )}
                                 </Text>
@@ -1708,8 +1708,8 @@ const BookingDetail = () => {
                                     <Text className='time-fly'>
                                         {' '}
                                         {calculateTimeDifference(
-                                            formatTime(flightReturnDetail?.departureTime),
-                                            formatTime(flightReturnDetail?.arrivalTime),
+                                            flightReturnDetail?.departureTime,
+                                            flightReturnDetail?.arrivalTime,
                                             language
                                         )}
                                     </Text>

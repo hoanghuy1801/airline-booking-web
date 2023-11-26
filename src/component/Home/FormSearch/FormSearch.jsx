@@ -16,7 +16,6 @@ import {
 } from '@tabler/icons-react'
 import { useDispatch } from 'react-redux'
 import { setHomPageInfor } from '../../../redux/reducers/homePageSlice'
-const { RangePicker } = DatePicker
 import moment from 'moment'
 import { useLanguage } from '../../../LanguageProvider/LanguageProvider'
 import { showWaringModal } from '../../../utils/modalError'
@@ -24,7 +23,7 @@ import locale from 'antd/locale/vi_VN'
 import 'dayjs/locale/vi'
 import LocaleProvider from 'antd/es/locale'
 const { Option } = Select
-
+const { RangePicker } = DatePicker
 const disabledDate = (current) => {
     // Lấy ngày hiện tại
     const today = moment().startOf('day')
@@ -80,6 +79,10 @@ const FormSearch = (props) => {
     }
 
     const handleSelectBooking = () => {
+        if (sourceAirport === destinationAirport) {
+            showWaringModal(`${getText('HeyFriend')}`, `Điểm đi, Điểm đến không thể là một`, `${getText('Close')}`)
+            return
+        }
         if (!roundTrip) {
             if (
                 sourceAirport == null ||
