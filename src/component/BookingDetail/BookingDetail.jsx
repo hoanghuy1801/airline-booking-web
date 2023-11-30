@@ -12,7 +12,8 @@ import {
     convertString,
     formatCurrency,
     formatDateString,
-    formatTime
+    formatTime,
+    getDifferenceInMinutes
 } from '../../utils/format'
 import { useLanguage } from '../../LanguageProvider/LanguageProvider'
 import { InputOTP } from 'antd-input-otp'
@@ -37,9 +38,7 @@ const BookingDetail = () => {
     }
     const [openCaneclFight, setOpenCaneclFight] = useState(false)
     const navigate = useNavigate()
-    const showDrawerCaneclFight = () => {
-        setOpenCaneclFight(true)
-    }
+
     const flightAwayDetail = useSelector((state) => state.myFlight.bookingDetails?.flightAwayDetail)
     const flightReturnDetail = useSelector((state) => state.myFlight.bookingDetails?.flightReturnDetail)
     const bookingDetails = useSelector((state) => state.myFlight.bookingDetails?.bookingDetail)
@@ -50,6 +49,19 @@ const BookingDetail = () => {
     const passengerReturnsDetail = useSelector(
         (state) => state.myFlight.bookingDetails?.flightReturnDetail?.passengerReturnsDetail
     )
+    const showDrawerCaneclFight = () => {
+        const now = new Date()
+        const departureTime = new Date(flightAwayDetail?.departureTime)
+        if (getDifferenceInMinutes(departureTime, now) < 1440) {
+            showWaringModal(
+                `${getText('Notification')}`,
+                'Chỉ được yêu cầu hủy/hoàn tiền trước 24 tiếng giờ bay',
+                `${getText('Close')}`
+            )
+            return
+        }
+        setOpenCaneclFight(true)
+    }
     const addReturnToPassengers = (passengers, returns) => {
         return passengers.map((passenger) => {
             const matchingReturn = returns.find((r) => r.id === passenger.id)
@@ -206,7 +218,6 @@ const BookingDetail = () => {
                 <Text className='title-booking'>{getText('Ticket_price_details')}</Text>
                 <div className='detail-booking-passengers'>
                     {updatedAduls.map((index) => {
-                        console.log('index', index)
                         const serviceOption = index?.serviceOpts
                         const fightReturn = index?.return
                         const serviceOptionReturn = fightReturn?.serviceOpts

@@ -52,6 +52,7 @@ const CheckIn = () => {
                         'Mã đặt vé của ban đang không hoạt động hãy liện hệ với nơi bán vé',
                         `${getText('Close')}`
                     )
+                    return
                 }
 
                 dispastch(setBookingDetail(res.data))

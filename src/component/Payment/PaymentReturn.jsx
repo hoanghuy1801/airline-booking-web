@@ -29,88 +29,99 @@ const PaymentReturn = () => {
     useEffect(() => {
         if (location.search) {
             const searchParams = new URLSearchParams(location.search)
-            axios.get('api/v1/payment/vnpay-return' + location.search).then(async (res) => {
-                if (res.status === 200) {
-                    setAmount(searchParams.get('vnp_Amount'))
-                    setBookingCode(searchParams.get('vnp_TxnRef'))
-                    if (!data.roundTrip) {
-                        const passengers = dataPassengers.map((data) => {
-                            const { id, baggage, meal, seat, ...passengers } = data
-                            let serviceOpts = []
-                            let seats = []
-                            if (seat?.seatId !== '') {
-                                seats = [seat]
-                            }
+            axios
+                .get('api/v1/payment/vnpay-return' + location.search)
+                .then(async (res) => {
+                    if (res.status === 200) {
+                        setAmount(searchParams.get('vnp_Amount'))
+                        setBookingCode(searchParams.get('vnp_TxnRef'))
+                        if (!data.roundTrip) {
+                            const passengers = dataPassengers.map((data) => {
+                                const { id, baggage, meal, seat, ...passengers } = data
+                                let serviceOpts = []
+                                let seats = []
+                                if (seat?.seatId !== '') {
+                                    seats = [seat]
+                                }
 
-                            if (meal?.serviceOptId !== '') {
-                                serviceOpts = [...meal]
+                                if (meal?.serviceOptId !== '') {
+                                    serviceOpts = [...meal]
+                                }
+                                if (baggage?.serviceOptId !== '') {
+                                    serviceOpts.push(baggage)
+                                }
+                                return {
+                                    ...passengers,
+                                    seats,
+                                    serviceOpts
+                                }
+                            })
+                            let dataBooking = {
+                                bookingCode: searchParams.get('vnp_TxnRef'),
+                                flightAwayId: flightSelect?.id,
+                                flightReturnId: null,
+                                amountTotal: totalFlight,
+                                seatTotal: 1,
+                                seatId: data?.seatId,
+                                journeyType: 'ONE_AWAY',
+                                passengers
                             }
-                            if (baggage?.serviceOptId !== '') {
-                                serviceOpts.push(baggage)
+                            await postBooking(dataBooking)
+                        } else {
+                            const passengers = dataPassengers.map((data) => {
+                                const {
+                                    id,
+                                    baggage,
+                                    meal,
+                                    seat,
+                                    seatsReturn,
+                                    baggageReturn,
+                                    mealReturn,
+                                    ...passengers
+                                } = data
+                                let serviceOpts = []
+                                let seats = []
+                                if (seat?.seatId !== '') {
+                                    seats.push(seat)
+                                }
+                                if (seatsReturn?.seatId !== '') {
+                                    seats.push(seatsReturn)
+                                }
+                                if (meal?.serviceOptId !== '') {
+                                    serviceOpts.push(...meal)
+                                }
+                                if (mealReturn?.serviceOptId !== '') {
+                                    serviceOpts.push(...mealReturn)
+                                }
+                                if (baggage?.serviceOptId !== '') {
+                                    serviceOpts.push(baggage)
+                                }
+                                if (baggageReturn?.serviceOptId !== '') {
+                                    serviceOpts.push(baggageReturn)
+                                }
+                                return {
+                                    ...passengers,
+                                    seats,
+                                    serviceOpts
+                                }
+                            })
+                            let dataBooking = {
+                                bookingCode: searchParams.get('vnp_TxnRef'),
+                                flightAwayId: flightSelect?.id,
+                                flightReturnId: flightSelectReturn?.id,
+                                amountTotal: totalFlight,
+                                seatId: data?.seatId,
+                                seatTotal: 1,
+                                journeyType: 'RETURN',
+                                passengers
                             }
-                            return {
-                                ...passengers,
-                                seats,
-                                serviceOpts
-                            }
-                        })
-                        let dataBooking = {
-                            bookingCode: searchParams.get('vnp_TxnRef'),
-                            flightAwayId: flightSelect?.id,
-                            flightReturnId: null,
-                            amountTotal: totalFlight,
-                            seatTotal: 1,
-                            seatId: data?.seatId,
-                            journeyType: 'ONE_AWAY',
-                            passengers
+                            await postBooking(dataBooking)
                         }
-                        await postBooking(dataBooking)
-                    } else {
-                        const passengers = dataPassengers.map((data) => {
-                            const { id, baggage, meal, seat, seatsReturn, baggageReturn, mealReturn, ...passengers } =
-                                data
-                            let serviceOpts = []
-                            let seats = []
-                            if (seat?.seatId !== '') {
-                                seats.push(seat)
-                            }
-                            if (seatsReturn?.seatId !== '') {
-                                seats.push(seatsReturn)
-                            }
-                            if (meal?.serviceOptId !== '') {
-                                serviceOpts.push(...meal)
-                            }
-                            if (mealReturn?.serviceOptId !== '') {
-                                serviceOpts.push(...mealReturn)
-                            }
-                            if (baggage?.serviceOptId !== '') {
-                                serviceOpts.push(baggage)
-                            }
-                            if (baggageReturn?.serviceOptId !== '') {
-                                serviceOpts.push(baggageReturn)
-                            }
-                            return {
-                                ...passengers,
-                                seats,
-                                serviceOpts
-                            }
-                        })
-                        let dataBooking = {
-                            bookingCode: searchParams.get('vnp_TxnRef'),
-                            flightAwayId: flightSelect?.id,
-                            flightReturnId: flightSelectReturn?.id,
-                            amountTotal: totalFlight,
-                            seatId: data?.seatId,
-                            seatTotal: 1,
-                            journeyType: 'RETURN',
-                            passengers
-                        }
-                        await postBooking(dataBooking)
                     }
-                } else {
+                })
+                .catch((res) => {
                     setSuccess(false)
-                }
-            })
+                })
         }
     }, [])
 

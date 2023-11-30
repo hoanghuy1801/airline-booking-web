@@ -3,7 +3,7 @@ import { IconPlane, IconUserCheck, IconChecklist, IconLocationCheck } from '@tab
 import { useNavigate } from 'react-router-dom'
 import './SelectFight.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { calculateTimeDifference, formatDateString, formatTime } from '../../../utils/format'
+import { calculateTimeDifference, formatDateString, formatTime, getDifferenceInMinutes } from '../../../utils/format'
 import { useState } from 'react'
 import { setSelectFlightCheckIn } from '../../../redux/reducers/checkIn'
 import { showWaringModal } from '../../../utils/modalError'
@@ -26,16 +26,35 @@ const SelectFight = () => {
             showWaringModal(`${getText('HeyFriend')}`, `${getText('NotSelectFlight')}`, `${getText('Close')}`)
             return
         }
+        const now = new Date()
         if (flightAwayDetail?.id === selectedValue) {
             const data = {
                 selectFlight: flightAwayDetail,
                 return: false
+            }
+            const departureTime = new Date(flightAwayDetail?.departureTime)
+            if (getDifferenceInMinutes(departureTime, now) > 1440 || getDifferenceInMinutes(departureTime, now) < 30) {
+                showWaringModal(
+                    `${getText('Notification')}`,
+                    'Chỉ được làm thủ tục 24 tiếng trước giờ bay',
+                    `${getText('Close')}`
+                )
+                return
             }
             dispath(setSelectFlightCheckIn(data))
         } else if (flightReturnDetail?.id === selectedValue) {
             const data = {
                 selectFlight: flightReturnDetail,
                 return: true
+            }
+            const departureTime = new Date(flightReturnDetail?.departureTime)
+            if (getDifferenceInMinutes(departureTime, now) > 1440 || getDifferenceInMinutes(departureTime, now) < 30) {
+                showWaringModal(
+                    `${getText('Notification')}`,
+                    'Chỉ được làm thủ tục 24 tiếng trước giờ bay',
+                    `${getText('Close')}`
+                )
+                return
             }
             dispath(setSelectFlightCheckIn(data))
         }

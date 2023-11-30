@@ -62,6 +62,23 @@ const formatTimeHHMM = (time) => {
     return moment(time).format('HH:mm DD/MM/YYYY')
 }
 
+function getDifferenceInMinutes(departureTime, now) {
+    const departureTimeHours = departureTime.getHours()
+    const departureTimeMinutes = departureTime.getMinutes()
+
+    const nowHours = now.getHours()
+    const nowMinutes = now.getMinutes()
+
+    const differenceInMinutes =
+        (departureTime.getFullYear() - now.getFullYear()) * 365 * 24 * 60 +
+        (departureTime.getMonth() - now.getMonth()) * 30 * 24 * 60 +
+        (departureTime.getDate() - now.getDate()) * 24 * 60 +
+        (departureTimeHours - nowHours) * 60 +
+        (departureTimeMinutes - nowMinutes)
+
+    return differenceInMinutes
+}
+
 export {
     formatCurrency,
     formatDate,
@@ -71,5 +88,6 @@ export {
     formatDateString,
     formatTime,
     calculateTimeDifference,
-    formatTimeHHMM
+    formatTimeHHMM,
+    getDifferenceInMinutes
 }

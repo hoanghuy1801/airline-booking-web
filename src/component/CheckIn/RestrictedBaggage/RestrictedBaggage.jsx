@@ -45,7 +45,7 @@ const RestrictedBaggage = () => {
             let res = await posstCheckIn(data)
             dispath(setDataCheckIn(res.data))
         } catch (error) {
-            console.log('errr')
+            showWaringModal(`${getText('Notification')}`, error.response.data.error.message, `${getText('Close')}`)
         }
         navigate('/my/success')
     }
