@@ -37,6 +37,7 @@ const Otp = () => {
     const hanldeSentOTP = async () => {
         if (timeLeft == 0) {
             await postSendPhoneOTP(bookingDetails?.id, passengerAwaysDetail[0].phoneNumber)
+            setTimeLeft(120)
             showSuccessModal(`${getText('Notification')}`, `${getText('AgainOTP')}`, `${getText('Close')}`)
         } else {
             showWaringModal(
