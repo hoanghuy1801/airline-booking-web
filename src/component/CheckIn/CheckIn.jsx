@@ -49,7 +49,7 @@ const CheckIn = () => {
                 if (res.data?.bookingDetail?.status !== 'ACT') {
                     showWaringModal(
                         `${getText('Notification')}`,
-                        'Mã đặt vé của ban đang không hoạt động hãy liện hệ với nơi bán vé',
+                        'Mã đặt vé của bạn đang không hoạt động hãy liện hệ với nơi bán vé!',
                         `${getText('Close')}`
                     )
                     return
