@@ -49,7 +49,16 @@ const BookingDetail = () => {
     const passengerReturnsDetail = useSelector(
         (state) => state.myFlight.bookingDetails?.flightReturnDetail?.passengerReturnsDetail
     )
+
     const showDrawerCaneclFight = () => {
+        if (bookingDetails?.status !== 'ACT') {
+            showWaringModal(
+                `${getText('Notification')}`,
+                'Mã đặt vé của bạn đã gửi yêu cầu hủy hoặc đã bị hủy',
+                `${getText('Close')}`
+            )
+            return
+        }
         const now = new Date()
         const departureTime = new Date(flightAwayDetail?.departureTime)
         if (getDifferenceInMinutes(departureTime, now) < 1440) {
@@ -112,6 +121,7 @@ const BookingDetail = () => {
             }
             await patchBooking(dataCancel)
             openNotification('success', `${getText('Notification')}`, `${getText('SendRefundSuccess')}`)
+            navigate('/my/booking-detail')
             setIsModalOpen(false)
         } catch (error) {
             showErrorModal(`${getText('Notification')}`, `${getText('NotOTP')}`, `${getText('Close')}`)

@@ -2,7 +2,7 @@ import { Row, Col, Button, Typography, Radio } from 'antd'
 import { useNavigate } from 'react-router-dom'
 import './Change.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { calculateTimeDifference, formatDateString, formatTime } from '../../../utils/format'
+import { calculateTimeDifference, formatDateString, formatTime, getDifferenceInMinutes } from '../../../utils/format'
 import { useState } from 'react'
 import { setSelectChangeFly } from '../../../redux/reducers/myFlight'
 import { useLanguage } from '../../../LanguageProvider/LanguageProvider'
@@ -24,7 +24,28 @@ const SelectFlyChange = () => {
             showWaringModal(`${getText('Notification')}`, `${getText('NotSelectFlight')}`, `${getText('Close')}`)
             return
         }
+        const now = new Date()
         if (flightAwayDetail?.id === selectedValue) {
+            const departureTime = new Date(flightAwayDetail?.departureTime)
+            if (flightAwayDetail?.passengerAwaysDetail[0]?.seat?.seatClass === 'ECONOMY') {
+                if (getDifferenceInMinutes(departureTime, now) > 1440) {
+                    showWaringModal(
+                        `${getText('Notification')}`,
+                        'Bạn chỉ có thể thay đổi lịch trình trước 24 giờ cất cánh',
+                        `${getText('Close')}`
+                    )
+                    return
+                }
+            } else {
+                if (getDifferenceInMinutes(departureTime, now) > 180) {
+                    showWaringModal(
+                        `${getText('Notification')}`,
+                        'Bạn chỉ có thể thay đổi lịch trình trước 03 giờ cất cánh',
+                        `${getText('Close')}`
+                    )
+                    return
+                }
+            }
             const dataChange = {
                 flightAwayDetail: flightAwayDetail,
                 flightReturnDetail: null,
@@ -33,6 +54,26 @@ const SelectFlyChange = () => {
 
             dispath(setSelectChangeFly(dataChange))
         } else if (flightReturnDetail?.id === selectedValue) {
+            const departureTime = new Date(flightReturnDetail?.departureTime)
+            if (flightAwayDetail?.passengerReturnDetail[0]?.seat?.seatClass === 'ECONOMY') {
+                if (getDifferenceInMinutes(departureTime, now) > 1440) {
+                    showWaringModal(
+                        `${getText('Notification')}`,
+                        'Bạn chỉ có thể thay đổi lịch trình trước 24 giờ cất cánh',
+                        `${getText('Close')}`
+                    )
+                    return
+                }
+            } else {
+                if (getDifferenceInMinutes(departureTime, now) > 180) {
+                    showWaringModal(
+                        `${getText('Notification')}`,
+                        'Bạn chỉ có thể thay đổi lịch trình trước 03 giờ cất cánh',
+                        `${getText('Close')}`
+                    )
+                    return
+                }
+            }
             const dataChange = {
                 flightAwayDetail: null,
                 flightReturnDetail: flightReturnDetail,
