@@ -1,7 +1,7 @@
 import { Col, Row, Typography, Button } from 'antd'
 import './PaymentMethods.css'
 import { useState } from 'react'
-import { postVnPay } from '../../services/apiBooking'
+import { postMomo, postVnPay } from '../../services/apiBooking'
 import { useSelector } from 'react-redux'
 import { formatCurrency } from '../../utils/format'
 import { useLanguage } from '../../LanguageProvider/LanguageProvider'
@@ -24,6 +24,8 @@ const PaymentMethods = () => {
     const handlePayment = async () => {
         if (selectedPayment === 'vnpay') {
             await postVnPay(dataVnpay).then((res) => (window.location.href = res.data.paymentLink))
+        } else if (selectedPayment === 'momo') {
+            await postMomo(dataVnpay).then((res) => (window.location.href = res.data.paymentLink))
         }
     }
 
@@ -46,6 +48,26 @@ const PaymentMethods = () => {
                                 src='https://vnpay.vn/assets/images/logo-icon/logo-primary.svg'
                                 width='80'
                                 height='80'
+                            />
+                        </div>
+                        <div
+                            className={`img-payment ${selectedPayment === 'momo' ? 'selected' : ''}`}
+                            onClick={() => handlePaymentClick('momo')}
+                        >
+                            <img
+                                src='https://vj-prod-website-cms.s3.ap-southeast-1.amazonaws.com/momonew-1664036377132.png'
+                                width='80'
+                                height='80'
+                            />
+                        </div>
+                        <div
+                            className={`img-payment ${selectedPayment === 'zalopay' ? 'selected' : ''}`}
+                            onClick={() => handlePaymentClick('zalopay')}
+                        >
+                            <img
+                                src='https://vj-prod-website-cms.s3.ap-southeast-1.amazonaws.com/zalopaypayment-1679149526539.png'
+                                width='80'
+                                height='50'
                             />
                         </div>
                     </Row>
