@@ -1,22 +1,26 @@
-import { Row, Col, Button, Typography } from 'antd'
+import { Row, Col, Button, Typography, Radio } from 'antd'
 
 import './SelectFlyService.css'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { calculateTimeDifference, formatDateString, formatTime } from '../../../utils/format'
+import { calculateTimeDifference, formatDateString, formatTime, getDifferenceInMinutes } from '../../../utils/format'
 import {
     setDataPassengersService,
     setDataPassengersServiceReturn,
-    setSelectChangeFly
+    setSelectChangeFly,
+    setSelectedFlyChange
 } from '../../../redux/reducers/myFlight'
 import { changeStatus } from '../../../utils/utils'
 import { useLanguage } from '../../../LanguageProvider/LanguageProvider'
+import { useState } from 'react'
+import { showWaringModal } from '../../../utils/modalError'
 const { Text } = Typography
 
 const SelectFlyService = () => {
     const { getText } = useLanguage()
     const navigate = useNavigate()
     const dispath = useDispatch()
+    const [selectedValue, setSelectedValue] = useState(null)
     const bookingDetails = useSelector((state) => state.myFlight?.bookingDetails?.bookingDetail)
     const flightAwayDetail = useSelector((state) => state.myFlight.bookingDetails?.flightAwayDetail)
     const flightReturnDetail = useSelector((state) => state.myFlight.bookingDetails?.flightReturnDetail)
@@ -27,24 +31,43 @@ const SelectFlyService = () => {
     )
 
     const handleContinue = () => {
-        if (bookingDetails?.journeyType === 'RETURN') {
-            const dataChange = {
-                flightAwayDetail: flightAwayDetail,
-                flightReturnDetail: flightReturnDetail
+        const now = new Date()
+
+        if (selectedValue === null) {
+            showWaringModal(`${getText('Notification')}`, `${getText('NotSelectFlight')}`, `${getText('Close')}`)
+            return
+        }
+
+        if (flightAwayDetail?.id === selectedValue) {
+            const departureTime = new Date(flightAwayDetail?.departureTime)
+            if (getDifferenceInMinutes(departureTime, now) < 1440) {
+                showWaringModal(
+                    `${getText('Notification')}`,
+                    'Chỉ được mua dịch vụ trước 24 tiếng trước giờ bay',
+                    `${getText('Close')}`
+                )
+                return
             }
-            dispath(setSelectChangeFly(dataChange))
-            dispath(setDataPassengersService(dataPassengers))
-            dispath(setDataPassengersServiceReturn(dataPassengersReturn))
-        } else {
-            const dataChange = {
-                flightAwayDetail: flightAwayDetail,
-                flightReturnDetail: null
+            dispath(setSelectedFlyChange(flightAwayDetail))
+            dispath(setDataPassengersService(flightAwayDetail?.passengerAwaysDetail))
+        } else if (flightReturnDetail?.id === selectedValue) {
+            console.log(flightReturnDetail)
+            const departureTimeRE = new Date(flightReturnDetail?.departureTime)
+            if (getDifferenceInMinutes(departureTimeRE, now) < 1440) {
+                showWaringModal(
+                    `${getText('Notification')}`,
+                    'Chỉ được mua dịch vụ trước 24 tiếng trước giờ bay',
+                    `${getText('Close')}`
+                )
+                return
             }
-            dispath(setSelectChangeFly(dataChange))
-            dispath(setDataPassengersService(dataPassengers))
-            dispath(setDataPassengersServiceReturn(null))
+            dispath(setSelectedFlyChange(flightReturnDetail))
+            dispath(setDataPassengersService(flightReturnDetail?.passengerReturnsDetail))
         }
         navigate('/my/sevice-detail')
+    }
+    const handleRadioChange = (e) => {
+        setSelectedValue(e.target.value)
     }
     return (
         <div className='service-detail'>
@@ -74,10 +97,17 @@ const SelectFlyService = () => {
                 <div className='form-select-fly-service'>
                     <div className='date-select-fly' style={{ marginTop: 40 }}>
                         <Row>
-                            <Col span={24}>
+                            <Col span={22}>
                                 <Text style={{ fontSize: '18px', fontWeight: 500, color: 'white' }}>
                                     {getText('Trip')}
                                 </Text>
+                            </Col>
+                            <Col span={2}>
+                                <Radio
+                                    value={flightAwayDetail?.id}
+                                    onChange={handleRadioChange}
+                                    checked={selectedValue === flightAwayDetail?.id}
+                                />
                             </Col>
                         </Row>
                     </div>
@@ -118,10 +148,17 @@ const SelectFlyService = () => {
                     <div className='form-select-fly-service' style={{ marginTop: 30 }}>
                         <div className='date-select-fly'>
                             <Row>
-                                <Col span={24}>
+                                <Col span={22}>
                                     <Text style={{ fontSize: '18px', fontWeight: 500, color: 'white' }}>
                                         {getText('TripReturn')}
                                     </Text>
+                                </Col>
+                                <Col span={2}>
+                                    <Radio
+                                        value={flightReturnDetail?.id}
+                                        onChange={handleRadioChange}
+                                        checked={selectedValue === flightReturnDetail?.id}
+                                    />
                                 </Col>
                             </Row>
                         </div>

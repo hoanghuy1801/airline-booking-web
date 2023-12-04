@@ -28,7 +28,7 @@ const SelectFlyChange = () => {
         if (flightAwayDetail?.id === selectedValue) {
             const departureTime = new Date(flightAwayDetail?.departureTime)
             if (flightAwayDetail?.passengerAwaysDetail[0]?.seat?.seatClass === 'ECONOMY') {
-                if (getDifferenceInMinutes(departureTime, now) > 1440) {
+                if (getDifferenceInMinutes(departureTime, now) < 1440) {
                     showWaringModal(
                         `${getText('Notification')}`,
                         'Bạn chỉ có thể thay đổi lịch trình trước 24 giờ cất cánh',
@@ -37,7 +37,7 @@ const SelectFlyChange = () => {
                     return
                 }
             } else {
-                if (getDifferenceInMinutes(departureTime, now) > 180) {
+                if (getDifferenceInMinutes(departureTime, now) < 180) {
                     showWaringModal(
                         `${getText('Notification')}`,
                         'Bạn chỉ có thể thay đổi lịch trình trước 03 giờ cất cánh',
@@ -55,8 +55,8 @@ const SelectFlyChange = () => {
             dispath(setSelectChangeFly(dataChange))
         } else if (flightReturnDetail?.id === selectedValue) {
             const departureTime = new Date(flightReturnDetail?.departureTime)
-            if (flightAwayDetail?.passengerReturnDetail[0]?.seat?.seatClass === 'ECONOMY') {
-                if (getDifferenceInMinutes(departureTime, now) > 1440) {
+            if (flightReturnDetail?.passengerReturnsDetail[0]?.seat?.seatClass === 'ECONOMY') {
+                if (getDifferenceInMinutes(departureTime, now) < 1440) {
                     showWaringModal(
                         `${getText('Notification')}`,
                         'Bạn chỉ có thể thay đổi lịch trình trước 24 giờ cất cánh',
@@ -65,7 +65,7 @@ const SelectFlyChange = () => {
                     return
                 }
             } else {
-                if (getDifferenceInMinutes(departureTime, now) > 180) {
+                if (getDifferenceInMinutes(departureTime, now) < 180) {
                     showWaringModal(
                         `${getText('Notification')}`,
                         'Bạn chỉ có thể thay đổi lịch trình trước 03 giờ cất cánh',
