@@ -23,13 +23,11 @@ const Payment = () => {
                             <span style={{ fontSize: 20, fontWeight: 500 }}>
                                 {!data.roundTrip ? (
                                     <Title level={4}>
-                                        {' '}
                                         {getText('ROUND-TRIP')} | {data.adult} {getText('Adults')}, {data.children}{' '}
                                         {getText('Children')}, {data.baby} {getText('Baby')}
                                     </Title>
                                 ) : (
                                     <Title level={4}>
-                                        {' '}
                                         {getText('ONE-WAY-FLIGHT')}| {data.adult} {getText('Adults')}, {data.children}{' '}
                                         {getText('Children')}, {data.baby} {getText('Baby')}
                                     </Title>
@@ -53,8 +51,7 @@ const Payment = () => {
                                         {sourceAirportCity}
                                     </Text>
                                     <Text level={5} style={{ color: 'grey', fontSize: 16, fontWeight: 500 }}>
-                                        {' '}
-                                        {getText('To')}:{' '}
+                                        {getText('To')}:
                                     </Text>
                                     <Text
                                         type='secondary'
