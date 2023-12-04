@@ -2,12 +2,15 @@ import { Col, Row, Typography, Button } from 'antd'
 import './PaymentMethods.css'
 import { useState } from 'react'
 import { postMomo, postVnPay } from '../../services/apiBooking'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { formatCurrency } from '../../utils/format'
 import { useLanguage } from '../../LanguageProvider/LanguageProvider'
 import { useNavigate } from 'react-router-dom'
+import { setPaymentMethod } from '../../redux/reducers/booking'
 const { Text } = Typography
 const PaymentMethods = () => {
+    const dispath = useDispatch()
+
     const origin = window.location.origin
     const totalFlight = useSelector((state) => state.flightSelect.totalflight)
     const [selectedPayment, setSelectedPayment] = useState('vnpay')
@@ -23,8 +26,10 @@ const PaymentMethods = () => {
     }
     const handlePayment = async () => {
         if (selectedPayment === 'vnpay') {
+            dispath(setPaymentMethod('VNPAY'))
             await postVnPay(dataVnpay).then((res) => (window.location.href = res.data.paymentLink))
         } else if (selectedPayment === 'momo') {
+            dispath(setPaymentMethod('MOMO'))
             await postMomo(dataVnpay).then((res) => (window.location.href = res.data.paymentLink))
         }
     }

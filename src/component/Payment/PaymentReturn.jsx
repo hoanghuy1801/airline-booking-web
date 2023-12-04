@@ -26,25 +26,126 @@ const PaymentReturn = () => {
     const myLanguage = useSelector((state) => state.language.language)
     const sourceAirportCity = removeDiacritics(data.sourceAirportCity, myLanguage)
     const destinationAirportCity = removeDiacritics(data.destinationAirportCity, myLanguage)
+    const paymentMethod = useSelector((state) => state.flightSelect.paymentMethod)
 
     useEffect(() => {
         if (location.search) {
             const searchParams = new URLSearchParams(location.search)
-
-            if (searchParams.get('partnerCode')) {
+            if (paymentMethod === 'MOMO') {
                 axios
                     .get('api/v1/payment/momo-return' + location.search)
-                    .then((res) => {
-                        console.log('duy')
+                    .then(async (res) => {
+                        console.log(totalFlight)
+                        setAmount(Number(totalFlight))
+                        if (!data.roundTrip) {
+                            const passengers = dataPassengers.map((data) => {
+                                const { id, baggage, meal, seat, ...passengers } = data
+                                let serviceOpts = []
+                                let seats = []
+                                if (seat?.seatId !== '') {
+                                    seats = [seat]
+                                }
+                                if (meal?.serviceOptId !== '') {
+                                    serviceOpts = [...meal]
+                                }
+                                if (baggage?.serviceOptId !== '') {
+                                    serviceOpts.push(baggage)
+                                }
+                                return {
+                                    ...passengers,
+                                    seats,
+                                    serviceOpts
+                                }
+                            })
+                            const payment = {
+                                transactionCode: searchParams.get('transId'),
+                                orderId: searchParams.get('orderId'),
+                                transactionDate: new Date(Number(searchParams.get('responseTime'))),
+                                transactionInfo: searchParams.get('orderInfo'),
+                                transactionAmount: totalFlight,
+                                paymentMethod: 'MOMO',
+                                paymentTransactionType: 'PAYMENT'
+                            }
+                            let dataBooking = {
+                                flightAwayId: flightSelect?.id,
+                                flightReturnId: null,
+                                amountTotal: totalFlight,
+                                seatTotal: 1,
+                                seatId: data?.seatId,
+                                journeyType: 'ONE_AWAY',
+                                passengers,
+                                payment
+                            }
+                            let res = await postBooking(dataBooking)
+                            setBookingCode(res.data.bookingCode)
+                        } else {
+                            const passengers = dataPassengers.map((data) => {
+                                const {
+                                    id,
+                                    baggage,
+                                    meal,
+                                    seat,
+                                    seatsReturn,
+                                    baggageReturn,
+                                    mealReturn,
+                                    ...passengers
+                                } = data
+                                let serviceOpts = []
+                                let seats = []
+                                if (seat?.seatId !== '') {
+                                    seats.push(seat)
+                                }
+                                if (seatsReturn?.seatId !== '') {
+                                    seats.push(seatsReturn)
+                                }
+                                if (meal?.serviceOptId !== '') {
+                                    serviceOpts.push(...meal)
+                                }
+                                if (mealReturn?.serviceOptId !== '') {
+                                    serviceOpts.push(...mealReturn)
+                                }
+                                if (baggage?.serviceOptId !== '') {
+                                    serviceOpts.push(baggage)
+                                }
+                                if (baggageReturn?.serviceOptId !== '') {
+                                    serviceOpts.push(baggageReturn)
+                                }
+                                return {
+                                    ...passengers,
+                                    seats,
+                                    serviceOpts
+                                }
+                            })
+                            const payment = {
+                                transactionCode: searchParams.get('transId'),
+                                orderId: searchParams.get('orderId'),
+                                transactionDate: new Date(Number(searchParams.get('responseTime'))),
+                                transactionInfo: searchParams.get('orderInfo'),
+                                transactionAmount: totalFlight,
+                                paymentMethod: 'MOMO',
+                                paymentTransactionType: 'PAYMENT'
+                            }
+                            let dataBooking = {
+                                flightAwayId: flightSelect?.id,
+                                flightReturnId: flightSelectReturn?.id,
+                                amountTotal: totalFlight,
+                                seatId: data?.seatId,
+                                seatTotal: 1,
+                                journeyType: 'RETURN',
+                                passengers,
+                                payment
+                            }
+                            let res = await postBooking(dataBooking)
+                            setBookingCode(res.data.bookingCode)
+                        }
                     })
                     .catch(() => setSuccess(false))
-            } else {
+            } else if (paymentMethod === 'VNPAY') {
                 axios
                     .get('api/v1/payment/vnpay-return' + location.search)
                     .then(async (res) => {
                         if (res.status === 200) {
-                            setAmount(searchParams.get('vnp_Amount'))
-                            setBookingCode(searchParams.get('vnp_TxnRef'))
+                            setAmount(totalFlight)
                             if (!data.roundTrip) {
                                 const passengers = dataPassengers.map((data) => {
                                     const { id, baggage, meal, seat, ...passengers } = data
@@ -71,7 +172,7 @@ const PaymentReturn = () => {
                                     orderId: searchParams.get('vnp_TxnRef'),
                                     transactionDate: moment(searchParams.get('vnp_PayDate'), 'YYYYMMDDHHmmss').toDate(),
                                     transactionInfo: searchParams.get('vnp_OrderInfo'),
-                                    transactionAmount: searchParams.get('vnp_Amount') / 100,
+                                    transactionAmount: totalFlight,
                                     paymentMethod: 'VNPAY',
                                     paymentTransactionType: 'PAYMENT'
                                 }
@@ -85,7 +186,8 @@ const PaymentReturn = () => {
                                     passengers,
                                     payment
                                 }
-                                await postBooking(dataBooking)
+                                let res = await postBooking(dataBooking)
+                                setBookingCode(res.data.bookingCode)
                             } else {
                                 const passengers = dataPassengers.map((data) => {
                                     const {
@@ -129,7 +231,7 @@ const PaymentReturn = () => {
                                     orderId: searchParams.get('vnp_TxnRef'),
                                     transactionDate: moment(searchParams.get('vnp_PayDate'), 'YYYYMMDDHHmmss').toDate(),
                                     transactionInfo: searchParams.get('vnp_OrderInfo'),
-                                    transactionAmount: searchParams.get('vnp_Amount') / 100,
+                                    transactionAmount: totalFlight,
                                     paymentMethod: 'VNPAY',
                                     paymentTransactionType: 'PAYMENT'
                                 }
@@ -144,7 +246,8 @@ const PaymentReturn = () => {
                                     passengers,
                                     payment
                                 }
-                                await postBooking(dataBooking)
+                                let res = await postBooking(dataBooking)
+                                setBookingCode(res.data.bookingCode)
                             }
                         }
                     })
@@ -165,13 +268,11 @@ const PaymentReturn = () => {
                                 <span style={{ fontSize: 20, fontWeight: 500 }}>
                                     {!data.roundTrip ? (
                                         <Title level={4}>
-                                            {' '}
                                             {getText('ROUND-TRIP')} | {data.adult} {getText('Adults')}, {data.children}{' '}
                                             {getText('Children')}, {data.baby} {getText('Baby')}
                                         </Title>
                                     ) : (
                                         <Title level={4}>
-                                            {' '}
                                             {getText('ONE-WAY-FLIGHT')}| {data.adult} {getText('Adults')},{' '}
                                             {data.children} {getText('Children')}, {data.baby} {getText('Baby')}
                                         </Title>
@@ -195,8 +296,7 @@ const PaymentReturn = () => {
                                             {sourceAirportCity}
                                         </Text>
                                         <Text level={5} style={{ color: 'grey', fontSize: 16, fontWeight: 500 }}>
-                                            {' '}
-                                            {getText('To')}:{' '}
+                                            {getText('To')}:
                                         </Text>
                                         <Text
                                             type='secondary'
@@ -242,7 +342,7 @@ const PaymentReturn = () => {
                                     subTitle={
                                         <>
                                             <Text className='text-payment-return'>
-                                                {getText('PaymentTotal')} {formatCurrency(Number(amount / 100))}
+                                                {getText('PaymentTotal')} {formatCurrency(Number(amount))}
                                             </Text>
                                             <br />
                                             <Text className='text-payment-return'>
