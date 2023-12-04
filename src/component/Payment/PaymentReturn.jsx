@@ -85,7 +85,8 @@ const PaymentReturn = () => {
                                     passengers,
                                     payment
                                 }
-                                await postBooking(dataBooking)
+                                let res = await postBooking(dataBooking)
+                                setBookingCode(res.data.bookingCode)
                             } else {
                                 const passengers = dataPassengers.map((data) => {
                                     const {
@@ -144,7 +145,8 @@ const PaymentReturn = () => {
                                     passengers,
                                     payment
                                 }
-                                await postBooking(dataBooking)
+                                let res = await postBooking(dataBooking)
+                                setBookingCode(res.data.bookingCode)
                             }
                         }
                     })

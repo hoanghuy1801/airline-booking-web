@@ -14,6 +14,7 @@ const SelectPassengers = () => {
     const dispath = useDispatch()
     const [selectedValue, setSelectedValue] = useState(null)
     const bookingDetails = useSelector((state) => state.myFlight.bookingDetails?.bookingDetail)
+
     const language = useSelector((state) => state.language.language)
     const selectFlightCheckIn = useSelector((state) => state.checkIn.selectFlightCheckIn?.selectFlight)
     const selectFlightReturn = useSelector((state) => state.checkIn.selectFlightCheckIn?.return)
@@ -43,6 +44,12 @@ const SelectPassengers = () => {
             )
             return
         }
+        let check = passenger.filter((passengerAwaysDetail) => passengerAwaysDetail.id === selectedValue)
+        if (check[0]?.checkIn === true) {
+            showWaringModal(`${getText('HeyFriend')}`, `Hành Khách đã làm thủ tục rồi`, `${getText('Close')}`)
+            return
+        }
+        console.log('selectedValue', check)
         dispath(setSelectPassengers(selectedValue))
         navigate('/my/select-seat')
     }
