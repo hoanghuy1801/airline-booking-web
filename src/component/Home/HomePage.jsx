@@ -52,7 +52,7 @@ const HomePage = () => {
                 <div className='content'>
                     <div className='label-hot'>
                         <label className='label-img' type='link'>
-                            ĐIỂM ĐẾN HẤP DẪN
+                            {getText('locationHot')}
                         </label>
                     </div>
                     <Side />

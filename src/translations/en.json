@@ -247,5 +247,14 @@
     "ticketCode": "Ticket Code",
     "SuccessText1": "Lưu ý: Cửa khời hành sẽ đóng 15 phút trước giờ khởi hành.",
     "SuccessText2": "Passengers will not be allowed to board the aircraft when the departure gate is closed.",
-    "dowImg": "Download "
+    "dowImg": "Download ",
+    "Hanoi": "Ha Noi",
+    "Quynhon": "Quy Nhon",
+    "Hagiang": "Ha Giang",
+    "Catba": "Cat Ba-Hai Phong",
+    "Danang": "Đa Nang",
+    "Nhatrang": "Thac Yang Bay-Nha Trang",
+    "Quangninh": "Quang Ninh",
+    "HCM": "Ho Chi Minh City",
+    "locationHot": "ATTRACTIVE DESTINATION"
 }

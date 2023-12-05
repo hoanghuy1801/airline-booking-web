@@ -249,5 +249,14 @@
     "ticketCode": "Mã vé",
     "SuccessText1": "Lưu ý: Cửa khời hành sẽ đóng 15 phút trước giờ khởi hành.",
     "SuccessText2": " Hành khách sẽ không được phép lên tàu bay khi cửa khởi hành đóng.",
-    "dowImg": "Tải ảnh"
+    "dowImg": "Tải ảnh",
+    "Hanoi": "Hà Nội",
+    "Quynhon": "Quy Nhơn",
+    "Hagiang": "Hà Giang",
+    "Catba": "Cát Bà-Hải Phòng",
+    "Danang": "Đà Nẵng",
+    "Nhatrang": "Thác Yang Bay-Nha Trang",
+    "Quangninh": "Quang Ninh",
+    "HCM": "TP.Hồ Chí Minh",
+    "locationHot": "ĐIỂM ĐẾN HẤP DẪN"
 }

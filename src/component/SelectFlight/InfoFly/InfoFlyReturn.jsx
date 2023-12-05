@@ -43,7 +43,7 @@ const InfoFlyReturn = (props) => {
                                         <Image preview={false} src={item.airline.avatarUrl} className='img-airline' />
                                     </Row>
                                     <Row>
-                                        <Text className='name-aircraft-fly'>{item.aircraft.aircraftName}</Text>
+                                        <Text className='name-aircraft-fly'>{item.aircraft.aircraftCode}</Text>
                                     </Row>
                                 </Col>
                                 <Col span={11}>
