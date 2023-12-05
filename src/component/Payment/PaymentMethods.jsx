@@ -65,16 +65,6 @@ const PaymentMethods = () => {
                                 height='80'
                             />
                         </div>
-                        <div
-                            className={`img-payment ${selectedPayment === 'zalopay' ? 'selected' : ''}`}
-                            onClick={() => handlePaymentClick('zalopay')}
-                        >
-                            <img
-                                src='https://vj-prod-website-cms.s3.ap-southeast-1.amazonaws.com/zalopaypayment-1679149526539.png'
-                                width='80'
-                                height='50'
-                            />
-                        </div>
                     </Row>
                 </div>
                 <Row>
