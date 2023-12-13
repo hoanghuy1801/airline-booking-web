@@ -43,6 +43,7 @@ const TransactionHistory = () => {
     const [listMyBooking, setListMyBooking] = useState([])
     const [selectedDateRange, setSelectedDateRange] = useState(null)
     const [codeBooking, setcodeBooking] = useState('')
+    console.log(listMyBooking)
     const dispath = useDispatch()
     useEffect(() => {
         handleSearch()
@@ -239,7 +240,7 @@ const TransactionHistory = () => {
                                 <div key={item.id}>
                                     <div className='profile-history-header'>
                                         <Row className=''>
-                                            <Col span={12}>
+                                            <Col span={8}>
                                                 <Text className='title-profile'>
                                                     Mã đặt chỗ:{' '}
                                                     <Text style={{ color: 'red', fontSize: 20, fontWeight: 600 }}>
@@ -247,7 +248,15 @@ const TransactionHistory = () => {
                                                     </Text>
                                                 </Text>
                                             </Col>
-                                            <Col span={12}>
+                                            <Col span={8}>
+                                                <Text className='title-profile'>
+                                                    Loại:{' '}
+                                                    <Text style={{ color: 'red', fontSize: 20, fontWeight: 600 }}>
+                                                        {item?.journeyType === 'ONE_AWAY' ? 'Một Chiều' : 'Khứ Hồi'}
+                                                    </Text>
+                                                </Text>
+                                            </Col>
+                                            <Col span={8}>
                                                 <Text className='text-profile-history'>
                                                     {formatCurrency(item.amountTotal)}
                                                 </Text>
@@ -273,7 +282,7 @@ const TransactionHistory = () => {
                                     </div>
                                     <div className='profile-history-footer' style={{ marginBottom: 20 }}>
                                         <Row className=''>
-                                            <Col span={12}>
+                                            <Col span={6}>
                                                 {item.status === 'ACT' ? (
                                                     <Text className='text-check-transaction'>Giao dịch thành công</Text>
                                                 ) : item.status === 'PEN' ? (
@@ -284,8 +293,29 @@ const TransactionHistory = () => {
                                                     <Text className='text-check-transaction'>Giao dịch thành công</Text>
                                                 )}
                                             </Col>
+                                            <Col span={12}>
+                                                <Text className='title-profile'>
+                                                    Ngày đi:{' '}
+                                                    <Text style={{ color: 'red', fontSize: 20, fontWeight: 600 }}>
+                                                        {formatDateString(item?.flightAway?.departureTime)}
+                                                    </Text>
+                                                </Text>
+                                                {item?.flightReturn !== null ? (
+                                                    <Text
+                                                        className='title-profile'
+                                                        style={{ paddingLeft: 20, paddingTop: '10px !!important' }}
+                                                    >
+                                                        Ngày về:{' '}
+                                                        <Text style={{ color: 'red', fontSize: 20, fontWeight: 600 }}>
+                                                            {formatDateString(item?.flightReturn?.departureTime)}
+                                                        </Text>
+                                                    </Text>
+                                                ) : (
+                                                    ''
+                                                )}
+                                            </Col>
                                             <Col
-                                                span={12}
+                                                span={6}
                                                 style={{
                                                     color: 'red',
                                                     fontSize: 17,
